@@ -218,7 +218,7 @@ EWRAM_DATA MainCallback gPostMenuFieldCallback = NULL;
 static EWRAM_DATA u16 *sSlot1TilemapBuffer = 0; // for switching party slots
 static EWRAM_DATA u16 *sSlot2TilemapBuffer = 0; //
 EWRAM_DATA u8 gSelectedOrderFromParty[MAX_FRONTIER_PARTY_SIZE] = {0};
-static EWRAM_DATA u16 sPartyMenuItemId = 0;
+static EWRAM_DATA enum Item sPartyMenuItemId = 0;
 EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits 0-3 are the current pos of Slot 1, 4-7 are Slot 2, and so on
 static EWRAM_DATA u8 sInitialLevel = 0;
 static EWRAM_DATA u8 sFinalLevel = 0;
@@ -383,8 +383,8 @@ static u8 GetPartyLayoutFromBattleType(void);
 static void Task_SetSacredAshCB(u8);
 static void CB2_ReturnToBagMenu(void);
 static void Task_DisplayHPRestoredMessage(u8);
-static u16 ItemEffectToMonEv(struct Pokemon *, u8);
-static void ItemEffectToStatString(u8, u8 *);
+static u16 ItemEffectToMonEv(struct Pokemon *, enum ItemEffectType);
+static void ItemEffectToStatString(enum ItemEffectType, u8 *);
 static void ReturnToUseOnWhichMon(u8);
 static void SetSelectedMoveForItem(u8);
 static void TryUseItemOnMove(u8);
@@ -2142,7 +2142,7 @@ static enum TryTakeMonItemResult TryTakeMonItem(struct Pokemon *mon)
     return TAKE_OK;
 }
 
-static void BufferBagFullCantTakeItemMessage(u16 itemUnused)
+static void BufferBagFullCantTakeItemMessage(void)
 {
     StringExpandPlaceholders(gStringVar4, gText_BagFullCouldNotRemoveItem);
 }
@@ -3551,7 +3551,7 @@ static void Task_HandleSwitchItemsYesNoInput(u8 taskId)
         if (AddBagItem(sPartyMenuItemId, 1) == FALSE)
         {
             AddBagItem(gSpecialVar_ItemId, 1);
-            BufferBagFullCantTakeItemMessage(sPartyMenuItemId);
+            BufferBagFullCantTakeItemMessage();
             DisplayPartyMenuMessage(gStringVar4, FALSE);
             gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
         }
@@ -3666,7 +3666,7 @@ static void CursorCb_TakeItem(u8 taskId)
         DisplayPartyMenuMessage(gStringVar4, TRUE);
         break;
     case TAKE_NO_BAG_SPACE:
-        BufferBagFullCantTakeItemMessage(item);
+        BufferBagFullCantTakeItemMessage();
         DisplayPartyMenuMessage(gStringVar4, TRUE);
         break;
     case TAKE_OK:
@@ -3845,7 +3845,7 @@ static void Task_HandleLoseMailMessageYesNoInput(u8 taskId)
         }
         else
         {
-            BufferBagFullCantTakeItemMessage(item);
+            BufferBagFullCantTakeItemMessage();
             DisplayPartyMenuMessage(gStringVar4, FALSE);
             gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
         }
@@ -5332,13 +5332,14 @@ void ItemUseCB_ReduceEV(u8 taskId, TaskFunc task)
     }
 }
 
-static u16 ItemEffectToMonEv(struct Pokemon *mon, u8 effectType)
+static u16 ItemEffectToMonEv(struct Pokemon *mon, enum ItemEffectType effectType)
 {
     switch (effectType)
     {
     case ITEM_EFFECT_HP_EV:
         if (!HasShedinjaHPHandling(GetMonData(mon, MON_DATA_SPECIES)))
             return GetMonData(mon, MON_DATA_HP_EV);
+        return 0;
         break;
     case ITEM_EFFECT_ATK_EV:
         return GetMonData(mon, MON_DATA_ATK_EV);
@@ -5350,11 +5351,12 @@ static u16 ItemEffectToMonEv(struct Pokemon *mon, u8 effectType)
         return GetMonData(mon, MON_DATA_SPATK_EV);
     case ITEM_EFFECT_SPDEF_EV:
         return GetMonData(mon, MON_DATA_SPDEF_EV);
+    default:
+        return 0;
     }
-    return 0;
 }
 
-static void ItemEffectToStatString(u8 effectType, u8 *dest)
+static void ItemEffectToStatString(enum ItemEffectType effectType, u8 *dest)
 {
     switch (effectType)
     {
@@ -5375,6 +5377,8 @@ static void ItemEffectToStatString(u8 effectType, u8 *dest)
         break;
     case ITEM_EFFECT_SPDEF_EV:
         StringCopy(dest, gText_SpDef3);
+        break;
+    default:
         break;
     }
 }
@@ -6285,7 +6289,7 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc task)
 static void Task_TryItemUseFusionChange(u8 taskId);
 static void SpriteCB_FormChangeIconMosaic(struct Sprite *sprite);
 
-u8 IsFusionMon(enum Species species)
+static bool32 IsFusionMon(enum Species species)
 {
     u16 i;
     const struct Fusion *itemFusion = gFusionTablePointers[species];
@@ -7210,7 +7214,7 @@ static void Task_HandleSwitchItemsFromBagYesNoInput(u8 taskId)
         if (AddBagItem(sPartyMenuItemId, 1) == FALSE)
         {
             ReturnGiveItemToBagOrPC(item);
-            BufferBagFullCantTakeItemMessage(sPartyMenuItemId);
+            BufferBagFullCantTakeItemMessage();
             DisplayPartyMenuMessage(gStringVar4, FALSE);
             gTasks[taskId].func = Task_UpdateHeldItemSpriteAndClosePartyMenu;
         }
@@ -7301,7 +7305,7 @@ static u8 GetPartySlotEntryStatus(s8 slot)
 
 static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
 {
-    u32 species;
+    enum Species species;
 
     if (GetMonData(mon, MON_DATA_IS_EGG)
         || GetMonData(mon, MON_DATA_LEVEL) > GetBattleEntryLevelCap()
