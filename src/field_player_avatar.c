@@ -1167,7 +1167,7 @@ static void PlayerAvatarTransition_MachBike(struct ObjectEvent *objEvent)
 {
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_MACH_BIKE));
     ObjectEventTurn(objEvent, objEvent->movementDirection);
-    if (IS_FRLG)
+    if (!(IS_PLAYER_ONE))
         SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_BIKE);
     else
         SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_MACH_BIKE);
@@ -1178,7 +1178,7 @@ static void PlayerAvatarTransition_AcroBike(struct ObjectEvent *objEvent)
 {
     ObjectEventSetGraphicsId(objEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_ACRO_BIKE));
     ObjectEventTurn(objEvent, objEvent->movementDirection);
-    if (IS_FRLG)
+    if (!(IS_PLAYER_ONE))
         SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_BIKE);
     else
         SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ACRO_BIKE);

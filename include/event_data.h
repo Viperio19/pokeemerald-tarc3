@@ -42,7 +42,7 @@ extern u16 gSpecialVar_LastTalked;
 extern u16 gSpecialVar_Facing;
 extern u16 gSpecialVar_MonBoxId;
 extern u16 gSpecialVar_MonBoxPos;
-extern u16 gSpecialVar_Unused_0x8014;
+extern u16 gSpecialVar_FontType;
 
 extern const u16 gBadgeFlags[NUM_BADGES];
 

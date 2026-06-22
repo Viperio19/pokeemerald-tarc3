@@ -15,6 +15,7 @@
 #include "string_util.h"
 #include "text.h"
 #include "window.h"
+#include "constants/font_types.h"
 #include "constants/songs.h"
 #include "constants/speaker_names.h"
 
@@ -2208,8 +2209,8 @@ static void DecompressGlyph_Small(u16 glyphId, bool32 isJapanese)
     }
     else
     {
-        glyphs = gFontSmallLatinGlyphs + (0x20 * glyphId);
-        gCurGlyph.width = gFontSmallLatinGlyphWidths[glyphId];
+        glyphs = (IS_PLAYER_ONE ? gFontSmallLatinGlyphs : gFontSmallLatinGlyphsFRLG) + (0x20 * glyphId);
+        gCurGlyph.width = IS_PLAYER_ONE ? gFontSmallLatinGlyphWidths[glyphId] : gFontSmallLatinGlyphWidthsFRLG[glyphId];
 
         if (gCurGlyph.width <= 8)
         {
@@ -2233,7 +2234,7 @@ static u32 GetGlyphWidth_Small(u16 glyphId, bool32 isJapanese)
     if (isJapanese == TRUE)
         return 8;
     else
-        return gFontSmallLatinGlyphWidths[glyphId];
+        return IS_PLAYER_ONE ? gFontSmallLatinGlyphWidths[glyphId] : gFontSmallLatinGlyphWidthsFRLG[glyphId];
 }
 
 static void DecompressGlyph_Narrow(u16 glyphId, bool32 isJapanese)
@@ -2367,6 +2368,21 @@ static u32 GetGlyphWidth_Short(u16 glyphId, bool32 isJapanese)
 static void DecompressGlyph_Normal(u16 glyphId, bool32 isJapanese)
 {
     const u16 *glyphs;
+    bool32 useEmeraldFont;
+
+    switch (gSpecialVar_FontType)
+    {
+        case FONT_TYPE_EMERALD:
+            useEmeraldFont = TRUE;
+            break;
+        case FONT_TYPE_FRLG:
+            useEmeraldFont = FALSE;
+            break;
+        case FONT_TYPE_DEFAULT:
+        default:
+            useEmeraldFont = IS_PLAYER_ONE;
+            break;
+    }
 
     if (isJapanese == TRUE)
     {
@@ -2378,8 +2394,8 @@ static void DecompressGlyph_Normal(u16 glyphId, bool32 isJapanese)
     }
     else
     {
-        glyphs = gFontNormalLatinGlyphs + (0x20 * glyphId);
-        gCurGlyph.width = gFontNormalLatinGlyphWidths[glyphId];
+        glyphs = (useEmeraldFont ? gFontNormalLatinGlyphs : gFontNormalLatinGlyphsFRLG)  + (0x20 * glyphId);
+        gCurGlyph.width = useEmeraldFont ? gFontNormalLatinGlyphWidths[glyphId] : gFontNormalLatinGlyphWidthsFRLG[glyphId];
 
         if (gCurGlyph.width <= 8)
         {
@@ -2403,7 +2419,25 @@ static u32 GetGlyphWidth_Normal(u16 glyphId, bool32 isJapanese)
     if (isJapanese == TRUE)
         return 8;
     else
-        return gFontNormalLatinGlyphWidths[glyphId];
+    {
+        bool32 useEmeraldFont;
+
+        switch (gSpecialVar_FontType)
+        {
+            case FONT_TYPE_EMERALD:
+                useEmeraldFont = TRUE;
+                break;
+            case FONT_TYPE_FRLG:
+                useEmeraldFont = FALSE;
+                break;
+            case FONT_TYPE_DEFAULT:
+            default:
+                useEmeraldFont = IS_PLAYER_ONE;
+                break;
+        }
+
+        return useEmeraldFont ? gFontNormalLatinGlyphWidths[glyphId] : gFontNormalLatinGlyphWidthsFRLG[glyphId];
+    }
 }
 
 static void DecompressGlyph_Bold(u16 glyphId)
