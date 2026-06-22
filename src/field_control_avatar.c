@@ -158,6 +158,15 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
     }
 }
 
+static void SwitchCharacters(void)
+{
+    gSaveBlock2Ptr->player ^= 1;
+    FlagSet(FLAG_DOING_PLAYER_SWITCH);
+    StoreInitialPlayerAvatarState();
+    SetWarpDestination(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y);
+    DoWarp();
+}
+
 int ProcessPlayerFieldInput(struct FieldInput *input)
 {
     struct MapPosition position;
@@ -237,8 +246,12 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->pressedSelectButton && UseRegisteredKeyItemOnField() == TRUE)
         return TRUE;
 
-    if (input->pressedRButton && TryStartDexNavSearch())
+    // TARC - Switch characters when pressing R
+    if (input->pressedRButton && !(IS_MULTIPLAYER))
+    {
+        SwitchCharacters();
         return TRUE;
+    }
 
     if (input->input_field_1_2 && DEBUG_OVERWORLD_MENU && !DEBUG_OVERWORLD_IN_MENU)
     {

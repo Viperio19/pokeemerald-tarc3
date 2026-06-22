@@ -157,6 +157,9 @@
 
 #define READ_OTID_FROM_SAVE T1_READ_32(gSaveBlock2Ptr->playerTrainerId)
 
+#define IS_PLAYER_ONE (gSaveBlock2Ptr->player == 0)
+#define IS_MULTIPLAYER (gSaveBlock2Ptr->isMultiplayer == TRUE)
+
 // NOTE: This uses hardware timers 2 and 3; this will not work during active link connections or with the eReader
 static inline void CycleCountStart()
 {
@@ -602,7 +605,9 @@ struct SaveBlock2
              u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
              u16 optionsBattleSceneOff:1; // whether battle animations are disabled
              u16 regionMapZoom:1; // whether the map is zoomed in
-             //u16 padding1:4;
+             u16 player:1;
+             u16 isMultiplayer:1;
+             //u16 padding1:2;
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex;
     /*0x90*/ u8 filler_90[0x8];
