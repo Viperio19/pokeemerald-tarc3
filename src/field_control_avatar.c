@@ -25,6 +25,7 @@
 #include "link.h"
 #include "match_call.h"
 #include "metatile_behavior.h"
+#include "money.h"
 #include "overworld.h"
 #include "pokemon.h"
 #include "safari_zone.h"
@@ -37,6 +38,7 @@
 #include "vs_seeker.h"
 #include "wild_encounter.h"
 #include "wild_encounter_ow.h"
+#include "constants/characters.h"
 #include "constants/event_bg.h"
 #include "constants/event_objects.h"
 #include "constants/field_poison.h"
@@ -158,9 +160,54 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
     }
 }
 
+static void SwitchBadges(void)
+{
+
+}
+
+static void SwitchTrainerData(void)
+{
+    u32 temp, i;
+
+    // switch badges
+    for (i = 0; i < NUM_BADGES; i++)
+    {
+        temp = FlagGet(FLAG_BADGE01_GET + i);
+        FlagGet(FLAG_FRLG_BADGE01_GET + i) ? FlagSet(FLAG_BADGE01_GET + i) : FlagClear(FLAG_BADGE01_GET + i);
+        temp ? FlagSet(FLAG_FRLG_BADGE01_GET + i) : FlagClear(FLAG_FRLG_BADGE01_GET + i);
+    }
+
+    // switch names
+    for (i = 0; i < PLAYER_NAME_LENGTH; i++)
+    {
+        temp = gSaveBlock2Ptr->playerName[i];
+        gSaveBlock2Ptr->playerName[i] = gSaveBlock2Ptr->playerNameFRLG[i];
+        gSaveBlock2Ptr->playerNameFRLG[i] = temp;
+    }
+    gSaveBlock2Ptr->playerName[PLAYER_NAME_LENGTH] = EOS;
+    gSaveBlock2Ptr->playerNameFRLG[PLAYER_NAME_LENGTH] = EOS;
+
+    // switch trainer ID
+    for (i = 0; i < TRAINER_ID_LENGTH; i++)
+    {
+        temp = gSaveBlock2Ptr->playerTrainerId[i];
+        gSaveBlock2Ptr->playerTrainerId[i] = gSaveBlock2Ptr->playerTrainerIdFRLG[i];
+        gSaveBlock2Ptr->playerTrainerIdFRLG[i] = (u8) temp;
+    }
+
+    // switch money
+    temp = GetMoney(&gSaveBlock1Ptr->money);
+    SetMoney(&gSaveBlock1Ptr->money, gSaveBlock1Ptr->moneyFRLG);
+    gSaveBlock1Ptr->moneyFRLG = temp;
+}
+
 static void SwitchCharacters(void)
 {
     gSaveBlock2Ptr->player ^= 1;
+    
+    SwitchBadges();
+    SwitchTrainerData();
+    
     FlagSet(FLAG_DOING_PLAYER_SWITCH);
     StoreInitialPlayerAvatarState();
     SetWarpDestination(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y);

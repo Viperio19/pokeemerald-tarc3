@@ -591,9 +591,11 @@ struct RankingHall2P
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
+    /*0x00*/ u8 playerNameFRLG[PLAYER_NAME_LENGTH + 1];
     /*0x08*/ u8 playerGender; // MALE, FEMALE
     /*0x09*/ u8 specialSaveWarpFlags;
     /*0x0A*/ u8 playerTrainerId[TRAINER_ID_LENGTH];
+    /*0x0A*/ u8 playerTrainerIdFRLG[TRAINER_ID_LENGTH];
     /*0x0E*/ u16 playTimeHours;
     /*0x10*/ u8 playTimeMinutes;
     /*0x11*/ u8 playTimeSeconds;
@@ -1113,14 +1115,18 @@ struct SaveBlock1
     /*0x32*/ u16 mapLayoutId;
     /*0x34*/ u16 mapView[0x100];
     /*0x234*/ u8 playerPartyCount;
+    /*0x234*/ u8 playerPartyCountFRLG;
     /*0x235*/ //u8 padding2[3];
     /*0x238*/ struct Pokemon playerParty[PARTY_SIZE];
+    /*0x238*/ struct Pokemon playerPartyFRLG[PARTY_SIZE];
     /*0x490*/ u32 money;
+    /*0x490*/ u32 moneyFRLG;
     /*0x494*/ u16 coins;
     /*0x496*/ u16 registeredItem; // registered for use with SELECT button
     /*0x498*/ struct ItemSlot pcItems[PC_ITEMS_COUNT];
     /*0x560 -> 0x848 is bag storage*/
     /*0x560*/ struct Bag bag;
+    /*0x560*/ struct Bag bagFRLG;
     /*0x848*/ struct Pokeblock pokeblocks[POKEBLOCKS_COUNT];
 #if FREE_EXTRA_SEEN_FLAGS_SAVEBLOCK1 == FALSE
     /*0x988*/ u8 filler1[0x34]; // Previously Dex Flags, feel free to remove.

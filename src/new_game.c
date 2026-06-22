@@ -61,6 +61,7 @@ static void WarpToTruck(void);
 static void ResetMiniGamesRecords(void);
 static void ResetItemFlags(void);
 static void ResetDexNav(void);
+static void SetTARCFlags(void);
 
 EWRAM_DATA bool8 gDifferentSaveFile = FALSE;
 EWRAM_DATA bool8 gEnableContestDebugging = FALSE;
@@ -91,10 +92,12 @@ void CopyTrainerId(u8 *dst, u8 *src)
         dst[i] = src[i];
 }
 
-static void InitPlayerTrainerId(void)
+static void InitPlayerTrainerIds()
 {
     u32 trainerId = (Random() << 16) | GetGeneratedTrainerIdLower();
+    u32 trainerIdFRLG = (GetGeneratedTrainerIdLower() << 16) | Random();
     SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
+    SetTrainerId(trainerIdFRLG, gSaveBlock2Ptr->playerTrainerIdFRLG);
 }
 
 // L=A isnt set here for some reason.
@@ -180,7 +183,7 @@ void NewGameInitData(void)
     ClearAllMail();
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;
-    InitPlayerTrainerId();
+    InitPlayerTrainerIds();
     PlayTimeCounter_Reset();
     ClearPokedexFlags();
     InitEventData();
@@ -189,6 +192,7 @@ void NewGameInitData(void)
     ClearSecretBases();
     ClearBerryTrees();
     SetMoney(&gSaveBlock1Ptr->money, 3000);
+    gSaveBlock1Ptr->moneyFRLG = 5000;
     SetCoins(0);
     ResetLinkContestBoolean();
     ResetGameStats();
@@ -234,6 +238,7 @@ void NewGameInitData(void)
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
+    SetTARCFlags();
 }
 
 static void ResetMiniGamesRecords(void)
@@ -257,4 +262,15 @@ static void ResetDexNav(void)
     memset(gSaveBlock3Ptr->dexNavSearchLevels, 0, sizeof(gSaveBlock3Ptr->dexNavSearchLevels));
 #endif
     gSaveBlock3Ptr->dexNavChain = 0;
+}
+
+static void SetTARCFlags(void)
+{
+    FlagSet(FLAG_BADGE01_GET);
+    FlagSet(FLAG_BADGE04_GET);
+    FlagSet(FLAG_BADGE07_GET);
+    FlagSet(FLAG_FRLG_BADGE02_GET);
+    FlagSet(FLAG_FRLG_BADGE03_GET);
+    FlagSet(FLAG_FRLG_BADGE05_GET);
+    FlagSet(FLAG_FRLG_BADGE07_GET);
 }

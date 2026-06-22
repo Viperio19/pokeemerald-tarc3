@@ -1634,7 +1634,8 @@ static void Task_NewGameBirchSpeech_StartNamingScreen(u8 taskId)
     {
         FreeAllWindowBuffers();
         FreeAndDestroyMonPicSprite(gTasks[taskId].tLotadSpriteId);
-        NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES);
+        NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES, gSaveBlock2Ptr->playerName);
+        NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES, gSaveBlock2Ptr->playerNameFRLG);
         DestroyTask(taskId);
         DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGameBirchSpeech_ReturnFromNamingScreen);
     }
@@ -2137,7 +2138,7 @@ static s8 NewGameBirchSpeech_ProcessGenderMenuInput(void)
     return Menu_ProcessInputNoWrap();
 }
 
-void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
+void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId, u8 *playerName)
 {
     const u8 *name;
     u8 i;
@@ -2147,8 +2148,8 @@ void NewGameBirchSpeech_SetDefaultPlayerName(u8 nameId)
     else
         name = sFemalePresetNames[nameId];
     for (i = 0; i < PLAYER_NAME_LENGTH; i++)
-        gSaveBlock2Ptr->playerName[i] = name[i];
-    gSaveBlock2Ptr->playerName[PLAYER_NAME_LENGTH] = EOS;
+        playerName[i] = name[i];
+    playerName[PLAYER_NAME_LENGTH] = EOS;
 }
 
 static void CreateMainMenuErrorWindow(const u8 *str)

@@ -1842,33 +1842,7 @@ static void InitTrainerCardData(void)
 
 static u8 GetSetCardType(void)
 {
-    if (sData == NULL)
-    {
-        if (gGameVersion == VERSION_FIRE_RED || gGameVersion == VERSION_LEAF_GREEN)
-            return CARD_TYPE_FRLG;
-        else if (gGameVersion == VERSION_EMERALD)
-            return CARD_TYPE_EMERALD;
-        else
-            return CARD_TYPE_RS;
-    }
-    else
-    {
-        if (sData->trainerCard.version == VERSION_FIRE_RED || sData->trainerCard.version == VERSION_LEAF_GREEN)
-        {
-            sData->isHoenn = FALSE;
-            return CARD_TYPE_FRLG;
-        }
-        else if (sData->trainerCard.version == VERSION_EMERALD)
-        {
-            sData->isHoenn = TRUE;
-            return CARD_TYPE_EMERALD;
-        }
-        else
-        {
-            sData->isHoenn = TRUE;
-            return CARD_TYPE_RS;
-        }
-    }
+    return IS_PLAYER_ONE ? CARD_TYPE_EMERALD : CARD_TYPE_FRLG;
 }
 
 static u8 VersionToCardType(enum GameVersion version)
