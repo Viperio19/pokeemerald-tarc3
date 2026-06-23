@@ -3486,23 +3486,18 @@ bool8 IsDestinationBoxFull(void)
     int i;
     SetPCBoxToSendMon(VarGet(VAR_PC_BOX_TO_SEND_MON));
     box = StorageGetCurrentBox();
-    do
-    {
-        for (i = 0; i < IN_BOX_COUNT; i++)
-        {
-            if (GetBoxMonData(GetBoxedMonPtr(box, i), MON_DATA_SPECIES, 0) == SPECIES_NONE)
-            {
-                if (GetPCBoxToSendMon() != box)
-                    FlagClear(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
-                VarSet(VAR_PC_BOX_TO_SEND_MON, box);
-                return ShouldShowBoxWasFullMessage();
-            }
-        }
 
-        if (++box == TOTAL_BOXES_COUNT)
-            box = 0;
-    } while (box != StorageGetCurrentBox());
-    return FALSE;
+    for (i = 0; i < IN_BOX_COUNT; i++)
+    {
+        if (GetBoxMonData(GetBoxedMonPtr(box, i), MON_DATA_SPECIES, 0) == SPECIES_NONE)
+        {
+            if (GetPCBoxToSendMon() != box)
+                FlagClear(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
+            VarSet(VAR_PC_BOX_TO_SEND_MON, box);
+            return ShouldShowBoxWasFullMessage();
+        }
+    }
+return FALSE;
 }
 
 void CreateAbnormalWeatherEvent(void)

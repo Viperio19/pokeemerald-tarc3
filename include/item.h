@@ -105,6 +105,7 @@ struct TmHmIndexKey
 extern const u8 gQuestionMarksItemName[];
 extern const struct ItemInfo gItemsInfo[];
 extern struct BagPocket gBagPockets[];
+extern struct BagPocket gBagPocketsFRLG[];
 extern const struct TmHmIndexKey gTMHMItemMoveIds[];
 
 #define UNPACK_ITEM_TO_TM_INDEX(_tm) case CAT(ITEM_TM_, _tm): return CAT(ENUM_TM_HM_, _tm) + 1;

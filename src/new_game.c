@@ -266,6 +266,8 @@ static void ResetDexNav(void)
 
 static void SetTARCFlags(void)
 {
+    FlagSet(FLAG_SYS_POKEMON_GET);
+
     FlagSet(FLAG_BADGE01_GET);
     FlagSet(FLAG_BADGE04_GET);
     FlagSet(FLAG_BADGE07_GET);

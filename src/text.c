@@ -2209,8 +2209,8 @@ static void DecompressGlyph_Small(u16 glyphId, bool32 isJapanese)
     }
     else
     {
-        glyphs = (IS_PLAYER_ONE ? gFontSmallLatinGlyphs : gFontSmallLatinGlyphsFRLG) + (0x20 * glyphId);
-        gCurGlyph.width = IS_PLAYER_ONE ? gFontSmallLatinGlyphWidths[glyphId] : gFontSmallLatinGlyphWidthsFRLG[glyphId];
+        glyphs = gFontSmallLatinGlyphs + (0x20 * glyphId);
+        gCurGlyph.width = gFontSmallLatinGlyphWidths[glyphId];
 
         if (gCurGlyph.width <= 8)
         {
@@ -2234,7 +2234,7 @@ static u32 GetGlyphWidth_Small(u16 glyphId, bool32 isJapanese)
     if (isJapanese == TRUE)
         return 8;
     else
-        return IS_PLAYER_ONE ? gFontSmallLatinGlyphWidths[glyphId] : gFontSmallLatinGlyphWidthsFRLG[glyphId];
+        return gFontSmallLatinGlyphWidths[glyphId];
 }
 
 static void DecompressGlyph_Narrow(u16 glyphId, bool32 isJapanese)

@@ -285,6 +285,24 @@ void SavePlayerBag(void)
     gSaveBlock2Ptr->encryptionKey = encryptionKeyBackup; // updated twice?
 }
 
+void SwapBags(void)
+{
+    memcpy(&gLoadedSaveData.bag, &gSaveBlock1Ptr->bagFRLG, sizeof(struct Bag));
+    memcpy(&gSaveBlock1Ptr->bagFRLG, &gSaveBlock1Ptr->bag, sizeof(struct Bag));
+    memcpy(&gSaveBlock1Ptr->bag, &gLoadedSaveData.bag, sizeof(struct Bag));
+
+    struct BagPocket *temp = Alloc(sizeof(struct BagPocket));
+
+    for (enum Pocket pocketId = 0; pocketId < POCKETS_COUNT; pocketId++)
+    {
+        memcpy(temp, &gBagPockets[pocketId], sizeof(struct Bag));
+        memcpy(&gBagPockets[pocketId], &gBagPocketsFRLG[pocketId], sizeof(struct Bag));
+        memcpy(&gBagPocketsFRLG[pocketId], temp, sizeof(struct Bag));
+    }
+
+    Free(temp);
+}
+
 void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey)
 {
     *hWord ^= gSaveBlock2Ptr->encryptionKey;

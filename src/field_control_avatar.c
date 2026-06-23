@@ -1,4 +1,5 @@
 #include "global.h"
+#include "malloc.h"
 #include "battle_setup.h"
 #include "bike.h"
 #include "coord_event_weather.h"
@@ -23,6 +24,7 @@
 #include "follower_npc.h"
 #include "item_menu.h"
 #include "link.h"
+#include "load_save.h"
 #include "match_call.h"
 #include "metatile_behavior.h"
 #include "money.h"
@@ -160,9 +162,40 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
     }
 }
 
-static void SwitchBadges(void)
+static void SwitchPokemonAndItems(void)
 {
+    u32 temp, i;
+    struct Pokemon *tempMon = Alloc(sizeof(struct Pokemon));
 
+    // switch party
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        *tempMon = gParties[B_TRAINER_PLAYER][i];
+        gParties[B_TRAINER_PLAYER][i] = gSaveBlock1Ptr->playerPartyFRLG[i];
+        gSaveBlock1Ptr->playerPartyFRLG[i] = *tempMon;
+    }
+
+    temp = gPartiesCount[B_TRAINER_PLAYER];
+    gPartiesCount[B_TRAINER_PLAYER] = gSaveBlock1Ptr->playerPartyCountFRLG;
+    gSaveBlock1Ptr->playerPartyCountFRLG = temp;
+
+    // switch bag
+    SwapBags();
+
+    // switch pc pokemon
+    gPokemonStoragePtr->currentBox = gSaveBlock2Ptr->player;
+
+    // switch pc items
+    struct ItemSlot *tempItemSlot = Alloc(sizeof(struct ItemSlot));
+
+    for (i = 0; i < PC_ITEMS_COUNT; i++)
+    {
+        *tempItemSlot = gSaveBlock1Ptr->pcItems[i];
+        gSaveBlock1Ptr->pcItems[i] = gSaveBlock1Ptr->pcItemsFRLG[i];
+        gSaveBlock1Ptr->pcItemsFRLG[i] = *tempItemSlot;
+    }
+
+    Free(tempItemSlot);
 }
 
 static void SwitchTrainerData(void)
@@ -205,7 +238,7 @@ static void SwitchCharacters(void)
 {
     gSaveBlock2Ptr->player ^= 1;
     
-    SwitchBadges();
+    SwitchPokemonAndItems();
     SwitchTrainerData();
     
     FlagSet(FLAG_DOING_PLAYER_SWITCH);

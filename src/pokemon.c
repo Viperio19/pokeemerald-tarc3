@@ -3187,12 +3187,11 @@ bool8 IsPlayerPartyAndPokemonStorageFull(void)
 
 bool8 IsPokemonStorageFull(void)
 {
-    s32 i, j;
+    s32 j;
 
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
-        for (j = 0; j < IN_BOX_COUNT; j++)
-            if (GetBoxMonDataAt(i, j, MON_DATA_SPECIES) == SPECIES_NONE)
-                return FALSE;
+    for (j = 0; j < IN_BOX_COUNT; j++)
+        if (GetBoxMonDataAt(gPokemonStoragePtr->currentBox, j, MON_DATA_SPECIES) == SPECIES_NONE)
+            return FALSE;
 
     return TRUE;
 }
