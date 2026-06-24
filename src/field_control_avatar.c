@@ -234,6 +234,43 @@ static void SwitchTrainerData(void)
     gSaveBlock1Ptr->moneyFRLG = temp;
 }
 
+void SpawnPlayer2(void)
+{
+    struct ObjectEventTemplate template =
+    {
+        .localId = OBJ_EVENT_ID_PLAYER_2,
+        .graphicsId = OBJ_EVENT_GFX_BRENDAN_NORMAL,
+        .flagId = 0,
+        .x = gSaveBlock1Ptr->pos.x + 1,
+        .y = gSaveBlock1Ptr->pos.y + 1,
+        .elevation = gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)].currentElevation,
+        .movementType = MOVEMENT_TYPE_NONE,
+    };
+
+    SpawnSpecialObjectEvent(&template);
+}
+
+void SpawnPlayer2AtPrevPlayerPosition(void)
+{
+    struct ObjectEventTemplate template =
+    {
+        .localId = OBJ_EVENT_ID_PLAYER_2,
+        .graphicsId = gObjectEventBackup.graphicsId,
+        .flagId = 0,
+        .x = gObjectEventBackup.currentCoords.x - MAP_OFFSET,
+        .y = gObjectEventBackup.currentCoords.y - MAP_OFFSET,
+        .elevation = gObjectEventBackup.currentElevation,
+        .movementType = MOVEMENT_TYPE_NONE,
+    };
+
+    s16 cameraX;
+    s16 cameraY;
+
+    GetObjectEventMovingCameraOffset(&cameraX, &cameraY);
+    u8 objId = TrySpawnObjectEventTemplate(&template, gObjectEventBackup.mapNum, gObjectEventBackup.mapGroup, cameraX, cameraY);
+    ObjectEventTurn(&gObjectEvents[objId], gObjectEventBackup.facingDirection);
+}
+
 static void SwitchCharacters(void)
 {
     gSaveBlock2Ptr->player ^= 1;
@@ -241,9 +278,14 @@ static void SwitchCharacters(void)
     SwitchPokemonAndItems();
     SwitchTrainerData();
     
+    struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2)];
+
+    memcpy(&gObjectEventBackup2, &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2)], sizeof(struct ObjectEvent));
     FlagSet(FLAG_DOING_PLAYER_SWITCH);
     StoreInitialPlayerAvatarState();
-    SetWarpDestination(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y);
+
+    memcpy(&gObjectEventBackup, &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)], sizeof(struct ObjectEvent));
+    SetWarpDestination(objEvent->mapGroup, objEvent->mapNum, WARP_ID_NONE, objEvent->currentCoords.x - MAP_OFFSET, objEvent->currentCoords.y - MAP_OFFSET);
     DoWarp();
 }
 
@@ -502,6 +544,8 @@ static const u8 *GetInteractedObjectEventScript(struct MapPosition *position, u8
         script = GetOverworlWildEncounterScript(objectEventId);
     else if (gObjectEvents[objectEventId].localId == OBJ_EVENT_ID_FOLLOWER)
         script = EventScript_Follower;
+    else if (gObjectEvents[objectEventId].localId == OBJ_EVENT_ID_PLAYER_2)
+        script = EventScript_Player2;
     else if (InTrainerHill() == TRUE)
         script = GetTrainerHillTrainerScript();
     else

@@ -439,6 +439,8 @@ struct Camera
 };
 
 extern struct ObjectEvent gObjectEvents[OBJECT_EVENTS_COUNT];
+extern struct ObjectEvent gObjectEventBackup;
+extern struct ObjectEvent gObjectEventBackup2;
 extern u8 gSelectedObjectEvent;
 extern struct MapHeader gMapHeader;
 extern struct PlayerAvatar gPlayerAvatar;

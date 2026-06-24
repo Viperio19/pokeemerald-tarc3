@@ -25,6 +25,7 @@ struct FieldInput
 void GetPlayerPosition(struct MapPosition *);
 void FieldClearPlayerInput(struct FieldInput *pStruct);
 void FieldGetPlayerInput(struct FieldInput *pStruct, u16 keys, u16 heldKeys);
+void SpawnPlayer2AtPrevPlayerPosition(void);
 int ProcessPlayerFieldInput(struct FieldInput *pStruct);
 void RestartWildEncounterImmunitySteps(void);
 const u8 *GetObjectEventScriptPointerPlayerFacing(void);

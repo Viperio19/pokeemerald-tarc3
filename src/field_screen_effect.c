@@ -8,6 +8,7 @@
 #include "event_object_lock.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
+#include "field_control_avatar.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
 #include "field_special_scene.h"
@@ -297,6 +298,9 @@ static void SetUpWarpExitTask(void)
 void FieldCB_DefaultWarpExit(void)
 {
     Overworld_PlaySpecialMapMusic();
+    if (FlagGet(FLAG_DOING_PLAYER_SWITCH))
+        SpawnPlayer2AtPrevPlayerPosition();
+    FlagClear(FLAG_DOING_PLAYER_SWITCH);
     WarpFadeInScreen();
     SetUpWarpExitTask();
     FollowerNPC_WarpSetEnd();
@@ -716,6 +720,8 @@ void Task_WarpAndLoadMap(u8 taskId)
         }
         break;
     case 2:
+        if (FlagGet(FLAG_DOING_PLAYER_SWITCH))
+            RemoveObjectEvent(&gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2)]);
         WarpIntoMap();
         SetMainCallback2(CB2_LoadMap);
         DestroyTask(taskId);
