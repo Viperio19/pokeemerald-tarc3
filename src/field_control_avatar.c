@@ -162,7 +162,7 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
     }
 }
 
-static void SwitchPokemonAndItems(void)
+void SwitchParties(void)
 {
     u32 temp, i;
     struct Pokemon *tempMon = Alloc(sizeof(struct Pokemon));
@@ -178,6 +178,12 @@ static void SwitchPokemonAndItems(void)
     temp = gPartiesCount[B_TRAINER_PLAYER];
     gPartiesCount[B_TRAINER_PLAYER] = gSaveBlock1Ptr->playerPartyCountFRLG;
     gSaveBlock1Ptr->playerPartyCountFRLG = temp;
+}
+
+static void SwitchPokemonAndItems(void)
+{
+    // switch party
+    SwitchParties();
 
     // switch bag
     SwapBags();
@@ -188,7 +194,7 @@ static void SwitchPokemonAndItems(void)
     // switch pc items
     struct ItemSlot *tempItemSlot = Alloc(sizeof(struct ItemSlot));
 
-    for (i = 0; i < PC_ITEMS_COUNT; i++)
+    for (u8 i = 0; i < PC_ITEMS_COUNT; i++)
     {
         *tempItemSlot = gSaveBlock1Ptr->pcItems[i];
         gSaveBlock1Ptr->pcItems[i] = gSaveBlock1Ptr->pcItemsFRLG[i];

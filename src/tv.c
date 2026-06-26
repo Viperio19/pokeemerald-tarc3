@@ -3144,6 +3144,12 @@ void BufferMonNickname(void)
     //StringGet_Nickname(gStringVar1);
 }
 
+void BufferSinglePlayerTradeNicknames(void)
+{
+    GetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A], MON_DATA_NICKNAME, gStringVar1);
+    GetMonData(&gSaveBlock1Ptr->playerPartyFRLG[gSpecialVar_0x800B], MON_DATA_NICKNAME, gStringVar2);
+}
+
 void IsMonOTIDNotPlayers(void)
 {
     struct BoxPokemon *boxmon = GetSelectedBoxMonFromPcOrParty();

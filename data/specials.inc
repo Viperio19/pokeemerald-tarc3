@@ -273,6 +273,7 @@ gSpecials::
 	def_special GetInGameTradeSpeciesInfo
 	def_special CreateInGameTradePokemon
 	def_special DoInGameTradeScene, waitstate=1
+	def_special DoSinglePlayerTradeScene, waitstate=1
 	def_special GetTradeSpecies
 	def_special GetWeekCount
 	def_special RetrieveLotteryNumber
