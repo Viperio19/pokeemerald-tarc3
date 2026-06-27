@@ -97,15 +97,15 @@ static void InitPlayerTrainerIds()
     u32 trainerId = (Random() << 16) | GetGeneratedTrainerIdLower();
     u32 trainerIdFRLG = (GetGeneratedTrainerIdLower() << 16) | Random();
     SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
-    SetTrainerId(trainerIdFRLG, gSaveBlock2Ptr->playerTrainerIdFRLG);
+    SetTrainerId(trainerIdFRLG, gSaveBlock2Ptr->playerTrainerId2);
 }
 
 // L=A isnt set here for some reason.
 static void SetDefaultOptions(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
+    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
-    gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
+    gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_STEREO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
@@ -192,7 +192,7 @@ void NewGameInitData(void)
     ClearSecretBases();
     ClearBerryTrees();
     SetMoney(&gSaveBlock1Ptr->money, 3000);
-    gSaveBlock1Ptr->moneyFRLG = 5000;
+    gSaveBlock1Ptr->money2 = 5000;
     SetCoins(0);
     ResetLinkContestBoolean();
     ResetGameStats();

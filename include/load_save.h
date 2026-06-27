@@ -26,10 +26,18 @@ struct PokemonStorageASLR {
     u8 aslr[SAVEBLOCK_MOVE_RANGE];
 };
 
+struct LoadedSaveData
+{
+ /*0x0000*/ struct Bag bag;
+ /*0x02E8*/ struct Mail mail[MAIL_COUNT];
+};
+
 extern struct SaveBlock1ASLR gSaveblock1;
 extern struct SaveBlock2ASLR gSaveblock2;
 extern struct SaveBlock3 gSaveblock3;
 extern struct PokemonStorageASLR gPokemonStorage;
+
+extern struct LoadedSaveData gLoadedSaveData;
 
 extern bool32 gFlashMemoryPresent;
 extern struct SaveBlock1 *gSaveBlock1Ptr;
@@ -55,7 +63,6 @@ void CopyPartyAndObjectsToSave(void);
 void CopyPartyAndObjectsFromSave(void);
 void LoadPlayerBag(void);
 void SavePlayerBag(void);
-void SwapBags(void);
 void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey);
 void ApplyNewEncryptionKeyToWord(u32 *word, u32 newKey);
 

@@ -3058,7 +3058,7 @@ static void CB2_InitInGameTrade(void)
 static void CB2_InitSinglePlayerTrade(void)
 {
     struct Pokemon *playerMon = &gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A];
-    gParties[B_TRAINER_OPPONENT_A][0] = gSaveBlock1Ptr->playerPartyFRLG[gSpecialVar_0x800B];
+    gParties[B_TRAINER_OPPONENT_A][0] = gSaveBlock1Ptr->playerParty2[gSpecialVar_0x800B];
 
     switch (gMain.state)
     {
@@ -3066,7 +3066,7 @@ static void CB2_InitSinglePlayerTrade(void)
         gSelectedTradeMonPositions[TRADE_PLAYER] = gSpecialVar_0x800A;
         gSelectedTradeMonPositions[TRADE_PARTNER] = gSpecialVar_0x800B;
         StringCopy(gLinkPlayers[0].name, gSaveBlock2Ptr->playerName);
-        StringCopy(gLinkPlayers[1].name, gSaveBlock2Ptr->playerNameFRLG);
+        StringCopy(gLinkPlayers[1].name, gSaveBlock2Ptr->playerName2);
         gLinkPlayers[0].language = GAME_LANGUAGE;
         gLinkPlayers[1].language = GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_LANGUAGE);
         sTradeAnim = AllocZeroed(sizeof(*sTradeAnim));
@@ -3215,10 +3215,7 @@ static void TradeSinglePlayerMons(void)
 {
     u8 friendship;
     struct Pokemon *playerMon = &gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A];
-    struct Pokemon *partnerMon = &gSaveBlock1Ptr->playerPartyFRLG[gSpecialVar_0x800B];
-
-    DebugPrintf("TradeSinglePlayerMons: gSpecialVar_0x800A = %d", gSpecialVar_0x800A);
-    DebugPrintf("TradeSinglePlayerMons: gSpecialVar_0x800B = %d", gSpecialVar_0x800B);
+    struct Pokemon *partnerMon = &gSaveBlock1Ptr->playerParty2[gSpecialVar_0x800B];
 
     SWAP(*playerMon, *partnerMon, sTradeAnim->tempMon);
 
@@ -3446,8 +3443,8 @@ static void BufferTradeSceneStrings(void)
     }
     else if (sTradeAnim->isSinglePlayerTrade)
     {
-        StringCopy(gStringVar1, gSaveBlock2Ptr->playerNameFRLG);
-        GetMonData(&gSaveBlock1Ptr->playerPartyFRLG[gSpecialVar_0x800B], MON_DATA_NICKNAME, name);
+        StringCopy(gStringVar1, gSaveBlock2Ptr->playerName2);
+        GetMonData(&gSaveBlock1Ptr->playerParty2[gSpecialVar_0x800B], MON_DATA_NICKNAME, name);
         StringCopy_Nickname(gStringVar3, name);
         GetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A], MON_DATA_NICKNAME, name);
         StringCopy_Nickname(gStringVar2, name);

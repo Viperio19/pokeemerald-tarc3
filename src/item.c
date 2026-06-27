@@ -38,7 +38,7 @@ static enum Item SanitizeItemId(enum Item itemId);
 static enum Item SanitizeBagItemId(enum Item itemId);
 
 EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
-EWRAM_DATA struct BagPocket gBagPocketsFRLG[POCKETS_COUNT] = {0};
+EWRAM_DATA struct BagPocket gBagPockets2[POCKETS_COUNT] = {0};
 
 #include "data/pokemon/item_effects.h"
 #include "data/items.h"
@@ -141,8 +141,8 @@ void ApplyNewEncryptionKeyToBagItems(u32 newKey)
         for (item = ITEM_NONE; item < gBagPockets[pocketId].capacity; item++)
             ApplyNewEncryptionKeyToHword(&(gBagPockets[pocketId].itemSlots[item].quantity), newKey);
 
-        for (item = ITEM_NONE; item < gBagPocketsFRLG[pocketId].capacity; item++)
-            ApplyNewEncryptionKeyToHword(&(gBagPocketsFRLG[pocketId].itemSlots[item].quantity), newKey);
+        for (item = ITEM_NONE; item < gBagPockets2[pocketId].capacity; item++)
+            ApplyNewEncryptionKeyToHword(&(gBagPockets2[pocketId].itemSlots[item].quantity), newKey);
     }
 }
 
@@ -168,25 +168,25 @@ void SetBagItemsPointers(void)
     gBagPockets[POCKET_BERRIES].capacity = BAG_BERRIES_COUNT;
     gBagPockets[POCKET_BERRIES].id = POCKET_BERRIES;
 
-    gBagPocketsFRLG[POCKET_ITEMS].itemSlots = gSaveBlock1Ptr->bagFRLG.items;
-    gBagPocketsFRLG[POCKET_ITEMS].capacity = BAG_ITEMS_COUNT;
-    gBagPocketsFRLG[POCKET_ITEMS].id = POCKET_ITEMS;
+    gBagPockets2[POCKET_ITEMS].itemSlots = gSaveBlock1Ptr->bag2.items;
+    gBagPockets2[POCKET_ITEMS].capacity = BAG_ITEMS_COUNT;
+    gBagPockets2[POCKET_ITEMS].id = POCKET_ITEMS;
 
-    gBagPocketsFRLG[POCKET_KEY_ITEMS].itemSlots = gSaveBlock1Ptr->bagFRLG.keyItems;
-    gBagPocketsFRLG[POCKET_KEY_ITEMS].capacity = BAG_KEYITEMS_COUNT;
-    gBagPocketsFRLG[POCKET_KEY_ITEMS].id = POCKET_KEY_ITEMS;
+    gBagPockets2[POCKET_KEY_ITEMS].itemSlots = gSaveBlock1Ptr->bag2.keyItems;
+    gBagPockets2[POCKET_KEY_ITEMS].capacity = BAG_KEYITEMS_COUNT;
+    gBagPockets2[POCKET_KEY_ITEMS].id = POCKET_KEY_ITEMS;
 
-    gBagPocketsFRLG[POCKET_POKE_BALLS].itemSlots = gSaveBlock1Ptr->bagFRLG.pokeBalls;
-    gBagPocketsFRLG[POCKET_POKE_BALLS].capacity = BAG_POKEBALLS_COUNT;
-    gBagPocketsFRLG[POCKET_POKE_BALLS].id = POCKET_POKE_BALLS;
+    gBagPockets2[POCKET_POKE_BALLS].itemSlots = gSaveBlock1Ptr->bag2.pokeBalls;
+    gBagPockets2[POCKET_POKE_BALLS].capacity = BAG_POKEBALLS_COUNT;
+    gBagPockets2[POCKET_POKE_BALLS].id = POCKET_POKE_BALLS;
 
-    gBagPocketsFRLG[POCKET_TM_HM].itemSlots = gSaveBlock1Ptr->bagFRLG.TMsHMs;
-    gBagPocketsFRLG[POCKET_TM_HM].capacity = BAG_TMHM_COUNT;
-    gBagPocketsFRLG[POCKET_TM_HM].id = POCKET_TM_HM;
+    gBagPockets2[POCKET_TM_HM].itemSlots = gSaveBlock1Ptr->bag2.TMsHMs;
+    gBagPockets2[POCKET_TM_HM].capacity = BAG_TMHM_COUNT;
+    gBagPockets2[POCKET_TM_HM].id = POCKET_TM_HM;
 
-    gBagPocketsFRLG[POCKET_BERRIES].itemSlots = gSaveBlock1Ptr->bagFRLG.berries;
-    gBagPocketsFRLG[POCKET_BERRIES].capacity = BAG_BERRIES_COUNT;
-    gBagPocketsFRLG[POCKET_BERRIES].id = POCKET_BERRIES;
+    gBagPockets2[POCKET_BERRIES].itemSlots = gSaveBlock1Ptr->bag2.berries;
+    gBagPockets2[POCKET_BERRIES].capacity = BAG_BERRIES_COUNT;
+    gBagPockets2[POCKET_BERRIES].id = POCKET_BERRIES;
 }
 
 u8 *CopyItemName(enum Item itemId, u8 *dst)

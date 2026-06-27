@@ -169,15 +169,9 @@ void SwitchParties(void)
 
     // switch party
     for (i = 0; i < PARTY_SIZE; i++)
-    {
-        *tempMon = gParties[B_TRAINER_PLAYER][i];
-        gParties[B_TRAINER_PLAYER][i] = gSaveBlock1Ptr->playerPartyFRLG[i];
-        gSaveBlock1Ptr->playerPartyFRLG[i] = *tempMon;
-    }
+        SWAP(gParties[B_TRAINER_PLAYER][i], gSaveBlock1Ptr->playerParty2[i], *tempMon);
 
-    temp = gPartiesCount[B_TRAINER_PLAYER];
-    gPartiesCount[B_TRAINER_PLAYER] = gSaveBlock1Ptr->playerPartyCountFRLG;
-    gSaveBlock1Ptr->playerPartyCountFRLG = temp;
+    SWAP(gPartiesCount[B_TRAINER_PLAYER], gSaveBlock1Ptr->playerPartyCount2, temp);
 }
 
 static void SwitchPokemonAndItems(void)
@@ -186,7 +180,14 @@ static void SwitchPokemonAndItems(void)
     SwitchParties();
 
     // switch bag
-    SwapBags();
+    SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
+
+    struct BagPocket *tempBagPocket = Alloc(sizeof(struct BagPocket));
+
+    for (enum Pocket pocketId = 0; pocketId < POCKETS_COUNT; pocketId++)
+        SWAP(gBagPockets[pocketId], gBagPockets2[pocketId], *tempBagPocket);
+
+    Free(tempBagPocket);
 
     // switch pc pokemon
     gPokemonStoragePtr->currentBox = gSaveBlock2Ptr->player;
@@ -195,11 +196,7 @@ static void SwitchPokemonAndItems(void)
     struct ItemSlot *tempItemSlot = Alloc(sizeof(struct ItemSlot));
 
     for (u8 i = 0; i < PC_ITEMS_COUNT; i++)
-    {
-        *tempItemSlot = gSaveBlock1Ptr->pcItems[i];
-        gSaveBlock1Ptr->pcItems[i] = gSaveBlock1Ptr->pcItemsFRLG[i];
-        gSaveBlock1Ptr->pcItemsFRLG[i] = *tempItemSlot;
-    }
+        SWAP(gSaveBlock1Ptr->pcItems[i], gSaveBlock1Ptr->pcItems2[i], *tempItemSlot);
 
     Free(tempItemSlot);
 }
@@ -218,26 +215,16 @@ static void SwitchTrainerData(void)
 
     // switch names
     for (i = 0; i < PLAYER_NAME_LENGTH; i++)
-    {
-        temp = gSaveBlock2Ptr->playerName[i];
-        gSaveBlock2Ptr->playerName[i] = gSaveBlock2Ptr->playerNameFRLG[i];
-        gSaveBlock2Ptr->playerNameFRLG[i] = temp;
-    }
-    gSaveBlock2Ptr->playerName[PLAYER_NAME_LENGTH] = EOS;
-    gSaveBlock2Ptr->playerNameFRLG[PLAYER_NAME_LENGTH] = EOS;
+        SWAP(gSaveBlock2Ptr->playerName[i], gSaveBlock2Ptr->playerName2[i], temp);
 
     // switch trainer ID
     for (i = 0; i < TRAINER_ID_LENGTH; i++)
-    {
-        temp = gSaveBlock2Ptr->playerTrainerId[i];
-        gSaveBlock2Ptr->playerTrainerId[i] = gSaveBlock2Ptr->playerTrainerIdFRLG[i];
-        gSaveBlock2Ptr->playerTrainerIdFRLG[i] = (u8) temp;
-    }
+        SWAP(gSaveBlock2Ptr->playerTrainerId[i], gSaveBlock2Ptr->playerTrainerId2[i], temp);
 
     // switch money
     temp = GetMoney(&gSaveBlock1Ptr->money);
-    SetMoney(&gSaveBlock1Ptr->money, gSaveBlock1Ptr->moneyFRLG);
-    gSaveBlock1Ptr->moneyFRLG = temp;
+    SetMoney(&gSaveBlock1Ptr->money, gSaveBlock1Ptr->money2);
+    gSaveBlock1Ptr->money2 = temp;
 }
 
 void SpawnPlayer2(void)
