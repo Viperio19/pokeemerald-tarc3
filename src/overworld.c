@@ -133,7 +133,7 @@ static u8 GetSpriteForLinkedPlayer(u8);
 static u16 KeyInterCB_SendNothing(u32);
 static void ResetMirageTowerAndSaveBlockPtrs(void);
 static void ResetScreenForMapLoad(void);
-static void OffsetCameraFocusByLinkPlayerId(void);
+// static void OffsetCameraFocusByLinkPlayerId(void);
 static void SpawnLinkPlayers(void);
 static void SetCameraToTrackGuestPlayer(void);
 static void ResumeMap(bool32);
@@ -155,7 +155,7 @@ static u8 GetLinkPlayerElevation(u8);
 static u8 GetLinkPlayerIdAt(s16, s16);
 static void SetPlayerFacingDirection(u8, u8);
 static void ZeroObjectEvent(struct ObjectEvent *);
-static void SpawnLinkPlayerObjectEvent(u8, s16, s16, u8);
+static void SpawnLinkPlayerObjectEvent(u8);
 static void InitLinkPlayerObjectEventPos(struct ObjectEvent *, s16, s16);
 static u8 GetSpriteForLinkedPlayer(u8);
 static void RunTerminateLinkScript(void);
@@ -2224,7 +2224,7 @@ static bool32 LoadMapInStepsLink(u8 *state)
         (*state)++;
         break;
     case 3:
-        OffsetCameraFocusByLinkPlayerId();
+        // OffsetCameraFocusByLinkPlayerId();
         InitObjectEventsLink();
         SpawnLinkPlayers();
         SetCameraToTrackGuestPlayer();
@@ -2639,15 +2639,15 @@ static void SetCameraToTrackGuestPlayer_2(void)
     InitCameraUpdateCallback(GetSpriteForLinkedPlayer(gLocalLinkPlayerId));
 }
 
-static void OffsetCameraFocusByLinkPlayerId(void)
-{
-    u16 x, y;
-    GetCameraFocusCoords(&x, &y);
+// static void OffsetCameraFocusByLinkPlayerId(void)
+// {
+//     u16 x, y;
+//     GetCameraFocusCoords(&x, &y);
 
-    // This is a hack of some kind; it's undone in SpawnLinkPlayers, which is called
-    // soon after this function.
-    SetCameraFocusCoords(x + gLocalLinkPlayerId, y);
-}
+//     // This is a hack of some kind; it's undone in SpawnLinkPlayers, which is called
+//     // soon after this function.
+//     SetCameraFocusCoords(x + gLocalLinkPlayerId, y);
+// }
 
 static void SpawnLinkPlayers(void)
 {
@@ -2659,7 +2659,7 @@ static void SpawnLinkPlayers(void)
 
     for (i = 0; i < gFieldLinkPlayerCount; i++)
     {
-        SpawnLinkPlayerObjectEvent(i, i + x, y, gLinkPlayers[i].gender);
+        SpawnLinkPlayerObjectEvent(i);
         CreateLinkPlayerSprite(i, gLinkPlayers[i].version);
     }
 
@@ -3196,14 +3196,12 @@ static const u8 *TryInteractWithPlayer(struct CableClubPlayer *player)
 
     if (linkPlayerId != MAX_LINK_PLAYERS)
     {
-        if (!player->isLocalPlayer)
-            return CableClub_EventScript_TooBusyToNotice;
-        else if (sPlayerLinkStates[linkPlayerId] != PLAYER_LINK_STATE_IDLE)
-            return CableClub_EventScript_TooBusyToNotice;
-        else if (!GetLinkTrainerCardColor(linkPlayerId))
-            return CableClub_EventScript_ReadTrainerCard;
-        else
-            return CableClub_EventScript_ReadTrainerCardColored;
+        // if (!player->isLocalPlayer)
+        //     return CableClub_EventScript_TooBusyToNotice;
+        // else if (sPlayerLinkStates[linkPlayerId] != PLAYER_LINK_STATE_IDLE)
+        //     return CableClub_EventScript_TooBusyToNotice;
+        // else
+            return EventScript_Player2_Multiplayer;
     }
 
     return GetInteractedLinkPlayerScript(&otherPlayerPos, player->metatileBehavior, player->facing);
@@ -3371,7 +3369,7 @@ static void ZeroObjectEvent(struct ObjectEvent *objEvent)
 // not even one can reference *byte* aligned bitfield members...
 #define linkDirection(obj) ((u8 *)obj)[offsetof(typeof(*obj), range)] // -> rangeX
 
-static void SpawnLinkPlayerObjectEvent(u8 linkPlayerId, s16 x, s16 y, u8 gender)
+static void SpawnLinkPlayerObjectEvent(u8 linkPlayerId)
 {
     u8 objEventId = GetFirstInactiveObjectEventId();
     struct LinkPlayerObjectEvent *linkPlayerObjEvent = &gLinkPlayerObjectEvents[linkPlayerId];
@@ -3386,11 +3384,11 @@ static void SpawnLinkPlayerObjectEvent(u8 linkPlayerId, s16 x, s16 y, u8 gender)
     linkPlayerObjEvent->movementMode = MOVEMENT_MODE_FREE;
 
     objEvent->active = TRUE;
-    linkGender(objEvent) = gender;
-    linkDirection(objEvent) = DIR_NORTH;
+    linkGender(objEvent) = gLinkPlayers[linkPlayerId].gender;
+    linkDirection(objEvent) = gLinkPlayers[linkPlayerId].facingDirection;
     objEvent->spriteId = MAX_SPRITES;
 
-    InitLinkPlayerObjectEventPos(objEvent, x, y);
+    InitLinkPlayerObjectEventPos(objEvent, gLinkPlayers[linkPlayerId].x + MAP_OFFSET, gLinkPlayers[linkPlayerId].y + MAP_OFFSET);
 }
 
 static void InitLinkPlayerObjectEventPos(struct ObjectEvent *objEvent, s16 x, s16 y)

@@ -1053,7 +1053,7 @@ static void Task_EnterCableClubSeat(u8 taskId)
         if (IsFieldMessageBoxHidden())
         {
             SetInCableClubSeat();
-            SetLocalLinkPlayerId(gSpecialVar_0x8005);
+            SetLocalLinkPlayerId(GetMultiplayerId());
             task->tState = 2;
         }
         break;

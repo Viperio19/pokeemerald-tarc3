@@ -169,7 +169,8 @@ enum
 struct LinkPlayer
 {
     /* 0x00 */ u16 version;
-    /* 0x02 */ u16 lp_field_2;
+    /* 0x02 */ u8 x;
+    /* 0x03 */ u8 y;
     /* 0x04 */ u32 trainerId;
     /* 0x08 */ u8 name[PLAYER_NAME_LENGTH + 1];
     /* 0x10 */ u8 progressFlags; // (& 0x0F) is hasNationalDex, (& 0xF0) is hasClearedGame
@@ -178,7 +179,8 @@ struct LinkPlayer
     /* 0x13 */ u8 gender;
     /* 0x14 */ u32 linkType;
     /* 0x18 */ u16 id; // battler id in battles
-    /* 0x1A */ u16 language;
+    /* 0x1A */ u8 language;
+    /* 0x1B */ u8 facingDirection;
 };
 
 struct LinkPlayerBlock

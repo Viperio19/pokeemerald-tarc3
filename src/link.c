@@ -316,12 +316,15 @@ static void InitLocalLinkPlayer(void)
     gLocalLinkPlayer.linkType = gLinkType;
     gLocalLinkPlayer.language = gGameLanguage;
     gLocalLinkPlayer.version = gGameVersion + 0x4000;
-    gLocalLinkPlayer.lp_field_2 = 0x8000;
+    // gLocalLinkPlayer.lp_field_2 = 0x8000;
     gLocalLinkPlayer.progressFlags = IsNationalPokedexEnabled();
     if (FlagGet(FLAG_IS_CHAMPION))
     {
         gLocalLinkPlayer.progressFlags |= 0x10;
     }
+    gLocalLinkPlayer.x = gSaveBlock1Ptr->pos.x;
+    gLocalLinkPlayer.y = gSaveBlock1Ptr->pos.y;
+    gLocalLinkPlayer.facingDirection = gObjectEvents[gPlayerAvatar.objectEventId].facingDirection;
 }
 
 static void VBlankCB_LinkError(void)
@@ -2316,4 +2319,9 @@ bool32 ShouldCheckForUnionRoom(void)
         return TRUE;
 
     return FALSE;
+}
+
+void StoreLinkPlayerName(void)
+{
+    StringCopy(gSaveBlock2Ptr->playerName2, gLinkPlayers[GetMultiplayerId() ^ 1].name);
 }

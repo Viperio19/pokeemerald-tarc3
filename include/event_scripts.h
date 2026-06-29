@@ -1,7 +1,8 @@
 #ifndef GUARD_EVENT_SCRIPTS_H
 #define GUARD_EVENT_SCRIPTS_H
 
-extern const u8 EventScript_Player2[];
+extern const u8 EventScript_Player2_Singleplayer[];
+extern const u8 EventScript_Player2_Multiplayer[];
 
 extern const u8 EventScript_Follower[];
 extern const u8 EventScript_FollowerEnd[];
