@@ -545,6 +545,14 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Meteorite,             OBJ_EVENT_PAL_TAG_METEORITE},
     {gObjectEventPal_SSAnne,                OBJ_EVENT_PAL_TAG_SS_ANNE},
     {gObjectEventPal_Seagallop,             OBJ_EVENT_PAL_TAG_SEAGALLOP},
+    {gObjectEventPal_PlayerM,               OBJ_EVENT_PAL_TAG_PLAYER_M},
+    {gObjectEventPal_PlayerMReflection,     OBJ_EVENT_PAL_TAG_PLAYER_M_REFLECTION},
+    {gObjectEventPal_PlayerF,               OBJ_EVENT_PAL_TAG_PLAYER_F},
+    {gObjectEventPal_PlayerFReflection,     OBJ_EVENT_PAL_TAG_PLAYER_F_REFLECTION},
+    {gObjectEventPal_Player2M,              OBJ_EVENT_PAL_TAG_PLAYER_2_M},
+    {gObjectEventPal_Player2MReflection,    OBJ_EVENT_PAL_TAG_PLAYER_2_M_REFLECTION},
+    {gObjectEventPal_Player2F,              OBJ_EVENT_PAL_TAG_PLAYER_2_F},
+    {gObjectEventPal_Player2FReflection,    OBJ_EVENT_PAL_TAG_PLAYER_2_F_REFLECTION},
 #if OW_FOLLOWERS_POKEBALLS
     {gObjectEventPal_MasterBall,            OBJ_EVENT_PAL_TAG_BALL_MASTER},
     {gObjectEventPal_UltraBall,             OBJ_EVENT_PAL_TAG_BALL_ULTRA},
@@ -711,8 +719,8 @@ static const struct PairedPalettes sSpecialObjectReflectionPaletteSets[] = {
 };
 
 static const u16 sObjectPaletteTags0[] = {
-    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_BRENDAN,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
+    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_PLAYER_M,
+    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_PLAYER_M_REFLECTION,
     [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
     [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
     [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
@@ -724,8 +732,8 @@ static const u16 sObjectPaletteTags0[] = {
 };
 
 static const u16 sObjectPaletteTags1[] = {
-    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_BRENDAN,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
+    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_PLAYER_M,
+    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_PLAYER_M_REFLECTION,
     [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
     [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
     [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
@@ -737,8 +745,8 @@ static const u16 sObjectPaletteTags1[] = {
 };
 
 static const u16 sObjectPaletteTags2[] = {
-    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_BRENDAN,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
+    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_PLAYER_M,
+    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_PLAYER_M_REFLECTION,
     [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
     [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
     [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
@@ -750,8 +758,8 @@ static const u16 sObjectPaletteTags2[] = {
 };
 
 static const u16 sObjectPaletteTags3[] = {
-    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_BRENDAN,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_BRENDAN_REFLECTION,
+    [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_PLAYER_M,
+    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_PLAYER_M_REFLECTION,
     [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
     [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
     [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
@@ -3312,10 +3320,10 @@ u8 LoadPlayerObjectEventPalette(enum Gender gender)
     {
     default:
     case MALE:
-        paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN;
+        paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_M;
         break;
     case FEMALE:
-        paletteTag = OBJ_EVENT_PAL_TAG_MAY;
+        paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_F;
         break;
     }
     return LoadObjectEventPalette(paletteTag);

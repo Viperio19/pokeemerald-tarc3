@@ -7224,7 +7224,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SSAnne = {
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMNormal = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_M,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
     .size = 512,
     .width = 16,
@@ -7237,12 +7237,12 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMNormal = {
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
     .anims = sAnimTable_BrendanMayNormal,
-    .images = sPicTable_BrendanNormal,
+    .images = sPicTable_PlayerMNormal,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMSurfing = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_M,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
     .size = 512,
     .width = 32,
@@ -7255,12 +7255,12 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMSurfing = {
     .oam = &gObjectEventBaseOam_32x32,
     .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_Surfing,
-    .images = sPicTable_BrendanSurfing,
+    .images = sPicTable_PlayerMSurfing,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMFieldMove = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_BRENDAN,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_M,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
     .size = 512,
     .width = 32,
@@ -7273,12 +7273,12 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMFieldMove =
     .oam = &gObjectEventBaseOam_32x32,
     .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_FieldMove,
-    .images = sPicTable_BrendanFieldMove,
+    .images = sPicTable_PlayerMFieldMove,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFNormal = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_MAY,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_F,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
     .size = 512,
     .width = 16,
@@ -7291,12 +7291,12 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFNormal = {
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
     .anims = sAnimTable_BrendanMayNormal,
-    .images = sPicTable_MayNormal,
+    .images = sPicTable_PlayerFNormal,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFSurfing = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_MAY,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_F,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
     .size = 512,
     .width = 32,
@@ -7309,12 +7309,12 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFSurfing = {
     .oam = &gObjectEventBaseOam_32x32,
     .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_Surfing,
-    .images = sPicTable_MaySurfing,
+    .images = sPicTable_PlayerFSurfing,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFFieldMove = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_MAY,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_F,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
     .size = 512,
     .width = 32,
@@ -7327,12 +7327,12 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFFieldMove =
     .oam = &gObjectEventBaseOam_32x32,
     .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_FieldMove,
-    .images = sPicTable_MayFieldMove,
+    .images = sPicTable_PlayerFFieldMove,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MNormal = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_RED,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_M,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
     .size = 512,
     .width = 16,
@@ -7345,52 +7345,48 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MNormal = {
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
     .anims = sAnimTable_BrendanMayNormal,
-    .images = sPicTable_RedNormal,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .images = sPicTable_Player2MNormal,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MSurfing = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_RED,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_M,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
-    .size = 256,
-    .width = 16,
+    .size = 512,
+    .width = 32,
     .height = 32,
     .paletteSlot = PALSLOT_PLAYER,
     .shadowSize = SHADOW_SIZE_M,
     .inanimate = FALSE,
     .compressed = FALSE,
     .tracks = TRACKS_FOOT,
-    .oam = &gObjectEventBaseOam_16x32,
-    .subspriteTables = sOamTables_16x32,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_Surfing,
-    .images = sPicTable_RedSurf,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .images = sPicTable_Player2MSurfing,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MFieldMove = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_RED,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_M,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
-    .size = 256,
-    .width = 16,
+    .size = 512,
+    .width = 32,
     .height = 32,
     .paletteSlot = PALSLOT_PLAYER,
     .shadowSize = SHADOW_SIZE_M,
     .inanimate = FALSE,
     .compressed = FALSE,
     .tracks = TRACKS_FOOT,
-    .oam = &gObjectEventBaseOam_16x32,
-    .subspriteTables = sOamTables_16x32,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_FieldMove,
-    .images = sPicTable_RedItem,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .images = sPicTable_Player2MFieldMove,
 };
-
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FNormal = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_GREEN,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_F,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
     .size = 512,
     .width = 16,
@@ -7403,44 +7399,41 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FNormal = {
     .oam = &gObjectEventBaseOam_16x32,
     .subspriteTables = sOamTables_16x32,
     .anims = sAnimTable_BrendanMayNormal,
-    .images = sPicTable_GreenNormal,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .images = sPicTable_Player2FNormal,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FSurfing = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_GREEN,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_F,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
-    .size = 256,
-    .width = 16,
+    .size = 512,
+    .width = 32,
     .height = 32,
     .paletteSlot = PALSLOT_PLAYER,
     .shadowSize = SHADOW_SIZE_M,
     .inanimate = FALSE,
     .compressed = FALSE,
     .tracks = TRACKS_FOOT,
-    .oam = &gObjectEventBaseOam_16x32,
-    .subspriteTables = sOamTables_16x32,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_Surfing,
-    .images = sPicTable_GreenSurf,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .images = sPicTable_Player2FSurfing,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FFieldMove = {
     .tileTag = TAG_NONE,
-    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_GREEN,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_F,
     .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
-    .size = 256,
-    .width = 16,
+    .size = 512,
+    .width = 32,
     .height = 32,
     .paletteSlot = PALSLOT_PLAYER,
     .shadowSize = SHADOW_SIZE_M,
     .inanimate = FALSE,
     .compressed = FALSE,
     .tracks = TRACKS_FOOT,
-    .oam = &gObjectEventBaseOam_16x32,
-    .subspriteTables = sOamTables_16x32,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_FieldMove,
-    .images = sPicTable_GreenItem,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .images = sPicTable_Player2FFieldMove,
 };

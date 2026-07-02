@@ -629,3 +629,27 @@ const u16 gObjectEventPic_PikachuOldFrlg[] = INCGFX_U16("graphics/object_events/
 const u16 gObjectEventPic_JigglypuffOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/jigglypuff.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u16 gObjectEventPic_PidgeyOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/pidgey.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u16 gObjectEventPic_ClefairyOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/clefairy.png", ".4bpp", "-mwidth 2 -mheight 2");
+
+const u32 gObjectEventPic_PlayerMNormalRunning[] = INCBIN_U32("graphics/object_events/pics/people/player_m/walking.4bpp", "graphics/object_events/pics/people/player_m/running.4bpp");
+const u16 gObjectEventPal_PlayerM[] = INCGFX_U16("graphics/object_events/palettes/player_m.pal", ".gbapal");
+const u32 gObjectEventPic_PlayerMFieldMove[] = INCGFX_U32("graphics/object_events/pics/people/player_m/field_move.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_PlayerMSurfing[] = INCGFX_U32("graphics/object_events/pics/people/player_m/surfing.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u16 gObjectEventPal_PlayerMReflection[] = INCGFX_U16("graphics/object_events/palettes/player_m_reflection.pal", ".gbapal");
+
+const u32 gObjectEventPic_PlayerFNormalRunning[] = INCBIN_U32("graphics/object_events/pics/people/player_f/walking.4bpp", "graphics/object_events/pics/people/player_f/running.4bpp");
+const u16 gObjectEventPal_PlayerF[] = INCGFX_U16("graphics/object_events/palettes/player_f.pal", ".gbapal");
+const u32 gObjectEventPic_PlayerFFieldMove[] = INCGFX_U32("graphics/object_events/pics/people/player_f/field_move.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_PlayerFSurfing[] = INCGFX_U32("graphics/object_events/pics/people/player_f/surfing.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u16 gObjectEventPal_PlayerFReflection[] = INCGFX_U16("graphics/object_events/palettes/player_f_reflection.pal", ".gbapal");
+
+const u32 gObjectEventPic_Player2MNormalRunning[] = INCBIN_U32("graphics/object_events/pics/people/player_2_m/walking.4bpp", "graphics/object_events/pics/people/player_2_m/running.4bpp");
+const u16 gObjectEventPal_Player2M[] = INCGFX_U16("graphics/object_events/palettes/player_2_m.pal", ".gbapal");
+const u32 gObjectEventPic_Player2MFieldMove[] = INCGFX_U32("graphics/object_events/pics/people/player_2_m/field_move.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_Player2MSurfing[] = INCGFX_U32("graphics/object_events/pics/people/player_2_m/surfing.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u16 gObjectEventPal_Player2MReflection[] = INCGFX_U16("graphics/object_events/palettes/player_2_m_reflection.pal", ".gbapal");
+
+const u32 gObjectEventPic_Player2FNormalRunning[] = INCBIN_U32("graphics/object_events/pics/people/player_2_f/walking.4bpp", "graphics/object_events/pics/people/player_2_f/running.4bpp");
+const u16 gObjectEventPal_Player2F[] = INCGFX_U16("graphics/object_events/palettes/player_2_f.pal", ".gbapal");
+const u32 gObjectEventPic_Player2FFieldMove[] = INCGFX_U32("graphics/object_events/pics/people/player_2_f/field_move.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_Player2FSurfing[] = INCGFX_U32("graphics/object_events/pics/people/player_2_f/surfing.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u16 gObjectEventPal_Player2FReflection[] = INCGFX_U16("graphics/object_events/palettes/player_2_f_reflection.pal", ".gbapal");

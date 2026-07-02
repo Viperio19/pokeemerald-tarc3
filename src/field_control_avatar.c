@@ -229,10 +229,12 @@ static void SwitchTrainerData(void)
 
 void SpawnPlayer2(void)
 {
+    gSaveBlock2Ptr->playerGender ^= 1;
+
     struct ObjectEventTemplate template =
     {
         .localId = OBJ_EVENT_ID_PLAYER_2,
-        .graphicsId = OBJ_EVENT_GFX_BRENDAN_NORMAL,
+        .graphicsId = gSaveBlock2Ptr->playerGender == MALE ? OBJ_EVENT_GFX_PLAYER_2_M_NORMAL : OBJ_EVENT_GFX_PLAYER_2_F_NORMAL,
         .flagId = 0,
         .x = gSaveBlock1Ptr->pos.x + 1,
         .y = gSaveBlock1Ptr->pos.y + 1,

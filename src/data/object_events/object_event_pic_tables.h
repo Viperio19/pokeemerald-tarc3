@@ -2490,3 +2490,95 @@ static const struct SpriteFrameImage sPicTable_MomFrlg[] = {
     overworld_frame(gObjectEventPic_MomFrlg, 2, 4, 2),
     overworld_frame(gObjectEventPic_MomFrlg, 2, 4, 2),
 };
+
+static const struct SpriteFrameImage sPicTable_PlayerMNormal[] = {
+    overworld_ascending_frames(gObjectEventPic_PlayerMNormalRunning, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_PlayerMSurfing[] = {
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 1),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 3),
+    overworld_frame(gObjectEventPic_PlayerMSurfing, 4, 4, 5),
+};
+
+static const struct SpriteFrameImage sPicTable_PlayerMFieldMove[] = {
+    overworld_ascending_frames(gObjectEventPic_PlayerMFieldMove, 4, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_PlayerFNormal[] = {
+    overworld_ascending_frames(gObjectEventPic_PlayerFNormalRunning, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_PlayerFSurfing[] = {
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 1),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 3),
+    overworld_frame(gObjectEventPic_PlayerFSurfing, 4, 4, 5),
+};
+
+static const struct SpriteFrameImage sPicTable_PlayerFFieldMove[] = {
+    overworld_ascending_frames(gObjectEventPic_PlayerFFieldMove, 4, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Player2MNormal[] = {
+    overworld_ascending_frames(gObjectEventPic_Player2MNormalRunning, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Player2MSurfing[] = {
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 1),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 3),
+    overworld_frame(gObjectEventPic_Player2MSurfing, 4, 4, 5),
+};
+
+static const struct SpriteFrameImage sPicTable_Player2MFieldMove[] = {
+    overworld_ascending_frames(gObjectEventPic_Player2MFieldMove, 4, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Player2FNormal[] = {
+    overworld_ascending_frames(gObjectEventPic_Player2FNormalRunning, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Player2FSurfing[] = {
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 0),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 2),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 4),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 1),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 3),
+    overworld_frame(gObjectEventPic_Player2FSurfing, 4, 4, 5),
+};
+
+static const struct SpriteFrameImage sPicTable_Player2FFieldMove[] = {
+    overworld_ascending_frames(gObjectEventPic_Player2FFieldMove, 4, 4),
+};
