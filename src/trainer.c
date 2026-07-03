@@ -17,6 +17,11 @@ static enum TrainerPicID GetKantoTrainerPic(enum Gender gender)
 
 enum TrainerPicID GetPlayerTrainerPic(enum Gender gender, enum GameVersion version)
 {
+    if (IS_PLAYER_ONE)
+        return gender == MALE ? TRAINER_PIC_PLAYER_M : TRAINER_PIC_PLAYER_F;
+
+    return gender == MALE ? TRAINER_PIC_PLAYER_2_M : TRAINER_PIC_PLAYER_2_F;
+
     switch (version)
     {
         case VERSION_SAPPHIRE:

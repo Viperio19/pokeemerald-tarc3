@@ -24,6 +24,7 @@
 #include "pokemon_icon.h"
 #include "graphics.h"
 #include "pokemon_icon.h"
+#include "trainer.h"
 #include "trainer_pokemon_sprites.h"
 #include "contest_util.h"
 #include "decompress.h"
@@ -1509,7 +1510,7 @@ static void DrawStarsAndBadgesOnCard(void)
     if (!sData->isLink)
     {
         x = 4;
-        y = IS_PLAYER_ONE ? 15 : 16;
+        y = IS_FRLG ? 15 : 16;
         for (i = 0; i < NUM_BADGES; i++, tileNum += 2, x += 3)
         {
             if (sData->badgeCount[i])
@@ -1842,7 +1843,7 @@ static void InitTrainerCardData(void)
 
 static u8 GetSetCardType(void)
 {
-    return IS_PLAYER_ONE ? CARD_TYPE_EMERALD : CARD_TYPE_FRLG;
+    return IS_FRLG ? CARD_TYPE_EMERALD : CARD_TYPE_FRLG;
 }
 
 static u8 VersionToCardType(enum GameVersion version)
@@ -1859,7 +1860,7 @@ static void CreateTrainerCardTrainerPic(void)
 {
     if (InUnionRoom() == TRUE && gReceivedRemoteLinkPlayers)
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sData->trainerCard.unionRoomClass),
+        CreateTrainerCardTrainerPicSprite(GetPlayerTrainerPic(sData->trainerCard.gender, VERSION_EMERALD),
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
@@ -1868,7 +1869,7 @@ static void CreateTrainerCardTrainerPic(void)
     }
     else
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->cardType][sData->trainerCard.gender]),
+        CreateTrainerCardTrainerPicSprite(GetPlayerTrainerPic(sData->trainerCard.gender, VERSION_EMERALD),
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],

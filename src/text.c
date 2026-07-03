@@ -2380,7 +2380,7 @@ static void DecompressGlyph_Normal(u16 glyphId, bool32 isJapanese)
             break;
         case FONT_TYPE_DEFAULT:
         default:
-            useEmeraldFont = IS_PLAYER_ONE;
+            useEmeraldFont = TRUE;
             break;
     }
 
@@ -2432,7 +2432,7 @@ static u32 GetGlyphWidth_Normal(u16 glyphId, bool32 isJapanese)
                 break;
             case FONT_TYPE_DEFAULT:
             default:
-                useEmeraldFont = IS_PLAYER_ONE;
+                useEmeraldFont = TRUE;
                 break;
         }
 
