@@ -3616,23 +3616,32 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, enum GameVersion gameVersion
     struct Sprite *sprite;
 
     if (linkPlayerObjEvent->active)
-    {
-        switch (gameVersion)
-        {
-        case VERSION_FIRE_RED:
-        case VERSION_LEAF_GREEN:
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetFRLGAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        case VERSION_RUBY:
-        case VERSION_SAPPHIRE:
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetRSAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        case VERSION_EMERALD:
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        default:
-            break;
-        }
+    {   
+        u16 graphicsId;
+
+        if (linkPlayerId == 0)
+            graphicsId = linkGender(objEvent) == MALE ? OBJ_EVENT_GFX_PLAYER_M_NORMAL : OBJ_EVENT_GFX_PLAYER_F_NORMAL;
+        else
+            graphicsId = linkGender(objEvent) == MALE ? OBJ_EVENT_GFX_PLAYER_2_M_NORMAL : OBJ_EVENT_GFX_PLAYER_2_F_NORMAL;
+
+        objEvent->spriteId = CreateObjectGraphicsSprite(graphicsId, SpriteCB_LinkPlayer, 0, 0, 0);
+
+        // switch (gameVersion)
+        // {
+        // case VERSION_FIRE_RED:
+        // case VERSION_LEAF_GREEN:
+        //     objEvent->spriteId = CreateObjectGraphicsSprite(GetFRLGAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+        //     break;
+        // case VERSION_RUBY:
+        // case VERSION_SAPPHIRE:
+        //     objEvent->spriteId = CreateObjectGraphicsSprite(GetRSAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+        //     break;
+        // case VERSION_EMERALD:
+        //     objEvent->spriteId = CreateObjectGraphicsSprite(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+        //     break;
+        // default:
+        //     break;
+        // }
 
         sprite = &gSprites[objEvent->spriteId];
         sprite->coordOffsetEnabled = TRUE;
