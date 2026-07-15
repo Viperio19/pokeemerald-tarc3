@@ -438,9 +438,19 @@ struct Camera
     s32 y;
 };
 
+struct Player2Pos
+{
+    u32 mapGroup;
+    u32 mapNum;
+    s32 x;
+    s32 y;
+    u8 facingDirection;
+    u8 elevation;
+};
+
 extern struct ObjectEvent gObjectEvents[OBJECT_EVENTS_COUNT];
-extern struct ObjectEvent gObjectEventBackup;
-extern struct ObjectEvent gObjectEventBackup2;
+extern struct Player2Pos gPlayer2Pos;
+extern u8 gPlayer2FacingDirection;
 extern u8 gSelectedObjectEvent;
 extern struct MapHeader gMapHeader;
 extern struct PlayerAvatar gPlayerAvatar;

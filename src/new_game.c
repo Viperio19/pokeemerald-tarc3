@@ -52,6 +52,8 @@
 #include "constants/items.h"
 #include "difficulty.h"
 #include "follower_npc.h"
+#include "field_control_avatar.h"
+#include "script_pokemon_util.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 extern const u8 EventScript_ResetAllMapFlagsFrlg[];
@@ -61,7 +63,7 @@ static void WarpToTruck(void);
 static void ResetMiniGamesRecords(void);
 static void ResetItemFlags(void);
 static void ResetDexNav(void);
-static void SetTARCFlags(void);
+static void InitTARCData(void);
 
 EWRAM_DATA bool8 gDifferentSaveFile = FALSE;
 EWRAM_DATA bool8 gEnableContestDebugging = FALSE;
@@ -138,10 +140,7 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    if (IS_FRLG)
-        SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
-    else
-        SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
+    SetWarpDestination(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), WARP_ID_NONE, 20, 4);
     WarpIntoMap();
 }
 
@@ -215,6 +214,7 @@ void NewGameInitData(void)
     ResetFanClub();
     ResetLotteryCorner();
     UpdateDailySeed();
+    InitTARCData();
     WarpToTruck();
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
@@ -238,7 +238,6 @@ void NewGameInitData(void)
     ResetItemFlags();
     ResetDexNav();
     ClearFollowerNPCData();
-    SetTARCFlags();
 }
 
 static void ResetMiniGamesRecords(void)
@@ -264,15 +263,15 @@ static void ResetDexNav(void)
     gSaveBlock3Ptr->dexNavChain = 0;
 }
 
-static void SetTARCFlags(void)
+static void InitTARCData(void)
 {
     FlagSet(FLAG_SYS_POKEMON_GET);
+    FlagSet(FLAG_SYS_B_DASH);
 
-    FlagSet(FLAG_BADGE01_GET);
-    FlagSet(FLAG_BADGE04_GET);
-    FlagSet(FLAG_BADGE07_GET);
-    FlagSet(FLAG_FRLG_BADGE02_GET);
-    FlagSet(FLAG_FRLG_BADGE03_GET);
-    FlagSet(FLAG_FRLG_BADGE05_GET);
-    FlagSet(FLAG_FRLG_BADGE07_GET);
+    ScriptGiveMon(SPECIES_CARVANHA, 20, ITEM_NONE);
+    SwitchParties();
+    ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);
+    SwitchParties();
+
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 19, 4, DIR_WEST, 3);
 }

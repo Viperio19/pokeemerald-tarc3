@@ -53,6 +53,8 @@ static EWRAM_DATA u8 sWildEncounterImmunitySteps = 0;
 static EWRAM_DATA u16 sPrevMetatileBehavior = 0;
 
 COMMON_DATA u8 gSelectedObjectEvent = 0;
+COMMON_DATA u8 gPlayer2FacingDirection = 0;
+COMMON_DATA struct Player2Pos gPlayer2Pos = {};
 
 static void GetInFrontOfPlayerPosition(struct MapPosition *);
 static u16 GetPlayerCurMetatileBehavior(int);
@@ -227,43 +229,36 @@ static void SwitchTrainerData(void)
     gSaveBlock1Ptr->money2 = temp;
 }
 
-void SpawnPlayer2(void)
+void SetPlayer2Pos(s8 mapGroup, s8 mapNum, s8 x, s8 y, u8 facingDirection, u8 elevation)
 {
-    gSaveBlock2Ptr->playerGender ^= 1;
-
-    struct ObjectEventTemplate template =
-    {
-        .localId = OBJ_EVENT_ID_PLAYER_2,
-        .graphicsId = gSaveBlock2Ptr->playerGender == MALE ? OBJ_EVENT_GFX_PLAYER_2_M_NORMAL : OBJ_EVENT_GFX_PLAYER_2_F_NORMAL,
-        .flagId = 0,
-        .x = gSaveBlock1Ptr->pos.x + 1,
-        .y = gSaveBlock1Ptr->pos.y + 1,
-        .elevation = gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)].currentElevation,
-        .movementType = MOVEMENT_TYPE_NONE,
-    };
-
-    SpawnSpecialObjectEvent(&template);
+    gPlayer2Pos.mapGroup = mapGroup;
+    gPlayer2Pos.mapNum = mapNum;
+    gPlayer2Pos.x = x;
+    gPlayer2Pos.y = y;
+    gPlayer2Pos.facingDirection = facingDirection;
+    gPlayer2Pos.elevation = elevation;
 }
 
-void SpawnPlayer2AtPrevPlayerPosition(void)
+void TrySpawnPlayer2(void)
 {
+    if (gSaveBlock1Ptr->location.mapNum != gPlayer2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gPlayer2Pos.mapGroup)
+        return;
+
     struct ObjectEventTemplate template =
     {
         .localId = OBJ_EVENT_ID_PLAYER_2,
-        .graphicsId = gObjectEventBackup.graphicsId,
+        .graphicsId = gSaveBlock2Ptr->playerGender == MALE ?
+                      IS_PLAYER_ONE ? OBJ_EVENT_GFX_PLAYER_2_M_NORMAL : OBJ_EVENT_GFX_PLAYER_M_NORMAL :
+                      IS_PLAYER_ONE ? OBJ_EVENT_GFX_PLAYER_2_F_NORMAL : OBJ_EVENT_GFX_PLAYER_F_NORMAL,
         .flagId = 0,
-        .x = gObjectEventBackup.currentCoords.x - MAP_OFFSET,
-        .y = gObjectEventBackup.currentCoords.y - MAP_OFFSET,
-        .elevation = gObjectEventBackup.currentElevation,
+        .x = gPlayer2Pos.x,
+        .y = gPlayer2Pos.y,
+        .elevation = gPlayer2Pos.elevation,
         .movementType = MOVEMENT_TYPE_NONE,
     };
 
-    s16 cameraX;
-    s16 cameraY;
-
-    GetObjectEventMovingCameraOffset(&cameraX, &cameraY);
-    u8 objId = TrySpawnObjectEventTemplate(&template, gObjectEventBackup.mapNum, gObjectEventBackup.mapGroup, cameraX, cameraY);
-    ObjectEventTurn(&gObjectEvents[objId], gObjectEventBackup.facingDirection);
+    u8 objId = SpawnSpecialObjectEvent(&template);
+    ObjectEventTurn(&gObjectEvents[objId], gPlayer2Pos.facingDirection);
 }
 
 static void SwitchCharacters(void)
@@ -273,14 +268,22 @@ static void SwitchCharacters(void)
     SwitchPokemonAndItems();
     SwitchTrainerData();
     
-    struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2)];
-
-    memcpy(&gObjectEventBackup2, &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2)], sizeof(struct ObjectEvent));
+    gPlayer2FacingDirection = gPlayer2Pos.facingDirection;
     FlagSet(FLAG_DOING_PLAYER_SWITCH);
     StoreInitialPlayerAvatarState();
 
-    memcpy(&gObjectEventBackup, &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)], sizeof(struct ObjectEvent));
-    SetWarpDestination(objEvent->mapGroup, objEvent->mapNum, WARP_ID_NONE, objEvent->currentCoords.x - MAP_OFFSET, objEvent->currentCoords.y - MAP_OFFSET);
+    struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)];
+
+    u8 offset = (gPlayer2Pos.mapGroup == objEvent->mapGroup && gPlayer2Pos.mapNum == objEvent->mapNum) ? 0 : 1;
+
+    SetWarpDestination(gPlayer2Pos.mapGroup, gPlayer2Pos.mapNum, WARP_ID_NONE, gPlayer2Pos.x - offset, gPlayer2Pos.y - offset);
+    SetPlayer2Pos(objEvent->mapGroup,
+                  objEvent->mapNum,
+                  objEvent->currentCoords.x - MAP_OFFSET,
+                  objEvent->currentCoords.y - MAP_OFFSET,
+                  objEvent->facingDirection,
+                  objEvent->currentElevation);
+
     DoWarp();
 }
 

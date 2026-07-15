@@ -298,8 +298,6 @@ static void SetUpWarpExitTask(void)
 void FieldCB_DefaultWarpExit(void)
 {
     Overworld_PlaySpecialMapMusic();
-    if (FlagGet(FLAG_DOING_PLAYER_SWITCH))
-        SpawnPlayer2AtPrevPlayerPosition();
     FlagClear(FLAG_DOING_PLAYER_SWITCH);
     WarpFadeInScreen();
     SetUpWarpExitTask();
