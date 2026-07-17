@@ -203,7 +203,7 @@ static void SwitchPokemonAndItems(void)
     Free(tempItemSlot);
 }
 
-static void SwitchTrainerData(void)
+void SwitchTrainerData(void)
 {
     u32 temp, i;
 

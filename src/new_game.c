@@ -270,8 +270,11 @@ static void InitTARCData(void)
 
     ScriptGiveMon(SPECIES_CARVANHA, 20, ITEM_NONE);
     SwitchParties();
+    SwitchTrainerData();
+
     ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);
     SwitchParties();
+    SwitchTrainerData();
 
     SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 19, 4, DIR_WEST, 3);
 }

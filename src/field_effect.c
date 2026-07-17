@@ -273,6 +273,9 @@ static const u32 sNewGameBirch_Gfx[] = INCGFX_U32("graphics/birch_speech/birch.p
 static const u32 sUnusedBirchBeauty[] = INCGFX_U32("graphics/birch_speech/unused_beauty.png", ".4bpp", "-num_tiles 822 -Wnum_tiles");
 static const u16 sNewGameBirch_Pal[16] = INCGFX_U16("graphics/birch_speech/birch.png", ".gbapal");
 
+static const u32 sNewGameArchie_Gfx[] = INCGFX_U32("graphics/birch_speech/archie.png", ".4bpp");
+static const u16 sNewGameArchie_Pal[16] = INCGFX_U16("graphics/birch_speech/archie.png", ".gbapal");
+
 static const u32 sPokeballGlow_Gfx[] = INCGFX_U32("graphics/field_effects/pics/pokeball_glow.png", ".4bpp");
 static const u16 sPokeballGlow_Pal[16] = INCGFX_U16("graphics/field_effects/palettes/pokeball_glow.pal", ".gbapal");
 static const u32 sPokecenterMonitor0_Gfx[] = INCGFX_U32("graphics/field_effects/pics/pokecenter_monitor/0.png", ".4bpp");
@@ -384,6 +387,37 @@ static const struct SpriteTemplate sSpriteTemplate_NewGameBirch =
     .oam = &sOam_64x64,
     .anims = sAnimTable_NewGameBirch,
     .images = sPicTable_NewGameBirch,
+};
+
+static const struct SpriteFrameImage sPicTable_NewGameArchie[] =
+{
+    obj_frame_tiles(sNewGameArchie_Gfx)
+};
+
+static const struct SpritePalette sSpritePalette_NewGameArchie =
+{
+    .data = sNewGameArchie_Pal,
+    .tag = 0x1006
+};
+
+static const union AnimCmd sAnim_NewGameArchie[] =
+{
+    ANIMCMD_FRAME(.imageValue = 0, .duration = 1),
+    ANIMCMD_END
+};
+
+static const union AnimCmd *const sAnimTable_NewGameArchie[] =
+{
+    sAnim_NewGameArchie
+};
+
+static const struct SpriteTemplate sSpriteTemplate_NewGameArchie =
+{
+    .tileTag = TAG_NONE,
+    .paletteTag = 0x1006,
+    .oam = &sOam_64x64,
+    .anims = sAnimTable_NewGameArchie,
+    .images = sPicTable_NewGameArchie,
 };
 
 const struct SpritePalette gSpritePalette_PokeballGlow =
@@ -1026,6 +1060,12 @@ u8 AddNewGameBirchObject(s16 x, s16 y, u8 subpriority)
 {
     LoadSpritePalette(&sSpritePalette_NewGameBirch);
     return CreateSprite(&sSpriteTemplate_NewGameBirch, x, y, subpriority);
+}
+
+u8 AddNewGameArchieObject(s16 x, s16 y, u8 subpriority)
+{
+    LoadSpritePalette(&sSpritePalette_NewGameArchie);
+    return CreateSprite(&sSpriteTemplate_NewGameArchie, x, y, subpriority);
 }
 
 u8 CreateMonSprite_PicBox(enum Species species, s16 x, s16 y, u8 subpriority)
