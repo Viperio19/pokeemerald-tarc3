@@ -1237,7 +1237,7 @@ void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
 
 bool32 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
 {
-    if (textPrinter->autoScrollDelay == NUM_FRAMES_AUTO_SCROLL_DELAY)
+    if (textPrinter->autoScrollDelay == 2)
     {
         textPrinter->autoScrollDelay = 0;
         return TRUE;
@@ -1467,8 +1467,8 @@ static u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentChar++;
                 PlaySE(currChar);
                 return RENDER_REPEAT;
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
-                textPrinter->printerTemplate.currentX = textPrinter->printerTemplate.x + *textPrinter->printerTemplate.currentChar;
+            case EXT_CTRL_CODE_AUTO_SCROLL:
+                gTextFlags.autoScroll = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 return RENDER_REPEAT;
             case EXT_CTRL_CODE_SHIFT_DOWN:
@@ -1745,7 +1745,7 @@ static u32 UNUSED GetStringWidthFixedWidthFont(const u8 *str, u8 fontId, u8 lett
             case EXT_CTRL_CODE_FONT:
             case EXT_CTRL_CODE_PAUSE:
             case EXT_CTRL_CODE_ESCAPE:
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
+            case EXT_CTRL_CODE_AUTO_SCROLL:
             case EXT_CTRL_CODE_SHIFT_DOWN:
             case EXT_CTRL_CODE_CLEAR:
             case EXT_CTRL_CODE_SKIP:
@@ -1901,7 +1901,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
             case EXT_CTRL_CODE_PALETTE:
             case EXT_CTRL_CODE_PAUSE:
             case EXT_CTRL_CODE_ESCAPE:
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
+            case EXT_CTRL_CODE_AUTO_SCROLL:
             case EXT_CTRL_CODE_SHIFT_DOWN:
             case EXT_CTRL_CODE_SPEAKER:
                 ++str;
@@ -2080,7 +2080,7 @@ u8 RenderTextHandleBold(u8 *pixels, u8 fontId, u8 *str)
             case EXT_CTRL_CODE_PALETTE:
             case EXT_CTRL_CODE_PAUSE:
             case EXT_CTRL_CODE_ESCAPE:
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
+            case EXT_CTRL_CODE_AUTO_SCROLL:
             case EXT_CTRL_CODE_SHIFT_DOWN:
             case EXT_CTRL_CODE_CLEAR:
             case EXT_CTRL_CODE_SKIP:
