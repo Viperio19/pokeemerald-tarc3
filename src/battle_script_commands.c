@@ -9819,6 +9819,8 @@ static const u8 sBadgeLevel[] = {
 
 static u32 ComputeCaptureOdds(u32 wildMonBattler, u32 playerBattler)
 {
+    return CAPTURE_GUARANTEED;
+
     struct BallData ball;
     ComputeBallData(wildMonBattler, playerBattler, &ball);
 
@@ -9997,7 +9999,7 @@ static void Cmd_handleballthrow(void)
 
     gBattlerTarget = GetCatchingBattler();
 
-    if (gBattleTypeFlags & BATTLE_TYPE_GHOST)
+    if (gBattleTypeFlags & BATTLE_TYPE_GHOST || gBattleTypeFlags & BATTLE_TYPE_WILD_BOSS)
     {
         BtlController_EmitBallThrowAnim(gBattlerAttacker, B_COMM_TO_CONTROLLER, BALL_GHOST_DODGE);
         MarkBattlerForControllerExec(gBattlerAttacker);

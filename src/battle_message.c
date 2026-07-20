@@ -88,6 +88,7 @@ static const u8 sText_TwoWildFled[] = _("{PLAY_SE SE_FLEE}{B_LINK_OPPONENT1_NAME
 static const u8 sText_PlayerDefeatedLinkTrainerTrainer1[] = _("You defeated {B_TRAINER1_NAME_WITH_CLASS}!\p");
 static const u8 sText_OpponentMon1Appeared[] = _("{B_OPPONENT_MON1_NAME} appeared!\p");
 static const u8 sText_WildPkmnAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\p");
+static const u8 sText_StrongWildPkmnAppeared[] = _("You encountered a strong-looking {B_OPPONENT_MON1_NAME}!\p");
 static const u8 sText_LegendaryPkmnAppeared[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!\p");
 static const u8 sText_WildPkmnAppearedPause[] = _("You encountered a wild {B_OPPONENT_MON1_NAME}!{PAUSE 127}");
 static const u8 sText_TwoWildPkmnAppeared[] = _("Oh! A wild {B_OPPONENT_MON1_NAME} and {B_OPPONENT_MON2_NAME} appeared!\p");
@@ -2511,6 +2512,8 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
                 stringPtr = sText_TwoWildPkmnAppeared;
             else if (gBattleTypeFlags & BATTLE_TYPE_CATCH_TUTORIAL)
                 stringPtr = sText_WildPkmnAppearedPause;
+            else if (gBattleTypeFlags & BATTLE_TYPE_WILD_BOSS)
+                stringPtr = sText_StrongWildPkmnAppeared;
             else
                 stringPtr = sText_WildPkmnAppeared;
         }

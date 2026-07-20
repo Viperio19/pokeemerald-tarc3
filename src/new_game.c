@@ -59,7 +59,7 @@ extern const u8 EventScript_ResetAllMapFlags[];
 extern const u8 EventScript_ResetAllMapFlagsFrlg[];
 
 static void ClearFrontierRecord(void);
-static void WarpToTruck(void);
+static void WarpToFirstMap(void);
 static void ResetMiniGamesRecords(void);
 static void ResetItemFlags(void);
 static void ResetDexNav(void);
@@ -138,9 +138,10 @@ static void ClearFrontierRecord(void)
     gSaveBlock2Ptr->frontier.opponentNames[1][0] = EOS;
 }
 
-static void WarpToTruck(void)
+static void WarpToFirstMap(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), WARP_ID_NONE, 20, 4);
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 16, 21, DIR_WEST, 3);
+    SetWarpDestination(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), WARP_ID_NONE, 17, 21);
     WarpIntoMap();
 }
 
@@ -215,7 +216,7 @@ void NewGameInitData(void)
     ResetLotteryCorner();
     UpdateDailySeed();
     InitTARCData();
-    WarpToTruck();
+    WarpToFirstMap();
     if (IS_FRLG)
         RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
     else
@@ -268,13 +269,15 @@ static void InitTARCData(void)
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_B_DASH);
 
+    AddBagItem(ITEM_GREAT_BALL, 10);
     ScriptGiveMon(SPECIES_CARVANHA, 20, ITEM_NONE);
     SwitchParties();
     SwitchTrainerData();
+    SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
 
+    AddBagItem(ITEM_POKE_BALL, 10);
     ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);
     SwitchParties();
     SwitchTrainerData();
-
-    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 19, 4, DIR_WEST, 3);
+    SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
 }
