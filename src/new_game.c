@@ -140,8 +140,8 @@ static void ClearFrontierRecord(void)
 
 static void WarpToFirstMap(void)
 {
-    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 16, 21, DIR_WEST, 3);
-    SetWarpDestination(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), WARP_ID_NONE, 17, 21);
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 18, 21, DIR_NORTH, 3);
+    SetWarpDestination(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), WARP_ID_NONE, 19, 21);
     WarpIntoMap();
 }
 
@@ -266,8 +266,14 @@ static void ResetDexNav(void)
 
 static void InitTARCData(void)
 {
+    EnableNationalPokedex();
+
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_B_DASH);
+
+    FlagSet(FLAG_BADGE05_GET);
+    FlagSet(FLAG_P2_BADGE02_GET);
+    FlagSet(FLAG_P2_BADGE03_GET);
 
     AddBagItem(ITEM_GREAT_BALL, 10);
     ScriptGiveMon(SPECIES_CARVANHA, 20, ITEM_NONE);

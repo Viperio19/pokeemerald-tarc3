@@ -4855,8 +4855,8 @@
     {
       "id": "LAYOUT_VOLCANION_CAVE_1F",
       "name": "VolcanionCave_1F_Layout",
-      "width": 65,
-      "height": 70,
+      "width": 39,
+      "height": 27,
       "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_Cave",
       "border_filepath": "data/layouts/VolcanionCave_1F/border.bin",

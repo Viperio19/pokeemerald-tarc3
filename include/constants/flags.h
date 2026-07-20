@@ -57,8 +57,8 @@
 #define FLAG_HIDE_VOLCANION_CAVE_1F_TIRTOUGA  0x22
 #define FLAG_HIDE_VOLCANION_CAVE_1F_CUBONE    0x23
 #define FLAG_HIDE_VOLCANION_CAVE_1F_GOLEM     0x24
+#define FLAG_HIDE_VOLCANION_CAVE_1F_BADGE     0x25
 
-#define FLAG_DO_WILD_BOSS_BATTLE    0x25
 #define FLAG_UNUSED_0x026    0x26 // Unused Flag
 #define FLAG_UNUSED_0x027    0x27 // Unused Flag
 #define FLAG_UNUSED_0x028    0x28 // Unused Flag
@@ -1509,14 +1509,14 @@
 
 #define FLAG_RECEIVED_POKEDEX_FROM_BIRCH            (SYSTEM_FLAGS + 0x84)
 
-#define FLAG_FRLG_BADGE01_GET                       (SYSTEM_FLAGS + 0x85)
-#define FLAG_FRLG_BADGE02_GET                       (SYSTEM_FLAGS + 0x86)
-#define FLAG_FRLG_BADGE03_GET                       (SYSTEM_FLAGS + 0x87)
-#define FLAG_FRLG_BADGE04_GET                       (SYSTEM_FLAGS + 0x88)
-#define FLAG_FRLG_BADGE05_GET                       (SYSTEM_FLAGS + 0x89)
-#define FLAG_FRLG_BADGE06_GET                       (SYSTEM_FLAGS + 0x8A)
-#define FLAG_FRLG_BADGE07_GET                       (SYSTEM_FLAGS + 0x8B)
-#define FLAG_FRLG_BADGE08_GET                       (SYSTEM_FLAGS + 0x8C)
+#define FLAG_P2_BADGE01_GET                         (SYSTEM_FLAGS + 0x85)
+#define FLAG_P2_BADGE02_GET                         (SYSTEM_FLAGS + 0x86)
+#define FLAG_P2_BADGE03_GET                         (SYSTEM_FLAGS + 0x87)
+#define FLAG_P2_BADGE04_GET                         (SYSTEM_FLAGS + 0x88)
+#define FLAG_P2_BADGE05_GET                         (SYSTEM_FLAGS + 0x89)
+#define FLAG_P2_BADGE06_GET                         (SYSTEM_FLAGS + 0x8A)
+#define FLAG_P2_BADGE07_GET                         (SYSTEM_FLAGS + 0x8B)
+#define FLAG_P2_BADGE08_GET                         (SYSTEM_FLAGS + 0x8C)
 
 #define FLAG_UNUSED_0x8ED                           (SYSTEM_FLAGS + 0x8D) // Unused Flag
 #define FLAG_UNUSED_0x8EE                           (SYSTEM_FLAGS + 0x8E) // Unused Flag

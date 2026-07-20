@@ -211,8 +211,8 @@ void SwitchTrainerData(void)
     for (i = 0; i < NUM_BADGES; i++)
     {
         temp = FlagGet(FLAG_BADGE01_GET + i);
-        FlagGet(FLAG_FRLG_BADGE01_GET + i) ? FlagSet(FLAG_BADGE01_GET + i) : FlagClear(FLAG_BADGE01_GET + i);
-        temp ? FlagSet(FLAG_FRLG_BADGE01_GET + i) : FlagClear(FLAG_FRLG_BADGE01_GET + i);
+        FlagGet(FLAG_P2_BADGE01_GET + i) ? FlagSet(FLAG_BADGE01_GET + i) : FlagClear(FLAG_BADGE01_GET + i);
+        temp ? FlagSet(FLAG_P2_BADGE01_GET + i) : FlagClear(FLAG_P2_BADGE01_GET + i);
     }
 
     // switch names
