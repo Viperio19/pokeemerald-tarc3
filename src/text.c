@@ -995,13 +995,7 @@ static void PrintGlyph(struct TextPrinter *textPrinter)
     {
         if (textPrinter->minLetterSpacing)
         {
-            textPrinter->printerTemplate.currentX += gCurGlyph.width;
-            u32 width = textPrinter->minLetterSpacing - gCurGlyph.width;
-            if (width > 0)
-            {
-                ClearTextSpan(textPrinter, width);
-                textPrinter->printerTemplate.currentX += width;
-            }
+            textPrinter->printerTemplate.currentX += gCurGlyph.width + textPrinter->minLetterSpacing;
         }
         else
         {
@@ -1237,7 +1231,7 @@ void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
 
 bool32 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
 {
-    if (textPrinter->autoScrollDelay == 2)
+    if (textPrinter->autoScrollDelay == 1)
     {
         textPrinter->autoScrollDelay = 0;
         return TRUE;

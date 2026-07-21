@@ -1289,7 +1289,7 @@ static void HighlightSelectedMainMenuItem(enum PartyMenuType menuType, u8 select
 #define tIsDoneFadingSprites data[5]
 #define tPlayerGender data[6]
 #define tTimer data[7]
-#define tArchieSpriteId data[8]
+#define tShellySpriteId data[8]
 #define tCarvanhaSpriteId data[9]
 #define tPlayerMSpriteId data[10]
 #define tPlayerFSpriteId data[11]
@@ -1324,7 +1324,7 @@ static void Task_NewGameBirchSpeech_Init(u8 taskId)
     gTasks[taskId].tPlayerSpriteId = SPRITE_NONE;
     gTasks[taskId].data[3] = 0xFF;
     gTasks[taskId].tTimer = 0xD8;
-    PlayBGM(MUS_ROUTE122);
+    PlayBGM(MUS_AQUA_MAGMA_HIDEOUT);
     ShowBg(0);
     ShowBg(1);
 }
@@ -1339,7 +1339,7 @@ static void Task_NewGameBirchSpeech_WaitToShowBirch(u8 taskId)
     }
     else
     {
-        spriteId = gTasks[taskId].tArchieSpriteId;
+        spriteId = gTasks[taskId].tShellySpriteId;
         gSprites[spriteId].x = 136;
         gSprites[spriteId].y = 60;
         gSprites[spriteId].invisible = FALSE;
@@ -1355,7 +1355,7 @@ static void Task_NewGameBirchSpeech_WaitForSpriteFadeInWelcome(u8 taskId)
 {
     if (gTasks[taskId].tIsDoneFadingSprites)
     {
-        gSprites[gTasks[taskId].tArchieSpriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
+        gSprites[gTasks[taskId].tShellySpriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
         if (gTasks[taskId].tTimer)
         {
             gTasks[taskId].tTimer--;
@@ -1456,7 +1456,7 @@ static void Task_NewGameBirchSpeech_StartBirchLotadPlatformFade(u8 taskId)
 {
     if (!RunTextPrintersAndIsPrinter0Active())
     {
-        gSprites[gTasks[taskId].tArchieSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
+        gSprites[gTasks[taskId].tShellySpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
         gSprites[gTasks[taskId].tCarvanhaSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
         NewGameBirchSpeech_StartFadeOutTarget1InTarget2(taskId, 2);
         NewGameBirchSpeech_StartFadePlatformIn(taskId, 1);
@@ -1483,7 +1483,7 @@ static void Task_NewGameBirchSpeech_StartPlayerFadeIn(u8 taskId)
 {
     if (gTasks[taskId].tIsDoneFadingSprites)
     {
-        gSprites[gTasks[taskId].tArchieSpriteId].invisible = TRUE;
+        gSprites[gTasks[taskId].tShellySpriteId].invisible = TRUE;
         gSprites[gTasks[taskId].tCarvanhaSpriteId].invisible = TRUE;
         if (gTasks[taskId].tTimer)
         {
@@ -1699,7 +1699,7 @@ static void Task_NewGameBirchSpeech_ReshowBirchLotad(u8 taskId)
     {
         gSprites[gTasks[taskId].tPlayerMSpriteId].invisible = TRUE;
         gSprites[gTasks[taskId].tPlayerFSpriteId].invisible = TRUE;
-        spriteId = gTasks[taskId].tArchieSpriteId;
+        spriteId = gTasks[taskId].tShellySpriteId;
         gSprites[spriteId].x = 136;
         gSprites[spriteId].y = 60;
         gSprites[spriteId].invisible = FALSE;
@@ -1722,11 +1722,11 @@ static void Task_NewGameBirchSpeech_WaitForSpriteFadeInAndTextPrinter(u8 taskId)
 {
     if (gTasks[taskId].tIsDoneFadingSprites)
     {
-        gSprites[gTasks[taskId].tArchieSpriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
+        gSprites[gTasks[taskId].tShellySpriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
         gSprites[gTasks[taskId].tCarvanhaSpriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
         if (!RunTextPrintersAndIsPrinter0Active())
         {
-            gSprites[gTasks[taskId].tArchieSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
+            gSprites[gTasks[taskId].tShellySpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
             gSprites[gTasks[taskId].tCarvanhaSpriteId].oam.objMode = ST_OAM_OBJ_BLEND;
             NewGameBirchSpeech_StartFadeOutTarget1InTarget2(taskId, 2);
             NewGameBirchSpeech_StartFadePlatformIn(taskId, 1);
@@ -1742,7 +1742,7 @@ static void Task_NewGameBirchSpeech_AreYouReady(u8 taskId)
 
     if (gTasks[taskId].tIsDoneFadingSprites)
     {
-        gSprites[gTasks[taskId].tArchieSpriteId].invisible = TRUE;
+        gSprites[gTasks[taskId].tShellySpriteId].invisible = TRUE;
         gSprites[gTasks[taskId].tCarvanhaSpriteId].invisible = TRUE;
         if (gTasks[taskId].tTimer)
         {
@@ -1918,18 +1918,18 @@ static u8 NewGameBirchSpeech_CreateCarvanhaSprite(u8 x, u8 y)
 
 static void AddBirchSpeechObjects(u8 taskId)
 {
-    u8 archieSpriteId;
+    u8 shellySpriteId;
     u8 carvanhaSpriteId;
     u8 playerMSpriteId;
     u8 playerFSpriteId;
     u8 player2MSpriteId;
     u8 player2FSpriteId;
 
-    archieSpriteId = AddNewGameArchieObject(0x88, 0x3C, 1);
-    gSprites[archieSpriteId].callback = SpriteCB_Null;
-    gSprites[archieSpriteId].oam.priority = 0;
-    gSprites[archieSpriteId].invisible = TRUE;
-    gTasks[taskId].tArchieSpriteId = archieSpriteId;
+    shellySpriteId = AddNewGameShellyObject(0x88, 0x3C, 1);
+    gSprites[shellySpriteId].callback = SpriteCB_Null;
+    gSprites[shellySpriteId].oam.priority = 0;
+    gSprites[shellySpriteId].invisible = TRUE;
+    gTasks[taskId].tShellySpriteId = shellySpriteId;
     carvanhaSpriteId = NewGameBirchSpeech_CreateCarvanhaSprite(100, 0x4B);
     gSprites[carvanhaSpriteId].callback = SpriteCB_Null;
     gSprites[carvanhaSpriteId].oam.priority = 0;
@@ -1960,7 +1960,7 @@ static void AddBirchSpeechObjects(u8 taskId)
 #undef tPlayerSpriteId
 #undef tBG1HOFS
 #undef tPlayerGender
-#undef tArchieSpriteId
+#undef tShellySpriteId
 #undef tCarvanhaSpriteId
 #undef tPlayerMSpriteId
 #undef tPlayerFSpriteId
