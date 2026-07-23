@@ -26,8 +26,8 @@ extern const struct PokeBallSprite gPokeBalls[];
 #define POKEBALL_PLAYER_SLIDEIN     0xFD
 
 u8 DoPokeballSendOutAnimation(enum BattlerId battler, s16 pan, u8 kindOfThrow);
-void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subpriority, u8 delay, u32 fadePalettes, enum Species species);
-u8 CreateTradePokeballSprite(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subPriority, u8 delay, u32 fadePalettes);
+void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subpriority, u8 delay, u32 fadePalettes, enum Species species, u8 ballId);
+u8 CreateTradePokeballSprite(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subPriority, u8 delay, u32 fadePalettes, u8 ballId);
 void StartHealthboxSlideIn(enum BattlerId battler);
 void DoHitAnimHealthboxEffect(enum BattlerId battler);
 void LoadBallGfx(enum PokeBall ballId);

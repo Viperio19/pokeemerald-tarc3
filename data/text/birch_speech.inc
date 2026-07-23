@@ -1,4 +1,4 @@
-gText_Birch_Welcome::
+gText_Intro_Shelly_Welcome::
 	.string "Hey, you!\p"
 	.string "Next GRUNT in line, get over here!\p"
 	.string "{FONT 5}(Sigh…)\p"
@@ -17,7 +17,7 @@ gText_Birch_Welcome::
 	.string "That's for us ADMINS to handle.\p"
 	.string "$"
 
-gText_Birch_MainSpeech::
+gText_Intro_Shelly_MainSpeech::
 	.string "We've had some problems with GRUNTS\n"
 	.string "bringing their POOCHYENA to our\l"
 	.string "EXTREMELY IMPORTANT missions.\p"
@@ -25,9 +25,10 @@ gText_Birch_MainSpeech::
 	.string "with our plans because those GRUNTS\l"
 	.string "aren't bringing enough WATER-types\l"
 	.string "{FONT 5}(the best type) {FONT_NORMAL}with them.\p"
+	.string "$"
 
-	@ add the carvanha retreat here
-	.string "{FONT_NORMAL}Oh yeah. We have a new… {FONT 5}ugh… {FONT_NORMAL}\p"
+gText_Intro_Shelly_MainSpeechPt2::
+	.string "Oh yeah. We have a new… {FONT 5}ugh… {FONT_NORMAL}\p"
 	.string "{MIN_LETTER_SPACING 2}P{PAUSE 3} R{PAUSE 3} O{PAUSE 3} T{PAUSE 3} O{PAUSE 3} C{PAUSE 3} O{PAUSE 3} L{PAUSE 3} .\p"
 	.string "{MIN_LETTER_SPACING 0}{FONT 5}{AUTO_SCROLL 1}ok so i know that archie is under a LOT of\n"
 	.string "stress right now with everything that\l"
@@ -52,35 +53,45 @@ gText_Birch_MainSpeech::
 	.string "\n"
 	.string "$"
 
-gText_Birch_AndYouAre::
+gText_Intro_Shelly_AndYouAre::
 	.string "Just let me know your name and gender\n"
 	.string "and you'll be good to go.\p$"
 
-gText_Birch_BoyOrGirl::
+gText_Intro_Shelly_BoyOrGirl::
 	.string "Gender first, please.$"
 
-gText_Birch_WhatsYourName::
+gText_Intro_Shelly_WhatsYourName::
 	.string "Perfect.\n"
 	.string "And your name?$"
 
-gText_Birch_SoItsPlayer::
+gText_Intro_Shelly_SoItsPlayer::
 	.string "Just to make sure I have that right,\n"
 	.string "it's {PLAYER}{KUN}?\p$"
 
-gText_Birch_YourePlayer::
+gText_Intro_Shelly_YourePlayer::
 	.string "Great, thanks.\n"
 	.string "You're all set to go now!\p"
 	.string "$"
 
-gText_Birch_AreYouReady::
+gText_Intro_Shelly_AreYouReady::
 	.string "Hey, {PLAYER}{KUN}!\p"
 	.string "This is our last chance to show HOENN\n"
 	.string "what we as TEAM AQUA can do!\p"
 	.string "{AUTO_SCROLL 1}Go make the BOSS proud!!{PAUSE 40}\n"
 	.string "{AUTO_SCROLL 0}{FONT 5}(and y'know… make my job easier for me…)\p"
+	.string "$"
 
 	@ hey boss just so you know ive tested none of this from here on, sorry about that but it is past my bedtime
 
+gText_Intro_SwitchingExplanation::
+	.string "{FONT_NORMAL}Switching exists. Press R."
+	.string "$"
+
+gText_Intro_SwitchingConfirmation::
+	.string "Yay, you switched.\p"
+	.string "$"
+
+gText_Intro_Courtney_Welcome::
 	@ fade out, fade courtney in
 	.string "{FONT_NORMAL}Next GRUNT please.\p"
 	.string "Sorry for the wait. The loudmouth at\n"
@@ -98,7 +109,7 @@ gText_Birch_AreYouReady::
 	.string "$"	
 
 	@ enter numel, stage middle
-	.string "Here is your partner for the mission.\p"
+gText_Intro_Courtney_MainSpeech::
 	.string "I can think of no POKéMON more suited\n"
 	.string "to this mission than NUMEL.\p"
 	.string "In addition to being the most adorable\n"
@@ -111,31 +122,38 @@ gText_Birch_AreYouReady::
 	.string "to join my party, but I have been too\l"
 	.string "busy with my work lately to dedicate\l"
 	.string "the time to catching another.\p"
-	.string "Such is the life of a TEAM MAGMA ADMIN."
+	.string "Such is the life of a TEAM MAGMA ADMIN.\p"
 	.string "$"
 
 	@ back into the ball with numel
+gText_Intro_Courtney_MainSpeechPt2::
 	.string "I have taken too much of your time.\n"
 	.string "I apologize.\p"
-	.string "Let us fill out your paperwork."
+	.string "Let us fill out your paperwork.\p"
 	.string "$"
 
-	@ gText_Birch_AndYouAre equivalent for magma player
+	@ gText_Intro_Shelly_AndYouAre equivalent for magma player
+gText_Intro_Courtney_AndYouAre::
 	.string "I will need your name and gender.\p$"
 
-	@ gText_Birch_BoyOrGirl equavilent for magmo pleyar
+	@ gText_Intro_Shelly_BoyOrGirl equavilent for magmo pleyar
+gText_Intro_Courtney_BoyOrGirl::
 	.string "Your gender, please?$"
 
-	@ gText_Birch_WhatsYourName you get the idea
+	@ gText_Intro_Shelly_WhatsYourName you get the idea
+gText_Intro_Courtney_WhatsYourName::
 	.string "Your name?$"
 
-	@ gText_Birch_SoItsPlayer yeah yeah yeah (hey! hey! hey! hey!) (cool rhythm heaven ds reference for you there)
+	@ gText_Intro_Shelly_SoItsPlayer yeah yeah yeah (hey! hey! hey! hey!) (cool rhythm heaven ds reference for you there)
+gText_Intro_Courtney_SoItsPlayer::
 	.string "{PLAYER}{KUN} is correct?\p$"
 
-	@ gText_Birch_YourePlayer theres too many of these
+	@ gText_Intro_Shelly_YourePlayer theres too many of these
+gText_Intro_Courtney_YourePlayer::
 	.string "Thank you, {PLAYER}{KUN}.\p$"
 
 	@ fade magma player in
+gText_Intro_Courtney_AreYouReady::
 	.string "You and NUMEL will find the Legendary\n"
 	.string "POKéMON below and capture it.\p"
 	.string "Do not fail your mission.\p"

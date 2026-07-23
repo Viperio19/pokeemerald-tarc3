@@ -468,8 +468,8 @@ static const u8 *ExpandPlaceholder_KunChan(void)
 
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
-    if (gSaveBlock2Ptr->playerName2[0] != EOS)
-        return gSaveBlock2Ptr->playerName2;
+    if (gSaveBlock2Ptr->player2Name[0] != EOS)
+        return gSaveBlock2Ptr->player2Name;
 
 #if IS_FRLG
     if (gSaveBlock1Ptr->rivalName[0] != EOS)

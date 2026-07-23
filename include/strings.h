@@ -201,15 +201,30 @@ extern const u8 gText_SelectorArrow3[];
 extern const u8 gText_YesNo[];
 
 // main menu/birch speech text
-extern const u8 gText_Birch_Welcome[];
-extern const u8 gText_ThisIsAPokemon[];
-extern const u8 gText_Birch_MainSpeech[];
-extern const u8 gText_Birch_AndYouAre[];
-extern const u8 gText_Birch_BoyOrGirl[];
-extern const u8 gText_Birch_WhatsYourName[];
-extern const u8 gText_Birch_SoItsPlayer[];
-extern const u8 gText_Birch_YourePlayer[];
-extern const u8 gText_Birch_AreYouReady[];
+extern const u8 gText_Intro_Shelly_Welcome[];
+extern const u8 gText_Intro_Shelly_ThisIsAPokemon[];
+extern const u8 gText_Intro_Shelly_MainSpeech[];
+extern const u8 gText_Intro_Shelly_MainSpeechPt2[];
+extern const u8 gText_Intro_Shelly_AndYouAre[];
+extern const u8 gText_Intro_Shelly_BoyOrGirl[];
+extern const u8 gText_Intro_Shelly_WhatsYourName[];
+extern const u8 gText_Intro_Shelly_SoItsPlayer[];
+extern const u8 gText_Intro_Shelly_YourePlayer[];
+extern const u8 gText_Intro_Shelly_AreYouReady[];
+
+extern const u8 gText_Intro_SwitchingExplanation[];
+extern const u8 gText_Intro_SwitchingConfirmation[];
+
+extern const u8 gText_Intro_Courtney_Welcome[];
+extern const u8 gText_Intro_Courtney_ThisIsAPokemon[];
+extern const u8 gText_Intro_Courtney_MainSpeech[];
+extern const u8 gText_Intro_Courtney_MainSpeechPt2[];
+extern const u8 gText_Intro_Courtney_AndYouAre[];
+extern const u8 gText_Intro_Courtney_BoyOrGirl[];
+extern const u8 gText_Intro_Courtney_WhatsYourName[];
+extern const u8 gText_Intro_Courtney_SoItsPlayer[];
+extern const u8 gText_Intro_Courtney_YourePlayer[];
+extern const u8 gText_Intro_Courtney_AreYouReady[];
 
 extern const u8 gText_BirchInTrouble[];
 extern const u8 gText_ConfirmStarterChoice[];
