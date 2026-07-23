@@ -707,7 +707,7 @@ void WarpIntoMap(void)
     LoadCurrentMapData();
     SetPlayerCoordsFromWarp();
     if (FlagGet(FLAG_DOING_PLAYER_SWITCH))
-        gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)].currentElevation = gPlayer2Pos.elevation;
+        gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)].currentElevation = gSaveBlock2Ptr->player2Pos.elevation;
 }
 
 void SetWarpDestination(s8 mapGroup, s8 mapNum, s8 warpId, s8 x, s8 y)
@@ -1060,8 +1060,8 @@ bool8 MetatileBehavior_IsSurfableInSeafoamIslands(u16 metatileBehavior)
 static enum Direction GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStruct, u8 transitionFlags, u16 metatileBehavior, enum MapType mapType)
 {
     if (FlagGet(FLAG_DOING_PLAYER_SWITCH))
-        return gPlayer2FacingDirection;
-    if (FlagGet(FLAG_SYS_CRUISE_MODE) && mapType == MAP_TYPE_OCEAN_ROUTE)
+        return gSaveBlock2Ptr->player2FacingDirection;
+    else if (FlagGet(FLAG_SYS_CRUISE_MODE) && mapType == MAP_TYPE_OCEAN_ROUTE)
         return DIR_EAST;
     else if (MetatileBehavior_IsDeepSouthWarp(metatileBehavior) == TRUE)
         return DIR_NORTH;

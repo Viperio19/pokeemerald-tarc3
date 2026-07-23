@@ -53,8 +53,6 @@ static EWRAM_DATA u8 sWildEncounterImmunitySteps = 0;
 static EWRAM_DATA u16 sPrevMetatileBehavior = 0;
 
 COMMON_DATA u8 gSelectedObjectEvent = 0;
-COMMON_DATA u8 gPlayer2FacingDirection = 0;
-COMMON_DATA struct Player2Pos gPlayer2Pos = {};
 
 static void GetInFrontOfPlayerPosition(struct MapPosition *);
 static u16 GetPlayerCurMetatileBehavior(int);
@@ -234,17 +232,17 @@ void SwitchTrainerData(void)
 
 void SetPlayer2Pos(s8 mapGroup, s8 mapNum, s8 x, s8 y, u8 facingDirection, u8 elevation)
 {
-    gPlayer2Pos.mapGroup = mapGroup;
-    gPlayer2Pos.mapNum = mapNum;
-    gPlayer2Pos.x = x;
-    gPlayer2Pos.y = y;
-    gPlayer2Pos.facingDirection = facingDirection;
-    gPlayer2Pos.elevation = elevation;
+    gSaveBlock2Ptr->player2Pos.mapGroup = mapGroup;
+    gSaveBlock2Ptr->player2Pos.mapNum = mapNum;
+    gSaveBlock2Ptr->player2Pos.x = x;
+    gSaveBlock2Ptr->player2Pos.y = y;
+    gSaveBlock2Ptr->player2Pos.facingDirection = facingDirection;
+    gSaveBlock2Ptr->player2Pos.elevation = elevation;
 }
 
 void TrySpawnPlayer2(void)
 {
-    if (gSaveBlock1Ptr->location.mapNum != gPlayer2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gPlayer2Pos.mapGroup)
+    if (gSaveBlock1Ptr->location.mapNum != gSaveBlock2Ptr->player2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gSaveBlock2Ptr->player2Pos.mapGroup)
         return;
 
     struct ObjectEventTemplate template =
@@ -254,14 +252,14 @@ void TrySpawnPlayer2(void)
                       IS_PLAYER_ONE ? OBJ_EVENT_GFX_PLAYER_2_M_NORMAL : OBJ_EVENT_GFX_PLAYER_M_NORMAL :
                       IS_PLAYER_ONE ? OBJ_EVENT_GFX_PLAYER_2_F_NORMAL : OBJ_EVENT_GFX_PLAYER_F_NORMAL,
         .flagId = 0,
-        .x = gPlayer2Pos.x,
-        .y = gPlayer2Pos.y,
-        .elevation = gPlayer2Pos.elevation,
+        .x = gSaveBlock2Ptr->player2Pos.x,
+        .y = gSaveBlock2Ptr->player2Pos.y,
+        .elevation = gSaveBlock2Ptr->player2Pos.elevation,
         .movementType = MOVEMENT_TYPE_NONE,
     };
 
     u8 objId = SpawnSpecialObjectEvent(&template);
-    ObjectEventTurn(&gObjectEvents[objId], gPlayer2Pos.facingDirection);
+    ObjectEventTurn(&gObjectEvents[objId], gSaveBlock2Ptr->player2Pos.facingDirection);
 }
 
 static void SwitchCharacters(void)
@@ -271,15 +269,15 @@ static void SwitchCharacters(void)
     SwitchPokemonAndItems();
     SwitchTrainerData();
     
-    gPlayer2FacingDirection = gPlayer2Pos.facingDirection;
+    gSaveBlock2Ptr->player2FacingDirection = gSaveBlock2Ptr->player2Pos.facingDirection;
     FlagSet(FLAG_DOING_PLAYER_SWITCH);
     StoreInitialPlayerAvatarState();
 
     struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)];
 
-    u8 offset = (gPlayer2Pos.mapGroup == objEvent->mapGroup && gPlayer2Pos.mapNum == objEvent->mapNum) ? 0 : 1;
+    u8 offset = (gSaveBlock2Ptr->player2Pos.mapGroup == objEvent->mapGroup && gSaveBlock2Ptr->player2Pos.mapNum == objEvent->mapNum) ? 0 : 1;
 
-    SetWarpDestination(gPlayer2Pos.mapGroup, gPlayer2Pos.mapNum, WARP_ID_NONE, gPlayer2Pos.x - offset, gPlayer2Pos.y - offset);
+    SetWarpDestination(gSaveBlock2Ptr->player2Pos.mapGroup, gSaveBlock2Ptr->player2Pos.mapNum, WARP_ID_NONE, gSaveBlock2Ptr->player2Pos.x - offset, gSaveBlock2Ptr->player2Pos.y - offset);
     SetPlayer2Pos(objEvent->mapGroup,
                   objEvent->mapNum,
                   objEvent->currentCoords.x - MAP_OFFSET,

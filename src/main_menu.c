@@ -1371,6 +1371,8 @@ static void Task_NewGameSpeech_Init(u8 taskId)
     PlayBGM(MUS_AQUA_MAGMA_HIDEOUT);
     ShowBg(0);
     ShowBg(1);
+
+    gSaveBlock2Ptr->player = 0;
 }
 
 static void Task_NewGameShellySpeech_WaitToShowShelly(u8 taskId)

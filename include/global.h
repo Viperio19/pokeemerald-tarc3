@@ -588,6 +588,16 @@ struct RankingHall2P
     //u8 padding;
 };
 
+struct Player2Pos
+{
+    u32 mapGroup;
+    u32 mapNum;
+    s32 x;
+    s32 y;
+    u8 facingDirection;
+    u8 elevation;
+};
+
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -613,7 +623,8 @@ struct SaveBlock2
              //u16 padding1:2;
              //u16 padding2;
     /*0x18*/ struct Pokedex pokedex;
-    /*0x90*/ u8 filler_90[0x8];
+    /*0x90*/ struct Player2Pos player2Pos;
+             u8 player2FacingDirection;
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;
     /*0xA8*/ u32 gcnLinkFlags; // Read by Pokémon Colosseum/XD

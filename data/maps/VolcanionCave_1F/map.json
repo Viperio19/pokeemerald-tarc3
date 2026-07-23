@@ -19,8 +19,8 @@
       "x": 8,
       "y": 17,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
-      "movement_range_x": 1,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
@@ -45,8 +45,8 @@
       "x": 34,
       "y": 12,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
-      "movement_range_x": 1,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 0,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
@@ -64,7 +64,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
-      "flag": "FLAG_HIDE_VOLCANION_CAVE_1F_ROCK"
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIGLETT_ALOLA)",
@@ -80,19 +80,21 @@
       "flag": "0"
     },
     {
+      "local_id": "LOCALID_DIGLETT",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIGLETT)",
       "x": 36,
       "y": 17,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
-      "movement_range_y": 1,
+      "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "VolcanionCave_1F_EventScript_Diglett",
       "flag": "0"
     },
     {
+      "local_id": "LOCALID_HEAT_BADGE",
       "graphics_id": "OBJ_EVENT_GFX_POKE_BALL",
       "x": 32,
       "y": 20,
@@ -103,7 +105,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_1F_EventScript_HeatBadge",
-      "flag": "FLAG_HIDE_VOLCANION_CAVE_1F_BADGE"
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_1F_HEAT_BADGE"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
@@ -115,7 +117,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "VolcanionCave_1F_EventScript_MagmaMemberM",
+      "script": "VolcanionCave_1F_EventScript_MagmaGruntM",
       "flag": "0"
     },
     {
@@ -154,7 +156,7 @@
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "VolcanionCave_1F_EventScript_MagmaMemberF",
+      "script": "VolcanionCave_1F_EventScript_MagmaGruntF",
       "flag": "0"
     },
     {

@@ -57,6 +57,7 @@
 
 extern const u8 EventScript_ResetAllMapFlags[];
 extern const u8 EventScript_ResetAllMapFlagsFrlg[];
+extern const u8 EventScript_ResetAllMapFlagsTARC[];
 
 static void ClearFrontierRecord(void);
 static void WarpToFirstMap(void);
@@ -140,8 +141,8 @@ static void ClearFrontierRecord(void)
 
 static void WarpToFirstMap(void)
 {
-    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 18, 21, DIR_NORTH, 3);
-    SetWarpDestination(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), WARP_ID_NONE, 19, 21);
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 19, 22, DIR_NORTH, 3);
+    SetWarpDestination(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), WARP_ID_NONE, 19, 22);
     WarpIntoMap();
 }
 
@@ -217,10 +218,7 @@ void NewGameInitData(void)
     UpdateDailySeed();
     InitTARCData();
     WarpToFirstMap();
-    if (IS_FRLG)
-        RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
-    else
-        RunScriptImmediately(EventScript_ResetAllMapFlags);
+    RunScriptImmediately(EventScript_ResetAllMapFlagsTARC);
 #if IS_FRLG
         StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
 #endif
