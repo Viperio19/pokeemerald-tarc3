@@ -3058,7 +3058,7 @@ static void CB2_InitInGameTrade(void)
 static void CB2_InitSinglePlayerTrade(void)
 {
     struct Pokemon *playerMon = &gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A];
-    gParties[B_TRAINER_OPPONENT_A][0] = gSaveBlock1Ptr->playerParty2[gSpecialVar_0x800B];
+    gParties[B_TRAINER_OPPONENT_A][0] = gSaveBlock1Ptr->player2Party[gSpecialVar_0x800B];
 
     switch (gMain.state)
     {
@@ -3066,7 +3066,7 @@ static void CB2_InitSinglePlayerTrade(void)
         gSelectedTradeMonPositions[TRADE_PLAYER] = gSpecialVar_0x800A;
         gSelectedTradeMonPositions[TRADE_PARTNER] = gSpecialVar_0x800B;
         StringCopy(gLinkPlayers[0].name, gSaveBlock2Ptr->playerName);
-        StringCopy(gLinkPlayers[1].name, gSaveBlock2Ptr->playerName2);
+        StringCopy(gLinkPlayers[1].name, gSaveBlock2Ptr->player2Name);
         gLinkPlayers[0].language = GAME_LANGUAGE;
         gLinkPlayers[1].language = GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_LANGUAGE);
         sTradeAnim = AllocZeroed(sizeof(*sTradeAnim));
@@ -3215,7 +3215,7 @@ static void TradeSinglePlayerMons(void)
 {
     u8 friendship;
     struct Pokemon *playerMon = &gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A];
-    struct Pokemon *partnerMon = &gSaveBlock1Ptr->playerParty2[gSpecialVar_0x800B];
+    struct Pokemon *partnerMon = &gSaveBlock1Ptr->player2Party[gSpecialVar_0x800B];
 
     SWAP(*playerMon, *partnerMon, sTradeAnim->tempMon);
 
@@ -3443,8 +3443,8 @@ static void BufferTradeSceneStrings(void)
     }
     else if (sTradeAnim->isSinglePlayerTrade)
     {
-        StringCopy(gStringVar1, gSaveBlock2Ptr->playerName2);
-        GetMonData(&gSaveBlock1Ptr->playerParty2[gSpecialVar_0x800B], MON_DATA_NICKNAME, name);
+        StringCopy(gStringVar1, gSaveBlock2Ptr->player2Name);
+        GetMonData(&gSaveBlock1Ptr->player2Party[gSpecialVar_0x800B], MON_DATA_NICKNAME, name);
         StringCopy_Nickname(gStringVar3, name);
         GetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A], MON_DATA_NICKNAME, name);
         StringCopy_Nickname(gStringVar2, name);
@@ -3587,7 +3587,7 @@ static bool8 DoTradeAnim_Cable(void)
     case STATE_BYE_BYE:
         if (++sTradeAnim->timer == 80)
         {
-            sTradeAnim->releasePokeballSpriteId = CreateTradePokeballSprite(sTradeAnim->monSpriteIds[TRADE_PLAYER], gSprites[sTradeAnim->monSpriteIds[TRADE_PLAYER]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff);
+            sTradeAnim->releasePokeballSpriteId = CreateTradePokeballSprite(sTradeAnim->monSpriteIds[TRADE_PLAYER], gSprites[sTradeAnim->monSpriteIds[TRADE_PLAYER]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff, BALL_BLANK);
             sTradeAnim->state++;
             StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
@@ -3927,7 +3927,7 @@ static bool8 DoTradeAnim_Cable(void)
         gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].x2 = 0;
         gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].y2 = 0;
         StartSpriteAnim(&gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]], 0);
-        CreatePokeballSpriteToReleaseMon(sTradeAnim->monSpriteIds[TRADE_PARTNER], gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, PALETTES_BG | (0xF << 16), sTradeAnim->monSpecies[TRADE_PARTNER]);
+        CreatePokeballSpriteToReleaseMon(sTradeAnim->monSpriteIds[TRADE_PARTNER], gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, PALETTES_BG | (0xF << 16), sTradeAnim->monSpecies[TRADE_PARTNER], BALL_POKE);
         FreeSpriteOamMatrix(&gSprites[sTradeAnim->bouncingPokeballSpriteId]);
         DestroySprite(&gSprites[sTradeAnim->bouncingPokeballSpriteId]);
         sTradeAnim->state++;
@@ -4061,7 +4061,7 @@ static bool8 DoTradeAnim_Wireless(void)
     case STATE_BYE_BYE:
         if (++sTradeAnim->timer == 80)
         {
-            sTradeAnim->releasePokeballSpriteId = CreateTradePokeballSprite(sTradeAnim->monSpriteIds[TRADE_PLAYER], gSprites[sTradeAnim->monSpriteIds[TRADE_PLAYER]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff);
+            sTradeAnim->releasePokeballSpriteId = CreateTradePokeballSprite(sTradeAnim->monSpriteIds[TRADE_PLAYER], gSprites[sTradeAnim->monSpriteIds[TRADE_PLAYER]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff, BALL_BLANK);
             sTradeAnim->state++;
             StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
@@ -4427,7 +4427,7 @@ static bool8 DoTradeAnim_Wireless(void)
         gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].x2 = 0;
         gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].y2 = 0;
         StartSpriteAnim(&gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]], 0);
-        CreatePokeballSpriteToReleaseMon(sTradeAnim->monSpriteIds[TRADE_PARTNER], gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, PALETTES_BG | (0xF << 16), sTradeAnim->monSpecies[TRADE_PARTNER]);
+        CreatePokeballSpriteToReleaseMon(sTradeAnim->monSpriteIds[TRADE_PARTNER], gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, PALETTES_BG | (0xF << 16), sTradeAnim->monSpecies[TRADE_PARTNER], BALL_POKE);
         FreeSpriteOamMatrix(&gSprites[sTradeAnim->bouncingPokeballSpriteId]);
         DestroySprite(&gSprites[sTradeAnim->bouncingPokeballSpriteId]);
         sTradeAnim->state++;

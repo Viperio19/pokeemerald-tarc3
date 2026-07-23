@@ -77,6 +77,7 @@ static enum PokeBall GetBattlerPokeballItemId(enum BattlerId battler);
 #define GFX_TAG_PARK_BALL    55025
 #define GFX_TAG_BEAST_BALL   55026
 #define GFX_TAG_CHERISH_BALL 55027
+#define GFX_TAG_BLANK_BALL   55028
 
 static const struct OamData sBallOamData =
 {
@@ -378,6 +379,12 @@ const struct PokeBallSprite gPokeBalls[POKEBALL_COUNT] =
     {
         POKE_BALL_SPRITE(GFX_TAG_CHERISH_BALL, gBallGfx_Cherish, gBallPal_Cherish),
         .itemId = ITEM_CHERISH_BALL,
+    },
+
+    [BALL_BLANK] =
+    {
+        POKE_BALL_SPRITE(GFX_TAG_BLANK_BALL, gBallGfx_Blank, gBallPal_Cherish),
+        .itemId = ITEM_NONE,
     },
 };
 
@@ -1118,13 +1125,13 @@ static u8 LaunchBallFadeMonTaskForPokeball(bool8 unFadeLater, u8 spritePalNum, u
 #define sTrigIdx     data[7]
 
 // Poké Ball in Birch intro, and when receiving via trade
-void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subpriority, u8 delay, u32 fadePalettes, enum Species species)
+void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subpriority, u8 delay, u32 fadePalettes, enum Species species, u8 ballId)
 {
     u8 spriteId;
 
-    LoadCompressedSpriteSheetUsingHeap(&gPokeBalls[BALL_POKE].pic);
-    LoadSpritePalette(&gPokeBalls[BALL_POKE].palette);
-    spriteId = CreateSprite(&gPokeBalls[BALL_POKE].spriteTemplate, x, y, subpriority);
+    LoadCompressedSpriteSheetUsingHeap(&gPokeBalls[ballId].pic);
+    LoadSpritePalette(&gPokeBalls[ballId].palette);
+    spriteId = CreateSprite(&gPokeBalls[ballId].spriteTemplate, x, y, subpriority);
 
     gSprites[spriteId].sMonSpriteId = monSpriteId;
     gSprites[spriteId].sFinalMonX = gSprites[monSpriteId].x;
@@ -1230,13 +1237,13 @@ static void SpriteCB_ReleasedMonFlyOut(struct Sprite *sprite)
 
 #define sTimer       data[5]
 
-u8 CreateTradePokeballSprite(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subPriority, u8 delay, u32 fadePalettes)
+u8 CreateTradePokeballSprite(u8 monSpriteId, u8 monPalNum, u8 x, u8 y, u8 oamPriority, u8 subPriority, u8 delay, u32 fadePalettes, u8 ballId)
 {
     u8 spriteId;
 
-    LoadCompressedSpriteSheetUsingHeap(&gPokeBalls[BALL_POKE].pic);
-    LoadSpritePalette(&gPokeBalls[BALL_POKE].palette);
-    spriteId = CreateSprite(&gPokeBalls[BALL_POKE].spriteTemplate, x, y, subPriority);
+    LoadCompressedSpriteSheetUsingHeap(&gPokeBalls[ballId].pic);
+    LoadSpritePalette(&gPokeBalls[ballId].palette);
+    spriteId = CreateSprite(&gPokeBalls[ballId].spriteTemplate, x, y, subPriority);
     gSprites[spriteId].sMonSpriteId = monSpriteId;
     gSprites[spriteId].sDelay = delay;
     gSprites[spriteId].sMonPalNum = monPalNum;

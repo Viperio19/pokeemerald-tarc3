@@ -591,11 +591,12 @@ struct RankingHall2P
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
-    /*0x00*/ u8 playerName2[PLAYER_NAME_LENGTH + 1];
+    /*0x00*/ u8 player2Name[PLAYER_NAME_LENGTH + 1];
     /*0x08*/ u8 playerGender; // MALE, FEMALE
+    /*0x08*/ u8 player2Gender; // MALE, FEMALE
     /*0x09*/ u8 specialSaveWarpFlags;
     /*0x0A*/ u8 playerTrainerId[TRAINER_ID_LENGTH];
-    /*0x0A*/ u8 playerTrainerId2[TRAINER_ID_LENGTH];
+    /*0x0A*/ u8 player2TrainerId[TRAINER_ID_LENGTH];
     /*0x0E*/ u16 playTimeHours;
     /*0x10*/ u8 playTimeMinutes;
     /*0x11*/ u8 playTimeSeconds;
@@ -1115,10 +1116,10 @@ struct SaveBlock1
     /*0x32*/ u16 mapLayoutId;
     /*0x34*/ u16 mapView[0x100];
     /*0x234*/ u8 playerPartyCount;
-    /*0x234*/ u8 playerPartyCount2;
+    /*0x234*/ u8 player2PartyCount;
     /*0x235*/ //u8 padding2[3];
     /*0x238*/ struct Pokemon playerParty[PARTY_SIZE];
-    /*0x238*/ struct Pokemon playerParty2[PARTY_SIZE];
+    /*0x238*/ struct Pokemon player2Party[PARTY_SIZE];
     /*0x490*/ u32 money;
     /*0x490*/ u32 money2;
     /*0x494*/ u16 coins;

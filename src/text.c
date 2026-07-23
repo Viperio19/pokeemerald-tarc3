@@ -26,14 +26,14 @@ static u16 FontFunc_Normal(struct TextPrinter *);
 static u16 FontFunc_Short(struct TextPrinter *);
 static u16 FontFunc_ShortCopy1(struct TextPrinter *);
 static u16 FontFunc_ShortCopy2(struct TextPrinter *);
-static u16 FontFunc_ShortCopy3(struct TextPrinter *);
+static u16 FontFunc_SmallLower(struct TextPrinter *);
 static u16 FontFunc_Narrow(struct TextPrinter *);
 static u16 FontFunc_SmallNarrow(struct TextPrinter *);
 static u16 FontFunc_Narrower(struct TextPrinter *);
 static u16 FontFunc_SmallNarrower(struct TextPrinter *);
 static u16 FontFunc_ShortNarrow(struct TextPrinter *);
 static u16 FontFunc_ShortNarrower(struct TextPrinter *);
-static void DecompressGlyph_Small(u16, bool32);
+static void DecompressGlyph_Small(u16, bool32, bool32);
 static void DecompressGlyph_Normal(u16, bool32);
 static void DecompressGlyph_Short(u16, bool32);
 static void DecompressGlyph_Narrow(u16, bool32);
@@ -80,7 +80,7 @@ static const struct GlyphWidthFunc sGlyphWidthFuncs[] =
     { FONT_SHORT,          GetGlyphWidth_Short },
     { FONT_SHORT_COPY_1,   GetGlyphWidth_Short },
     { FONT_SHORT_COPY_2,   GetGlyphWidth_Short },
-    { FONT_SHORT_COPY_3,   GetGlyphWidth_Short },
+    { FONT_SMALL_LOWER,    GetGlyphWidth_Small },
     { FONT_BRAILLE,        GetGlyphWidth_Braille },
     { FONT_NARROW,         GetGlyphWidth_Narrow },
     { FONT_SMALL_NARROW,   GetGlyphWidth_SmallNarrow },
@@ -171,10 +171,10 @@ static const struct FontInfo sFontInfos[] =
         .color.accent = 1,
         .color.shadow = 3,
     },
-    [FONT_SHORT_COPY_3] = {
-        .fontFunction = FontFunc_ShortCopy3,
-        .maxLetterWidth = 6,
-        .maxLetterHeight =  14,
+    [FONT_SMALL_LOWER] = {
+        .fontFunction = FontFunc_SmallLower,
+        .maxLetterWidth = 5,
+        .maxLetterHeight = 12,
         .letterSpacing = 0,
         .lineSpacing = 0,
         .color.foreground = 2,
@@ -279,7 +279,7 @@ static const u8 sMenuCursorDimensions[][2] =
     [FONT_SHORT]          = { 8,  14 },
     [FONT_SHORT_COPY_1]   = { 8,  14 },
     [FONT_SHORT_COPY_2]   = { 8,  14 },
-    [FONT_SHORT_COPY_3]   = { 8,  14 },
+    [FONT_SMALL_LOWER]    = { 8,  12 },
     [FONT_BRAILLE]        = { 8,  16 },
     [FONT_NARROW]         = { 8,  15 },
     [FONT_SMALL_NARROW]   = { 8,   8 },
@@ -995,13 +995,7 @@ static void PrintGlyph(struct TextPrinter *textPrinter)
     {
         if (textPrinter->minLetterSpacing)
         {
-            textPrinter->printerTemplate.currentX += gCurGlyph.width;
-            u32 width = textPrinter->minLetterSpacing - gCurGlyph.width;
-            if (width > 0)
-            {
-                ClearTextSpan(textPrinter, width);
-                textPrinter->printerTemplate.currentX += width;
-            }
+            textPrinter->printerTemplate.currentX += gCurGlyph.width + textPrinter->minLetterSpacing;
         }
         else
         {
@@ -1090,11 +1084,11 @@ static u16 FontFunc_ShortCopy2(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-static u16 FontFunc_ShortCopy3(struct TextPrinter *textPrinter)
+static u16 FontFunc_SmallLower(struct TextPrinter *textPrinter)
 {
     if (textPrinter->hasFontIdBeenSet == FALSE)
     {
-        textPrinter->fontId = FONT_SHORT_COPY_3;
+        textPrinter->fontId = FONT_SMALL_LOWER;
         textPrinter->hasFontIdBeenSet = TRUE;
     }
     return RenderText(textPrinter);
@@ -1237,7 +1231,7 @@ void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
 
 bool32 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
 {
-    if (textPrinter->autoScrollDelay == NUM_FRAMES_AUTO_SCROLL_DELAY)
+    if (textPrinter->autoScrollDelay == 1)
     {
         textPrinter->autoScrollDelay = 0;
         return TRUE;
@@ -1467,8 +1461,8 @@ static u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentChar++;
                 PlaySE(currChar);
                 return RENDER_REPEAT;
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
-                textPrinter->printerTemplate.currentX = textPrinter->printerTemplate.x + *textPrinter->printerTemplate.currentChar;
+            case EXT_CTRL_CODE_AUTO_SCROLL:
+                gTextFlags.autoScroll = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 return RENDER_REPEAT;
             case EXT_CTRL_CODE_SHIFT_DOWN:
@@ -1581,7 +1575,10 @@ static u16 RenderText(struct TextPrinter *textPrinter)
         switch (textPrinter->fontId)
         {
         case FONT_SMALL:
-            DecompressGlyph_Small(currChar, textPrinter->japanese);
+            DecompressGlyph_Small(currChar, textPrinter->japanese, FALSE);
+            break;
+        case FONT_SMALL_LOWER:
+            DecompressGlyph_Small(currChar, textPrinter->japanese, TRUE);
             break;
         case FONT_NORMAL:
             DecompressGlyph_Normal(currChar, textPrinter->japanese);
@@ -1589,7 +1586,6 @@ static u16 RenderText(struct TextPrinter *textPrinter)
         case FONT_SHORT:
         case FONT_SHORT_COPY_1:
         case FONT_SHORT_COPY_2:
-        case FONT_SHORT_COPY_3:
             DecompressGlyph_Short(currChar, textPrinter->japanese);
             break;
         case FONT_NARROW:
@@ -1743,7 +1739,7 @@ static u32 UNUSED GetStringWidthFixedWidthFont(const u8 *str, u8 fontId, u8 lett
             case EXT_CTRL_CODE_FONT:
             case EXT_CTRL_CODE_PAUSE:
             case EXT_CTRL_CODE_ESCAPE:
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
+            case EXT_CTRL_CODE_AUTO_SCROLL:
             case EXT_CTRL_CODE_SHIFT_DOWN:
             case EXT_CTRL_CODE_CLEAR:
             case EXT_CTRL_CODE_SKIP:
@@ -1899,7 +1895,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
             case EXT_CTRL_CODE_PALETTE:
             case EXT_CTRL_CODE_PAUSE:
             case EXT_CTRL_CODE_ESCAPE:
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
+            case EXT_CTRL_CODE_AUTO_SCROLL:
             case EXT_CTRL_CODE_SHIFT_DOWN:
             case EXT_CTRL_CODE_SPEAKER:
                 ++str;
@@ -2078,7 +2074,7 @@ u8 RenderTextHandleBold(u8 *pixels, u8 fontId, u8 *str)
             case EXT_CTRL_CODE_PALETTE:
             case EXT_CTRL_CODE_PAUSE:
             case EXT_CTRL_CODE_ESCAPE:
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
+            case EXT_CTRL_CODE_AUTO_SCROLL:
             case EXT_CTRL_CODE_SHIFT_DOWN:
             case EXT_CTRL_CODE_CLEAR:
             case EXT_CTRL_CODE_SKIP:
@@ -2195,7 +2191,7 @@ u8 GetMenuCursorDimensionByFont(u8 fontId, u8 whichDimension)
     return sMenuCursorDimensions[fontId][whichDimension];
 }
 
-static void DecompressGlyph_Small(u16 glyphId, bool32 isJapanese)
+static void DecompressGlyph_Small(u16 glyphId, bool32 isJapanese, bool32 isLower)
 {
     const u16 *glyphs;
 
@@ -2209,7 +2205,7 @@ static void DecompressGlyph_Small(u16 glyphId, bool32 isJapanese)
     }
     else
     {
-        glyphs = gFontSmallLatinGlyphs + (0x20 * glyphId);
+        glyphs = (isLower ? gFontSmallLowerLatinGlyphs : gFontSmallLatinGlyphs) + (0x20 * glyphId);
         gCurGlyph.width = gFontSmallLatinGlyphWidths[glyphId];
 
         if (gCurGlyph.width <= 8)
@@ -2225,7 +2221,7 @@ static void DecompressGlyph_Small(u16 glyphId, bool32 isJapanese)
             DecompressGlyphTile(glyphs + 0x18, gCurGlyph.gfxBufferBottom + 8);
         }
 
-        gCurGlyph.height = 13;
+        gCurGlyph.height = isLower ? 15 : 13;
     }
 }
 
@@ -2626,11 +2622,11 @@ static u32 GetGlyphWidth_ShortNarrower(u16 glyphId, bool32 isJapanese)
 static const s8 sNarrowerFontIds[] =
 {
     [FONT_SMALL] = FONT_SMALL_NARROW,
+    [FONT_SMALL_LOWER] = FONT_SMALL_NARROW,
     [FONT_NORMAL] = FONT_NARROW,
     [FONT_SHORT] = FONT_SHORT_NARROW,
     [FONT_SHORT_COPY_1] = FONT_SHORT_NARROW,
     [FONT_SHORT_COPY_2] = FONT_SHORT_NARROW,
-    [FONT_SHORT_COPY_3] = FONT_SHORT_NARROW,
     [FONT_BRAILLE] = -1,
     [FONT_NARROW] = FONT_NARROWER,
     [FONT_SMALL_NARROW] = FONT_SMALL_NARROWER,

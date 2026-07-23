@@ -2323,5 +2323,5 @@ bool32 ShouldCheckForUnionRoom(void)
 
 void StoreLinkPlayerName(void)
 {
-    StringCopy(gSaveBlock2Ptr->playerName2, gLinkPlayers[GetMultiplayerId() ^ 1].name);
+    StringCopy(gSaveBlock2Ptr->player2Name, gLinkPlayers[GetMultiplayerId() ^ 1].name);
 }

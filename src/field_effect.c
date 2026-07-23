@@ -273,8 +273,11 @@ static const u32 sNewGameBirch_Gfx[] = INCGFX_U32("graphics/birch_speech/birch.p
 static const u32 sUnusedBirchBeauty[] = INCGFX_U32("graphics/birch_speech/unused_beauty.png", ".4bpp", "-num_tiles 822 -Wnum_tiles");
 static const u16 sNewGameBirch_Pal[16] = INCGFX_U16("graphics/birch_speech/birch.png", ".gbapal");
 
-static const u32 sNewGameArchie_Gfx[] = INCGFX_U32("graphics/birch_speech/archie.png", ".4bpp");
-static const u16 sNewGameArchie_Pal[16] = INCGFX_U16("graphics/birch_speech/archie.png", ".gbapal");
+static const u32 sNewGameShelly_Gfx[] = INCGFX_U32("graphics/birch_speech/shelly.png", ".4bpp");
+static const u16 sNewGameShelly_Pal[16] = INCGFX_U16("graphics/birch_speech/shelly.png", ".gbapal");
+
+static const u32 sNewGameCourtney_Gfx[] = INCGFX_U32("graphics/birch_speech/courtney.png", ".4bpp");
+static const u16 sNewGameCourtney_Pal[16] = INCGFX_U16("graphics/birch_speech/courtney.png", ".gbapal");
 
 static const u32 sPokeballGlow_Gfx[] = INCGFX_U32("graphics/field_effects/pics/pokeball_glow.png", ".4bpp");
 static const u16 sPokeballGlow_Pal[16] = INCGFX_U16("graphics/field_effects/palettes/pokeball_glow.pal", ".gbapal");
@@ -389,35 +392,66 @@ static const struct SpriteTemplate sSpriteTemplate_NewGameBirch =
     .images = sPicTable_NewGameBirch,
 };
 
-static const struct SpriteFrameImage sPicTable_NewGameArchie[] =
+static const struct SpriteFrameImage sPicTable_NewGameShelly[] =
 {
-    obj_frame_tiles(sNewGameArchie_Gfx)
+    obj_frame_tiles(sNewGameShelly_Gfx)
 };
 
-static const struct SpritePalette sSpritePalette_NewGameArchie =
+static const struct SpritePalette sSpritePalette_NewGameShelly =
 {
-    .data = sNewGameArchie_Pal,
+    .data = sNewGameShelly_Pal,
     .tag = 0x1006
 };
 
-static const union AnimCmd sAnim_NewGameArchie[] =
+static const union AnimCmd sAnim_NewGameShelly[] =
 {
     ANIMCMD_FRAME(.imageValue = 0, .duration = 1),
     ANIMCMD_END
 };
 
-static const union AnimCmd *const sAnimTable_NewGameArchie[] =
+static const union AnimCmd *const sAnimTable_NewGameShelly[] =
 {
-    sAnim_NewGameArchie
+    sAnim_NewGameShelly
 };
 
-static const struct SpriteTemplate sSpriteTemplate_NewGameArchie =
+static const struct SpriteTemplate sSpriteTemplate_NewGameShelly =
 {
     .tileTag = TAG_NONE,
     .paletteTag = 0x1006,
     .oam = &sOam_64x64,
-    .anims = sAnimTable_NewGameArchie,
-    .images = sPicTable_NewGameArchie,
+    .anims = sAnimTable_NewGameShelly,
+    .images = sPicTable_NewGameShelly,
+};
+
+static const struct SpriteFrameImage sPicTable_NewGameCourtney[] =
+{
+    obj_frame_tiles(sNewGameCourtney_Gfx)
+};
+
+static const struct SpritePalette sSpritePalette_NewGameCourtney =
+{
+    .data = sNewGameCourtney_Pal,
+    .tag = 0x1007
+};
+
+static const union AnimCmd sAnim_NewGameCourtney[] =
+{
+    ANIMCMD_FRAME(.imageValue = 0, .duration = 1),
+    ANIMCMD_END
+};
+
+static const union AnimCmd *const sAnimTable_NewGameCourtney[] =
+{
+    sAnim_NewGameCourtney
+};
+
+static const struct SpriteTemplate sSpriteTemplate_NewGameCourtney =
+{
+    .tileTag = TAG_NONE,
+    .paletteTag = 0x1007,
+    .oam = &sOam_64x64,
+    .anims = sAnimTable_NewGameCourtney,
+    .images = sPicTable_NewGameCourtney,
 };
 
 const struct SpritePalette gSpritePalette_PokeballGlow =
@@ -1062,10 +1096,16 @@ u8 AddNewGameBirchObject(s16 x, s16 y, u8 subpriority)
     return CreateSprite(&sSpriteTemplate_NewGameBirch, x, y, subpriority);
 }
 
-u8 AddNewGameArchieObject(s16 x, s16 y, u8 subpriority)
+u8 AddNewGameShellyObject(s16 x, s16 y, u8 subpriority)
 {
-    LoadSpritePalette(&sSpritePalette_NewGameArchie);
-    return CreateSprite(&sSpriteTemplate_NewGameArchie, x, y, subpriority);
+    LoadSpritePalette(&sSpritePalette_NewGameShelly);
+    return CreateSprite(&sSpriteTemplate_NewGameShelly, x, y, subpriority);
+}
+
+u8 AddNewGameCourtneyObject(s16 x, s16 y, u8 subpriority)
+{
+    LoadSpritePalette(&sSpritePalette_NewGameCourtney);
+    return CreateSprite(&sSpriteTemplate_NewGameCourtney, x, y, subpriority);
 }
 
 u8 CreateMonSprite_PicBox(enum Species species, s16 x, s16 y, u8 subpriority)

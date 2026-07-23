@@ -127,7 +127,7 @@ u16 FontFunc_Braille(struct TextPrinter *textPrinter)
             case EXT_CTRL_CODE_ESCAPE:
                 char_ = *++textPrinter->printerTemplate.currentChar;
                 break;
-            case EXT_CTRL_CODE_SHIFT_RIGHT:
+            case EXT_CTRL_CODE_AUTO_SCROLL:
                 textPrinter->printerTemplate.currentX = textPrinter->printerTemplate.x + *textPrinter->printerTemplate.currentChar++;
                 return RENDER_REPEAT;
             case EXT_CTRL_CODE_SHIFT_DOWN:

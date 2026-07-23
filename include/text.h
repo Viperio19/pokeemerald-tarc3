@@ -20,7 +20,7 @@ enum {
     FONT_SHORT,
     FONT_SHORT_COPY_1,
     FONT_SHORT_COPY_2,
-    FONT_SHORT_COPY_3,
+    FONT_SMALL_LOWER,
     FONT_BRAILLE,
     FONT_NARROW,
     FONT_SMALL_NARROW, // Very similar to FONT_SMALL, some glyphs are narrower
@@ -132,7 +132,8 @@ struct TextPrinter
     u8 minLetterSpacing;
 
     u8 textSpeed;
-    u8 padding[3];
+    u8 smallFont;
+    u8 padding[2];
 
     struct TextPrinter *nextPrinter;
 

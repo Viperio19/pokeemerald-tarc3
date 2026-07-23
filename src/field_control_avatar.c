@@ -171,9 +171,9 @@ void SwitchParties(void)
 
     // switch party
     for (i = 0; i < PARTY_SIZE; i++)
-        SWAP(gParties[B_TRAINER_PLAYER][i], gSaveBlock1Ptr->playerParty2[i], *tempMon);
+        SWAP(gParties[B_TRAINER_PLAYER][i], gSaveBlock1Ptr->player2Party[i], *tempMon);
 
-    SWAP(gPartiesCount[B_TRAINER_PLAYER], gSaveBlock1Ptr->playerPartyCount2, temp);
+    SWAP(gPartiesCount[B_TRAINER_PLAYER], gSaveBlock1Ptr->player2PartyCount, temp);
 }
 
 static void SwitchPokemonAndItems(void)
@@ -215,13 +215,16 @@ void SwitchTrainerData(void)
         temp ? FlagSet(FLAG_P2_BADGE01_GET + i) : FlagClear(FLAG_P2_BADGE01_GET + i);
     }
 
+    // switch gender
+    SWAP(gSaveBlock2Ptr->playerGender, gSaveBlock2Ptr->player2Gender, temp);
+
     // switch names
     for (i = 0; i < PLAYER_NAME_LENGTH; i++)
-        SWAP(gSaveBlock2Ptr->playerName[i], gSaveBlock2Ptr->playerName2[i], temp);
+        SWAP(gSaveBlock2Ptr->playerName[i], gSaveBlock2Ptr->player2Name[i], temp);
 
     // switch trainer ID
     for (i = 0; i < TRAINER_ID_LENGTH; i++)
-        SWAP(gSaveBlock2Ptr->playerTrainerId[i], gSaveBlock2Ptr->playerTrainerId2[i], temp);
+        SWAP(gSaveBlock2Ptr->playerTrainerId[i], gSaveBlock2Ptr->player2TrainerId[i], temp);
 
     // switch money
     temp = GetMoney(&gSaveBlock1Ptr->money);
@@ -247,7 +250,7 @@ void TrySpawnPlayer2(void)
     struct ObjectEventTemplate template =
     {
         .localId = OBJ_EVENT_ID_PLAYER_2,
-        .graphicsId = gSaveBlock2Ptr->playerGender == MALE ?
+        .graphicsId = gSaveBlock2Ptr->player2Gender == MALE ?
                       IS_PLAYER_ONE ? OBJ_EVENT_GFX_PLAYER_2_M_NORMAL : OBJ_EVENT_GFX_PLAYER_M_NORMAL :
                       IS_PLAYER_ONE ? OBJ_EVENT_GFX_PLAYER_2_F_NORMAL : OBJ_EVENT_GFX_PLAYER_F_NORMAL,
         .flagId = 0,

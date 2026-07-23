@@ -99,7 +99,7 @@ static void InitPlayerTrainerIds()
     u32 trainerId = (Random() << 16) | GetGeneratedTrainerIdLower();
     u32 trainerIdFRLG = (GetGeneratedTrainerIdLower() << 16) | Random();
     SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
-    SetTrainerId(trainerIdFRLG, gSaveBlock2Ptr->playerTrainerId2);
+    SetTrainerId(trainerIdFRLG, gSaveBlock2Ptr->player2TrainerId);
 }
 
 // L=A isnt set here for some reason.
@@ -271,18 +271,18 @@ static void InitTARCData(void)
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_B_DASH);
 
-    FlagSet(FLAG_BADGE05_GET);
-    FlagSet(FLAG_P2_BADGE02_GET);
-    FlagSet(FLAG_P2_BADGE03_GET);
+    FlagSet(FLAG_BADGE02_GET);
+    FlagSet(FLAG_BADGE03_GET);
+    FlagSet(FLAG_P2_BADGE05_GET);
 
-    AddBagItem(ITEM_GREAT_BALL, 10);
-    ScriptGiveMon(SPECIES_CARVANHA, 20, ITEM_NONE);
+    AddBagItem(ITEM_POKE_BALL, 10);
+    ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);
     SwitchParties();
     SwitchTrainerData();
     SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
 
-    AddBagItem(ITEM_POKE_BALL, 10);
-    ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);
+    AddBagItem(ITEM_GREAT_BALL, 10);
+    ScriptGiveMon(SPECIES_CARVANHA, 20, ITEM_NONE);
     SwitchParties();
     SwitchTrainerData();
     SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
