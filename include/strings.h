@@ -214,6 +214,7 @@ extern const u8 gText_Intro_Shelly_AreYouReady[];
 
 extern const u8 gText_Intro_SwitchingExplanation[];
 extern const u8 gText_Intro_SwitchingConfirmation[];
+extern const u8 gText_Intro_SwitchingFailure[];
 
 extern const u8 gText_Intro_Courtney_Welcome[];
 extern const u8 gText_Intro_Courtney_ThisIsAPokemon[];
