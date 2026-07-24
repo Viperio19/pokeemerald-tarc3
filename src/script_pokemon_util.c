@@ -39,7 +39,10 @@ void HealPlayerParty(void)
 {
     u32 i;
     for (i = 0; i < gPartiesCount[B_TRAINER_PLAYER]; i++)
+    {
         HealPokemon(&gParties[B_TRAINER_PLAYER][i]);
+        HealPokemon(&gParties[B_TRAINER_PARTNER][i]);
+    }
     if (OW_PC_HEAL >= GEN_8)
         HealPlayerBoxes();
 

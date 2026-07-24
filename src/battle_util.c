@@ -1846,7 +1846,7 @@ bool32 HasNoMonsToSwitch(enum BattlerId battler, u8 partyIdBattlerOn1, u8 partyI
         }
         return (i == lastId);
     }
-    else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)
     {
         if (!isPlayerSide && WILD_DOUBLE_BATTLE)
         {
@@ -9746,6 +9746,9 @@ bool32 IsSleepClauseEnabled(void)
 
 bool32 AreMultiPartiesFullTeams(void)
 {
+    gSpecialVar_Result = TRUE;
+    return TRUE;
+
 #if TESTING
     u8 *partySizes = gBattleTestRunnerState->data.partySizes;
     bool32 fullTeam = FALSE;

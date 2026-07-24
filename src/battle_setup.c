@@ -350,7 +350,12 @@ void BattleSetup_StartDoubleWildBattle(void)
 
 void BattleSetup_StartMultiBattle(void)
 {
-    if (gSpecialVar_0x8005 & MULTI_BATTLE_2_VS_WILD) // Player + AI against wild mon
+    if (gSpecialVar_0x8005 & MULTI_BATTLE_PLAYERS_VS_WILD) // Player + Player 2 against wild mon
+    {
+        gBattleTypeFlags = BATTLE_TYPE_DOUBLE | BATTLE_TYPE_PLAYER_2_PARTNER;
+        gMain.savedCallback = CB2_EndScriptedWildBattle;
+    }
+    else if (gSpecialVar_0x8005 & MULTI_BATTLE_2_VS_WILD) // Player + AI against wild mon
     {
         gBattleTypeFlags = BATTLE_TYPE_DOUBLE | BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER;
     }
@@ -368,7 +373,7 @@ void BattleSetup_StartMultiBattle(void)
     if (gSpecialVar_0x8005 & MULTI_BATTLE_CHOOSE_MONS) // Skip mons restoring(done in the script)
         gBattleScripting.specialTrainerBattleType = 0xFF;
 
-    if (gSpecialVar_0x8005 & MULTI_BATTLE_2_VS_WILD)
+    if (gSpecialVar_0x8005 & (MULTI_BATTLE_2_VS_WILD | MULTI_BATTLE_PLAYERS_VS_WILD))
     {
         CreateBattleStartTask(GetWildBattleTransition(), 0);
         IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
@@ -701,16 +706,21 @@ static void CB2_EndWildBattle(void)
             HealPlayerParty();
     }
 
-    if (IsPlayerDefeated(gBattleOutcome) == TRUE && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !InBattlePike())
-    {
-        SetMainCallback2(CB2_WhiteOut);
-    }
-    else
-    {
-        SetMainCallback2(CB2_ReturnToField);
-        DowngradeBadPoison();
-        gFieldCallback = FieldCB_ReturnToFieldNoScriptCheckMusic;
-    }
+    HealPlayerParty();
+    SetMainCallback2(CB2_ReturnToField);
+    DowngradeBadPoison();
+    gFieldCallback = FieldCB_ReturnToFieldNoScriptCheckMusic;
+
+    // if (IsPlayerDefeated(gBattleOutcome) == TRUE && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !InBattlePike())
+    // {
+    //     SetMainCallback2(CB2_WhiteOut);
+    // }
+    // else
+    // {
+    //     SetMainCallback2(CB2_ReturnToField);
+    //     DowngradeBadPoison();
+    //     gFieldCallback = FieldCB_ReturnToFieldNoScriptCheckMusic;
+    // }
 }
 
 static void CB2_EndScriptedWildBattle(void)
@@ -718,18 +728,22 @@ static void CB2_EndScriptedWildBattle(void)
     CpuFill16(0, (void *)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
 
-    if (IsPlayerDefeated(gBattleOutcome) == TRUE)
-    {
-        if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
-            SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-        else
-            SetMainCallback2(CB2_WhiteOut);
-    }
-    else
-    {
-        DowngradeBadPoison();
-        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-    }
+    HealPlayerParty();
+    DowngradeBadPoison();
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+
+    // if (IsPlayerDefeated(gBattleOutcome) == TRUE)
+    // {
+    //     if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
+    //         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    //     else
+    //         SetMainCallback2(CB2_WhiteOut);
+    // }
+    // else
+    // {
+    //     DowngradeBadPoison();
+    //     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    // }
 }
 
 static void CB2_EndMarowakBattle(void)

@@ -522,7 +522,7 @@ static void CB2_InitBattleInternal(void)
 
     gBattle_WIN0H = DISPLAY_WIDTH;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
+    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
     {
         gBattle_WIN0V = DISPLAY_HEIGHT - 1;
         gBattle_WIN1H = DISPLAY_WIDTH;
@@ -3216,7 +3216,7 @@ static void DoBattleIntro(void)
                 }
                 break;
             case B_POSITION_PLAYER_RIGHT:
-                if (gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER)) // partner sprite
+                if (gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)) // partner sprite
                 {
                     BtlController_EmitDrawTrainerPic(battler, B_COMM_TO_CONTROLLER);
                     MarkBattlerForControllerExec(battler);
@@ -3415,7 +3415,7 @@ static void DoBattleIntro(void)
         gBattleStruct->eventState.battleIntro++;
         break;
     case BATTLE_INTRO_STATE_PRINT_PLAYER_2_SEND_OUT_TEXT:
-        if (gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER))
+        if (gBattleTypeFlags & (BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER | BATTLE_TYPE_INGAME_PARTNER))
         {
             if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK && !(gBattleTypeFlags & BATTLE_TYPE_RECORDED_IS_MASTER))
                 battler = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
@@ -5365,6 +5365,7 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
                 || gBattleOutcome == B_OUTCOME_WON
                 || gBattleOutcome == B_OUTCOME_CAUGHT))
         {
+            DebugPrintf("gBattleMainFunc = TryEvolvePokemon");
             gBattleMainFunc = TryEvolvePokemon;
         }
         else
@@ -5425,6 +5426,7 @@ static void TryEvolvePokemon(void)
     }
     gTriedEvolving = 0;
     gLeveledUpInBattle = 0;
+    DebugPrintf("gBattleMainFunc = ReturnFromBattleToOverworld");
     gBattleMainFunc = ReturnFromBattleToOverworld;
 }
 
@@ -5467,6 +5469,7 @@ static void ReturnFromBattleToOverworld(void)
     }
 
     m4aSongNumStop(SE_LOW_HEALTH);
+    DebugPrintf("SetMainCallback2(gMain.savedCallback)");
     SetMainCallback2(gMain.savedCallback);
 }
 

@@ -196,7 +196,7 @@ VolcanionCave_1F_Movement_BadgeFallDown::
 	step_end
 
 VolcanionCave_1F_Text_MagmaGruntMElipsis::
-	.string "...\p$"
+	.string "…\p$"
 
 VolcanionCave_1F_Text_MagmaGruntMDroppedBadge::
 	.string "I dropped my HEAT BADGE and\n"
@@ -276,17 +276,130 @@ VolcanionCave_1F_EventScript_Cubone::
 	release
 	end
 
+VolcanionCave_1F_EventScript_RockSmash::
+	lockall
+	checkfieldmove FIELD_MOVE_ROCK_SMASH, TRUE
+	goto_if_eq VAR_RESULT, PARTY_SIZE, VolcanionCave_1F_EventScript_CantSmashRock
+	setfieldeffectargument 0, VAR_RESULT
+	bufferpartymonnick STR_VAR_1, VAR_RESULT
+	buffermovename STR_VAR_2, MOVE_ROCK_SMASH
+	msgbox Text_WantToSmash, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, VolcanionCave_1F_EventScript_CancelSmash
+	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
+	closemessage
+VolcanionCave_1F_EventScript_RockSmashCommon:
+	dofieldeffect FLDEFF_USE_ROCK_SMASH
+	waitstate
+VolcanionCave_1F_EventScript_SmashRock:: @ fallthrough
+	applymovement VAR_LAST_TALKED, Movement_SmashRock
+	waitmovement 0
+	removeobject VAR_LAST_TALKED
+	delay 10
+	applymovement LOCALID_PLAYER, Common_Movement_FacePlayer2
+	waitmovement 0
+	callnative UpdateVarFacing
+	call_if_eq VAR_FACING, DIR_NORTH, VolcanionCave_1F_EventScript_PlayerWalkInPlaceNorth
+	call_if_eq VAR_FACING, DIR_SOUTH, VolcanionCave_1F_EventScript_PlayerWalkInPlaceSouth
+	call_if_eq VAR_FACING, DIR_EAST, VolcanionCave_1F_EventScript_PlayerWalkInPlaceEast
+	call_if_eq VAR_FACING, DIR_WEST, VolcanionCave_1F_EventScript_PlayerWalkInPlaceWest
+	msgbox VolcanionCave_1F_Text_RockIsGone, MSGBOX_DEFAULT
+	releaseall
+	end
+
+VolcanionCave_1F_EventScript_CantSmashRock::
+	msgbox Text_CantSmash, MSGBOX_DEFAULT
+	releaseall
+	end
+
+VolcanionCave_1F_EventScript_CancelSmash::
+	closemessage
+	releaseall
+	end
+
+VolcanionCave_1F_EventScript_PlayerWalkInPlaceNorth::
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceUp
+	waitmovement 0
+	return
+
+VolcanionCave_1F_EventScript_PlayerWalkInPlaceSouth::
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceDown
+	waitmovement 0
+	return
+
+VolcanionCave_1F_EventScript_PlayerWalkInPlaceEast::
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceRight
+	waitmovement 0
+	return
+
+VolcanionCave_1F_EventScript_PlayerWalkInPlaceWest::
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
+	waitmovement 0
+	return
+
+VolcanionCave_1F_Text_RockIsGone::
+	.string "{PLAYER}: Hey, {RIVAL}!\p"
+	.string "Rock is gone, be useful \n"
+	.string "and battle with me!$"
+
 VolcanionCave_1F_EventScript_Golem::
 	lock
 	faceplayer
 	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
-	setwildbattle SPECIES_GOLEM_ALOLA, 50
+	goto_if_set FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, VolcanionCave_1F_EventScript_DoGolemMultiBattle
+	goto_if_unset FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, VolcanionCave_1F_EventScript_DoGolemSingleBattle
+VolcanionCave_1F_EventScript_AskGolemMultiBattle::
+	msgbox VolcanionCave_1F_Text_BattleTogether, MSGBOX_YESNO
+	switch VAR_RESULT
+	case YES, VolcanionCave_1F_EventScript_GetReadyForGolemMultiBattle
+VolcanionCave_1F_EventScript_DoGolemSingleBattle::
+	setwildbattle SPECIES_GOLEM_ALOLA, 30
 	setflag WE_FLAG_WILD_BOSS
 	dowildbattle
 	clearflag WE_FLAG_WILD_BOSS
 	specialvar VAR_RESULT, GetBattleOutcome
-	call_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_1F_EventScript_RemoveLastTalked
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_1F_EventScript_DefeatedGolem
 	release
 	end
+
+VolcanionCave_1F_EventScript_DoGolemMultiBattle::
+	clearflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
+	setwildbattle SPECIES_GOLEM_ALOLA, 30
+	setflag WE_FLAG_WILD_BOSS
+	multi_fixed_players_vs_wild PARTNER_PLAYER_2
+	clearflag WE_FLAG_WILD_BOSS
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_1F_EventScript_DefeatedGolem
+	release
+	end
+
+VolcanionCave_1F_EventScript_GetReadyForGolemMultiBattle::
+	msgbox VolcanionCave_1F_Text_GotReadyToBattle, MSGBOX_DEFAULT
+	setflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
+	callnative SwitchCharacters
+	waitstate
+	release
+	end
+
+VolcanionCave_1F_EventScript_DefeatedGolem::
+	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_ENCOUNTER
+	delay 40
+	waitmoncry
+	removeobject LOCALID_GOLEM
+	addobject LOCALID_GOLEM_BOULDER
+	clearflag FLAG_HIDE_VOLCANION_CAVE_1F_GOLEM_BOULDER
+	msgbox VolcanionCave_1F_Text_DidWeKillIt, MSGBOX_DEFAULT
+	release
+	end
+
+VolcanionCave_1F_Text_BattleTogether::
+	.string "Battle together with {RIVAL}?$"
+
+VolcanionCave_1F_Text_GotReadyToBattle::
+	.string "{PLAYER} got ready to battle!$"
+
+VolcanionCave_1F_Text_DidWeKillIt::
+	.string "{PLAYER}: …\p"
+	.string "We killed it…\p"
+	.string "Yay!$"

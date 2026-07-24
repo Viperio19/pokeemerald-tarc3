@@ -35,3 +35,11 @@ enum TrainerPicID GetPlayerTrainerPic(enum Gender gender, enum GameVersion versi
             return GetEmeraldTrainerPic(gender);
     }
 }
+
+enum TrainerPicID GetPlayer2TrainerPic(enum Gender gender, enum GameVersion version)
+{
+    if (!IS_PLAYER_ONE)
+        return gender == MALE ? TRAINER_PIC_PLAYER_M : TRAINER_PIC_PLAYER_F;
+
+    return gender == MALE ? TRAINER_PIC_PLAYER_2_M : TRAINER_PIC_PLAYER_2_F;
+}

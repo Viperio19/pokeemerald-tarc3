@@ -1958,7 +1958,7 @@ static const struct LevelUpMove sGravelerAlolaLevelUpLearnset[] = {
 
 static const struct LevelUpMove sGolemAlolaLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_EARTHQUAKE),
-    LEVEL_UP_MOVE( 1, MOVE_FACADE),
+    LEVEL_UP_MOVE( 1, MOVE_THUNDER_PUNCH),
     LEVEL_UP_END
 };
 #endif //P_ALOLAN_FORMS
@@ -2886,7 +2886,7 @@ static const struct LevelUpMove sExeggutorAlolaLevelUpLearnset[] = {
 #if P_FAMILY_CUBONE
 static const struct LevelUpMove sCuboneLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_ROCK_SMASH),
-    LEVEL_UP_MOVE( 1, MOVE_FLING),
+    LEVEL_UP_MOVE( 1, MOVE_BONEMERANG),
     LEVEL_UP_END
 };
 

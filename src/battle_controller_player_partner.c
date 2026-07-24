@@ -201,7 +201,9 @@ static enum TrainerPicID PlayerPartnerGetTrainerBackPicId(enum DifficultyLevel d
 {
     enum TrainerPicID trainerPicId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER)
+        trainerPicId = GetPlayer2TrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
+    else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
         trainerPicId = gBattlePartners[difficulty][gPartnerTrainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerPic;
     else
         trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
@@ -326,7 +328,12 @@ static void PlayerPartnerHandleIntroTrainerBallThrow(enum BattlerId battler)
     enum DifficultyLevel difficulty = GetBattlePartnerDifficultyLevel(gPartnerTrainerId);
 
     if (gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
-        trainerPal = GetTrainerBackPicPalette(gBattlePartners[difficulty][gPartnerTrainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerPic);
+    {
+        if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER)
+            trainerPal = GetTrainerBackPicPalette(GetPlayer2TrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION));
+        else
+            trainerPal = GetTrainerBackPicPalette(gBattlePartners[difficulty][gPartnerTrainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerPic);
+    }
     else if (IsAiVsAiBattle())
         trainerPal = GetTrainerFrontPicPalette(GetTrainerPicFromId(gPartnerTrainerId));
     else

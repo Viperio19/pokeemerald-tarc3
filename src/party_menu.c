@@ -1419,7 +1419,7 @@ static void DrawCancelConfirmButtons(void)
 
 bool8 IsMultiBattle(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_MULTI && IsDoubleBattle() && gMain.inBattle)
+    if (gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER && IsDoubleBattle() && gMain.inBattle)
         return TRUE;
     else
         return FALSE;

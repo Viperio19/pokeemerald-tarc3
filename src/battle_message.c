@@ -2531,7 +2531,7 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
                     else
                         stringPtr = sText_LinkPartnerSentOutPkmn1GoPkmn; // Link Partner on left
                 }
-                else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+                else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)
                 {
                     if (BattlerIsPlayer(battler) && (battler & BIT_FLANK) == B_FLANK_LEFT)
                         stringPtr = sText_InGamePartnerSentOutZGoN; // Player is on left
@@ -3019,6 +3019,10 @@ static const u8 *BattleStringGetPlayerName(u8 *text, enum BattlerId battler)
         else if ((gBattleTypeFlags & BATTLE_TYPE_LINK) && gBattleTypeFlags & (BATTLE_TYPE_RECORDED | BATTLE_TYPE_MULTI))
         {
             toCpy = gLinkPlayers[2].name;
+        }
+        else if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER)
+        {
+            toCpy = gSaveBlock2Ptr->player2Name;
         }
         else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
         {

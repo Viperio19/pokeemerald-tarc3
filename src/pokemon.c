@@ -5520,7 +5520,11 @@ bool8 IsMonShiny(struct Pokemon *mon)
 
 const u8 *GetTrainerPartnerName(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER)
+    {
+        return gSaveBlock2Ptr->player2Name;
+    }
+    else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
     {
         GetFrontierTrainerName(gStringVar1, gPartnerTrainerId);
         return gStringVar1;

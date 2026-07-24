@@ -164,3 +164,9 @@
 	setmultitrainerbattle TRAINER_NONE, NULL, TRAINER_NONE, NULL, \partnerId
 	multi_do_fixed MULTI_BATTLE_2_VS_WILD
 	.endm
+
+	@ Wild mons need to be assigned to opponent parties (1 and 3), other slots need to be cleared out.
+	.macro multi_fixed_players_vs_wild partnerId:req
+	setmultitrainerbattle TRAINER_NONE, NULL, TRAINER_NONE, NULL, \partnerId
+	multi_do_fixed MULTI_BATTLE_PLAYERS_VS_WILD
+	.endm

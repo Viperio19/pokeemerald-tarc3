@@ -1893,11 +1893,13 @@ enum TrainerPicID LinkPlayerGetTrainerPicId(u32 multiplayerId)
     return GetPlayerTrainerPic(gender, version);
 }
 
-static enum TrainerPicID PlayerGetTrainerBackPicId(void)
+static enum TrainerPicID PlayerGetTrainerBackPicId(enum BattlerId battler)
 {
     enum TrainerPicID trainerPicId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT))
+        trainerPicId = GetPlayer2TrainerPic(gSaveBlock2Ptr->player2Gender, GAME_VERSION);
+    else if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         trainerPicId = LinkPlayerGetTrainerPicId(GetMultiplayerId());
     else
         trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
@@ -1917,7 +1919,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     if (TESTING)
     {
         trainerPicId = TRAINER_PIC_BRENDAN;
-        if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+        if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)
             xPos = 32;
         else
             xPos = 80;
@@ -1925,16 +1927,16 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     }
     else
     {
-        trainerPicId = PlayerGetTrainerBackPicId();
+        trainerPicId = PlayerGetTrainerBackPicId(battler);
 
-        if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+        if (gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER)
         {
             if ((GetBattlerPosition(battler) & BIT_FLANK) != B_FLANK_LEFT) // Second mon, on the right.
                 xPos = 90;
             else // First mon, on the left.
                 xPos = 32;
 
-            if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
+            if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
             {
                 xPos = 90;
                 yPos = 80;
@@ -1952,7 +1954,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     }
 
     // Use front pic table for any tag battles unless your partner is Steven or a custom partner.
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
+    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
     {
         trainerPicId = PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender);
         isFrontPic = TRUE;
@@ -1967,7 +1969,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
 
 static void PlayerHandleTrainerSlide(enum BattlerId battler)
 {
-    enum TrainerPicID trainerPicId = PlayerGetTrainerBackPicId();
+    enum TrainerPicID trainerPicId = PlayerGetTrainerBackPicId(battler);
     BtlController_HandleTrainerSlide(battler, trainerPicId);
 }
 
@@ -2301,9 +2303,17 @@ static void PlayerHandleOneReturnValue_Duplicate(enum BattlerId battler)
 
 static void PlayerHandleIntroTrainerBallThrow(enum BattlerId battler)
 {
-    enum TrainerPicID trainerPicID = PlayerGetTrainerBackPicId();
-    const u16 *trainerPal = GetTrainerBackPicPalette(trainerPicID);
-    BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F8, trainerPal, 31, Intro_TryShinyAnimShowHealthbox);
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT))
+    {
+        const u16 *trainerPal = GetTrainerBackPicPalette(GetPlayer2TrainerPic(gSaveBlock2Ptr->player2Gender, GAME_VERSION));
+        BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F9, trainerPal, 24, Intro_WaitForShinyAnimAndHealthbox);
+    }
+    else
+    {
+        enum TrainerPicID trainerPicID = PlayerGetTrainerBackPicId(battler);
+        const u16 *trainerPal = GetTrainerBackPicPalette(trainerPicID);
+        BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F8, trainerPal, 31, Intro_TryShinyAnimShowHealthbox);
+    }
 }
 
 static void PlayerHandleDrawPartyStatusSummary(enum BattlerId battler)

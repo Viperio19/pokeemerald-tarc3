@@ -6236,16 +6236,10 @@ void SetStepAnim(struct ObjectEvent *objectEvent, struct Sprite *sprite, u8 anim
 
 enum Direction GetDirectionToFace(s16 x, s16 y, s16 targetX, s16 targetY)
 {
-    if (x > targetX)
-        return DIR_WEST;
+    if (abs(x - targetX) >= abs(y - targetY))
+        return x > targetX ? DIR_WEST : DIR_EAST;
 
-    if (x < targetX)
-        return DIR_EAST;
-
-    if (y > targetY)
-        return DIR_NORTH;
-
-    return DIR_SOUTH;
+    return y > targetY ? DIR_NORTH : DIR_SOUTH;
 }
 
 // Uses the above, but script accessible, and uses localIds
@@ -8340,6 +8334,19 @@ bool8 MovementAction_FacePlayer_Step0(struct ObjectEvent *objectEvent, struct Sp
     u8 playerObjectId;
 
     if (!TryGetObjectEventIdByLocalIdAndMap(LOCALID_PLAYER, 0, 0, &playerObjectId))
+        FaceDirection(objectEvent, sprite, GetDirectionToFace(objectEvent->currentCoords.x,
+                                                              objectEvent->currentCoords.y,
+                                                              gObjectEvents[playerObjectId].currentCoords.x,
+                                                              gObjectEvents[playerObjectId].currentCoords.y));
+    sprite->sActionFuncId = 1;
+    return TRUE;
+}
+
+bool8 MovementAction_FacePlayer2_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
+{
+    u8 playerObjectId;
+
+    if (!TryGetObjectEventIdByLocalIdAndMap(LOCALID_PLAYER_2, 0, 0, &playerObjectId))
         FaceDirection(objectEvent, sprite, GetDirectionToFace(objectEvent->currentCoords.x,
                                                               objectEvent->currentCoords.y,
                                                               gObjectEvents[playerObjectId].currentCoords.x,

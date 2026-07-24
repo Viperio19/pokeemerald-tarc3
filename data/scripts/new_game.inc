@@ -330,4 +330,5 @@ EventScript_ResetAllMapFlagsFrlg::
 
 EventScript_ResetAllMapFlagsTARC::
 	setflag FLAG_HIDE_VOLCANION_CAVE_1F_HEAT_BADGE
+	setflag FLAG_HIDE_VOLCANION_CAVE_1F_GOLEM_BOULDER
 	end

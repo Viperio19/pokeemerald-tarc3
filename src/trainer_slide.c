@@ -318,7 +318,7 @@ static void SetTrainerSlideParameters(enum BattlerId battler, u32* lastId, u32* 
             }
         }
     }
-    else if (GetBattlerTrainer(battler) == B_TRAINER_PARTNER && gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    else if (GetBattlerTrainer(battler) == B_TRAINER_PARTNER && gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)
     {
         if (!AreMultiPartiesFullTeams())
             *lastId = MULTI_PARTY_SIZE;

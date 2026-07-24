@@ -219,6 +219,8 @@ void SwitchTrainerData(void)
     // switch names
     for (i = 0; i < PLAYER_NAME_LENGTH; i++)
         SWAP(gSaveBlock2Ptr->playerName[i], gSaveBlock2Ptr->player2Name[i], temp);
+    gSaveBlock2Ptr->playerName[i] = EOS;
+    gSaveBlock2Ptr->player2Name[i] = EOS;
 
     // switch trainer ID
     for (i = 0; i < TRAINER_ID_LENGTH; i++)
@@ -262,7 +264,7 @@ void TrySpawnPlayer2(void)
     ObjectEventTurn(&gObjectEvents[objId], gSaveBlock2Ptr->player2Pos.facingDirection);
 }
 
-static void SwitchCharacters(void)
+void SwitchCharacters(void)
 {
     gSaveBlock2Ptr->player ^= 1;
     
@@ -1564,4 +1566,9 @@ void HandleBoulderActivateVictoryRoadSwitch(u16 x, u16 y)
             }
         }
     }
+}
+
+void UpdateVarFacing(void)
+{
+    gSpecialVar_Facing = gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)].facingDirection;
 }

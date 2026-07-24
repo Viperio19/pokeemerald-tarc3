@@ -33,7 +33,12 @@ void FillPartnerParty(u16 trainerId)
     SetFacilityPtrsGetLevel();
     ZeroPartyMons(gParties[B_TRAINER_PARTNER]);
 
-    if (trainerId > TRAINER_PARTNER(PARTNER_NONE))
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER)
+    {
+        for (i = 0; i < PARTY_SIZE; i++)
+            gParties[B_TRAINER_PARTNER][i] = gSaveBlock1Ptr->player2Party[i];
+    }
+    else if (trainerId > TRAINER_PARTNER(PARTNER_NONE))
     {
         s32 lastIndex = AreMultiPartiesFullTeams() ? PARTY_SIZE : MULTI_PARTY_SIZE;
 

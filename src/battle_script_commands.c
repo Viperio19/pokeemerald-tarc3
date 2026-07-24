@@ -4128,7 +4128,7 @@ bool32 NoAliveMonsForPlayer(void)
     u32 HP_count = 0;
     u32 ineligibleMonsCount = 0;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+    if (gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER)
     {
         if (GetConfig(B_MULTI_BATTLE_WHITEOUT) > GEN_3)
             maxIneligible += gPartiesCount[B_TRAINER_PARTNER];
@@ -4158,7 +4158,7 @@ bool32 NoAliveMonsForPlayer(void)
         }
     }
 
-    if (GetConfig(B_MULTI_BATTLE_WHITEOUT) > GEN_3 && gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER))
+    if (GetConfig(B_MULTI_BATTLE_WHITEOUT) > GEN_3 && gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER))
     {
         if (HP_count == 0 && AreMultiPartiesFullTeams())
             return TRUE;
@@ -4182,7 +4182,7 @@ bool32 NoAliveMonsForPlayer(void)
         }
 
         if(!(gBattleTypeFlags & BATTLE_TYPE_ARENA || TESTING
-         || (gBattleTypeFlags & BATTLE_TYPE_MULTI && AreMultiPartiesFullTeams())))
+         || (gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER && AreMultiPartiesFullTeams())))
         {
             for (u32 i = 0; i < PARTY_SIZE; i++)
             {
@@ -4276,7 +4276,7 @@ static void Cmd_checkteamslost(void)
                 emptyOpponentSpots++;
         }
 
-        if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+        if (gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER)
         {
             if (emptyOpponentSpots + emptyPlayerSpots > 1)
                 gBattlescriptCurrInstr = cmd->jumpInstr;
@@ -5093,7 +5093,7 @@ static void Cmd_openpartyscreen(void)
 
     if (cmd->battler == BS_FAINTED_MULTIPLE_1)
     {
-        if ((gBattleTypeFlags & BATTLE_TYPE_MULTI) || !(IsDoubleBattle()))
+        if ((gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER) || !(IsDoubleBattle()))
         {
             for (battler = 0; battler < gBattlersCount; battler++)
             {
@@ -5343,7 +5343,7 @@ static void Cmd_switchhandleorder(void)
             *((BATTLE_PARTNER(battler)) * 3 + (u8 *)(gBattleStruct->battlerPartyOrders) + 0) |= (gBattleResources->bufferB[battler][2] & 0xF0) >> 4;
             *((BATTLE_PARTNER(battler)) * 3 + (u8 *)(gBattleStruct->battlerPartyOrders) + 2) = gBattleResources->bufferB[battler][3];
         }
-        else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+        else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)
         {
             SwitchPartyOrderInGameMulti(battler, gBattleStruct->monToSwitchIntoId[battler]);
         }
@@ -7258,7 +7258,7 @@ static void Cmd_forcerandomswitch(void)
         }
         else if ((gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER && gBattleTypeFlags & BATTLE_TYPE_LINK)
             || (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER && gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
-            || (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER))
+            || (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER))
         {
             if ((gBattlerTarget & BIT_FLANK) != B_FLANK_LEFT)
             {
@@ -7355,7 +7355,7 @@ static void Cmd_forcerandomswitch(void)
                 SwitchPartyOrderLinkMulti(BATTLE_PARTNER(gBattlerTarget), gBattleStruct->monToSwitchIntoId[gBattlerTarget], 1);
             }
 
-            if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+            if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)
                 SwitchPartyOrderInGameMulti(gBattlerTarget, gBattleStruct->monToSwitchIntoId[gBattlerTarget]);
         }
     }
