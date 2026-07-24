@@ -54,7 +54,7 @@ gText_Intro_Shelly_MainSpeechPt2::
 	.string "$"
 
 gText_Intro_Shelly_AndYouAre::
-	.string "Just let me know your name and gender\n"
+	.string "Let me know your name and gender\n"
 	.string "and you'll be good to go.\p$"
 
 gText_Intro_Shelly_BoyOrGirl::
@@ -70,7 +70,7 @@ gText_Intro_Shelly_SoItsPlayer::
 
 gText_Intro_Shelly_YourePlayer::
 	.string "Great, thanks.\n"
-	.string "You're all set to go now!\p"
+	.string "You're all set to go!\p"
 	.string "$"
 
 gText_Intro_Shelly_AreYouReady::
@@ -81,14 +81,27 @@ gText_Intro_Shelly_AreYouReady::
 	.string "{AUTO_SCROLL 0}{FONT 5}(and y'know… make my job easier for me…)\p"
 	.string "$"
 
-	@ hey boss just so you know ive tested none of this from here on, sorry about that but it is past my bedtime
-
 gText_Intro_SwitchingExplanation::
-	.string "{FONT_NORMAL}Switching exists. Press R."
+	.string "{PAUSE 20}{FONT_NORMAL}This game has two protagonists, to\n"
+	.string "ensure that you have twice the fun!\p"
+	.string "Press the R button now to\n"
+	.string "switch protagonists."
 	.string "$"
 
 gText_Intro_SwitchingConfirmation::
-	.string "Yay, you switched.\p"
+	.string "That's it!!! Thats the R button!!!!!\p"
+	.string "This button will be very important for\n"
+	.string "solving the many puzzles in your way.\p"
+	.string "If you ever forget which button it is,\n"
+	.string "remember this helpful saying:\p"
+	.string "If you cant go far, {PAUSE 40}press R.\p"
+	.string "Now, let's introduce the second player.\p"
+	.string "$"
+
+gText_Intro_SwitchingFailure::
+	.string "Wrong button, buster.\p"
+	.string "Press the R button now to\n"
+	.string "switch protagonists."
 	.string "$"
 
 gText_Intro_Courtney_Welcome::
@@ -97,7 +110,7 @@ gText_Intro_Courtney_Welcome::
 	.string "Sorry for the wait. The loudmouth at\n"
 	.string "the TEAM AQUA check-in made me want\l"
 	.string "to hit her with a rock.\p"
-	.string "Violent urges have been surpressed.\n"
+	.string "Violent urges have been surpressed.{PAUSE 40}\n"
 	.string "For now.\p"
 	.string "You heard what she said, right?\p"
 	.string "As much as I loathe to say it, most of\n"
@@ -106,15 +119,18 @@ gText_Intro_Courtney_Welcome::
 	.string "reports of the Legendary POKéMON in\l"
 	.string "the depths of CAVE NAME prove without\l"
 	.string "a doubt that it is a FIRE-type.\p"
+	.string "Speaking of FIRE-types, I have some\n"
+	.string "wonderful news for you.\p"
+	.string "No, you have not been FIRED.\p"
 	.string "$"	
 
 	@ enter numel, stage middle
 gText_Intro_Courtney_MainSpeech::
-	.string "I can think of no POKéMON more suited\n"
-	.string "to this mission than NUMEL.\p"
+	.string "No other POKéMON in this world makes\n"
+	.string "a better partner than NUMEL.\p"
 	.string "In addition to being the most adorable\n"
-	.string "POKéMON, NUMEL can help you climb up\l"
-	.string "rocky walls to reach areas that are\l."
+	.string "POKéMON ever, NUMEL can help you climb\l"
+	.string "rocky walls to reach areas that are\l"
 	.string "normally inaccesible on foot.\p"
 	.string "To be quite honest, I wish I was also\n"
 	.string "provided a NUMEL today.\p"
@@ -125,49 +141,38 @@ gText_Intro_Courtney_MainSpeech::
 	.string "Such is the life of a TEAM MAGMA ADMIN.\p"
 	.string "$"
 
-	@ back into the ball with numel
 gText_Intro_Courtney_MainSpeechPt2::
 	.string "I have taken too much of your time.\n"
 	.string "I apologize.\p"
 	.string "Let us fill out your paperwork.\p"
 	.string "$"
 
-	@ gText_Intro_Shelly_AndYouAre equivalent for magma player
 gText_Intro_Courtney_AndYouAre::
 	.string "I will need your name and gender.\p$"
 
-	@ gText_Intro_Shelly_BoyOrGirl equavilent for magmo pleyar
 gText_Intro_Courtney_BoyOrGirl::
 	.string "Your gender, please?$"
 
-	@ gText_Intro_Shelly_WhatsYourName you get the idea
 gText_Intro_Courtney_WhatsYourName::
-	.string "Your name?$"
+	.string "And your name?$"
 
-	@ gText_Intro_Shelly_SoItsPlayer yeah yeah yeah (hey! hey! hey! hey!) (cool rhythm heaven ds reference for you there)
 gText_Intro_Courtney_SoItsPlayer::
 	.string "{PLAYER}{KUN} is correct?\p$"
 
-	@ gText_Intro_Shelly_YourePlayer theres too many of these
 gText_Intro_Courtney_YourePlayer::
 	.string "Thank you, {PLAYER}{KUN}.\p$"
 
-	@ fade magma player in
 gText_Intro_Courtney_AreYouReady::
-	.string "You and NUMEL will find the Legendary\n"
-	.string "POKéMON below and capture it.\p"
-	.string "Do not fail your mission.\p"
-	.string "That said, we will not tolerate\n"
-	.string "reckless behaviour.\p"
+	.string "You and NUMEL will find the\n"
+	.string "Legendary POKéMON below.\p"
+	.string "You may attempt to capture it, but\n"
+	.string "that is not a task expected of you.\p"
+	.string "Simply subduing it is acceptable.\p"
+	.string "You are not allowed to leave under any\n"
+	.string "circumstances until the job is done.\p"
 	.string "If you find yourself in a bind,\n"
 	.string "find someone nearby to help you.\p"
 	.string "Take advantage of the TEAM AQUA\n"
 	.string "GRUNTS if you must.\p"
-	.string "We cannot afford to lose any more of\n"
-	.string "our GRUNTS today.\p"
-	.string "I wish you the best of luck."
+	.string "I wish you the best of luck.{PAUSE 40}"
 	.string "$"
-
-	@ shrink magma player, go to gameplay
-
-
