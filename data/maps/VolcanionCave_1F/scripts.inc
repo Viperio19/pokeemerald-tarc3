@@ -104,11 +104,15 @@ VolcanionCave_1F_EventScript_MagmaGruntM::
 	goto_if_set FLAG_VOLCANION_CAVE_1F_GRUNT_DROPPED_BADGE, VolcanionCave_1F_EventScript_MagmaGruntMDroppedBadge
 	setflag FLAG_VOLCANION_CAVE_1F_GRUNT_DROPPED_BADGE
 	setflag FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT
-	message VolcanionCave_1F_Text_MagmaGruntMElipsis
+	faceplayer
+	message VolcanionCave_1F_Text_MagmaGruntMLoveDiglett
 	waitmessage
 	closemessage
 	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceRight
 	waitmovement 0
+	message VolcanionCave_1F_Text_MagmaGruntMLookAtDiglett
+	waitmessage
+	closemessage
 	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettDigDown
 	waitmovement 0
 	applymovement VAR_LAST_TALKED, VolcanionCave_1F_Movement_MagmaGruntMConfused
@@ -116,6 +120,7 @@ VolcanionCave_1F_EventScript_MagmaGruntM::
 	delay 20
 	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettDigUp
 	waitmovement 0
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
 	applymovement VAR_LAST_TALKED, VolcanionCave_1F_Movement_MagmaGruntMSurprised
 	waitmovement 0
 	delay 20
@@ -128,22 +133,33 @@ VolcanionCave_1F_EventScript_MagmaGruntM::
 	delay 20
 	msgbox VolcanionCave_1F_Text_MagmaGruntMDroppedBadge
 	closemessage
+	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceRight
+	waitmovement 0
 	release
 	end
 
 VolcanionCave_1F_EventScript_MagmaGruntMDroppedBadge::
 	goto_if_set FLAG_HIDE_VOLCANION_CAVE_1F_HEAT_BADGE, VolcanionCave_1F_EventScript_MagmaGruntMBadgeStolen
 	faceplayer
-	msgbox VolcanionCave_1F_Text_MagmaGruntMDroppedBadge
+	msgbox VolcanionCave_1F_Text_MagmaGruntMCoolDiglett
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_FaceOriginalDirection
+	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	release
 	end
 
 VolcanionCave_1F_EventScript_MagmaGruntMBadgeStolen::
+	msgbox VolcanionCave_1F_Text_MagmaGruntMHideoutPassword
 	faceplayer
-	msgbox VolcanionCave_1F_Text_MagmaGruntMBadgeStolen
+	msgbox VolcanionCave_1F_Text_MagmaGruntMGetALoadOfDiglett
+	closemessage
+	waitse
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettSurprised
+	waitmoncry
+	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceRight
+	waitmovement 0
+	msgbox VolcanionCave_1F_Text_MagmaGruntMWoahThereDiglett
 	closemessage
 	applymovement VAR_LAST_TALKED, Common_Movement_FaceOriginalDirection
 	waitmovement 0
@@ -195,18 +211,49 @@ VolcanionCave_1F_Movement_BadgeFallDown::
 	jump_down
 	step_end
 
-VolcanionCave_1F_Text_MagmaGruntMElipsis::
-	.string "…\p$"
+VolcanionCave_1F_Movement_DiglettSurprised::
+	emote_exclamation_mark
+	step_end
+
+VolcanionCave_1F_Text_MagmaGruntMLoveDiglett::
+	.string "I love DIGLETT.\p"
+	.string "Their funny little bald heads\n"
+	.string "always crack me up.\p$"
+
+VolcanionCave_1F_Text_MagmaGruntMLookAtDiglett::
+	.string "I've been trying to get a closer look\n"
+	.string "at this little guy for an hour now,\l"
+	.string "but it doesn't seem like it's inter-{PAUSE 40}$"
 
 VolcanionCave_1F_Text_MagmaGruntMDroppedBadge::
-	.string "I dropped my HEAT BADGE and\n"
-	.string "it fell down there…\p"
-	.string "I sure hope no TEAM AQUA GRUNT\n"
-	.string "ends up stealing it!$"
+	.string "Aw DIGLETTS!{PAUSE 20} That was my HEAT BADGE…\p"
+	.string "And after COURTNEY went through the\n"
+	.string "trouble of stealing BADGES from the\l"
+	.string "POKéMON League so we could use HMs…\p"
+	.string "I am in BIG trouble.$"
 
-VolcanionCave_1F_Text_MagmaGruntMBadgeStolen::
-	.string "My HEAT BADGE!\p"
-	.string "It's gone!!$"
+VolcanionCave_1F_Text_MagmaGruntMCoolDiglett::
+	.string "I guess on the bright side, being this\n"
+	.string "close to a DIGLETT has been pretty rad.$"
+
+VolcanionCave_1F_Text_MagmaGruntMHideoutPassword::
+	.string "…The PASSWORD to MAGMA HIDEOUT?\p"
+	.string "Why would a DIGLETT want to know that?$"
+
+VolcanionCave_1F_Text_MagmaGruntMGetALoadOfDiglett::
+	.string "Oh hey, get a load of this DIGLETT!!\p"
+	.string "Little fella has been trying to\n"
+	.string "get all sorts of confidential\l"
+	.string "information out of me for a while.\p"
+	.string "I'm pretty sure my little boy\n"
+	.string "sent him to check up on me.\p"
+	.string "I haven't been home much recently.\n"
+	.string "He must be so worried about me…\p"
+	.string "Don't worry TOMMY, I'll be home soon!$"
+
+VolcanionCave_1F_Text_MagmaGruntMWoahThereDiglett::
+	.string "No, I don't know MAXIE's\n"
+	.string "POKENAV number!$"
 
 VolcanionCave_1F_EventScript_HeatBadge::
 	removeobject VAR_LAST_TALKED
@@ -222,13 +269,25 @@ VolcanionCave_1F_EventScript_Diglett::
 	lock
 	faceplayer
 	clearflag FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT
-	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettDigDown2
-	waitmovement 0
+	waitse
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	msgbox VolcanionCave_1F_Text_DiglettCry
+	waitmoncry
+	closemessage
 	delay 20
-	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettDigUp2
-	waitmovement 0
+	msgbox VolcanionCave_1F_Text_DiglettSecretAgent
+	closemessage
 	release
 	end
+
+VolcanionCave_1F_Text_DiglettCry::
+	.string "Pipipi wowow!$"
+
+VolcanionCave_1F_Text_DiglettSecretAgent::
+	.string "(The DIGLETT seems to be an\n"
+	.string "agent working for TEAM AQUA.)\p"
+	.string "(You decide not to ruin the MAGMA\n"
+	.string "GRUNT'S day with this information.)$"
 
 VolcanionCave_1F_Movement_DiglettDigDown2::
 	walk_in_place_fast_up
