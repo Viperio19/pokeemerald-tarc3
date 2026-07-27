@@ -123,6 +123,7 @@
       "flag": "FLAG_HIDE_VOLCANION_CAVE_1F_HEAT_BADGE"
     },
     {
+      "local_id": "LOCALID_MAGMA_GRUNT_M",
       "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
       "x": 33,
       "y": 17,

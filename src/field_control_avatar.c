@@ -242,6 +242,18 @@ void SetPlayer2Pos(s8 mapGroup, s8 mapNum, s8 x, s8 y, u8 facingDirection, u8 el
     gSaveBlock2Ptr->player2Pos.elevation = elevation;
 }
 
+void UpdatePlayer2Pos(void)
+{
+    struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2)];
+
+    SetPlayer2Pos(objEvent->mapGroup,
+                  objEvent->mapNum,
+                  objEvent->currentCoords.x - MAP_OFFSET,
+                  objEvent->currentCoords.y - MAP_OFFSET,
+                  objEvent->facingDirection,
+                  objEvent->currentElevation);
+}
+
 void TrySpawnPlayer2(void)
 {
     if (gSaveBlock1Ptr->location.mapNum != gSaveBlock2Ptr->player2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gSaveBlock2Ptr->player2Pos.mapGroup)

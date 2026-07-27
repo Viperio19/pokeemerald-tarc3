@@ -5,14 +5,16 @@ VolcanionCave_1F_MapScripts::
 	.byte 0
 
 VolcanionCave_1F_OnTransition:
-	call_if_set FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT, VolcanionCave_1F_EventScript_MoveBadge
+	call_if_set FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT, VolcanionCave_1F_EventScript_UpdateMagmaMGruntAndDiglett
 	end
 
-VolcanionCave_1F_EventScript_MoveBadge::
+VolcanionCave_1F_EventScript_UpdateMagmaMGruntAndDiglett::
 	setobjectxyperm LOCALID_DIGLETT, 34, 17
+	turnobject LOCALID_MAGMA_GRUNT_M, DIR_EAST
 	return
 
 VolcanionCave_1F_OnWarp:
+	map_script_2 FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT, TRUE, VolcanionCave_1F_EventScript_UpdateMagmaMGruntAndDiglett
 	map_script_2 VAR_TEMP_1, 0, VolcanionCave_1F_EventScript_TrySpawnPlayer2
 	.2byte 0
 
@@ -51,6 +53,7 @@ VolcanionCave_1F_EventScript_EnterCave::
 	waitmovement 0
 	message ViridianForest_Text_ExploringConfirmation
 	waitmessage
+	callnative UpdatePlayer2Pos
 	release
 	end
 
@@ -108,32 +111,33 @@ VolcanionCave_1F_EventScript_MagmaGruntM::
 	message VolcanionCave_1F_Text_MagmaGruntMLoveDiglett
 	waitmessage
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceRight
+	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	message VolcanionCave_1F_Text_MagmaGruntMLookAtDiglett
 	waitmessage
 	closemessage
 	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettDigDown
 	waitmovement 0
-	applymovement VAR_LAST_TALKED, VolcanionCave_1F_Movement_MagmaGruntMConfused
+	applymovement LOCALID_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMConfused
 	waitmovement 0
 	delay 20
 	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettDigUp
 	waitmovement 0
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
-	applymovement VAR_LAST_TALKED, VolcanionCave_1F_Movement_MagmaGruntMSurprised
+	applymovement LOCALID_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMSurprised
 	waitmovement 0
 	delay 20
-	setobjectxyperm LOCALID_HEAT_BADGE, 33, 17
+	setobjectxyperm LOCALID_DIGLETT, 34, 17
 	addobject LOCALID_HEAT_BADGE
+	setobjectxy LOCALID_HEAT_BADGE, 33, 17
 	clearflag FLAG_HIDE_VOLCANION_CAVE_1F_HEAT_BADGE
-	applymovement VAR_LAST_TALKED, VolcanionCave_1F_Movement_MagmaGruntMWatchBadgeFallDown
+	applymovement LOCALID_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMWatchBadgeFallDown
 	applymovement LOCALID_HEAT_BADGE, VolcanionCave_1F_Movement_BadgeFallDown
 	waitmovement 0
 	delay 20
 	msgbox VolcanionCave_1F_Text_MagmaGruntMDroppedBadge
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceRight
+	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	release
 	end
@@ -143,7 +147,7 @@ VolcanionCave_1F_EventScript_MagmaGruntMDroppedBadge::
 	faceplayer
 	msgbox VolcanionCave_1F_Text_MagmaGruntMCoolDiglett
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceRight
+	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	release
 	end
@@ -157,11 +161,11 @@ VolcanionCave_1F_EventScript_MagmaGruntMBadgeStolen::
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
 	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettSurprised
 	waitmoncry
-	applymovement VAR_LAST_TALKED, Common_Movement_WalkInPlaceRight
+	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	msgbox VolcanionCave_1F_Text_MagmaGruntMWoahThereDiglett
 	closemessage
-	applymovement VAR_LAST_TALKED, Common_Movement_FaceOriginalDirection
+	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	release
 	end
@@ -268,7 +272,6 @@ VolcanionCave_1F_Text_ObtainedHeatBadge::
 VolcanionCave_1F_EventScript_Diglett::
 	lock
 	faceplayer
-	clearflag FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT
 	waitse
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
 	msgbox VolcanionCave_1F_Text_DiglettCry
