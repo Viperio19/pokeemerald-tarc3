@@ -47,11 +47,35 @@ VolcanionCave_1F_EventScript_EnterCave::
 	setvar VAR_VOLCANION_CAVE_1F_STATE, 1
 	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
 	waitmovement 0
-	message ViridianForest_Text_ExploringQuestion
+	message VolcanionCave_1F_Text_IntroOhNo
 	waitmessage
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
 	waitmovement 0
-	message ViridianForest_Text_ExploringConfirmation
+	message VolcanionCave_1F_Text_IntroWeirdo
+	waitmessage
+	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroDontStare
+	waitmessage
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroLookTheSame
+	waitmessage
+	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroBeatPoochyena
+	waitmessage
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroHowDoYouKnow
+	waitmessage
+	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroSmellLikeEggs
+	waitmessage
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroJobToDo
 	waitmessage
 	callnative UpdatePlayer2Pos
 	release
@@ -71,11 +95,43 @@ VolcanionCave_1F_Movement_PlayerEnterCave::
 	walk_up
 	step_end
 
-ViridianForest_Text_ExploringQuestion::
-	.string "{RIVAL}: Exploring?\p$"
+VolcanionCave_1F_Text_IntroOhNo::
+	.string "{SPEAKER NAME_RIVAL}Oh no…\p"
+	.string "Of all of the people to run into\n"
+	.string "on this job, it HAD to be you???\p$"
 
-ViridianForest_Text_ExploringConfirmation::
-	.string "{PLAYER}: Exploring.\p$"
+VolcanionCave_1F_Text_IntroWeirdo::
+	.string "{SPEAKER NAME_PLAYER}(What is this TEAM AQUA\n"
+	.string "weirdo yelling at me for?)\p$"
+
+VolcanionCave_1F_Text_IntroDontStare::
+	.string "{SPEAKER NAME_RIVAL}Don't just stare at me like that!!\n"
+	.string "…You do remember who I am, right?\p$"
+
+VolcanionCave_1F_Text_IntroLookTheSame::
+	.string "{SPEAKER NAME_PLAYER}I've seen hundreds of AQUA GRUNTS over\n"
+	.string "the years and you all either look like\l"
+	.string "pirates or pirates with orange hair.\p"
+	.string "You'll have to forgive me for\n"
+	.string "having zero clue who you are.\p$"
+
+VolcanionCave_1F_Text_IntroBeatPoochyena::
+	.string "{SPEAKER NAME_RIVAL}hrRrrRRNGH-YOU BEAT MY POOCHYENA ON\n"
+	.string "TOP OF MT. CHIMNEY AND YOU KNOW IT!!\p$"
+
+VolcanionCave_1F_Text_IntroHowDoYouKnow::
+	.string "{SPEAKER NAME_PLAYER}How do you know that was me?\p$"
+
+VolcanionCave_1F_Text_IntroSmellLikeEggs::
+	.string "{SPEAKER NAME_RIVAL}YOU SMELL LIKE EGGS!!!!!\p$"
+
+VolcanionCave_1F_Text_IntroJobToDo::
+	.string "{SPEAKER NAME_PLAYER}{FONT 5}oh for the love of- {PAUSE 20}{FONT_NORMAL}Don't bring my\n"
+	.string "sister's TOGEPI into this...\p"
+	.string "Look, unlike you ARAQUA-NERDS,\n"
+	.string "I have an important job to do.\p"
+	.string "I'd appreciate it if you\n"
+	.string "stayed out of my way.\p$"
 
 VolcanionCave_1F_EventScript_MagmaGruntF::
 	random 3
@@ -93,14 +149,14 @@ VolcanionCave_1F_EventScript_MagmaGruntFMsg2::
 	end
 
 ViridianForest_Text_HowDidIGetHere::
-	.string "How did I get here…$"
+	.string "{SPEAKER NAME_MAGMA}How did I get here…$"
 
 ViridianForest_Text_Help::
-	.string "… … …\p"
+	.string "{SPEAKER NAME_MAGMA}… … …\p"
 	.string "Help.$"
 
 ViridianForest_Text_HELP::
-	.string "HELP$"
+	.string "{SPEAKER NAME_MAGMA}HELP$"
 
 VolcanionCave_1F_EventScript_MagmaGruntM::
 	lock
@@ -220,32 +276,32 @@ VolcanionCave_1F_Movement_DiglettSurprised::
 	step_end
 
 VolcanionCave_1F_Text_MagmaGruntMLoveDiglett::
-	.string "I love DIGLETT.\p"
+	.string "{SPEAKER NAME_MAGMA}I love DIGLETT.\p"
 	.string "Their funny little bald heads\n"
 	.string "always crack me up.\p$"
 
 VolcanionCave_1F_Text_MagmaGruntMLookAtDiglett::
-	.string "I've been trying to get a closer look\n"
+	.string "{SPEAKER NAME_MAGMA}I've been trying to get a closer look\n"
 	.string "at this little guy for an hour now,\l"
 	.string "but it doesn't seem like it's inter-{PAUSE 40}$"
 
 VolcanionCave_1F_Text_MagmaGruntMDroppedBadge::
-	.string "Aw DIGLETTS!{PAUSE 20} That was my HEAT BADGE…\p"
+	.string "{SPEAKER NAME_MAGMA}Aw DIGLETTS!{PAUSE 20} That was my HEAT BADGE…\p"
 	.string "And after COURTNEY went through the\n"
 	.string "trouble of stealing BADGES from the\l"
 	.string "POKéMON League so we could use HMs…\p"
 	.string "I am in BIG trouble.$"
 
 VolcanionCave_1F_Text_MagmaGruntMCoolDiglett::
-	.string "I guess on the bright side, being this\n"
+	.string "{SPEAKER NAME_MAGMA}I guess on the bright side, being this\n"
 	.string "close to a DIGLETT has been pretty rad.$"
 
 VolcanionCave_1F_Text_MagmaGruntMHideoutPassword::
-	.string "…The PASSWORD to MAGMA HIDEOUT?\p"
+	.string "{SPEAKER NAME_MAGMA}…The PASSWORD to MAGMA HIDEOUT?\p"
 	.string "Why would a DIGLETT want to know that?$"
 
 VolcanionCave_1F_Text_MagmaGruntMGetALoadOfDiglett::
-	.string "Oh hey, get a load of this DIGLETT!!\p"
+	.string "{SPEAKER NAME_MAGMA}Oh hey, get a load of this DIGLETT!!\p"
 	.string "Little fella has been trying to\n"
 	.string "get all sorts of confidential\l"
 	.string "information out of me for a while.\p"
@@ -256,7 +312,7 @@ VolcanionCave_1F_Text_MagmaGruntMGetALoadOfDiglett::
 	.string "Don't worry TOMMY, I'll be home soon!$"
 
 VolcanionCave_1F_Text_MagmaGruntMWoahThereDiglett::
-	.string "No, I don't know MAXIE's\n"
+	.string "{SPEAKER NAME_MAGMA}No, I don't know MAXIE's\n"
 	.string "POKENAV number!$"
 
 VolcanionCave_1F_EventScript_HeatBadge::
@@ -284,7 +340,7 @@ VolcanionCave_1F_EventScript_Diglett::
 	end
 
 VolcanionCave_1F_Text_DiglettCry::
-	.string "Pipipi wowow!$"
+	.string "{SPEAKER NAME_DIGLETT}Pipipi wowow!$"
 
 VolcanionCave_1F_Text_DiglettSecretAgent::
 	.string "(The DIGLETT seems to be an\n"
