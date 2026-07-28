@@ -41,6 +41,7 @@
 #include "title_screen.h"
 #include "window.h"
 #include "mystery_gift_menu.h"
+#include "field_name_box.h"
 
 /*
  * Main menu state machine
@@ -248,7 +249,7 @@ static void MainMenu_FormatSavegameTime(void);
 static void MainMenu_FormatSavegameBadges(void);
 
 static void Task_NewGameShellySpeech_PressRToSwitch(u8);
-static void Task_NewGameShellySpeech_WaitForSwitchingExplanationToPrint(u8);
+static void Task_NewGameShellySpeech_WaitForRButtonPromptToPrint(u8);
 static void Task_NewGameShellySpeech_WaitRPressBeforeSwitching(u8);
 static void Task_NewGameShellySpeech_PressRToSwitch(u8);
 
@@ -1372,6 +1373,7 @@ static void Task_NewGameSpeech_Init(u8 taskId)
     ShowBg(0);
     ShowBg(1);
 
+    gNameboxTileNum = 0x110;
     gSaveBlock2Ptr->player = 0;
 }
 
@@ -1810,6 +1812,7 @@ static void Task_NewGameShellySpeech_ReshowShelly(u8 taskId)
         NewGameBirchSpeech_ClearWindow(0);
         StringExpandPlaceholders(gStringVar4, gText_Intro_Shelly_YourePlayer);
         AddTextPrinterForMessage(TRUE);
+        gTasks[taskId].tTimer = 1;
         gTasks[taskId].func = Task_NewGameShellySpeech_WaitForSpriteFadeInAndTextPrinter;
     }
 }
@@ -1818,6 +1821,16 @@ static void Task_NewGameShellySpeech_WaitForSpriteFadeInAndTextPrinter(u8 taskId
 {
     if (gTasks[taskId].tIsDoneFadingSprites)
     {
+        if (gTasks[taskId].tTimer == 1)
+        {
+            InitWindows(sNewGameBirchSpeechTextWindows);
+            LoadMainMenuWindowFrameTiles(0, 0xF3);
+            LoadMessageBoxGfx(0, BIRCH_DLG_BASE_TILE_NUM, BG_PLTT_ID(15));
+            DrawDialogFrameWithCustomTile(0, TRUE, BIRCH_DLG_BASE_TILE_NUM);
+            PutWindowTilemap(0);
+            CopyWindowToVram(0, COPYWIN_GFX);
+            gTasks[taskId].tTimer--;
+        }
         gSprites[gTasks[taskId].tAdminSpriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
         if (!RunTextPrintersAndIsPrinter0Active())
         {
@@ -1894,12 +1907,12 @@ static void Task_NewGameShellySpeech_PressRToSwitch(u8 taskId)
             NewGameBirchSpeech_ClearWindow(0);
             StringExpandPlaceholders(gStringVar4, gText_Intro_SwitchingExplanation);
             AddTextPrinterForMessage(TRUE);
-            gTasks[taskId].func = Task_NewGameShellySpeech_WaitForSwitchingExplanationToPrint;
+            gTasks[taskId].func = Task_NewGameShellySpeech_WaitForRButtonPromptToPrint;
         }
     }
 }
 
-static void Task_NewGameShellySpeech_WaitForSwitchingExplanationToPrint(u8 taskId)
+static void Task_NewGameShellySpeech_WaitForRButtonPromptToPrint(u8 taskId)
 {
     if (!RunTextPrintersAndIsPrinter0Active())
         gTasks[taskId].func = Task_NewGameShellySpeech_WaitRPressBeforeSwitching;
@@ -1907,8 +1920,10 @@ static void Task_NewGameShellySpeech_WaitForSwitchingExplanationToPrint(u8 taskI
 
 static void Task_NewGameShellySpeech_WaitRPressBeforeSwitching(u8 taskId)
 {
-    if ((JOY_NEW(R_BUTTON)))
+    if (JOY_NEW(R_BUTTON))
     {
+        PlaySE(SE_SUCCESS);
+
         gTasks[taskId].func = Task_NewGameCourtneySpeech_WaitToShowCourtney;
         gTasks[taskId].tTimer = 0;
 
@@ -1918,6 +1933,16 @@ static void Task_NewGameShellySpeech_WaitRPressBeforeSwitching(u8 taskId)
 
         NewGameBirchSpeech_ClearWindow(0);
         StringExpandPlaceholders(gStringVar4, gText_Intro_SwitchingConfirmation);
+        AddTextPrinterForMessage(TRUE);
+    }
+    else if (JOY_NEW(A_BUTTON | B_BUTTON | SELECT_BUTTON | START_BUTTON | L_BUTTON | DPAD_ANY))
+    {
+        PlaySE(SE_FAILURE);
+
+        gTasks[taskId].func = Task_NewGameShellySpeech_WaitForRButtonPromptToPrint;
+        
+        NewGameBirchSpeech_ClearWindow(0);
+        StringExpandPlaceholders(gStringVar4, gText_Intro_SwitchingFailure);
         AddTextPrinterForMessage(TRUE);
     }
 }
@@ -2363,6 +2388,7 @@ static void Task_NewGameCourtneySpeech_ReshowCourtney(u8 taskId)
         NewGameBirchSpeech_ClearWindow(0);
         StringExpandPlaceholders(gStringVar4, gText_Intro_Courtney_YourePlayer);
         AddTextPrinterForMessage(TRUE);
+        gTasks[taskId].tTimer = 1;
         gTasks[taskId].func = Task_NewGameCourtneySpeech_WaitForSpriteFadeInAndTextPrinter;
     }
 }
@@ -2371,6 +2397,16 @@ static void Task_NewGameCourtneySpeech_WaitForSpriteFadeInAndTextPrinter(u8 task
 {
     if (gTasks[taskId].tIsDoneFadingSprites)
     {
+        if (gTasks[taskId].tTimer == 1)
+        {
+            InitWindows(sNewGameBirchSpeechTextWindows);
+            LoadMainMenuWindowFrameTiles(0, 0xF3);
+            LoadMessageBoxGfx(0, BIRCH_DLG_BASE_TILE_NUM, BG_PLTT_ID(15));
+            DrawDialogFrameWithCustomTile(0, TRUE, BIRCH_DLG_BASE_TILE_NUM);
+            PutWindowTilemap(0);
+            CopyWindowToVram(0, COPYWIN_GFX);
+            gTasks[taskId].tTimer--;
+        }
         gSprites[gTasks[taskId].tAdminSpriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
         gSprites[gTasks[taskId].tPokemonSpriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
         if (!RunTextPrintersAndIsPrinter0Active())
@@ -2466,6 +2502,7 @@ static void Task_NewGameSpeech_Cleanup(u8 taskId)
         FreeAllWindowBuffers();
         FreeAndDestroyMonPicSprite(gTasks[taskId].tPokemonSpriteId);
         ResetAllPicSprites();
+        gNameboxTileNum = NAME_BOX_BASE_TILE_NUM;
         SetMainCallback2(CB2_NewGame);
         DestroyTask(taskId);
     }

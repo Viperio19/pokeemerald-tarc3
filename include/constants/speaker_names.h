@@ -8,7 +8,16 @@ enum SpeakerNames {
     SP_NAME_MAGMA,
     SP_NAME_AQUA,
     SP_NAME_DIGLETT,
+    SP_NAME_COURTNEY,
+    SP_NAME_SHELLY,
     SP_NAME_COUNT
+};
+
+enum SpeakerColorIds {
+    SP_COLOR_NORMAL = 0,
+    SP_COLOR_MAGMA,
+    SP_COLOR_AQUA,
+    SP_COLOR_COUNT
 };
 
 #endif // GUARD_CONSTANTS_SPEAKER_NAMES_H

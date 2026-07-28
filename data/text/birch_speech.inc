@@ -1,5 +1,5 @@
 gText_Intro_Shelly_Welcome::
-	.string "Hey, you!\p"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Hey, you!\p"
 	.string "Next GRUNT in line, get over here!\p"
 	.string "{FONT 5}(Sigh…)\p"
 	.string "{FONT_NORMAL}Alright, so I've given this whole\n"
@@ -18,7 +18,7 @@ gText_Intro_Shelly_Welcome::
 	.string "$"
 
 gText_Intro_Shelly_MainSpeech::
-	.string "We've had some problems with GRUNTS\n"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}We've had some problems with GRUNTS\n"
 	.string "bringing their POOCHYENA to our\l"
 	.string "EXTREMELY IMPORTANT missions.\p"
 	.string "That STUPID KID keeps interfering\n"
@@ -28,7 +28,7 @@ gText_Intro_Shelly_MainSpeech::
 	.string "$"
 
 gText_Intro_Shelly_MainSpeechPt2::
-	.string "Oh yeah. We have a new… {FONT 5}ugh… {FONT_NORMAL}\p"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Oh yeah. We have a new… {FONT 5}ugh… {FONT_NORMAL}\p"
 	.string "{MIN_LETTER_SPACING 2}P{PAUSE 3} R{PAUSE 3} O{PAUSE 3} T{PAUSE 3} O{PAUSE 3} C{PAUSE 3} O{PAUSE 3} L{PAUSE 3} .\p"
 	.string "{MIN_LETTER_SPACING 0}{FONT 5}{AUTO_SCROLL 1}ok so i know that archie is under a LOT of\n"
 	.string "stress right now with everything that\l"
@@ -54,27 +54,28 @@ gText_Intro_Shelly_MainSpeechPt2::
 	.string "$"
 
 gText_Intro_Shelly_AndYouAre::
-	.string "Let me know your name and gender\n"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Let me know your name and gender\n"
 	.string "and you'll be good to go.\p$"
 
 gText_Intro_Shelly_BoyOrGirl::
-	.string "Gender first, please.$"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Gender first, please.$"
 
 gText_Intro_Shelly_WhatsYourName::
-	.string "Perfect.\n"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Perfect.\n"
 	.string "And your name?$"
 
 gText_Intro_Shelly_SoItsPlayer::
-	.string "Just to make sure I have that right,\n"
-	.string "it's {PLAYER}{KUN}?\p$"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Just to make sure I have that right,\n"
+	.string "it's {PLAYER}{KUN}?\p"
+	.string "$"
 
 gText_Intro_Shelly_YourePlayer::
-	.string "Great, thanks.\n"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Great, thanks.\n"
 	.string "You're all set to go!\p"
 	.string "$"
 
 gText_Intro_Shelly_AreYouReady::
-	.string "Hey, {PLAYER}{KUN}!\p"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Hey, {PLAYER}{KUN}!\p"
 	.string "This is our last chance to show HOENN\n"
 	.string "what we as TEAM AQUA can do!\p"
 	.string "{AUTO_SCROLL 1}Go make the BOSS proud!!{PAUSE 40}\n"
@@ -82,7 +83,7 @@ gText_Intro_Shelly_AreYouReady::
 	.string "$"
 
 gText_Intro_SwitchingExplanation::
-	.string "{PAUSE 20}{FONT_NORMAL}This game has two protagonists, to\n"
+	.string "{SPEAKER NAME_NONE COLOR_NORMAL}{PAUSE 20}{FONT_NORMAL}This game has two protagonists, to\n"
 	.string "ensure that you have twice the fun!\p"
 	.string "Press the R button now to\n"
 	.string "switch protagonists."
@@ -106,7 +107,7 @@ gText_Intro_SwitchingFailure::
 
 gText_Intro_Courtney_Welcome::
 	@ fade out, fade courtney in
-	.string "{FONT_NORMAL}Next GRUNT please.\p"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}{FONT_NORMAL}Next GRUNT please.\p"
 	.string "Sorry for the wait. The loudmouth at\n"
 	.string "the TEAM AQUA check-in made me want\l"
 	.string "to hit her with a rock.\p"
@@ -126,7 +127,7 @@ gText_Intro_Courtney_Welcome::
 
 	@ enter numel, stage middle
 gText_Intro_Courtney_MainSpeech::
-	.string "No other POKéMON in this world makes\n"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}No other POKéMON in this world makes\n"
 	.string "a better partner than NUMEL.\p"
 	.string "In addition to being the most adorable\n"
 	.string "POKéMON ever, NUMEL can help you climb\l"
@@ -142,28 +143,28 @@ gText_Intro_Courtney_MainSpeech::
 	.string "$"
 
 gText_Intro_Courtney_MainSpeechPt2::
-	.string "I have taken too much of your time.\n"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}I have taken too much of your time.\n"
 	.string "I apologize.\p"
 	.string "Let us fill out your paperwork.\p"
 	.string "$"
 
 gText_Intro_Courtney_AndYouAre::
-	.string "I will need your name and gender.\p$"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}I will need your name and gender.\p$"
 
 gText_Intro_Courtney_BoyOrGirl::
-	.string "Your gender, please?$"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}Your gender, please?$"
 
 gText_Intro_Courtney_WhatsYourName::
-	.string "And your name?$"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}And your name?$"
 
 gText_Intro_Courtney_SoItsPlayer::
-	.string "{PLAYER}{KUN} is correct?\p$"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}{PLAYER}{KUN} is correct?\p$"
 
 gText_Intro_Courtney_YourePlayer::
-	.string "Thank you, {PLAYER}{KUN}.\p$"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}Thank you, {PLAYER}{KUN}.\p$"
 
 gText_Intro_Courtney_AreYouReady::
-	.string "You and NUMEL will find the\n"
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}You and NUMEL will find the\n"
 	.string "Legendary POKéMON below.\p"
 	.string "You may attempt to capture it, but\n"
 	.string "that is not a task expected of you.\p"

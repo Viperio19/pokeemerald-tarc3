@@ -1327,7 +1327,7 @@ static bool32 MatchCall_PrintIntro(u8 taskId)
             SelectMatchCallMessage(sMatchCallState.trainerId, gStringVar4);
 
         if (IsSpeakerBuffered(gStringVar4))
-            TrySpawnAndShowNamebox(gSpeakerName, NAME_BOX_BASE_TILE_NUM);
+            TrySpawnAndShowNamebox(gSpeakerName, 0, NAME_BOX_BASE_TILE_NUM);
 
         InitMatchCallTextPrinter(tWindowId, gStringVar4);
         return TRUE;
