@@ -218,9 +218,9 @@ void TrySpawnAndShowNamebox(const u8 *speaker, u16 colorId, u32 tileNum)
         RedrawDialogueFrame();
         return;
     }
-
-    PrepareNamebox(tileNum);
-    DrawNamebox(sNameboxWindowId, tileNum - NAME_BOX_BASE_TILES_TOTAL, TRUE);
+    u32 tileNumClean = tileNum == 0 ? NAME_BOX_BASE_TILE_NUM : tileNum;
+    PrepareNamebox(tileNumClean);
+    DrawNamebox(sNameboxWindowId, tileNumClean - NAME_BOX_BASE_TILES_TOTAL, TRUE);
 }
 
 bool32 IsSpeakerBuffered(const u8 *str)
