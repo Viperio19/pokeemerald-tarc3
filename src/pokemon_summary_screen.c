@@ -3656,7 +3656,7 @@ static bool8 IsInGamePartnerMon(void)
     {
         return FALSE;
     }
-    else if (gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL_PARTNER)
+    else if (gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL_PARTNER || gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL_PLAYER_2_PARTNER)
     {
         return TRUE;
     }

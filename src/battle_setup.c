@@ -352,7 +352,7 @@ void BattleSetup_StartMultiBattle(void)
 {
     if (gSpecialVar_0x8005 & MULTI_BATTLE_PLAYERS_VS_WILD) // Player + Player 2 against wild mon
     {
-        gBattleTypeFlags = BATTLE_TYPE_DOUBLE | BATTLE_TYPE_PLAYER_2_PARTNER;
+        gBattleTypeFlags = BATTLE_TYPE_DOUBLE | BATTLE_TYPE_PLAYER_2_PARTNER | BATTLE_TYPE_WILD_BOSS;
         gMain.savedCallback = CB2_EndScriptedWildBattle;
     }
     else if (gSpecialVar_0x8005 & MULTI_BATTLE_2_VS_WILD) // Player + AI against wild mon
@@ -530,13 +530,13 @@ void StartOldManTutorialBattle(void)
     CreateBattleStartTask(B_TRANSITION_SLICE, 0);
 }
 
-void BattleSetup_StartScriptedWildBattle(void)
+void BattleSetup_StartScriptedWildBattle(bool8 isWildBoss)
 {
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = 0;
-    if (FlagGet(WE_FLAG_WILD_BOSS))
-        gBattleTypeFlags = BATTLE_TYPE_WILD_BOSS;
+    if (isWildBoss)
+        gBattleTypeFlags |= BATTLE_TYPE_WILD_BOSS;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
@@ -544,11 +544,13 @@ void BattleSetup_StartScriptedWildBattle(void)
     TryUpdateGymLeaderRematchFromWild();
 }
 
-void BattleSetup_StartScriptedDoubleWildBattle(void)
+void BattleSetup_StartScriptedDoubleWildBattle(bool8 isWildBoss)
 {
     LockPlayerFieldControls();
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_DOUBLE;
+    if (isWildBoss)
+        gBattleTypeFlags |= BATTLE_TYPE_WILD_BOSS;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);

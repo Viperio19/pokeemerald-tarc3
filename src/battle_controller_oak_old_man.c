@@ -303,7 +303,7 @@ static void OpenPartyMenuToChooseMon(enum BattlerId battler)
         caseId = gTasks[gBattleControllerData[battler]].data[0];
         DestroyTask(gBattleControllerData[battler]);
         CloseMainBattleScreen();
-        OpenPartyMenuInBattle(caseId);
+        OpenPartyMenuInBattle(caseId, battler);
     }
 }
 

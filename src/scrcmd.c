@@ -80,6 +80,7 @@ static EWRAM_DATA u16 sFieldEffectScriptId = 0;
 
 static u8 sBrailleWindowId;
 static bool8 sIsScriptedWildDouble;
+static bool8 sIsScriptedWildBoss;
 
 extern const SpecialFunc gSpecials[];
 extern const u8 *gStdScripts[];
@@ -2507,6 +2508,7 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 {
     enum Species species = ScriptReadHalfword(ctx);
     u8 level = ScriptReadByte(ctx);
+    sIsScriptedWildBoss = ScriptReadByte(ctx);
     enum Item item = ScriptReadHalfword(ctx);
     enum Species species2 = ScriptReadHalfword(ctx);
     u8 level2 = ScriptReadByte(ctx);
@@ -2533,9 +2535,9 @@ bool8 ScrCmd_dowildbattle(struct ScriptContext *ctx)
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
 
     if (sIsScriptedWildDouble == FALSE)
-        BattleSetup_StartScriptedWildBattle();
+        BattleSetup_StartScriptedWildBattle(sIsScriptedWildBoss);
     else
-        BattleSetup_StartScriptedDoubleWildBattle();
+        BattleSetup_StartScriptedDoubleWildBattle(sIsScriptedWildBoss);
 
     ScriptContext_Stop();
 

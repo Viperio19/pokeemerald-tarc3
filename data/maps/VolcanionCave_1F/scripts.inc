@@ -472,10 +472,8 @@ VolcanionCave_1F_EventScript_AskGolemMultiBattle::
 	switch VAR_RESULT
 	case YES, VolcanionCave_1F_EventScript_GetReadyForGolemMultiBattle
 VolcanionCave_1F_EventScript_DoGolemSingleBattle::
-	setwildbattle SPECIES_GOLEM_ALOLA, 30
-	setflag WE_FLAG_WILD_BOSS
+	setwildbattle SPECIES_GOLEM_ALOLA, 35, TRUE
 	dowildbattle
-	clearflag WE_FLAG_WILD_BOSS
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_1F_EventScript_DefeatedGolem
 	release
@@ -483,10 +481,8 @@ VolcanionCave_1F_EventScript_DoGolemSingleBattle::
 
 VolcanionCave_1F_EventScript_DoGolemMultiBattle::
 	clearflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
-	setwildbattle SPECIES_GOLEM_ALOLA, 30
-	setflag WE_FLAG_WILD_BOSS
+	setwildbattle SPECIES_GOLEM_ALOLA, 35, TRUE
 	multi_fixed_players_vs_wild PARTNER_PLAYER_2
-	clearflag WE_FLAG_WILD_BOSS
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_1F_EventScript_DefeatedGolem
 	release
