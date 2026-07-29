@@ -78,7 +78,10 @@
     "gMapGroup_IndoorSevenIslandRoute_Frlg"
   ],
   "gMapGroup_VolcanionCave": [
-    "VolcanionCave_1F"
+    "VolcanionCave_1F",
+    "VolcanionCave_2F",
+    "VolcanionCave_3F",
+    "VolcanionCave_Outside"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",

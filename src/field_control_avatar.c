@@ -13,6 +13,7 @@
 #include "event_scripts.h"
 #include "fieldmap.h"
 #include "field_control_avatar.h"
+#include "field_effect_helpers.h"
 #include "field_message_box.h"
 #include "field_move.h"
 #include "field_effect.h"
@@ -43,6 +44,7 @@
 #include "constants/characters.h"
 #include "constants/event_bg.h"
 #include "constants/event_objects.h"
+#include "constants/field_effects.h"
 #include "constants/field_poison.h"
 #include "constants/layouts.h"
 #include "constants/metatile_behaviors.h"
@@ -259,12 +261,12 @@ void TrySpawnPlayer2(void)
     if (gSaveBlock1Ptr->location.mapNum != gSaveBlock2Ptr->player2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gSaveBlock2Ptr->player2Pos.mapGroup)
         return;
 
+    u8 state = MetatileBehavior_IsSurfableFishableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)) ? PLAYER_AVATAR_STATE_SURFING : PLAYER_AVATAR_STATE_NORMAL;
+
     struct ObjectEventTemplate template =
     {
         .localId = OBJ_EVENT_ID_PLAYER_2,
-        .graphicsId = gSaveBlock2Ptr->player2Gender == MALE ?
-                      IS_PLAYER_ONE ? OBJ_EVENT_GFX_PLAYER_2_M_NORMAL : OBJ_EVENT_GFX_PLAYER_M_NORMAL :
-                      IS_PLAYER_ONE ? OBJ_EVENT_GFX_PLAYER_2_F_NORMAL : OBJ_EVENT_GFX_PLAYER_F_NORMAL,
+        .graphicsId = GetPlayer2AvatarGraphicsIdByStateIdAndGender(state, gSaveBlock2Ptr->player2Gender),
         .flagId = 0,
         .x = gSaveBlock2Ptr->player2Pos.x,
         .y = gSaveBlock2Ptr->player2Pos.y,
@@ -274,6 +276,16 @@ void TrySpawnPlayer2(void)
 
     u8 objId = SpawnSpecialObjectEvent(&template);
     ObjectEventTurn(&gObjectEvents[objId], gSaveBlock2Ptr->player2Pos.facingDirection);
+
+    if (state == PLAYER_AVATAR_STATE_SURFING)
+    {
+        gFieldEffectArguments[0] = gObjectEvents[objId].currentCoords.x;
+        gFieldEffectArguments[1] = gObjectEvents[objId].currentCoords.y;
+        gFieldEffectArguments[2] = objId;
+        u8 spriteId = FieldEffectStart(FLDEFF_SURF_BLOB);
+        gObjectEvents[objId].fieldEffectSpriteId = spriteId;
+        SetSurfBlob_BobState(spriteId, BOB_PLAYER_AND_MON);
+    }
 }
 
 void SwitchCharacters(void)

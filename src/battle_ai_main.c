@@ -306,7 +306,6 @@ static u64 GetAiFlags(u16 trainerId, enum BattlerId battler)
 
 void BattleAI_SetupFlags(void)
 {
-    DebugPrintf("BattleAI_SetupFlags");
     if (IsAiVsAiBattle())
         gAiThinkingStruct->aiFlags[B_BATTLER_0] = GetAiFlags(gPartnerTrainerId, B_BATTLER_0);
     else
@@ -321,7 +320,6 @@ void BattleAI_SetupFlags(void)
 
     if (IsWildMonSmart() && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER)))
     {
-        DebugPrintf("set those flags :)");
         // smart wild AI
         gAiThinkingStruct->aiFlags[B_BATTLER_1] = GetAiFlags(0xFFFF, B_BATTLER_1);
         gAiThinkingStruct->aiFlags[B_BATTLER_3] = GetAiFlags(0xFFFF, B_BATTLER_3);

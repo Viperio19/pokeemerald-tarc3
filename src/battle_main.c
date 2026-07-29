@@ -5365,7 +5365,6 @@ static void FreeResetData_ReturnToOvOrDoEvolutions(void)
                 || gBattleOutcome == B_OUTCOME_WON
                 || gBattleOutcome == B_OUTCOME_CAUGHT))
         {
-            DebugPrintf("gBattleMainFunc = TryEvolvePokemon");
             gBattleMainFunc = TryEvolvePokemon;
         }
         else
@@ -5426,7 +5425,6 @@ static void TryEvolvePokemon(void)
     }
     gTriedEvolving = 0;
     gLeveledUpInBattle = 0;
-    DebugPrintf("gBattleMainFunc = ReturnFromBattleToOverworld");
     gBattleMainFunc = ReturnFromBattleToOverworld;
 }
 
@@ -5469,7 +5467,6 @@ static void ReturnFromBattleToOverworld(void)
     }
 
     m4aSongNumStop(SE_LOW_HEALTH);
-    DebugPrintf("SetMainCallback2(gMain.savedCallback)");
     SetMainCallback2(gMain.savedCallback);
 }
 

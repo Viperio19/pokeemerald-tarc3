@@ -598,6 +598,12 @@ struct Player2Pos
     u8 elevation;
 };
 
+struct BoulderPos
+{
+    s32 x;
+    s32 y;
+};
+
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -632,6 +638,7 @@ struct SaveBlock2
     /*0xB0*/ struct PlayersApprentice playerApprentice;
     /*0xDC*/ struct Apprentice apprentices[APPRENTICE_COUNT];
     /*0x1EC*/ struct BerryCrush berryCrush;
+    /*0x90*/ struct BoulderPos boulderPos[3][32];
 #if FREE_POKEMON_JUMP == FALSE
     /*0x1FC*/ struct PokemonJumpRecords pokeJump;
 #endif //FREE_POKEMON_JUMP

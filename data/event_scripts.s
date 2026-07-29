@@ -600,6 +600,9 @@ gStdScripts_End::
 	.include "data/maps/Route119_House/scripts.inc"
 	.include "data/maps/Route124_DivingTreasureHuntersHouse/scripts.inc"
 	.include "data/maps/VolcanionCave_1F/scripts.inc"
+	.include "data/maps/VolcanionCave_2F/scripts.inc"
+	.include "data/maps/VolcanionCave_3F/scripts.inc"
+	.include "data/maps/VolcanionCave_Outside/scripts.inc"
 
 .if IS_FRLG
 

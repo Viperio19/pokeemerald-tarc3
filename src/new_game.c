@@ -284,4 +284,17 @@ static void InitTARCData(void)
     SwitchParties();
     SwitchTrainerData();
     SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
+
+    struct BoulderPos *pos;
+    
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 32; j++)
+        {
+            pos = &gSaveBlock2Ptr->boulderPos[i][j];
+            
+            pos->x = 0;
+            pos->y = 0;
+        }
+    }
 }

@@ -5,6 +5,7 @@ VolcanionCave_1F_MapScripts::
 	.byte 0
 
 VolcanionCave_1F_OnTransition:
+	callnative UpdateStrengthBoulderPositions
 	call_if_set FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT, VolcanionCave_1F_EventScript_UpdateMagmaMGruntAndDiglett
 	end
 
@@ -14,7 +15,6 @@ VolcanionCave_1F_EventScript_UpdateMagmaMGruntAndDiglett::
 	return
 
 VolcanionCave_1F_OnWarp:
-	map_script_2 FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT, TRUE, VolcanionCave_1F_EventScript_UpdateMagmaMGruntAndDiglett
 	map_script_2 VAR_TEMP_1, 0, VolcanionCave_1F_EventScript_TrySpawnPlayer2
 	.2byte 0
 
@@ -363,6 +363,15 @@ VolcanionCave_1F_Movement_DiglettDigUp2::
 	set_visible
 	walk_in_place_fast_left
 	step_end
+
+VolcanionCave_1F_EventScript_AquaGruntF::
+	applymovement LOCALID_AQUA_GRUNT_F, Common_Movement_FacePlayer
+	waitmovement 0
+	msgbox VolcanionCave_1F_Text_Repels, MSGBOX_NPC
+	end
+
+VolcanionCave_1F_Text_Repels::
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}REPELS!!!!$"
 
 VolcanionCave_1F_EventScript_RemoveLastTalked::
 	removeobject VAR_LAST_TALKED

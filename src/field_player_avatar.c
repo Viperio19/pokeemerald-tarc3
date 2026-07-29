@@ -1608,6 +1608,11 @@ u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
     return IS_PLAYER_ONE ? sPlayerAvatarGfxIds[state][gender] : sPlayer2AvatarGfxIds[state][gender];
 }
 
+u16 GetPlayer2AvatarGraphicsIdByStateIdAndGender(u8 state, enum Gender gender)
+{
+    return IS_PLAYER_ONE ? sPlayer2AvatarGfxIds[state][gender] : sPlayerAvatarGfxIds[state][gender];
+}
+
 u16 GetFRLGAvatarGraphicsIdByGender(enum Gender gender)
 {
     return sFRLGAvatarGfxIds[gender];
@@ -1923,8 +1928,47 @@ static bool8 PushBoulder_End(struct Task *task, struct ObjectEvent *player, stru
         gPlayerAvatar.preventStep = FALSE;
         UnlockPlayerFieldControls();
         DestroyTask(FindTaskIdByFunc(Task_PushBoulder));
+
+        struct BoulderPos *pos = &gSaveBlock2Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][boulder->localId];
+        pos->x = boulder->currentCoords.x - MAP_OFFSET;
+        pos->y = boulder->currentCoords.y - MAP_OFFSET;
+        SetObjEventTemplateCoords(boulder->localId, pos->x, pos->y);
     }
     return FALSE;
+}
+
+void UpdateStrengthBoulderPositions(void)
+{
+    struct BoulderPos *pos;
+    if (FlagGet(FLAG_DOING_PLAYER_SWITCH))
+    {
+        for (u32 i = 0; i < 32; i++)
+        {
+            pos = &gSaveBlock2Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][i];
+            if (pos->x == 0 && pos->y == 0)
+                continue;
+            SetObjEventTemplateCoords(i, pos->x, pos->y);
+        }
+    }
+    else
+    {
+        for (u32 i = 0; i < OBJECT_EVENT_TEMPLATES_COUNT; i++)
+        {
+            if (gSaveBlock1Ptr->objectEventTemplates[i].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER)
+            {
+                pos = &gSaveBlock2Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][gSaveBlock1Ptr->objectEventTemplates[i].localId];
+                if (gSaveBlock1Ptr->objectEventTemplates[i].movementType == MOVEMENT_TYPE_NONE && pos->x != 0 && pos->y != 0)
+                {
+                    SetObjEventTemplateCoords(gSaveBlock1Ptr->objectEventTemplates[i].localId, pos->x, pos->y);
+                }
+                else
+                {
+                    pos->x = gSaveBlock1Ptr->objectEventTemplates[i].x;
+                    pos->y = gSaveBlock1Ptr->objectEventTemplates[i].y;
+                }
+            }
+        }
+    }
 }
 
 #undef tState
