@@ -367,11 +367,20 @@ VolcanionCave_1F_Movement_DiglettDigUp2::
 VolcanionCave_1F_EventScript_AquaGruntF::
 	applymovement LOCALID_AQUA_GRUNT_F, Common_Movement_FacePlayer
 	waitmovement 0
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_AquaGruntFPlayer2
 	msgbox VolcanionCave_1F_Text_Repels, MSGBOX_NPC
+	end
+
+VolcanionCave_1F_EventScript_AquaGruntFPlayer2::
+	msgbox VolcanionCave_1F_Text_NoRepels, MSGBOX_NPC
 	end
 
 VolcanionCave_1F_Text_Repels::
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}REPELS!!!!$"
+
+VolcanionCave_1F_Text_NoRepels::
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}NO REPELS!!!!$"
 
 VolcanionCave_1F_EventScript_RemoveLastTalked::
 	removeobject VAR_LAST_TALKED

@@ -314,6 +314,11 @@ void SwitchCharacters(void)
     DoWarp();
 }
 
+void IsPlayerOne(void)
+{
+    gSpecialVar_Result = IS_PLAYER_ONE;
+}
+
 int ProcessPlayerFieldInput(struct FieldInput *input)
 {
     struct MapPosition position;
