@@ -345,7 +345,12 @@ VolcanionCave_1F_Text_ObtainedHeatBadge::
 VolcanionCave_1F_EventScript_Diglett::
 	lock
 	faceplayer
-	waitse
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_DiglettMagma
+	goto VolcanionCave_1F_EventScript_DiglettAqua
+	end
+
+VolcanionCave_1F_EventScript_DiglettMagma::
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
 	msgbox VolcanionCave_1F_Text_DiglettCry
 	waitmoncry
@@ -356,14 +361,32 @@ VolcanionCave_1F_EventScript_Diglett::
 	release
 	end
 
+VolcanionCave_1F_EventScript_DiglettAqua::
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	msgbox VolcanionCave_1F_Text_AgentDiggsCry, 
+	waitmoncry
+	closemessage
+	delay 20
+	msgbox VolcanionCave_1F_Text_GoodWorkDiggs
+	closemessage
+	delay 20
+	release
+	end
+
 VolcanionCave_1F_Text_DiglettCry::
 	.string "{SPEAKER NAME_DIGLETT COLOR_AQUA}Pipipi wowow!$"
+
+VolcanionCave_1F_Text_AgentDiggsCry::
+	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}Pipipi wowow!$"
 
 VolcanionCave_1F_Text_DiglettSecretAgent::
 	.string "(The DIGLETT seems to be an\n"
 	.string "agent working for TEAM AQUA.)\p"
 	.string "(You decide not to ruin the MAGMA\n"
 	.string "GRUNT'S day with this information.)$"
+
+VolcanionCave_1F_Text_GoodWorkDiggs::
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Keep up the good work, AGENT DIGGS!$"
 
 VolcanionCave_1F_Movement_DiglettDigDown2::
 	walk_in_place_fast_up
@@ -385,15 +408,21 @@ VolcanionCave_1F_EventScript_AquaGruntF::
 	applymovement LOCALID_1F_AQUA_GRUNT_F, Common_Movement_FacePlayer
 	waitmovement 0
 	callnative IsPlayerOne
-	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_AquaGruntFPlayer2
-	msgbox VolcanionCave_1F_Text_Repels, MSGBOX_NPC
+	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_AquaGruntFMagmaPlayer
+	goto_if_set FLAG_RECEIVED_REPEL, VolcanionCave_1F_EventScript_AquaGruntFSprayingRepels
+	msgbox VolcanionCave_1F_Text_AquaGruntFAquaPlayer, MSGBOX_NPC
+	waitmessage
+	giveitem ITEM_REPEL
+	setflag FLAG_RECEIVED_REPEL
+VolcanionCave_1F_EventScript_AquaGruntFSprayingRepels::
+	msgbox VolcanionCave_1F_Text_AquaGruntFSprayingRepels, MSGBOX_NPC
 	end
 
-VolcanionCave_1F_EventScript_AquaGruntFPlayer2::
+VolcanionCave_1F_EventScript_AquaGruntFMagmaPlayer::
 	msgbox VolcanionCave_1F_Text_NoRepels, MSGBOX_NPC
 	end
 
-VolcanionCave_1F_Text_Repels::
+VolcanionCave_1F_Text_AquaGruntFAquaPlayer::
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Hey partner!\p"
 	.string "I've been spraying repels so SHELLY\n"
 	.string "doesn't have to deal with a ton of wild\l"
@@ -405,15 +434,17 @@ VolcanionCave_1F_Text_Repels::
 	.string "supposed to get down from here.\p"
 	.string "Oh well, I'm sure I'll find a way down.\p"
 	.string "In the meantime, take this repel!\p"
-	.string "You never know when you'll need one!\p"
-	.string "Although, I guess we do already have\n"
+	.string "You never know when you'll need one!$"
+
+VolcanionCave_1F_Text_AquaGruntFSprayingRepels::
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Although, I guess we do already have\n"
 	.string "GRUNTS spraying the rest of the cave…\p"
 	.string "Oh, who cares!\p"
 	.string "Maybe you'll find a use, maybe not!$"
 
 VolcanionCave_1F_Text_NoRepels::
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}EWWWWW!!!{PAUSE 20} MAGMA!!!!!\p"
-	.string "(The AQUA GRUNT sprays a repel at you.)\p"
+	.string "(The GRUNT sprays you with a repel.)\p"
 	.string "(You now smell like eggs and repel.)$"
 
 VolcanionCave_1F_EventScript_RemoveLastTalked::
