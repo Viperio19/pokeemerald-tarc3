@@ -420,6 +420,7 @@ VolcanionCave_1F_EventScript_AquaGruntFSprayingRepels::
 
 VolcanionCave_1F_EventScript_AquaGruntFMagmaPlayer::
 	msgbox VolcanionCave_1F_Text_NoRepels, MSGBOX_NPC
+	setvar VAR_REPEL_STEP_COUNT, 100
 	end
 
 VolcanionCave_1F_Text_AquaGruntFAquaPlayer::

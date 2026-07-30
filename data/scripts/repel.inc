@@ -22,6 +22,8 @@ EventScript_BufferSprayName_2:
 
 EventScript_SprayWoreOff::
 	lock
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, FALSE, EventScript_NotStinkyAnymore
 	call EventScript_BufferSprayName
 	specialvar LOCAL_VAR_NUM_SPRAY_STRENGTH, GetNumberSprayStrength
 	switch LOCAL_VAR_NUM_SPRAY_STRENGTH
@@ -29,6 +31,11 @@ EventScript_SprayWoreOff::
 	case 1, EventScript_UseSingleSpray
 	goto EventScript_HandleMultipleSprays
 	return
+
+EventScript_NotStinkyAnymore::
+	msgbox Text_NotStinkyAnymore, MSGBOX_SIGN
+	releaseall
+	end
 
 EventScript_HandleMultipleSprays::
 .if I_REPEL_LURE_MENU == TRUE
@@ -135,6 +142,9 @@ EventScript_UseSpray::
 	msgbox Text_SprayWoreOffUseX, MSGBOX_SIGN
 	return
 
+
+Text_NotStinkyAnymore::
+	.string "(You no longer smell like REPEL.)$"
 
 Text_SprayWoreOff::
 	.string "{STR_VAR_1}'s effect wore off…$"
