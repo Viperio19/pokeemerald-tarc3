@@ -32,3 +32,11 @@ VolcanionCave_2F_EventScript_EnterCave::
 	showplayer
 	release
 	end
+
+VolcanionCave_2F_EventScript_Diglett::
+	lock
+	faceplayer
+	waitse
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	release
+	end

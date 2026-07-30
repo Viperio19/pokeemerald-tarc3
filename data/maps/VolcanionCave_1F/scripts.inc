@@ -10,8 +10,8 @@ VolcanionCave_1F_OnTransition:
 	end
 
 VolcanionCave_1F_EventScript_UpdateMagmaMGruntAndDiglett::
-	setobjectxyperm LOCALID_DIGLETT, 34, 17
-	turnobject LOCALID_MAGMA_GRUNT_M, DIR_EAST
+	setobjectxyperm LOCALID_1F_DIGLETT, 34, 17
+	turnobject LOCALID_1F_MAGMA_GRUNT_M, DIR_EAST
 	return
 
 VolcanionCave_1F_OnWarp:
@@ -167,33 +167,33 @@ VolcanionCave_1F_EventScript_MagmaGruntM::
 	message VolcanionCave_1F_Text_MagmaGruntMLoveDiglett
 	waitmessage
 	closemessage
-	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
+	applymovement LOCALID_1F_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	message VolcanionCave_1F_Text_MagmaGruntMLookAtDiglett
 	waitmessage
 	closemessage
-	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettDigDown
+	applymovement LOCALID_1F_DIGLETT, VolcanionCave_1F_Movement_DiglettDigDown
 	waitmovement 0
-	applymovement LOCALID_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMConfused
+	applymovement LOCALID_1F_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMConfused
 	waitmovement 0
 	delay 20
-	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettDigUp
+	applymovement LOCALID_1F_DIGLETT, VolcanionCave_1F_Movement_DiglettDigUp
 	waitmovement 0
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
-	applymovement LOCALID_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMSurprised
+	applymovement LOCALID_1F_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMSurprised
 	waitmovement 0
 	delay 20
-	setobjectxyperm LOCALID_DIGLETT, 34, 17
-	addobject LOCALID_HEAT_BADGE
-	setobjectxy LOCALID_HEAT_BADGE, 33, 17
+	setobjectxyperm LOCALID_1F_DIGLETT, 34, 17
+	addobject LOCALID_1F_HEAT_BADGE
+	setobjectxy LOCALID_1F_HEAT_BADGE, 33, 17
 	clearflag FLAG_HIDE_VOLCANION_CAVE_1F_HEAT_BADGE
-	applymovement LOCALID_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMWatchBadgeFallDown
-	applymovement LOCALID_HEAT_BADGE, VolcanionCave_1F_Movement_BadgeFallDown
+	applymovement LOCALID_1F_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMWatchBadgeFallDown
+	applymovement LOCALID_1F_HEAT_BADGE, VolcanionCave_1F_Movement_BadgeFallDown
 	waitmovement 0
 	delay 20
 	msgbox VolcanionCave_1F_Text_MagmaGruntMDroppedBadge
 	closemessage
-	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
+	applymovement LOCALID_1F_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	release
 	end
@@ -203,7 +203,7 @@ VolcanionCave_1F_EventScript_MagmaGruntMDroppedBadge::
 	faceplayer
 	msgbox VolcanionCave_1F_Text_MagmaGruntMCoolDiglett
 	closemessage
-	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
+	applymovement LOCALID_1F_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	release
 	end
@@ -215,13 +215,13 @@ VolcanionCave_1F_EventScript_MagmaGruntMBadgeStolen::
 	closemessage
 	waitse
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
-	applymovement LOCALID_DIGLETT, VolcanionCave_1F_Movement_DiglettSurprised
+	applymovement LOCALID_1F_DIGLETT, VolcanionCave_1F_Movement_DiglettSurprised
 	waitmoncry
-	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
+	applymovement LOCALID_1F_MAGMA_GRUNT_M, Common_Movement_WalkInPlaceRight
 	waitmovement 0
 	msgbox VolcanionCave_1F_Text_MagmaGruntMWoahThereDiglett
 	closemessage
-	applymovement LOCALID_MAGMA_GRUNT_M, Common_Movement_FaceOriginalDirection
+	applymovement LOCALID_1F_MAGMA_GRUNT_M, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	release
 	end
@@ -365,7 +365,7 @@ VolcanionCave_1F_Movement_DiglettDigUp2::
 	step_end
 
 VolcanionCave_1F_EventScript_AquaGruntF::
-	applymovement LOCALID_AQUA_GRUNT_F, Common_Movement_FacePlayer
+	applymovement LOCALID_1F_AQUA_GRUNT_F, Common_Movement_FacePlayer
 	waitmovement 0
 	callnative IsPlayerOne
 	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_AquaGruntFPlayer2
@@ -518,8 +518,8 @@ VolcanionCave_1F_EventScript_DefeatedGolem::
 	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
-	removeobject LOCALID_GOLEM
-	addobject LOCALID_GOLEM_BOULDER
+	removeobject LOCALID_1F_GOLEM
+	addobject LOCALID_1F_GOLEM_BOULDER
 	clearflag FLAG_HIDE_VOLCANION_CAVE_1F_GOLEM_BOULDER
 	msgbox VolcanionCave_1F_Text_DidWeKillIt, MSGBOX_DEFAULT
 	release

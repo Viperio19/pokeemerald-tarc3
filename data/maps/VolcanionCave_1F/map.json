@@ -15,7 +15,7 @@
   "connections": null,
   "object_events": [
     {
-      "local_id": "LOCALID_GOLEM_BOULDER",
+      "local_id": "LOCALID_1F_GOLEM_BOULDER",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 19,
       "y": 2,
@@ -42,7 +42,7 @@
       "flag": "FLAG_HIDE_VOLCANION_CAVE_1F_TIRTOUGA"
     },
     {
-      "local_id": "LOCALID_GOLEM",
+      "local_id": "LOCALID_1F_GOLEM",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(GOLEM_ALOLA)",
       "x": 19,
       "y": 2,
@@ -95,7 +95,7 @@
       "flag": "0"
     },
     {
-      "local_id": "LOCALID_DIGLETT",
+      "local_id": "LOCALID_1F_DIGLETT",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIGLETT)",
       "x": 36,
       "y": 17,
@@ -109,7 +109,7 @@
       "flag": "0"
     },
     {
-      "local_id": "LOCALID_HEAT_BADGE",
+      "local_id": "LOCALID_1F_HEAT_BADGE",
       "graphics_id": "OBJ_EVENT_GFX_POKE_BALL",
       "x": 32,
       "y": 20,
@@ -123,7 +123,7 @@
       "flag": "FLAG_HIDE_VOLCANION_CAVE_1F_HEAT_BADGE"
     },
     {
-      "local_id": "LOCALID_MAGMA_GRUNT_M",
+      "local_id": "LOCALID_1F_MAGMA_GRUNT_M",
       "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
       "x": 33,
       "y": 17,
@@ -176,7 +176,7 @@
       "flag": "0"
     },
     {
-      "local_id": "LOCALID_AQUA_GRUNT_F",
+      "local_id": "LOCALID_1F_AQUA_GRUNT_F",
       "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_F",
       "x": 32,
       "y": 4,
