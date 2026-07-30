@@ -3,7 +3,7 @@
   "name": "VolcanionCave_Outside",
   "layout": "LAYOUT_VOLCANION_CAVE_OUTSIDE",
   "music": "MUS_PETALBURG_WOODS",
-  "region_map_section": "MAPSEC_VOLCANION_CAVE",
+  "region_map_section": "MAPSEC_VOLCANO_CANYON",
   "requires_flash": false,
   "weather": "WEATHER_SUNNY",
   "map_type": "MAP_TYPE_OCEAN_ROUTE",

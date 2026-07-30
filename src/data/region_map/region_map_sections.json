@@ -1628,8 +1628,12 @@
       "height": 1
     },
     {
-      "id": "MAPSEC_VOLCANION_CAVE",
-      "name": "VOLCANION CAVE"
+      "id": "MAPSEC_VOLCANO_CAVERN",
+      "name": "VOLCANO CAVERN"
+    },
+    {
+      "id": "MAPSEC_VOLCANO_CANYON",
+      "name": "VOLCANO CANYON"
     }
   ]
 }
