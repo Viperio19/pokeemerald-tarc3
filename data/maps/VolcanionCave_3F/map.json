@@ -3,7 +3,7 @@
   "name": "VolcanionCave_3F",
   "layout": "LAYOUT_VOLCANION_CAVE_3F",
   "music": "MUS_VOLCANION_CAVE_3F",
-  "region_map_section": "MAPSEC_VOLCANION_CAVE",
+  "region_map_section": "MAPSEC_VOLCANO_CAVERN",
   "requires_flash": false,
   "weather": "WEATHER_FOG",
   "map_type": "MAP_TYPE_UNDERGROUND",
