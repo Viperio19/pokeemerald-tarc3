@@ -401,8 +401,16 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     // TARC - Switch characters when pressing R
     if (input->pressedRButton && !(IS_MULTIPLAYER))
     {
-        SwitchCharacters();
-        return TRUE;
+        if (FlagGet(FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER))
+        {
+            ScriptContext_SetupScript(EventScript_Player2_ReadyToBattle);
+            return TRUE;
+        }
+        else
+        {
+            SwitchCharacters();
+            return TRUE;
+        }
     }
 
     if (input->input_field_1_2 && DEBUG_OVERWORLD_MENU && !DEBUG_OVERWORLD_IN_MENU)

@@ -1,5 +1,6 @@
 EventScript_Player2_Singleplayer::
 	lock
+	goto_if_set FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, EventScript_Player2_ReadyToBattle
 	faceplayer
 	message Player2_Text_HiPlayer
 	waitmessage
@@ -134,3 +135,12 @@ Player2_Multiplayer_Cancel::
 	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
 	release
 	end
+
+EventScript_Player2_ReadyToBattle::
+	lock
+	msgbox Player2_Text_ReadyToBattle, MSGBOX_DEFAULT
+	release
+	end
+
+Player2_Text_ReadyToBattle::
+	.string "{RIVAL} is ready to battle!$"

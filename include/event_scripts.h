@@ -4,6 +4,8 @@
 extern const u8 EventScript_Player2_Singleplayer[];
 extern const u8 EventScript_Player2_Multiplayer[];
 
+extern const u8 EventScript_Player2_ReadyToBattle[];
+
 extern const u8 EventScript_Follower[];
 extern const u8 EventScript_FollowerEnd[];
 extern const u8 EventScript_FollowerGeneric[];
