@@ -77,6 +77,14 @@ VolcanionCave_1F_EventScript_EnterCave::
 	waitmovement 0
 	message VolcanionCave_1F_Text_IntroJobToDo
 	waitmessage
+	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroTellMeTwice
+	waitmessage
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroScrewsLoose
+	waitmessage
 	callnative UpdatePlayer2Pos
 	release
 	end
@@ -127,11 +135,20 @@ VolcanionCave_1F_Text_IntroSmellLikeEggs::
 
 VolcanionCave_1F_Text_IntroJobToDo::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}{FONT 5}oh for the love of- {PAUSE 20}{FONT_NORMAL}Don't bring my\n"
-	.string "sister's TOGEPI into this...\p"
+	.string "sister's TOGEPI into this…\p"
 	.string "Look, unlike you ARAQUA-NERDS,\n"
 	.string "I have an important job to do.\p"
 	.string "I'd appreciate it if you\n"
 	.string "stayed out of my way.\p$"
+
+VolcanionCave_1F_Text_IntroTellMeTwice::
+	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Don't have to tell me twice!!\p$"
+
+VolcanionCave_1F_Text_IntroScrewsLoose::
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}{FONT 5}Woah… I knew TEAM AQUA had a few screws loose,\n"
+	.string "but {HESHE_2}'s way worse than I expected.\p"
+	.string "Maybe I can trick {HIMHER_2} into\n"
+	.string "doing some of my work for me…{FONT_NORMAL}\p$"
 
 VolcanionCave_1F_EventScript_MagmaGruntF::
 	random 3
@@ -377,10 +394,27 @@ VolcanionCave_1F_EventScript_AquaGruntFPlayer2::
 	end
 
 VolcanionCave_1F_Text_Repels::
-	.string "{SPEAKER NAME_AQUA COLOR_AQUA}REPELS!!!!$"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Hey partner!\p"
+	.string "I've been spraying repels so SHELLY\n"
+	.string "doesn't have to deal with a ton of wild\l"
+	.string "battles when she comes through here.\p"
+	.string "There's a few POKéMON here that are\n"
+	.string "stronger than our assigned CARVANHA,\l"
+	.string "but not enough for it to be a problem.\p"
+	.string "What IS a problem is how I'm\n"
+	.string "supposed to get down from here.\p"
+	.string "Oh well, I'm sure I'll find a way down.\p"
+	.string "In the meantime, take this repel!\p"
+	.string "You never know when you'll need one!\p"
+	.string "Although, I guess we do already have\n"
+	.string "GRUNTS spraying the rest of the cave…\p"
+	.string "Oh, who cares!\p"
+	.string "Maybe you'll find a use, maybe not!$"
 
 VolcanionCave_1F_Text_NoRepels::
-	.string "{SPEAKER NAME_AQUA COLOR_AQUA}NO REPELS!!!!$"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}EWWWWW!!!{PAUSE 20} MAGMA!!!!!\p"
+	.string "(The AQUA GRUNT sprays a repel at you.)\p"
+	.string "(You now smell like eggs and repel.)$"
 
 VolcanionCave_1F_EventScript_RemoveLastTalked::
 	removeobject VAR_LAST_TALKED
@@ -473,7 +507,7 @@ VolcanionCave_1F_EventScript_PlayerWalkInPlaceWest::
 	return
 
 VolcanionCave_1F_Text_RockIsGone::
-	.string "{PLAYER}: Hey, {RIVAL}!\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Hey, you!\p"
 	.string "Rock is gone, be useful \n"
 	.string "and battle with me!$"
 
@@ -485,10 +519,13 @@ VolcanionCave_1F_EventScript_Golem::
 	waitmoncry
 	goto_if_set FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, VolcanionCave_1F_EventScript_DoGolemMultiBattle
 	goto_if_unset FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, VolcanionCave_1F_EventScript_DoGolemSingleBattle
+
 VolcanionCave_1F_EventScript_AskGolemMultiBattle::
-	msgbox VolcanionCave_1F_Text_BattleTogether, MSGBOX_YESNO
-	switch VAR_RESULT
-	case YES, VolcanionCave_1F_EventScript_GetReadyForGolemMultiBattle
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_BattleTogetherMagma
+	goto VolcanionCave_1F_EventScript_BattleTogetherAqua
+	end
+
 VolcanionCave_1F_EventScript_DoGolemSingleBattle::
 	setwildbattle SPECIES_GOLEM_ALOLA, 35, TRUE
 	dowildbattle
@@ -525,13 +562,55 @@ VolcanionCave_1F_EventScript_DefeatedGolem::
 	release
 	end
 
-VolcanionCave_1F_Text_BattleTogether::
-	.string "Battle together with {RIVAL}?$"
+VolcanionCave_1F_EventScript_BattleTogetherMagma::
+	msgbox VolcanionCave_1F_Text_BattleTogetherMagma, MSGBOX_YESNO
+	switch VAR_RESULT
+	case YES, VolcanionCave_1F_EventScript_GetReadyForGolemMultiBattle
+	goto VolcanionCave_1F_EventScript_DoGolemSingleBattle
+	end
+
+VolcanionCave_1F_EventScript_BattleTogetherAqua::
+	msgbox VolcanionCave_1F_Text_BattleTogetherAqua, MSGBOX_YESNO
+	switch VAR_RESULT
+	case YES, VolcanionCave_1F_EventScript_GetReadyForGolemMultiBattle
+	goto VolcanionCave_1F_EventScript_DoGolemSingleBattle
+	return
+
+VolcanionCave_1F_Text_BattleTogetherMagma::
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Well, I guess we have to do this…\p"
+	.string "{SPEAKER NAME_NONE COLOR_NORMAL}Battle together with {RIVAL}?$"
+
+VolcanionCave_1F_Text_BattleTogetherAqua::
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Ugh… FINE, I'll battle it with you.\p"
+	.string "{SPEAKER NAME_NONE COLOR_NORMAL}Battle together with {RIVAL}?$"
 
 VolcanionCave_1F_Text_GotReadyToBattle::
 	.string "{PLAYER} got ready to battle!$"
 
 VolcanionCave_1F_Text_DidWeKillIt::
-	.string "{PLAYER}: …\p"
-	.string "We killed it…\p"
-	.string "Yay!$"
+	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Is that it??{PAUSE 20} DID WE DO IT???\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Indoor voice please.\p"
+	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Ugh, you're no fun.\p"
+	.string "We just beat the strongest\n"
+	.string "POKéMON we've ever battled\l"
+	.string "and THAT's your reaction??\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}If THAT'S the strongest POKéMON\n"
+	.string "you've ever battled, you should\l"
+	.string "seriously reconsider being here.\p"
+	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Are all TEAM MAGMA GRUNTS as\n"
+	.string "annoying as you????\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Yeah.\p"
+	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Look, as much as I really really REALLY\n"
+	.string "don't want to say it, we needed to work\l"
+	.string "together to take out that GOLEM.\p"
+	.string "There's probably more POKéMON in here\n"
+	.string "that are too strong for just one of us.\p"
+	.string "What do you say to a truce for now?\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}As long as it's ONLY temporary.\p"
+	.string "Any more than that and the shame\n"
+	.string "of working with you will kill me.\p"
+	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}{FONT 5}{AUTO_SCROLL 1}not if i kill you first{PAUSE 10}\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}{FONT_NORMAL}{AUTO_SCROLL 0}What???\p"
+	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}What?\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}We're getting nowhere with this.\n"
+	.string "Let's go.$"

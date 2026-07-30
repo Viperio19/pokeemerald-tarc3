@@ -8,6 +8,7 @@ enum SpeakerNames {
     SP_NAME_MAGMA,
     SP_NAME_AQUA,
     SP_NAME_DIGLETT,
+    SP_NAME_AGENT_DIGGS,
     SP_NAME_COURTNEY,
     SP_NAME_SHELLY,
     SP_NAME_COUNT
