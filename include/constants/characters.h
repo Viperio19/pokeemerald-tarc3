@@ -268,7 +268,8 @@
 #define PLACEHOLDER_ID_HESHE_2       0xB
 #define PLACEHOLDER_ID_HIMHER_2      0xC
 #define PLACEHOLDER_ID_HISHERS_2     0xD
-#define PLACEHOLDER_ID_REGION        0xE
+#define PLACEHOLDER_ID_PLAYER_MAGMA  0xE
+#define PLACEHOLDER_ID_PLAYER_AQUA   0xF
 
 // battle placeholders are located in battle_message.h
 

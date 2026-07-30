@@ -517,12 +517,20 @@ static const u8 *ExpandPlaceholder_HisHersRival(void)
     return (IS_PLAYER_ONE ? gSaveBlock2Ptr->player2Gender : gSaveBlock2Ptr->playerGender) == MALE ? gText_ExpandedPlaceholder_His : gText_ExpandedPlaceholder_Hers;
 }
 
-static const u8 *ExpandPlaceholder_Region(void)
+static const u8 *ExpandPlaceholder_PlayerMagma(void)
 {
-    if (IS_FRLG)
-        return gText_Kanto;
+    if (IS_PLAYER_ONE)
+        return gSaveBlock2Ptr->player2Name;
     else
-        return gText_Hoenn;
+        return gSaveBlock2Ptr->playerName;
+}
+
+static const u8 *ExpandPlaceholder_PlayerAqua(void)
+{
+    if (IS_PLAYER_ONE)
+        return gSaveBlock2Ptr->playerName;
+    else
+        return gSaveBlock2Ptr->player2Name;
 }
 
 const u8 *GetExpandedPlaceholder(u32 id)
@@ -545,7 +553,8 @@ const u8 *GetExpandedPlaceholder(u32 id)
         [PLACEHOLDER_ID_HESHE_2]      = ExpandPlaceholder_HeSheRival,
         [PLACEHOLDER_ID_HIMHER_2]     = ExpandPlaceholder_HimHerRival,
         [PLACEHOLDER_ID_HISHERS_2]    = ExpandPlaceholder_HisHersRival,
-        [PLACEHOLDER_ID_REGION]       = ExpandPlaceholder_Region,
+        [PLACEHOLDER_ID_PLAYER_MAGMA] = ExpandPlaceholder_PlayerMagma,
+        [PLACEHOLDER_ID_PLAYER_AQUA]  = ExpandPlaceholder_PlayerAqua,
     };
 
     if (id >= ARRAY_COUNT(funcs))

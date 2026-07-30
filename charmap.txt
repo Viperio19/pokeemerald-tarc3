@@ -350,7 +350,8 @@ HISHERS_1      = FD 0A
 HESHE_2        = FD 0B
 HIMHER_2       = FD 0C
 HISHERS_2      = FD 0D
-REGION         = FD 0E
+PLAYER_MAGMA   = FD 0E
+PLAYER_AQUA    = FD 0F
 
 @ battle string placeholders
 
