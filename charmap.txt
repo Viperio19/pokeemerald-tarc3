@@ -344,12 +344,12 @@ RIVAL          = FD 06
 @ version-dependent strings (originally made for Ruby/Sapphire differences)
 @ Emerald uses the Sapphire strings (except for VERSION).
 VERSION        = FD 07 @ "EMERALD"
-AQUA           = FD 08
-MAGMA          = FD 09
-ARCHIE         = FD 0A
-MAXIE          = FD 0B
-KYOGRE         = FD 0C
-GROUDON        = FD 0D
+HESHE_1        = FD 08
+HIMHER_1       = FD 09
+HISHERS_1      = FD 0A
+HESHE_2        = FD 0B
+HIMHER_2       = FD 0C
+HISHERS_2      = FD 0D
 REGION         = FD 0E
 
 @ battle string placeholders

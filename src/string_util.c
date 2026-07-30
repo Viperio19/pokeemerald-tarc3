@@ -487,34 +487,34 @@ static const u8 *ExpandPlaceholder_Version(void)
     return gText_ExpandedPlaceholder_Emerald;
 }
 
-static const u8 *ExpandPlaceholder_Aqua(void)
+static const u8 *ExpandPlaceholder_HeShePlayer(void)
 {
-    return gText_ExpandedPlaceholder_Aqua;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->playerGender : gSaveBlock2Ptr->player2Gender) == MALE ? gText_ExpandedPlaceholder_He : gText_ExpandedPlaceholder_She;
 }
 
-static const u8 *ExpandPlaceholder_Magma(void)
+static const u8 *ExpandPlaceholder_HimHerPlayer(void)
 {
-    return gText_ExpandedPlaceholder_Magma;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->playerGender : gSaveBlock2Ptr->player2Gender) == MALE ? gText_ExpandedPlaceholder_Him : gText_ExpandedPlaceholder_Her;
 }
 
-static const u8 *ExpandPlaceholder_Archie(void)
+static const u8 *ExpandPlaceholder_HisHersPlayer(void)
 {
-    return gText_ExpandedPlaceholder_Archie;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->playerGender : gSaveBlock2Ptr->player2Gender) == MALE ? gText_ExpandedPlaceholder_His : gText_ExpandedPlaceholder_Hers;
 }
 
-static const u8 *ExpandPlaceholder_Maxie(void)
+static const u8 *ExpandPlaceholder_HeSheRival(void)
 {
-    return gText_ExpandedPlaceholder_Maxie;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->player2Gender : gSaveBlock2Ptr->playerGender) == MALE ? gText_ExpandedPlaceholder_He : gText_ExpandedPlaceholder_She;
 }
 
-static const u8 *ExpandPlaceholder_Kyogre(void)
+static const u8 *ExpandPlaceholder_HimHerRival(void)
 {
-    return gText_ExpandedPlaceholder_Kyogre;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->player2Gender : gSaveBlock2Ptr->playerGender) == MALE ? gText_ExpandedPlaceholder_Him : gText_ExpandedPlaceholder_Her;
 }
 
-static const u8 *ExpandPlaceholder_Groudon(void)
+static const u8 *ExpandPlaceholder_HisHersRival(void)
 {
-    return gText_ExpandedPlaceholder_Groudon;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->player2Gender : gSaveBlock2Ptr->playerGender) == MALE ? gText_ExpandedPlaceholder_His : gText_ExpandedPlaceholder_Hers;
 }
 
 static const u8 *ExpandPlaceholder_Region(void)
@@ -539,12 +539,12 @@ const u8 *GetExpandedPlaceholder(u32 id)
         [PLACEHOLDER_ID_KUN]          = ExpandPlaceholder_KunChan,
         [PLACEHOLDER_ID_RIVAL]        = ExpandPlaceholder_RivalName,
         [PLACEHOLDER_ID_VERSION]      = ExpandPlaceholder_Version,
-        [PLACEHOLDER_ID_AQUA]         = ExpandPlaceholder_Aqua,
-        [PLACEHOLDER_ID_MAGMA]        = ExpandPlaceholder_Magma,
-        [PLACEHOLDER_ID_ARCHIE]       = ExpandPlaceholder_Archie,
-        [PLACEHOLDER_ID_MAXIE]        = ExpandPlaceholder_Maxie,
-        [PLACEHOLDER_ID_KYOGRE]       = ExpandPlaceholder_Kyogre,
-        [PLACEHOLDER_ID_GROUDON]      = ExpandPlaceholder_Groudon,
+        [PLACEHOLDER_ID_HESHE_1]      = ExpandPlaceholder_HeShePlayer,
+        [PLACEHOLDER_ID_HIMHER_1]     = ExpandPlaceholder_HimHerPlayer,
+        [PLACEHOLDER_ID_HISHERS_1]    = ExpandPlaceholder_HisHersPlayer,
+        [PLACEHOLDER_ID_HESHE_2]      = ExpandPlaceholder_HeSheRival,
+        [PLACEHOLDER_ID_HIMHER_2]     = ExpandPlaceholder_HimHerRival,
+        [PLACEHOLDER_ID_HISHERS_2]    = ExpandPlaceholder_HisHersRival,
         [PLACEHOLDER_ID_REGION]       = ExpandPlaceholder_Region,
     };
 

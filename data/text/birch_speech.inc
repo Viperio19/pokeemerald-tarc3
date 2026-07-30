@@ -85,23 +85,23 @@ gText_Intro_Shelly_AreYouReady::
 gText_Intro_SwitchingExplanation::
 	.string "{SPEAKER NAME_NONE COLOR_NORMAL}{PAUSE 20}{FONT_NORMAL}This game has two protagonists, to\n"
 	.string "ensure that you have twice the fun!\p"
-	.string "Press the R button now to\n"
+	.string "Press the {COLOR RED}R button{COLOR DARK_GRAY} now to\n"
 	.string "switch protagonists."
 	.string "$"
 
 gText_Intro_SwitchingConfirmation::
-	.string "That's it!!! Thats the R button!!!!!\p"
+	.string "That's it!!! Thats the {COLOR RED}R button{COLOR DARK_GRAY}!!!!!\p"
 	.string "This button will be very important for\n"
 	.string "solving the many puzzles in your way.\p"
 	.string "If you ever forget which button it is,\n"
 	.string "remember this helpful saying:\p"
-	.string "If you cant go far, {PAUSE 40}press R.\p"
+	.string "If you cant go far, {PAUSE 40}press {COLOR RED}R{COLOR DARK_GRAY}.\p"
 	.string "Now, let's introduce the second player.\p"
 	.string "$"
 
 gText_Intro_SwitchingFailure::
 	.string "Wrong button, buster.\p"
-	.string "Press the R button now to\n"
+	.string "Press the {COLOR RED}R button{COLOR DARK_GRAY} now to\n"
 	.string "switch protagonists."
 	.string "$"
 
