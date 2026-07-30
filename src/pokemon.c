@@ -901,14 +901,11 @@ bool32 ComputePlayerShinyOdds(u32 personality, u32 value)
 
 void SetBoxMonIVs(struct BoxPokemon *mon, u8 fixedIV)
 {
-    u32 i, value;
+    u32 i, value = MAX_PER_STAT_IVS;
 
-    if (fixedIV < USE_RANDOM_IVS)
-    {
-        for (i = 0; i < NUM_STATS; i++)
-            SetBoxMonData(mon, MON_DATA_HP_IV + i, &fixedIV);
-        return;
-    }
+    for (i = 0; i < NUM_STATS; i++)
+        SetBoxMonData(mon, MON_DATA_HP_IV + i, &value);
+    return;
 
     u32 iv;
     u32 ivRandom = Random32();
@@ -970,6 +967,10 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
     u16 checksum;
     bool32 isShiny;
 
+    u8 neutralNature = NATURE_HARDY + (Random() % 5) * 6;
+
+    u32 neutralPersonality = GetMonPersonality(species, Random() % 2, neutralNature, RANDOM_UNOWN_LETTER);
+
     ZeroBoxMonData(boxMon);
     // Determine original trainer ID
     if (trainerId.method == OT_ID_RANDOM_NO_SHINY)
@@ -980,15 +981,15 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
     else if (trainerId.method == OT_ID_PRESET)
     {
         value = trainerId.value;
-        isShiny = GET_SHINY_VALUE(value, personality) < SHINY_ODDS;
+        isShiny = GET_SHINY_VALUE(value, neutralPersonality) < SHINY_ODDS;
     }
     else // Player is the OT
     {
         value = READ_OTID_FROM_SAVE;
-        isShiny = ComputePlayerShinyOdds(personality, value);
+        isShiny = ComputePlayerShinyOdds(neutralPersonality, value);
     }
 
-    SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
+    SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &neutralPersonality);
     SetBoxMonData(boxMon, MON_DATA_OT_ID, &value);
 
     checksum = CalculateBoxMonChecksum(boxMon);

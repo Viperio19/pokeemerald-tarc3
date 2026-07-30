@@ -376,7 +376,9 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8
 
     ResolveRandomMonGeneration(species, &ball, moves);
 
-    u32 personality = GetMonPersonality(species, gender, nature, RANDOM_UNOWN_LETTER);
+    u8 neutralNature = NATURE_HARDY + (Random() % 5) * 6;
+
+    u32 personality = GetMonPersonality(species, gender, neutralNature, RANDOM_UNOWN_LETTER);
     CreateMon(&mon, species, level, personality, OTID_STRUCT_PLAYER_ID);
 
     // shininess
@@ -402,6 +404,7 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8
         teraType = GetTeraTypeFromPersonality(&mon);
     SetMonData(&mon, MON_DATA_TERA_TYPE, &teraType);
 
+    u8 maxIvs = MAX_PER_STAT_IVS;
     // EV and IV
     for (i = 0; i < NUM_STATS; i++)
     {
@@ -410,8 +413,7 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8
             SetMonData(&mon, MON_DATA_HP_EV + i, &evs[i]);
 
         // IV
-        if (ivs[i] <= MAX_PER_STAT_IVS)
-            SetMonData(&mon, MON_DATA_HP_IV + i, &ivs[i]);
+        SetMonData(&mon, MON_DATA_HP_IV + i, &maxIvs);
     }
     CalculateMonStats(&mon);
 
@@ -548,8 +550,7 @@ void ScrCmd_createmon(struct ScriptContext *ctx)
         if (ivs[i] == USE_RANDOM_IVS)
         {
             availableIVs[nonFixedIvCount] = i;
-            ivs[i] = Random() % (MAX_PER_STAT_IVS + 1);
-            nonFixedIvCount++;
+            ivs[i] = MAX_PER_STAT_IVS;
         }
     }
 
@@ -593,8 +594,7 @@ void ScrCmd_createmon(struct ScriptContext *ctx)
 
     if (gender == MON_GENDER_MAY_CUTE_CHARM)
         gender = GetSynchronizedGender(origin, species);
-    if (nature == NATURE_MAY_SYNCHRONIZE)
-        nature = GetSynchronizedNature(origin, species);
+    nature = NATURE_HARDY + (Random() % 5) * 6;
 
     gSpecialVar_Result = ScriptGiveMonParameterized(side, slot, species, level, item, ball, nature, abilityNum, gender, evs, ivs, moves, shinyMode, gmaxFactor, teraType, dmaxLevel, isEgg);
 }
