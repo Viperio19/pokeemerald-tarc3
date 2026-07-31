@@ -151,3 +151,7 @@ VolcanionCave_2F_EventScript_FloorSwitch2::
 VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed::
 	release
 	end
+
+VolcanionCave_2F_EventScript_Exeggutor::
+	release
+	end
