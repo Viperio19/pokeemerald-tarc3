@@ -33,6 +33,7 @@
 #include "constants/weather.h"
 
 extern const u8 EventScript_SprayWoreOff[];
+extern const u8 EventScript_NotStinkyAnymore[];
 
 #define MAX_ENCOUNTER_RATE 2880
 
@@ -983,6 +984,7 @@ bool8 UpdateRepelCounter(void)
 {
     u16 repelLureVar = VarGet(VAR_REPEL_STEP_COUNT);
     u16 steps = REPEL_LURE_STEPS(repelLureVar);
+    u16 stinkySteps = VarGet(VAR_STINKY_STEP_COUNT);
     bool32 isLure = IS_LAST_USED_LURE(repelLureVar);
 
     if (InBattlePike() || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
@@ -990,7 +992,18 @@ bool8 UpdateRepelCounter(void)
     if (InUnionRoom() == TRUE)
         return FALSE;
 
-    if (steps != 0)
+    if (!IS_PLAYER_ONE && stinkySteps != 0)
+    {
+        stinkySteps--;
+        VarSet(VAR_STINKY_STEP_COUNT, stinkySteps);
+        if (stinkySteps == 0)
+        {
+            ScriptContext_SetupScript(EventScript_NotStinkyAnymore);
+            return TRUE;
+        }
+    }
+
+    if (IS_PLAYER_ONE && steps != 0)
     {
         steps--;
         if (!isLure)

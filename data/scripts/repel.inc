@@ -22,8 +22,6 @@ EventScript_BufferSprayName_2:
 
 EventScript_SprayWoreOff::
 	lock
-	callnative IsPlayerOne
-	goto_if_eq VAR_RESULT, FALSE, EventScript_NotStinkyAnymore
 	call EventScript_BufferSprayName
 	specialvar LOCAL_VAR_NUM_SPRAY_STRENGTH, GetNumberSprayStrength
 	switch LOCAL_VAR_NUM_SPRAY_STRENGTH
