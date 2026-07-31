@@ -76,6 +76,7 @@
 #include "constants/abilities.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
+#include "constants/field_effects.h"
 #include "constants/layouts.h"
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
@@ -2371,6 +2372,18 @@ static bool32 ReturnToFieldLocal(u8 *state)
         else
             UpdateFollowingPokemon();
         SetCameraToTrackPlayer();
+        if (gSaveBlock1Ptr->location.mapNum == gSaveBlock2Ptr->player2Pos.mapNum
+         && gSaveBlock1Ptr->location.mapGroup == gSaveBlock2Ptr->player2Pos.mapGroup
+         && MetatileBehavior_IsSurfableFishableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)))
+        {
+            u8 objId = GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2);
+            gFieldEffectArguments[0] = gObjectEvents[objId].currentCoords.x;
+            gFieldEffectArguments[1] = gObjectEvents[objId].currentCoords.y;
+            gFieldEffectArguments[2] = objId;
+            u8 spriteId = FieldEffectStart(FLDEFF_SURF_BLOB);
+            gObjectEvents[objId].fieldEffectSpriteId = spriteId;
+            SetSurfBlob_BobState(spriteId, BOB_PLAYER_AND_MON);
+        }
         (*state)++;
         break;
     case 1:
