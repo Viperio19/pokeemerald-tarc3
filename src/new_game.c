@@ -291,7 +291,7 @@ static void InitTARCData(void)
     {
         for (u32 j = 0; j < 32; j++)
         {
-            pos = &gSaveBlock2Ptr->boulderPos[i][j];
+            pos = &gSaveBlock1Ptr->boulderPos[i][j];
             
             pos->x = 0;
             pos->y = 0;

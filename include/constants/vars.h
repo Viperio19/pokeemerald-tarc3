@@ -269,8 +269,8 @@
 #define VAR_VOLCANION_CAVE_1F_STATE                      0x40F7
 #define VAR_VOLCANION_CAVE_2F_STATE                      0x40F8
 #define VAR_VOLCANION_CAVE_3F_STATE                      0x40F9
-#define VAR_UNUSED_0x40FA                                0x40FA // Unused Var
-#define VAR_UNUSED_0x40FB                                0x40FB // Unused Var
+#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1          0x40FA
+#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2          0x40FB
 #define VAR_UNUSED_0x40FC                                0x40FC // Unused Var
 #define VAR_UNUSED_0x40FD                                0x40FD // Unused Var
 #define VAR_UNUSED_0x40FE                                0x40FE // Unused Var

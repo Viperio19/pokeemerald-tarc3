@@ -600,8 +600,10 @@ struct Player2Pos
 
 struct BoulderPos
 {
-    s32 x;
-    s32 y;
+    u16 x;
+    u16 y;
+    u16 originalX;
+    u16 originalY;
 };
 
 struct SaveBlock2
@@ -638,7 +640,6 @@ struct SaveBlock2
     /*0xB0*/ struct PlayersApprentice playerApprentice;
     /*0xDC*/ struct Apprentice apprentices[APPRENTICE_COUNT];
     /*0x1EC*/ struct BerryCrush berryCrush;
-    /*0x90*/ struct BoulderPos boulderPos[3][32];
 #if FREE_POKEMON_JUMP == FALSE
     /*0x1FC*/ struct PokemonJumpRecords pokeJump;
 #endif //FREE_POKEMON_JUMP
@@ -1154,6 +1155,7 @@ struct SaveBlock1
     /*0x9BC*/ u16 berryBlenderRecords[3];
     /*0x9C2*/ u8 unused_9C2[2];
               u32 dailySeed;
+              struct BoulderPos boulderPos[3][32];
 #if FREE_MATCH_CALL == FALSE
     /*0x9C8*/ u16 trainerRematchStepCounter;
     /*0x9CA*/ u8 trainerRematches[MAX_REMATCH_ENTRIES];

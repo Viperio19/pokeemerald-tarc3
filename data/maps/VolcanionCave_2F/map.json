@@ -18,11 +18,11 @@
       "local_id": "LOCALID_2F_DIGLETT",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIGLETT)",
       "x": 5,
-      "y": 53,
+      "y": 52,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WANDER_UP_AND_DOWN",
       "movement_range_x": 0,
-      "movement_range_y": 1,
+      "movement_range_y": 2,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
@@ -66,6 +66,47 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_2F_EventScript_Diglett",
       "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_M",
+      "x": 26,
+      "y": 74,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VolcanionCave_2F_EventScript_AquaMemberMFishingRod",
+      "flag": "0"
+    },
+    {
+      "local_id": "LOCALID_VOLCANION_CAVE_2F_BOULDER_1",
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 9,
+      "y": 48,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "FLAG_TEMP_1"
+    },
+    {
+      "local_id": "LOCALID_VOLCANION_CAVE_2F_BOULDER_2",
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 38,
+      "y": 54,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "FLAG_TEMP_2"
     }
   ],
   "warp_events": [
@@ -84,7 +125,26 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 46,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1",
+      "var_value": "99",
+      "script": "VolcanionCave_2F_EventScript_FloorSwitch1"
+    },
+    {
+      "type": "trigger",
+      "x": 40,
+      "y": 56,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2",
+      "var_value": "99",
+      "script": "VolcanionCave_2F_EventScript_FloorSwitch2"
+    }
+  ],
   "bg_events": [],
   "region": "REGION_HOENN"
 }

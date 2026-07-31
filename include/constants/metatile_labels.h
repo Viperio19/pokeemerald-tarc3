@@ -126,10 +126,15 @@
 #define METATILE_Cave_CrackedFloor                       0x22F
 #define METATILE_Cave_CrackedFloor_Hole                  0x206
 #define METATILE_Cave_EntranceCover                      0x229
+#define METATILE_Cave_Floor                              0x201
 #define METATILE_Cave_Floor_Ledge_Bottom                 0x2E1
 #define METATILE_Cave_Floor_Ledge_Top                    0x2D1
-#define METATILE_Cave_RockBarrier_Bottom                 0x317
-#define METATILE_Cave_RockBarrier_Top                    0x307
+#define METATILE_Cave_RockBarrier_Bottom                 0x38A
+#define METATILE_Cave_RockBarrier_Left                   0x37B
+#define METATILE_Cave_RockBarrier_MiddleHorizontal       0x37C
+#define METATILE_Cave_RockBarrier_MiddleVertical         0x382
+#define METATILE_Cave_RockBarrier_Right                  0x37D
+#define METATILE_Cave_RockBarrier_Top                    0x37A
 #define METATILE_Cave_SealedChamberEntrance_BottomLeft   0x232
 #define METATILE_Cave_SealedChamberEntrance_BottomMid    0x233
 #define METATILE_Cave_SealedChamberEntrance_BottomRight  0x234
@@ -192,7 +197,7 @@
 #define METATILE_Facility_DataPad                       0x3E4
 #define METATILE_Facility_NewMauvilleDoor_Closed_Tile0  0x314
 #define METATILE_Facility_NewMauvilleDoor_Closed_Tile1  0x315
-#define METATILE_Facility_NewMauvilleDoor_Closed_Tile2  0x316
+#define METATILE_Facility_NewMauvilleDoor_Closed_Tile2  0x031
 #define METATILE_Facility_NewMauvilleDoor_Closed_Tile3  0x31C
 #define METATILE_Facility_NewMauvilleDoor_Closed_Tile4  0x31D
 #define METATILE_Facility_NewMauvilleDoor_Closed_Tile5  0x31E

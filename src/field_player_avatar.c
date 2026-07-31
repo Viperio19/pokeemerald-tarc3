@@ -1929,7 +1929,7 @@ static bool8 PushBoulder_End(struct Task *task, struct ObjectEvent *player, stru
         UnlockPlayerFieldControls();
         DestroyTask(FindTaskIdByFunc(Task_PushBoulder));
 
-        struct BoulderPos *pos = &gSaveBlock2Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][boulder->localId];
+        struct BoulderPos *pos = &gSaveBlock1Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][boulder->localId];
         pos->x = boulder->currentCoords.x - MAP_OFFSET;
         pos->y = boulder->currentCoords.y - MAP_OFFSET;
         SetObjEventTemplateCoords(boulder->localId, pos->x, pos->y);
@@ -1944,7 +1944,7 @@ void UpdateStrengthBoulderPositions(void)
     {
         for (u32 i = 0; i < 32; i++)
         {
-            pos = &gSaveBlock2Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][i];
+            pos = &gSaveBlock1Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][i];
             if (pos->x == 0 && pos->y == 0)
                 continue;
             SetObjEventTemplateCoords(i, pos->x, pos->y);
@@ -1956,16 +1956,23 @@ void UpdateStrengthBoulderPositions(void)
         {
             if (gSaveBlock1Ptr->objectEventTemplates[i].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER)
             {
-                pos = &gSaveBlock2Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][gSaveBlock1Ptr->objectEventTemplates[i].localId];
-                if (gSaveBlock1Ptr->objectEventTemplates[i].movementType == MOVEMENT_TYPE_NONE && pos->x != 0 && pos->y != 0)
+                pos = &gSaveBlock1Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][gSaveBlock1Ptr->objectEventTemplates[i].localId];
+                if (gSaveBlock1Ptr->objectEventTemplates[i].movementType == MOVEMENT_TYPE_NONE)
                 {
-                    SetObjEventTemplateCoords(gSaveBlock1Ptr->objectEventTemplates[i].localId, pos->x, pos->y);
+                    pos->originalX = pos->x != 0 ? pos->x : gSaveBlock1Ptr->objectEventTemplates[i].x;
+                    pos->originalY = pos->y != 0 ? pos->y : gSaveBlock1Ptr->objectEventTemplates[i].y;
                 }
                 else
                 {
-                    pos->x = gSaveBlock1Ptr->objectEventTemplates[i].x;
-                    pos->y = gSaveBlock1Ptr->objectEventTemplates[i].y;
+                    if (pos->originalX == 0 && pos->originalY == 0)
+                    {
+                        pos->originalX = gSaveBlock1Ptr->objectEventTemplates[i].x;
+                        pos->originalY = gSaveBlock1Ptr->objectEventTemplates[i].y;
+                    }
                 }
+                pos->x = pos->originalX;
+                pos->y = pos->originalY;
+                SetObjEventTemplateCoords(gSaveBlock1Ptr->objectEventTemplates[i].localId, pos->originalX, pos->originalY);
             }
         }
     }
