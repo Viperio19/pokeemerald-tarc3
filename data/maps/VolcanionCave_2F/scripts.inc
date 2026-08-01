@@ -153,5 +153,12 @@ VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed::
 	end
 
 VolcanionCave_2F_EventScript_Exeggutor::
+	playmoncry SPECIES_EXEGGUTOR_ALOLA, CRY_MODE_NORMAL
+	msgbox VolcanionCave_2F_Text_Exeggutor
+	waitmoncry
 	release
 	end
+
+VolcanionCave_2F_Text_Exeggutor::
+	.string "Tall.$"
+

@@ -865,12 +865,6 @@ static const struct SpriteFrameImage sPicTable_Exeggutor[] = {
 static const struct SpriteFrameImage sPicTable_ExeggutorAlola[] = {
     overworld_ascending_frames(gObjectEventPic_ExeggutorAlola, 8, 8),
 };
-static const struct SpriteFrameImage sPicTable_ExeggutorAlolaBottom[] = {
-    overworld_ascending_frames(gObjectEventPic_ExeggutorAlolaBottom, 8, 8),
-};
-static const struct SpriteFrameImage sPicTable_ExeggutorAlolaTop[] = {
-    overworld_ascending_frames(gObjectEventPic_ExeggutorAlolaTop, 8, 8),
-};
 #endif //P_ALOLAN_FORMS
 #endif //P_FAMILY_EXEGGCUTE
 
