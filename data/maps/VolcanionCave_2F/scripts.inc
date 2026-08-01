@@ -8,6 +8,8 @@ VolcanionCave_2F_MapScripts::
 VolcanionCave_2F_OnLoad::
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_SetRockBarrier1
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_SetRockBarrier2
+	call_if_unset FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD, VolcanionCave_2F_EventScript_RemoveOldRod
+	call_if_set FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD, VolcanionCave_2F_EventScript_SetOldRodPosition
 	end
 
 VolcanionCave_2F_EventScript_SetRockBarrier1::
@@ -22,6 +24,14 @@ VolcanionCave_2F_EventScript_SetRockBarrier2::
 	setmetatile 10, 36, METATILE_Cave_RockBarrier_MiddleVertical, 1
 	setmetatile 10, 37, METATILE_Cave_RockBarrier_MiddleVertical, 1
 	setmetatile 10, 18, METATILE_Cave_RockBarrier_Bottom, 1
+	return
+
+VolcanionCave_2F_EventScript_RemoveOldRod::
+	removeobject LOCALID_2F_OLD_ROD
+	return
+
+VolcanionCave_2F_EventScript_SetOldRodPosition::
+	setobjectxyperm LOCALID_2F_OLD_ROD, VAR_OLD_ROD_X, VAR_OLD_ROD_Y
 	return
 
 VolcanionCave_2F_OnTransition:
@@ -45,6 +55,7 @@ VolcanionCave_2F_EventScript_HidePlayers::
 
 VolcanionCave_2F_OnFrame:
 	map_script_2 VAR_VOLCANION_CAVE_2F_STATE, 0, VolcanionCave_2F_EventScript_EnterCave
+	map_script_2 VAR_VOLCANION_CAVE_2F_STATE, 2, VolcanionCave_2F_EventScript_DropOldRod
 	.2byte 0
 
 VolcanionCave_2F_EventScript_EnterCave::
@@ -53,6 +64,21 @@ VolcanionCave_2F_EventScript_EnterCave::
 	showplayer
 	release
 	end
+
+VolcanionCave_2F_EventScript_DropOldRod::
+	lock
+    clearflag FLAG_RECEIVED_VOLCANION_CAVE_2F_OLD_ROD
+    setflag FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD
+	addobject LOCALID_2F_OLD_ROD
+	removeitem ITEM_OLD_ROD
+	setvar VAR_VOLCANION_CAVE_2F_STATE, 1
+	msgbox VolcanionCave_2F_Text_DroppedRod
+	closemessage
+	release
+	end
+
+VolcanionCave_2F_Text_DroppedRod::
+	.string "Dropped rod...$"
 
 VolcanionCave_2F_EventScript_Diglett::
 	lock
@@ -162,3 +188,11 @@ VolcanionCave_2F_EventScript_Exeggutor::
 VolcanionCave_2F_Text_Exeggutor::
 	.string "Tall.$"
 
+VolcanionCave_2F_EventScript_OldRod::
+	lock
+	removeobject VAR_LAST_TALKED
+	giveitem ITEM_OLD_ROD
+	clearflag FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD
+	setflag FLAG_RECEIVED_VOLCANION_CAVE_2F_OLD_ROD
+	release
+	end

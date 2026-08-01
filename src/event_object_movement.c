@@ -127,7 +127,6 @@ static EWRAM_DATA u8 sCurrentReflectionType = 0;
 static EWRAM_DATA u16 sCurrentSpecialObjectPaletteTag = 0;
 static EWRAM_DATA struct LockedAnimObjectEvents *sLockedAnimObjectEvents = {0};
 
-static void MoveCoordsInDirection(u32, s16 *, s16 *, s16, s16);
 static bool8 ObjectEventExecSingleMovementAction(struct ObjectEvent *, struct Sprite *);
 static bool32 UpdateMonMoveInPlace(struct ObjectEvent *, struct Sprite *);
 static void SetMovementDelay(struct Sprite *, s16);
@@ -3473,7 +3472,7 @@ u8 GetObjectEventIdByPosition(u16 x, u16 y, u8 elevation)
         {
             if (gObjectEvents[i].currentCoords.x == x
              && gObjectEvents[i].currentCoords.y == y
-             && ObjectEventDoesElevationMatch(&gObjectEvents[i], elevation))
+             && (ObjectEventDoesElevationMatch(&gObjectEvents[i], elevation) || gObjectEvents[i].movementType == MOVEMENT_TYPE_JOG_IN_PLACE_DOWN))
                 return i;
         }
     }
@@ -6583,7 +6582,7 @@ static void UNUSED MoveCoordsInMapCoordIncrement(enum Direction direction, s16 *
     *y += sDirectionToVectors[direction].y << 4;
 }
 
-static void MoveCoordsInDirection(u32 dir, s16 *x, s16 *y, s16 deltaX, s16 deltaY)
+void MoveCoordsInDirection(u32 dir, s16 *x, s16 *y, s16 deltaX, s16 deltaY)
 {
     enum Direction direction = dir;
     s16 dx2 = (u16)deltaX;

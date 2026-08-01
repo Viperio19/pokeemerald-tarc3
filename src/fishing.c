@@ -13,7 +13,11 @@
 #include "text.h"
 #include "tv.h"
 #include "wild_encounter.h"
+#include "item.h"
+#include "overworld.h"
+#include "event_data.h"
 #include "config/fishing.h"
+#include "constants/event_objects.h"
 
 static void Task_Fishing(u8);
 static bool32 Fishing_Init(struct Task *);
@@ -34,6 +38,7 @@ static bool32 Fishing_GotAway(struct Task *);
 static bool32 Fishing_NoMon(struct Task *);
 static bool32 Fishing_PutRodAway(struct Task *);
 static bool32 Fishing_EndNoMon(struct Task *);
+static bool32 Fishing_MessageDroppedRod(struct Task *);
 static void AlignFishingAnimationFrames(void);
 static bool32 DoesFishingMinigameAllowCancel(void);
 static bool32 Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold(void);
@@ -65,6 +70,7 @@ static const u8 sText_OhABite[] = _("Oh! A bite!");
 static const u8 sText_PokemonOnHook[] = _("A POKéMON's on the hook!{PAUSE_UNTIL_PRESS}");
 static const u8 sText_NotEvenANibble[] = _("Not even a nibble…{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItGotAway[] = _("It got away…{PAUSE_UNTIL_PRESS}");
+static const u8 sText_DroppedRod[] = _("Dropped rod{PAUSE_UNTIL_PRESS}");
 
 struct FriendshipHookChanceBoost
 {
@@ -105,6 +111,7 @@ enum
     FISHING_NO_MON,
     FISHING_PUT_ROD_AWAY,
     FISHING_END_NO_MON,
+    FISHING_MESSAGE_DROPPED_ROD,
 };
 
 static bool32 (*const sFishingStateFuncs[])(struct Task *) =
@@ -127,6 +134,7 @@ static bool32 (*const sFishingStateFuncs[])(struct Task *) =
     [FISHING_NO_MON]                = Fishing_NoMon,
     [FISHING_PUT_ROD_AWAY]          = Fishing_PutRodAway,
     [FISHING_END_NO_MON]            = Fishing_EndNoMon,
+    [FISHING_MESSAGE_DROPPED_ROD]   = Fishing_MessageDroppedRod,
 };
 
 #define tStep              data[0]
@@ -181,7 +189,7 @@ static bool32 Fishing_GetRodOut(struct Task *task)
     ObjectEventClearHeldMovementIfActive(playerObjEvent);
     playerObjEvent->enableAnim = TRUE;
     SetPlayerAvatarFishing(playerObjEvent->facingDirection);
-    task->tStep = FISHING_WAIT_BEFORE_DOTS;
+    task->tStep = IS_PLAYER_ONE ? FISHING_PUT_ROD_AWAY : FISHING_WAIT_BEFORE_DOTS;
     return FALSE;
 }
 
@@ -449,7 +457,7 @@ static bool32 Fishing_PutRodAway(struct Task *task)
             SetSurfBlob_PlayerOffset(gObjectEvents[gPlayerAvatar.objectEventId].fieldEffectSpriteId, FALSE, 0);
         gSprites[gPlayerAvatar.spriteId].x2 = 0;
         gSprites[gPlayerAvatar.spriteId].y2 = 0;
-        task->tStep = FISHING_END_NO_MON;
+        task->tStep = IS_PLAYER_ONE ? FISHING_MESSAGE_DROPPED_ROD : FISHING_END_NO_MON;
     }
     return FALSE;
 }
@@ -467,6 +475,27 @@ static bool32 Fishing_EndNoMon(struct Task *task)
         DestroyTask(FindTaskIdByFunc(Task_Fishing));
     }
     return FALSE;
+}
+
+static bool32 Fishing_MessageDroppedRod(struct Task *task)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    s16 x = playerObjEvent->currentCoords.x - MAP_OFFSET;
+    s16 y = playerObjEvent->currentCoords.y - MAP_OFFSET;
+    MoveCoordsInDirection(playerObjEvent->movementDirection, &x, &y, 1, 1);
+    VarSet(VAR_OLD_ROD_X, x);
+    VarSet(VAR_OLD_ROD_Y, y);
+    SetObjEventTemplateCoords(LOCALID_2F_OLD_ROD, x, y);
+
+    VarSet(VAR_VOLCANION_CAVE_2F_STATE, 2);
+
+    task->tStep = FISHING_END_NO_MON;
+    return TRUE;
+}
+
+void UpdateOldRodPosition(void)
+{
+    SetObjEventTemplateCoords(LOCALID_2F_OLD_ROD, VarGet(VAR_OLD_ROD_X), VarGet(VAR_OLD_ROD_Y));
 }
 
 static bool32 DoesFishingMinigameAllowCancel(void)
