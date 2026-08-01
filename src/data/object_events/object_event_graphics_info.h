@@ -7295,6 +7295,24 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMFieldMove =
     .images = sPicTable_PlayerMFieldMove,
 };
 
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMFishing = {
+    .tileTag = TAG_NONE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_M,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
+    .size = 512,
+    .width = 32,
+    .height = 32,
+    .paletteSlot = PALSLOT_PLAYER,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .compressed = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
+    .anims = sAnimTable_Fishing,
+    .images = sPicTable_PlayerMFishing,
+};
+
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFNormal = {
     .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_F,
@@ -7347,6 +7365,24 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFFieldMove =
     .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_FieldMove,
     .images = sPicTable_PlayerFFieldMove,
+};
+
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFFishing = {
+    .tileTag = TAG_NONE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_F,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
+    .size = 512,
+    .width = 32,
+    .height = 32,
+    .paletteSlot = PALSLOT_PLAYER,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .compressed = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
+    .anims = sAnimTable_Fishing,
+    .images = sPicTable_PlayerFFishing,
 };
 
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MNormal = {
@@ -7403,6 +7439,24 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MFieldMove 
     .images = sPicTable_Player2MFieldMove,
 };
 
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MFishing = {
+    .tileTag = TAG_NONE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_M,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
+    .size = 512,
+    .width = 32,
+    .height = 32,
+    .paletteSlot = PALSLOT_PLAYER,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .compressed = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
+    .anims = sAnimTable_Fishing,
+    .images = sPicTable_Player2MFishing,
+};
+
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FNormal = {
     .tileTag = TAG_NONE,
     .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_F,
@@ -7455,4 +7509,22 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FFieldMove 
     .subspriteTables = sOamTables_32x32,
     .anims = sAnimTable_FieldMove,
     .images = sPicTable_Player2FFieldMove,
+};
+
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FFishing = {
+    .tileTag = TAG_NONE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_PLAYER_2_F,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_BRIDGE_REFLECTION,
+    .size = 512,
+    .width = 32,
+    .height = 32,
+    .paletteSlot = PALSLOT_PLAYER,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .compressed = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
+    .anims = sAnimTable_Fishing,
+    .images = sPicTable_Player2FFishing,
 };

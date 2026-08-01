@@ -2526,6 +2526,10 @@ static const struct SpriteFrameImage sPicTable_PlayerMFieldMove[] = {
     overworld_ascending_frames(gObjectEventPic_PlayerMFieldMove, 4, 4),
 };
 
+static const struct SpriteFrameImage sPicTable_PlayerMFishing[] = {
+    overworld_ascending_frames(gObjectEventPic_PlayerMFishing, 4, 4),
+};
+
 static const struct SpriteFrameImage sPicTable_PlayerFNormal[] = {
     overworld_ascending_frames(gObjectEventPic_PlayerFNormalRunning, 2, 4),
 };
@@ -2547,6 +2551,10 @@ static const struct SpriteFrameImage sPicTable_PlayerFSurfing[] = {
 
 static const struct SpriteFrameImage sPicTable_PlayerFFieldMove[] = {
     overworld_ascending_frames(gObjectEventPic_PlayerFFieldMove, 4, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_PlayerFFishing[] = {
+    overworld_ascending_frames(gObjectEventPic_PlayerFFishing, 4, 4),
 };
 
 static const struct SpriteFrameImage sPicTable_Player2MNormal[] = {
@@ -2572,6 +2580,10 @@ static const struct SpriteFrameImage sPicTable_Player2MFieldMove[] = {
     overworld_ascending_frames(gObjectEventPic_Player2MFieldMove, 4, 4),
 };
 
+static const struct SpriteFrameImage sPicTable_Player2MFishing[] = {
+    overworld_ascending_frames(gObjectEventPic_Player2MFishing, 4, 4),
+};
+
 static const struct SpriteFrameImage sPicTable_Player2FNormal[] = {
     overworld_ascending_frames(gObjectEventPic_Player2FNormalRunning, 2, 4),
 };
@@ -2593,4 +2605,8 @@ static const struct SpriteFrameImage sPicTable_Player2FSurfing[] = {
 
 static const struct SpriteFrameImage sPicTable_Player2FFieldMove[] = {
     overworld_ascending_frames(gObjectEventPic_Player2FFieldMove, 4, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_Player2FFishing[] = {
+    overworld_ascending_frames(gObjectEventPic_Player2FFishing, 4, 4),
 };

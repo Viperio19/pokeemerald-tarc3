@@ -405,15 +405,19 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ApricornTre
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMNormal;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMSurfing;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMFishing;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFNormal;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFSurfing;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFFishing;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MNormal;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MSurfing;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MFishing;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FNormal;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FSurfing;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FFishing;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -806,15 +810,19 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_PLAYER_M_NORMAL]          = &gObjectEventGraphicsInfo_PlayerMNormal,
     [OBJ_EVENT_GFX_PLAYER_M_SURFING]         = &gObjectEventGraphicsInfo_PlayerMSurfing,
     [OBJ_EVENT_GFX_PLAYER_M_FIELD_MOVE]      = &gObjectEventGraphicsInfo_PlayerMFieldMove,
+    [OBJ_EVENT_GFX_PLAYER_M_FISHING]         = &gObjectEventGraphicsInfo_PlayerMFishing,
     [OBJ_EVENT_GFX_PLAYER_F_NORMAL]          = &gObjectEventGraphicsInfo_PlayerFNormal,
     [OBJ_EVENT_GFX_PLAYER_F_SURFING]         = &gObjectEventGraphicsInfo_PlayerFSurfing,
     [OBJ_EVENT_GFX_PLAYER_F_FIELD_MOVE]      = &gObjectEventGraphicsInfo_PlayerFFieldMove,
+    [OBJ_EVENT_GFX_PLAYER_F_FISHING]         = &gObjectEventGraphicsInfo_PlayerFFishing,
     [OBJ_EVENT_GFX_PLAYER_2_M_NORMAL]        = &gObjectEventGraphicsInfo_Player2MNormal,
     [OBJ_EVENT_GFX_PLAYER_2_M_SURFING]       = &gObjectEventGraphicsInfo_Player2MSurfing,
     [OBJ_EVENT_GFX_PLAYER_2_M_FIELD_MOVE]    = &gObjectEventGraphicsInfo_Player2MFieldMove,
+    [OBJ_EVENT_GFX_PLAYER_2_M_FISHING]       = &gObjectEventGraphicsInfo_Player2MFishing,
     [OBJ_EVENT_GFX_PLAYER_2_F_NORMAL]        = &gObjectEventGraphicsInfo_Player2FNormal,
     [OBJ_EVENT_GFX_PLAYER_2_F_SURFING]       = &gObjectEventGraphicsInfo_Player2FSurfing,
     [OBJ_EVENT_GFX_PLAYER_2_F_FIELD_MOVE]    = &gObjectEventGraphicsInfo_Player2FFieldMove,
+    [OBJ_EVENT_GFX_PLAYER_2_F_FISHING]       = &gObjectEventGraphicsInfo_Player2FFishing,
     [OBJ_EVENT_GFX_EXEGGUTOR]                = &gObjectEventGraphicsInfo_Exeggutor,
 };
 

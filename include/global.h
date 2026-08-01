@@ -1155,7 +1155,7 @@ struct SaveBlock1
     /*0x9BC*/ u16 berryBlenderRecords[3];
     /*0x9C2*/ u8 unused_9C2[2];
               u32 dailySeed;
-              struct BoulderPos boulderPos[3][32];
+    /*?????*/ struct BoulderPos boulderPos[3][32];
 #if FREE_MATCH_CALL == FALSE
     /*0x9C8*/ u16 trainerRematchStepCounter;
     /*0x9CA*/ u8 trainerRematches[MAX_REMATCH_ENTRIES];
