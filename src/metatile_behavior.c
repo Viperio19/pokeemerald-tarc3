@@ -1118,7 +1118,7 @@ bool8 MetatileBehavior_IsMossdeepGymWarp(u8 metatileBehavior)
 }
 
 
-bool8 MetatileBehavior_IsSurfableFishableWater(u8 metatileBehavior)
+bool8 MetatileBehavior_IsSurfableWater(u8 metatileBehavior)
 {
     if (metatileBehavior == MB_POND_WATER
      || metatileBehavior == MB_OCEAN_WATER
@@ -1129,6 +1129,18 @@ bool8 MetatileBehavior_IsSurfableFishableWater(u8 metatileBehavior)
       || metatileBehavior == MB_WESTWARD_CURRENT
       || metatileBehavior == MB_NORTHWARD_CURRENT
       || metatileBehavior == MB_SOUTHWARD_CURRENT))
+        return TRUE;
+    else
+        return FALSE;
+}
+bool8 MetatileBehavior_IsFishableWater(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_POND_WATER
+     || metatileBehavior == MB_OCEAN_WATER
+     || metatileBehavior == MB_INTERIOR_DEEP_WATER
+     || metatileBehavior == MB_DEEP_WATER
+     || metatileBehavior == MB_SOOTOPOLIS_DEEP_WATER
+     || metatileBehavior == MB_FAST_WATER)
         return TRUE;
     else
         return FALSE;

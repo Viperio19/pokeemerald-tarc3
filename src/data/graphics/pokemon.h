@@ -4180,8 +4180,6 @@ const u32 gObjectEventPic_Substitute[] = INCGFX_COMP("graphics/pokemon/question_
     const u8 gMonIcon_ExeggutorAlola[] = INCGFX_U8("graphics/pokemon/exeggutor/alola/icon.png", ".4bpp");
 #if OW_POKEMON_OBJECT_EVENTS
     const u32 gObjectEventPic_ExeggutorAlola[] = INCGFX_COMP("graphics/pokemon/exeggutor/alola/overworld.png", ".4bpp", "-mwidth 8 -mheight 8");
-    const u32 gObjectEventPic_ExeggutorAlolaBottom[] = INCGFX_COMP("graphics/pokemon/exeggutor/alola/overworld_bottom.png", ".4bpp", "-mwidth 8 -mheight 8");
-    const u32 gObjectEventPic_ExeggutorAlolaTop[] = INCGFX_COMP("graphics/pokemon/exeggutor/alola/overworld_top.png", ".4bpp", "-mwidth 8 -mheight 8");
 #if OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
     const u16 gOverworldPalette_ExeggutorAlola[] = INCGFX_U16("graphics/pokemon/exeggutor/alola/overworld_normal.pal", ".gbapal");
     const u16 gShinyOverworldPalette_ExeggutorAlola[] = INCGFX_U16("graphics/pokemon/exeggutor/alola/overworld_shiny.pal", ".gbapal");

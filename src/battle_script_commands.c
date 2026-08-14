@@ -10194,6 +10194,9 @@ static void Cmd_trysetcaughtmondexflags(void)
 {
     CMD_ARGS(const u8 *failInstr);
 
+    gBattlescriptCurrInstr = cmd->failInstr;
+    return;
+
     struct Pokemon *caughtMon = GetBattlerMon(GetCatchingBattler());
     enum Species species = GetMonData(caughtMon, MON_DATA_SPECIES);
     u32 personality = GetMonData(caughtMon, MON_DATA_PERSONALITY);

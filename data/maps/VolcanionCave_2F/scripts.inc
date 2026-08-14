@@ -8,8 +8,6 @@ VolcanionCave_2F_MapScripts::
 VolcanionCave_2F_OnLoad::
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_SetRockBarrier1
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_SetRockBarrier2
-	call_if_unset FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD, VolcanionCave_2F_EventScript_RemoveOldRod
-	call_if_set FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD, VolcanionCave_2F_EventScript_SetOldRodPosition
 	end
 
 VolcanionCave_2F_EventScript_SetRockBarrier1::
@@ -26,31 +24,35 @@ VolcanionCave_2F_EventScript_SetRockBarrier2::
 	setmetatile 10, 18, METATILE_Cave_RockBarrier_Bottom, 1
 	return
 
+VolcanionCave_2F_OnTransition:
+	callnative UpdateStrengthBoulderPositions
+	end
+
+VolcanionCave_2F_OnWarp:
+	map_script_2 VAR_TEMP_1, 0, VolcanionCave_2F_EventScript_InitObjects
+	.2byte 0
+
+VolcanionCave_2F_EventScript_InitObjects::
+	callnative TrySpawnPlayer2
+	setvar VAR_TEMP_1, 1
+	call_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, VolcanionCave_2F_EventScript_HidePlayers
+	call_if_unset FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD, VolcanionCave_2F_EventScript_RemoveOldRod
+	call_if_set FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD, VolcanionCave_2F_EventScript_SetOldRodPosition
+	end
+
+VolcanionCave_2F_EventScript_HidePlayers::
+	hideobjectat LOCALID_PLAYER_2, MAP_VOLCANION_CAVE_1F
+	hideplayer
+	return
+
 VolcanionCave_2F_EventScript_RemoveOldRod::
 	removeobject LOCALID_2F_OLD_ROD
 	return
 
 VolcanionCave_2F_EventScript_SetOldRodPosition::
 	setobjectxyperm LOCALID_2F_OLD_ROD, VAR_OLD_ROD_X, VAR_OLD_ROD_Y
-	return
-
-VolcanionCave_2F_OnTransition:
-	callnative UpdateStrengthBoulderPositions
-	end
-
-VolcanionCave_2F_OnWarp:
-	map_script_2 VAR_TEMP_1, 0, VolcanionCave_2F_EventScript_TrySpawnPlayer2
-	.2byte 0
-
-VolcanionCave_2F_EventScript_TrySpawnPlayer2::
-	callnative TrySpawnPlayer2
-	setvar VAR_TEMP_1, 1
-	call_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, VolcanionCave_2F_EventScript_HidePlayers
-	end
-
-VolcanionCave_2F_EventScript_HidePlayers::
-	hideobjectat LOCALID_PLAYER_2, MAP_VOLCANION_CAVE_1F
-	hideplayer
+	addobject LOCALID_2F_OLD_ROD
+	callnative SetOldRodBob
 	return
 
 VolcanionCave_2F_OnFrame:
@@ -68,17 +70,150 @@ VolcanionCave_2F_EventScript_EnterCave::
 VolcanionCave_2F_EventScript_DropOldRod::
 	lock
     clearflag FLAG_RECEIVED_VOLCANION_CAVE_2F_OLD_ROD
-    setflag FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD
+    setflag FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD
 	addobject LOCALID_2F_OLD_ROD
+	callnative SetOldRodBob
 	removeitem ITEM_OLD_ROD
 	setvar VAR_VOLCANION_CAVE_2F_STATE, 1
+	delay 20
+	getplayerxy VAR_0x8000, VAR_0x8001
+	goto_if_ne VAR_0x8000, 29, VolcanionCave_2F_EventScript_MessageDroppedRod
+	goto_if_eq VAR_0x8001, 24, VolcanionCave_2F_EventScript_OldRodCurrentsY24
+	goto_if_eq VAR_0x8001, 26, VolcanionCave_2F_EventScript_OldRodCurrentsY26
+	goto_if_eq VAR_0x8001, 27, VolcanionCave_2F_EventScript_OldRodCurrentsY27
+VolcanionCave_2F_EventScript_MessageDroppedRod::
 	msgbox VolcanionCave_2F_Text_DroppedRod
 	closemessage
 	release
 	end
 
+VolcanionCave_2F_EventScript_OldRodCurrentsY24::
+	special SpawnCameraObject
+	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodFloatY24
+	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_OldRodFloatY24
+	waitmovement 0
+	setvar VAR_OLD_ROD_X, 28
+	setvar VAR_OLD_ROD_Y, 25
+	setobjectxyperm LOCALID_2F_OLD_ROD, VAR_OLD_ROD_X, VAR_OLD_ROD_Y
+	delay 20
+	applymovement LOCALID_CAMERA, Common_Movement_WalkUp
+	waitmovement 0
+	special RemoveCameraObject
+	msgbox VolcanionCave_2F_Text_DroppedRodFloated
+	closemessage
+	release
+	end
+
+VolcanionCave_2F_Movement_OldRodFloatY24::
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_down
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	step_end
+
+VolcanionCave_2F_Movement_CameraMoveBackY24::
+	walk_up
+	step_end
+
+VolcanionCave_2F_EventScript_OldRodCurrentsY26::
+	special SpawnCameraObject
+	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodFloatY26
+	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_OldRodFloatY26
+	waitmovement 0
+	setvar VAR_OLD_ROD_X, 18
+	setvar VAR_OLD_ROD_Y, 31
+	setobjectxyperm LOCALID_2F_OLD_ROD, VAR_OLD_ROD_X, VAR_OLD_ROD_Y
+	delay 20
+	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_CameraMoveBackY26
+	waitmovement 0
+	special RemoveCameraObject
+	msgbox VolcanionCave_2F_Text_DroppedRodFloated
+	closemessage
+	release
+	end
+
+VolcanionCave_2F_Movement_OldRodFloatY26::
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_left
+	walk_down
+	walk_down
+	walk_fast_down
+	walk_fast_down
+	walk_down
+	walk_left
+	walk_left
+	walk_left
+	step_end
+
+VolcanionCave_2F_Movement_CameraMoveBackY26::
+	walk_right
+	walk_right
+	walk_right
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	step_end
+
+VolcanionCave_2F_EventScript_OldRodCurrentsY27::
+	special SpawnCameraObject
+	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodFloatY27
+	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_OldRodFloatY27
+	waitmovement 0
+	setvar VAR_OLD_ROD_X, 27
+	setvar VAR_OLD_ROD_Y, 30
+	setobjectxyperm LOCALID_2F_OLD_ROD, VAR_OLD_ROD_X, VAR_OLD_ROD_Y
+	delay 20
+	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_CameraMoveBackY27
+	waitmovement 0
+	special RemoveCameraObject
+	msgbox VolcanionCave_2F_Text_DroppedRodFloated
+	closemessage
+	release
+	end
+
+VolcanionCave_2F_Movement_OldRodFloatY27::
+	walk_left
+	walk_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+VolcanionCave_2F_Movement_CameraMoveBackY27::
+	walk_up
+	walk_up
+	walk_up
+	walk_right
+	step_end
+
 VolcanionCave_2F_Text_DroppedRod::
 	.string "Dropped rod...$"
+
+VolcanionCave_2F_Text_DroppedRodFloated::
+	.string "Dropped rod...\p"
+	.string "It floated...$"
 
 VolcanionCave_2F_EventScript_Diglett::
 	lock
@@ -192,7 +327,7 @@ VolcanionCave_2F_EventScript_OldRod::
 	lock
 	removeobject VAR_LAST_TALKED
 	giveitem ITEM_OLD_ROD
-	clearflag FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD
+	clearflag FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD
 	setflag FLAG_RECEIVED_VOLCANION_CAVE_2F_OLD_ROD
 	release
 	end

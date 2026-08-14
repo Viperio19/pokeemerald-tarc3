@@ -592,7 +592,7 @@ static u32 CalculateFishingProximityBoost()
         MoveCoords(direction, &tile_x, &tile_y);
         if (tile_x == objectEvent->currentCoords.x && tile_y == objectEvent->currentCoords.y)
             continue;
-        if (!MetatileBehavior_IsSurfableFishableWater(MapGridGetMetatileBehaviorAt(tile_x, tile_y)))
+        if (!MetatileBehavior_IsFishableWater(MapGridGetMetatileBehaviorAt(tile_x, tile_y)))
             numQualifyingTile++;
         else if (MapGridGetCollisionAt(tile_x, tile_y))
             numQualifyingTile++;

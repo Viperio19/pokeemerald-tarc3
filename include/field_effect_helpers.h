@@ -10,6 +10,7 @@ enum {
     // Only the surf blob/mon should bob up and down
     // For when the player has jumped/flown off
     BOB_JUST_MON,
+    BOB_JUST_PLAYER,
 };
 
 u8 CreateWarpArrowSprite(void);

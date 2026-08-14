@@ -65,7 +65,7 @@
 #define FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER     0x2A
 #define FLAG_RECEIVED_REPEL                        0x2B
 #define FLAG_RECEIVED_VOLCANION_CAVE_2F_OLD_ROD    0x2C
-#define FLAG_THREW_VOLCANION_CAVE_2F_OLD_ROD       0x2D
+#define FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD       0x2D
 
 #define FLAG_UNUSED_0x02E    0x2E // Unused Flag
 #define FLAG_UNUSED_0x02F    0x2F // Unused Flag

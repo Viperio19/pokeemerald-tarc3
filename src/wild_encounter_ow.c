@@ -1195,7 +1195,7 @@ static enum SpawnDespawnTypeOWE GetOWESpawnDespawnAnimType(u32 metatileBehavior)
         return OWE_SPAWN_ANIM_GRASS;
     else if (MetatileBehavior_IsLongGrass(metatileBehavior))
         return OWE_SPAWN_ANIM_LONG_GRASS;
-    else if (MetatileBehavior_IsSurfableFishableWater(metatileBehavior) && gMapHeader.mapType != MAP_TYPE_UNDERWATER)
+    else if (MetatileBehavior_IsSurfableWater(metatileBehavior) && gMapHeader.mapType != MAP_TYPE_UNDERWATER)
         return OWE_SPAWN_ANIM_WATER;
     else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_UNDERWATER))
         return OWE_SPAWN_ANIM_UNDERWATER;

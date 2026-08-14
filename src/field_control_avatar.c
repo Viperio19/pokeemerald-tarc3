@@ -261,7 +261,7 @@ void TrySpawnPlayer2(void)
     if (gSaveBlock1Ptr->location.mapNum != gSaveBlock2Ptr->player2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gSaveBlock2Ptr->player2Pos.mapGroup)
         return;
 
-    u8 state = MetatileBehavior_IsSurfableFishableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)) ? PLAYER_AVATAR_STATE_SURFING : PLAYER_AVATAR_STATE_NORMAL;
+    u8 state = MetatileBehavior_IsSurfableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)) ? PLAYER_AVATAR_STATE_SURFING : PLAYER_AVATAR_STATE_NORMAL;
 
     struct ObjectEventTemplate template =
     {
@@ -816,7 +816,7 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, u8 metati
 {
     if (MetatileBehavior_IsFastWater(metatileBehavior) == TRUE && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
         return EventScript_CurrentTooFast;
-    if (IsFieldMoveUnlocked(FIELD_MOVE_SURF) && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE
+    if (IsFieldMoveUnlocked(FIELD_MOVE_SURF) && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableWater() == TRUE
      && CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_SURF)
      )
         return EventScript_UseSurf;
