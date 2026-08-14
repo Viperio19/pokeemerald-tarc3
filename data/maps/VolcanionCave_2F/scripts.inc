@@ -324,6 +324,16 @@ VolcanionCave_2F_EventScript_Exeggutor::
 VolcanionCave_2F_Text_Exeggutor::
 	.string "Tall.$"
 
+VolcanionCave_2F_EventScript_Toxapex::
+	playmoncry SPECIES_TOXAPEX, CRY_MODE_NORMAL
+	msgbox VolcanionCave_2F_Text_Toxapex
+	waitmoncry
+	release
+	end
+
+VolcanionCave_2F_Text_Toxapex::
+	.string "Not tall.$"
+
 VolcanionCave_2F_EventScript_OldRod::
 	lock
 	removeobject VAR_LAST_TALKED
