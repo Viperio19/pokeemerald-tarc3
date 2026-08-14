@@ -299,6 +299,7 @@ void FieldCB_DefaultWarpExit(void)
 {
     Overworld_PlaySpecialMapMusic();
     FlagClear(FLAG_DOING_PLAYER_SWITCH);
+    FlagClear(FLAG_HIDE_SURF_BLOBS);
     WarpFadeInScreen();
     SetUpWarpExitTask();
     FollowerNPC_WarpSetEnd();

@@ -299,6 +299,9 @@ void SwitchCharacters(void)
     FlagSet(FLAG_DOING_PLAYER_SWITCH);
     StoreInitialPlayerAvatarState();
 
+    if (IS_PLAYER_ONE && (abs(gSaveBlock1Ptr->pos.x - gSaveBlock2Ptr->player2Pos.x) > 10 || abs(gSaveBlock1Ptr->pos.y - gSaveBlock2Ptr->player2Pos.y) > 7))
+        FlagSet(FLAG_HIDE_SURF_BLOBS);
+
     struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)];
 
     u8 offset = (gSaveBlock2Ptr->player2Pos.mapGroup == objEvent->mapGroup && gSaveBlock2Ptr->player2Pos.mapNum == objEvent->mapNum) ? 0 : 1;
