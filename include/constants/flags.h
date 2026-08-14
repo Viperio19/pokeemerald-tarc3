@@ -64,12 +64,12 @@
 #define FLAG_VOLCANION_CAVE_1F_DIGLETT_LEFT_SPOT   0x29
 #define FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER     0x2A
 #define FLAG_RECEIVED_REPEL                        0x2B
-#define FLAG_RECEIVED_VOLCANION_CAVE_2F_OLD_ROD    0x2C
+#define FLAG_HIDE_VOLCANION_CAVE_2F_OLD_ROD        0x2C
 #define FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD     0x2D
 #define FLAG_HIDE_SURF_BLOBS                       0x2E
+#define FLAG_HIDE_VOLCANION_CAVE_1F_OLD_ROD        0x2F
+#define FLAG_DROPPED_VOLCANION_CAVE_1F_OLD_ROD     0x30
 
-#define FLAG_UNUSED_0x02F    0x2F // Unused Flag
-#define FLAG_UNUSED_0x030    0x30 // Unused Flag
 #define FLAG_UNUSED_0x031    0x31 // Unused Flag
 #define FLAG_UNUSED_0x032    0x32 // Unused Flag
 #define FLAG_UNUSED_0x033    0x33 // Unused Flag

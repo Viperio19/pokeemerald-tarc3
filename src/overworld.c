@@ -2360,7 +2360,7 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
 
 void SetOldRodBob(void)
 {
-    u8 objId = GetObjectEventIdByLocalId(LOCALID_2F_OLD_ROD);
+    u8 objId = GetObjectEventIdByLocalId(gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F) ? LOCALID_2F_OLD_ROD : LOCALID_1F_OLD_ROD);
     gFieldEffectArguments[0] = VarGet(VAR_OLD_ROD_X);
     gFieldEffectArguments[1] = VarGet(VAR_OLD_ROD_Y);
     gFieldEffectArguments[2] = objId;
@@ -2395,6 +2395,8 @@ static bool32 ReturnToFieldLocal(u8 *state)
             gObjectEvents[objId].fieldEffectSpriteId = spriteId;
             SetSurfBlob_BobState(spriteId, BOB_PLAYER_AND_MON);
         }
+        if (FlagGet(FLAG_DROPPED_VOLCANION_CAVE_1F_OLD_ROD) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_1F))
+            SetOldRodBob();
         if (FlagGet(FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F))
             SetOldRodBob();
         (*state)++;

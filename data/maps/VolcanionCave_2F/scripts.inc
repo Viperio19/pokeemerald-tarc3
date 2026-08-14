@@ -36,8 +36,8 @@ VolcanionCave_2F_EventScript_InitObjects::
 	callnative TrySpawnPlayer2
 	setvar VAR_TEMP_1, 1
 	call_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, VolcanionCave_2F_EventScript_HidePlayers
-	call_if_unset FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD, VolcanionCave_2F_EventScript_RemoveOldRod
-	call_if_set FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD, VolcanionCave_2F_EventScript_SetOldRodPosition
+	call_if_ne VAR_OLD_ROD_STATE, 2, VolcanionCave_2F_EventScript_RemoveOldRod
+	call_if_eq VAR_OLD_ROD_STATE, 2, VolcanionCave_2F_EventScript_SetOldRodPosition
 	end
 
 VolcanionCave_2F_EventScript_HidePlayers::
@@ -57,7 +57,8 @@ VolcanionCave_2F_EventScript_SetOldRodPosition::
 
 VolcanionCave_2F_OnFrame:
 	map_script_2 VAR_VOLCANION_CAVE_2F_STATE, 0, VolcanionCave_2F_EventScript_EnterCave
-	map_script_2 VAR_VOLCANION_CAVE_2F_STATE, 2, VolcanionCave_2F_EventScript_DropOldRod
+	map_script_2 VAR_OLD_ROD_STATE, 10, VolcanionCave_2F_EventScript_DropOldRod
+	map_script_2 VAR_OLD_ROD_STATE, 15, VolcanionCave_1F_EventScript_MagmaWarning
 	.2byte 0
 
 VolcanionCave_2F_EventScript_EnterCave::
@@ -69,12 +70,12 @@ VolcanionCave_2F_EventScript_EnterCave::
 
 VolcanionCave_2F_EventScript_DropOldRod::
 	lock
-    clearflag FLAG_RECEIVED_VOLCANION_CAVE_2F_OLD_ROD
+    clearflag FLAG_HIDE_VOLCANION_CAVE_2F_OLD_ROD
     setflag FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD
 	addobject LOCALID_2F_OLD_ROD
 	callnative SetOldRodBob
 	removeitem ITEM_OLD_ROD
-	setvar VAR_VOLCANION_CAVE_2F_STATE, 1
+	setvar VAR_OLD_ROD_STATE, 2
 	delay 20
 	getplayerxy VAR_0x8000, VAR_0x8001
 	goto_if_ne VAR_0x8000, 29, VolcanionCave_2F_EventScript_MessageDroppedRod
@@ -328,6 +329,7 @@ VolcanionCave_2F_EventScript_OldRod::
 	removeobject VAR_LAST_TALKED
 	giveitem ITEM_OLD_ROD
 	clearflag FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD
-	setflag FLAG_RECEIVED_VOLCANION_CAVE_2F_OLD_ROD
+	setflag FLAG_HIDE_VOLCANION_CAVE_2F_OLD_ROD
+	setvar VAR_OLD_ROD_STATE, 0
 	release
 	end

@@ -15,14 +15,26 @@ VolcanionCave_1F_EventScript_UpdateMagmaMGruntAndDiglett::
 	return
 
 VolcanionCave_1F_OnWarp:
-	map_script_2 VAR_TEMP_1, 0, VolcanionCave_1F_EventScript_TrySpawnPlayer2
+	map_script_2 VAR_TEMP_1, 0, VolcanionCave_1F_EventScript_InitObjects
 	.2byte 0
 
-VolcanionCave_1F_EventScript_TrySpawnPlayer2::
+VolcanionCave_1F_EventScript_InitObjects::
 	callnative TrySpawnPlayer2
 	setvar VAR_TEMP_1, 1
 	call_if_eq VAR_VOLCANION_CAVE_1F_STATE, 0, VolcanionCave_1F_EventScript_HidePlayers
+	call_if_ne VAR_OLD_ROD_STATE, 1, VolcanionCave_1F_EventScript_RemoveOldRod
+	call_if_eq VAR_OLD_ROD_STATE, 1, VolcanionCave_1F_EventScript_SetOldRodPosition
 	end
+
+VolcanionCave_1F_EventScript_RemoveOldRod::
+	removeobject LOCALID_1F_OLD_ROD
+	return
+
+VolcanionCave_1F_EventScript_SetOldRodPosition::
+	setobjectxyperm LOCALID_1F_OLD_ROD, VAR_OLD_ROD_X, VAR_OLD_ROD_Y
+	addobject LOCALID_1F_OLD_ROD
+	callnative SetOldRodBob
+	return
 
 VolcanionCave_1F_EventScript_HidePlayers::
 	hideobjectat LOCALID_PLAYER_2, MAP_VOLCANION_CAVE_1F
@@ -31,7 +43,27 @@ VolcanionCave_1F_EventScript_HidePlayers::
 
 VolcanionCave_1F_OnFrame:
 	map_script_2 VAR_VOLCANION_CAVE_1F_STATE, 0, VolcanionCave_1F_EventScript_EnterCave
+	map_script_2 VAR_OLD_ROD_STATE, 10, VolcanionCave_1F_EventScript_DropOldRod
+	map_script_2 VAR_OLD_ROD_STATE, 15, VolcanionCave_1F_EventScript_MagmaWarning
 	.2byte 0
+
+VolcanionCave_1F_EventScript_MagmaWarning::
+	setvar VAR_OLD_ROD_STATE, 0
+	delay 20
+	msgbox VolcanionCave_1F_Text_FishingBad, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, VolcanionCave_1F_EventScript_DontFish
+	setvar VAR_OLD_ROD_STATE, 20
+	callnative StartFishing
+	release
+	end
+
+VolcanionCave_1F_EventScript_DontFish::
+	closemessage
+	release
+	end
+
+VolcanionCave_1F_Text_FishingBad::
+	.string "Fishing bad! Fish regardless?$"
 
 VolcanionCave_1F_EventScript_EnterCave::
 	lock
@@ -152,6 +184,33 @@ VolcanionCave_1F_Text_IntroScrewsLoose::
 	.string "useful, but you never know…)\p"
 	.string "(I'm sure {HESHE_2}'ll make for a\n"
 	.string "decent meatshield in a pinch.){FONT_NORMAL}\p$"
+
+VolcanionCave_1F_EventScript_DropOldRod::
+	lock
+    clearflag FLAG_HIDE_VOLCANION_CAVE_1F_OLD_ROD
+    setflag FLAG_DROPPED_VOLCANION_CAVE_1F_OLD_ROD
+	addobject LOCALID_1F_OLD_ROD
+	callnative SetOldRodBob
+	removeitem ITEM_OLD_ROD
+	setvar VAR_OLD_ROD_STATE, 1
+	delay 20
+	msgbox VolcanionCave_1F_Text_DroppedRod
+	closemessage
+	release
+	end
+
+VolcanionCave_1F_Text_DroppedRod::
+	.string "Dropped rod...$"
+
+VolcanionCave_1F_EventScript_OldRod::
+	lock
+	removeobject VAR_LAST_TALKED
+	giveitem ITEM_OLD_ROD
+	clearflag FLAG_DROPPED_VOLCANION_CAVE_1F_OLD_ROD
+	setflag FLAG_HIDE_VOLCANION_CAVE_1F_OLD_ROD
+	setvar VAR_OLD_ROD_STATE, 0
+	release
+	end
 
 VolcanionCave_1F_EventScript_MagmaGruntF::
 	random 3

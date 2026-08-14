@@ -268,56 +268,56 @@ u32 ChooseWildMonIndex_Rocks(void)
 }
 
 // FISH_WILD_COUNT
-static u32 ChooseWildMonIndex_Fishing(u8 rod)
-{
-    u8 wildMonIndex = 0;
-    bool8 swap = FALSE;
-    u8 rand = Random() % max(max(ENCOUNTER_CHANCE_FISHING_MONS_OLD_ROD_TOTAL, ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_TOTAL),
-                             ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_TOTAL);
+// static u32 ChooseWildMonIndex_Fishing(u8 rod)
+// {
+//     u8 wildMonIndex = 0;
+//     bool8 swap = FALSE;
+//     u8 rand = Random() % max(max(ENCOUNTER_CHANCE_FISHING_MONS_OLD_ROD_TOTAL, ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_TOTAL),
+//                              ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_TOTAL);
 
-    if (LURE_STEP_COUNT != 0 && (Random() % 10 < 2))
-        swap = TRUE;
+//     if (LURE_STEP_COUNT != 0 && (Random() % 10 < 2))
+//         swap = TRUE;
 
-    switch (rod)
-    {
-    case OLD_ROD:
-        if (rand < ENCOUNTER_CHANCE_FISHING_MONS_OLD_ROD_SLOT_0)
-            wildMonIndex = 0;
-        else
-            wildMonIndex = 1;
+//     switch (rod)
+//     {
+//     case OLD_ROD:
+//         if (rand < ENCOUNTER_CHANCE_FISHING_MONS_OLD_ROD_SLOT_0)
+//             wildMonIndex = 0;
+//         else
+//             wildMonIndex = 1;
 
-        if (swap)
-            wildMonIndex = 1 - wildMonIndex;
-        break;
-    case GOOD_ROD:
-        if (rand < ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_2)
-            wildMonIndex = 2;
-        if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_2 && rand < ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_3)
-            wildMonIndex = 3;
-        if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_3 && rand < ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_4)
-            wildMonIndex = 4;
+//         if (swap)
+//             wildMonIndex = 1 - wildMonIndex;
+//         break;
+//     case GOOD_ROD:
+//         if (rand < ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_2)
+//             wildMonIndex = 2;
+//         if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_2 && rand < ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_3)
+//             wildMonIndex = 3;
+//         if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_3 && rand < ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_SLOT_4)
+//             wildMonIndex = 4;
 
-        if (swap)
-            wildMonIndex = 6 - wildMonIndex;
-        break;
-    case SUPER_ROD:
-        if (rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_5)
-            wildMonIndex = 5;
-        if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_5 && rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_6)
-            wildMonIndex = 6;
-        if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_6 && rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_7)
-            wildMonIndex = 7;
-        if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_7 && rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_8)
-            wildMonIndex = 8;
-        if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_8 && rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_9)
-            wildMonIndex = 9;
+//         if (swap)
+//             wildMonIndex = 6 - wildMonIndex;
+//         break;
+//     case SUPER_ROD:
+//         if (rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_5)
+//             wildMonIndex = 5;
+//         if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_5 && rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_6)
+//             wildMonIndex = 6;
+//         if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_6 && rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_7)
+//             wildMonIndex = 7;
+//         if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_7 && rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_8)
+//             wildMonIndex = 8;
+//         if (rand >= ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_8 && rand < ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_SLOT_9)
+//             wildMonIndex = 9;
 
-        if (swap)
-            wildMonIndex = 14 - wildMonIndex;
-        break;
-    }
-    return wildMonIndex;
-}
+//         if (swap)
+//             wildMonIndex = 14 - wildMonIndex;
+//         break;
+//     }
+//     return wildMonIndex;
+// }
 
 u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIndex, enum WildPokemonArea area)
 {
@@ -534,9 +534,8 @@ bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum WildPok
 
 static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 rod)
 {
-    u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
-    enum Species wildMonSpecies = wildMonInfo->wildPokemon[wildMonIndex].species;
-    u8 level = ChooseWildMonLevel(wildMonInfo->wildPokemon, wildMonIndex, WILD_AREA_FISHING);
+    enum Species wildMonSpecies = rod ? SPECIES_CHI_YU : SPECIES_WAILMER;
+    u8 level = rod ? 25 : 20;
 
     UpdateChainFishingStreak();
     CreateWildMon(wildMonSpecies, level);

@@ -50,6 +50,7 @@ u8 GetJumpSpecialMovementAction(u32);
 bool8 PartyHasMonWithSurf(void);
 bool8 IsPlayerFacingSurfableWater(void);
 bool8 IsPlayerFacingFishableWater(void);
+bool8 IsPlayerFacingLava(void);
 bool8 IsPlayerSurfingNorth(void);
 void SetPlayerAvatarWatering(enum Direction direction);
 u8 GetPlayerAvatarFlags(void);

@@ -329,6 +329,7 @@ static bool32 CanFish(void)
 
     if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
     {
+        DebugPrintf("1");
         if (IsPlayerFacingFishableWater())
             return TRUE;
     }
@@ -358,7 +359,7 @@ void ItemUseOutOfBattle_Rod(u8 taskId)
 
 static void ItemUseOnFieldCB_Rod(u8 taskId)
 {
-    StartFishing(GetItemSecondaryId(gSpecialVar_ItemId));
+    StartFishing();
     DestroyTask(taskId);
 }
 

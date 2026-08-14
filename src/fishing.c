@@ -16,7 +16,11 @@
 #include "item.h"
 #include "overworld.h"
 #include "event_data.h"
+#include "item_menu.h"
+#include "sound.h"
+#include "event_object_lock.h"
 #include "config/fishing.h"
+#include "constants/songs.h"
 #include "constants/event_objects.h"
 
 static void Task_Fishing(u8);
@@ -39,14 +43,16 @@ static bool32 Fishing_NoMon(struct Task *);
 static bool32 Fishing_PutRodAway(struct Task *);
 static bool32 Fishing_EndNoMon(struct Task *);
 static bool32 Fishing_MessageDroppedRod(struct Task *);
+static bool32 Fishing_MagmaWarning(struct Task *);
+static bool32 Fishing_MagmaProcessYesNo(struct Task *);
 static void AlignFishingAnimationFrames(void);
 static bool32 DoesFishingMinigameAllowCancel(void);
-static bool32 Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold(void);
-static bool32 Fishing_RollForBite(u32, bool32);
-static u32 CalculateFishingBiteOdds(u32, bool32);
-static u32 CalculateFishingFollowerBoost(void);
-static u32 CalculateFishingProximityBoost(void);
-static u32 CalculateFishingTimeOfDayBoost(void);
+// static bool32 Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold(void);
+// static bool32 Fishing_RollForBite(u32, bool32);
+// static u32 CalculateFishingBiteOdds(u32, bool32);
+// static u32 CalculateFishingFollowerBoost(void);
+// static u32 CalculateFishingProximityBoost(void);
+// static u32 CalculateFishingTimeOfDayBoost(void);
 
 #define FISHING_PROXIMITY_BOOST 20     //Active if config I_FISHING_PROXIMITY is TRUE
 #define FISHING_TIME_OF_DAY_BOOST 20   //Active if config I_FISHING_TIME_OF_DAY_BOOST is TRUE
@@ -71,6 +77,7 @@ static const u8 sText_PokemonOnHook[] = _("A POKéMON's on the hook!{PAUSE_UNTIL
 static const u8 sText_NotEvenANibble[] = _("Not even a nibble…{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItGotAway[] = _("It got away…{PAUSE_UNTIL_PRESS}");
 static const u8 sText_DroppedRod[] = _("Dropped rod{PAUSE_UNTIL_PRESS}");
+static const u8 sText_FishingBad[] = _("COURTNEY: Fishing bad! Fish regardless?");
 
 struct FriendshipHookChanceBoost
 {
@@ -112,6 +119,8 @@ enum
     FISHING_PUT_ROD_AWAY,
     FISHING_END_NO_MON,
     FISHING_MESSAGE_DROPPED_ROD,
+    FISHING_MAGMA_WARNING,
+    FISHING_PROCESS_YES_NO,
 };
 
 static bool32 (*const sFishingStateFuncs[])(struct Task *) =
@@ -135,6 +144,8 @@ static bool32 (*const sFishingStateFuncs[])(struct Task *) =
     [FISHING_PUT_ROD_AWAY]          = Fishing_PutRodAway,
     [FISHING_END_NO_MON]            = Fishing_EndNoMon,
     [FISHING_MESSAGE_DROPPED_ROD]   = Fishing_MessageDroppedRod,
+    [FISHING_MAGMA_WARNING]         = Fishing_MagmaWarning,
+    [FISHING_PROCESS_YES_NO]        = Fishing_MagmaProcessYesNo,
 };
 
 #define tStep              data[0]
@@ -146,11 +157,12 @@ static bool32 (*const sFishingStateFuncs[])(struct Task *) =
 #define tPlayerGfxId       data[14]
 #define tFishingRod        data[15]
 
-void StartFishing(u8 rod)
+
+void StartFishing()
 {
     u8 taskId = CreateTask(Task_Fishing, 0xFF);
 
-    gTasks[taskId].tFishingRod = rod;
+    gTasks[taskId].tFishingRod = IsPlayerFacingLava();
     Task_Fishing(taskId);
 }
 
@@ -164,8 +176,35 @@ static bool32 Fishing_Init(struct Task *task)
 {
     LockPlayerFieldControls();
     gPlayerAvatar.preventStep = TRUE;
-    task->tStep = FISHING_GET_ROD_OUT;
+    task->tStep = (IS_PLAYER_ONE || VarGet(VAR_OLD_ROD_STATE) == 20 || IsPlayerFacingLava()) ? FISHING_GET_ROD_OUT : FISHING_MAGMA_WARNING;
+    VarSet(VAR_OLD_ROD_STATE, 0);
     return FALSE;
+}
+
+static bool32 Fishing_MagmaWarning(struct Task *task)
+{
+    VarSet(VAR_OLD_ROD_STATE, 15);
+
+    task->tStep = FISHING_END_NO_MON;
+    return TRUE;
+}
+
+static bool32 Fishing_MagmaProcessYesNo(struct Task *task)
+{
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    {
+    case 0:
+        PlaySE(SE_SELECT);
+        task->tStep = FISHING_GET_ROD_OUT;
+        break;
+    case 1:
+    case MENU_B_PRESSED:
+        PlaySE(SE_SELECT);
+        task->tStep = FISHING_END_NO_MON;
+        break;
+    }
+
+    return TRUE;
 }
 
 static bool32 Fishing_GetRodOut(struct Task *task)
@@ -262,31 +301,31 @@ static bool32 Fishing_ShowDots(struct Task *task)
 
 static bool32 Fishing_CheckForBite(struct Task *task)
 {
-    bool32 bite, firstMonHasSuctionOrSticky;
+    // bool32 bite, firstMonHasSuctionOrSticky;
 
     AlignFishingAnimationFrames();
     task->tStep = FISHING_GOT_BITE;
-    bite = FALSE;
+    // bite = TRUE;
 
-    if (!DoesCurrentMapHaveFishingMons())
-    {
-        task->tStep = FISHING_NOT_EVEN_NIBBLE;
-        return TRUE;
-    }
+    // if (!DoesCurrentMapHaveFishingMons())
+    // {
+    //     task->tStep = FISHING_NOT_EVEN_NIBBLE;
+    //     return TRUE;
+    // }
 
-    firstMonHasSuctionOrSticky = Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold();
+    // firstMonHasSuctionOrSticky = Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold();
 
-    if (firstMonHasSuctionOrSticky && I_FISHING_STICKY_BOOST < GEN_4)
-        bite = RandomPercentage(RNG_FISHING_GEN3_STICKY, FISHING_GEN3_STICKY_CHANCE);
+    // if (firstMonHasSuctionOrSticky && I_FISHING_STICKY_BOOST < GEN_4)
+    //     bite = RandomPercentage(RNG_FISHING_GEN3_STICKY, FISHING_GEN3_STICKY_CHANCE);
 
-    if (!bite)
-        bite = Fishing_RollForBite(task->tFishingRod, firstMonHasSuctionOrSticky);
+    // if (!bite)
+    //     bite = Fishing_RollForBite(task->tFishingRod, firstMonHasSuctionOrSticky);
 
-    if (!bite)
-        task->tStep = FISHING_NOT_EVEN_NIBBLE;
+    // if (!bite)
+    //     task->tStep = FISHING_NOT_EVEN_NIBBLE;
 
-    if (bite)
-        StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingBiteDirectionAnimNum(GetPlayerFacingDirection()));
+    // if (bite)
+    StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingBiteDirectionAnimNum(GetPlayerFacingDirection()));
 
     return TRUE;
 }
@@ -477,6 +516,11 @@ static bool32 Fishing_EndNoMon(struct Task *task)
     return FALSE;
 }
 
+static u8 GetOldRodLocalId(void)
+{
+    return gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F) ? LOCALID_2F_OLD_ROD : LOCALID_1F_OLD_ROD;
+}
+
 static bool32 Fishing_MessageDroppedRod(struct Task *task)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
@@ -485,9 +529,9 @@ static bool32 Fishing_MessageDroppedRod(struct Task *task)
     MoveCoordsInDirection(playerObjEvent->movementDirection, &x, &y, 1, 1);
     VarSet(VAR_OLD_ROD_X, x);
     VarSet(VAR_OLD_ROD_Y, y);
-    SetObjEventTemplateCoords(LOCALID_2F_OLD_ROD, x, y);
+    SetObjEventTemplateCoords(GetOldRodLocalId(), x, y);
 
-    VarSet(VAR_VOLCANION_CAVE_2F_STATE, 2);
+    VarSet(VAR_OLD_ROD_STATE, 10);
 
     task->tStep = FISHING_END_NO_MON;
     return TRUE;
@@ -495,7 +539,7 @@ static bool32 Fishing_MessageDroppedRod(struct Task *task)
 
 void UpdateOldRodPosition(void)
 {
-    SetObjEventTemplateCoords(LOCALID_2F_OLD_ROD, VarGet(VAR_OLD_ROD_X), VarGet(VAR_OLD_ROD_Y));
+    SetObjEventTemplateCoords(GetOldRodLocalId(), VarGet(VAR_OLD_ROD_X), VarGet(VAR_OLD_ROD_Y));
 }
 
 static bool32 DoesFishingMinigameAllowCancel(void)
@@ -511,108 +555,108 @@ static bool32 DoesFishingMinigameAllowCancel(void)
     }
 }
 
-static bool32 Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold(void)
-{
-    enum Ability ability;
+// static bool32 Fishing_DoesFirstMonInPartyHaveSuctionCupsOrStickyHold(void)
+// {
+//     enum Ability ability;
 
-    if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SANITY_IS_EGG))
-        return FALSE;
+//     if (GetMonData(&gParties[B_TRAINER_PLAYER][0], MON_DATA_SANITY_IS_EGG))
+//         return FALSE;
 
-    ability = GetMonAbility(&gParties[B_TRAINER_PLAYER][0]);
+//     ability = GetMonAbility(&gParties[B_TRAINER_PLAYER][0]);
 
-    return (ability == ABILITY_SUCTION_CUPS || ability == ABILITY_STICKY_HOLD);
-}
+//     return (ability == ABILITY_SUCTION_CUPS || ability == ABILITY_STICKY_HOLD);
+// }
 
-static bool32 Fishing_RollForBite(u32 rod, bool32 isStickyHold)
-{
-    return ((RandomUniform(RNG_FISHING_BITE, 1, 100)) <= CalculateFishingBiteOdds(rod, isStickyHold));
-}
+// static bool32 Fishing_RollForBite(u32 rod, bool32 isStickyHold)
+// {
+//     return ((RandomUniform(RNG_FISHING_BITE, 1, 100)) <= CalculateFishingBiteOdds(rod, isStickyHold));
+// }
 
-static u32 CalculateFishingBiteOdds(u32 rod, bool32 isStickyHold)
-{
-    u32 odds;
+// static u32 CalculateFishingBiteOdds(u32 rod, bool32 isStickyHold)
+// {
+//     u32 odds;
 
-    if (rod == OLD_ROD)
-        odds = FISHING_OLD_ROD_ODDS;
-    if (rod == GOOD_ROD)
-        odds = FISHING_GOOD_ROD_ODDS;
-    if (rod == SUPER_ROD)
-        odds = FISHING_SUPER_ROD_ODDS;
+//     if (rod == OLD_ROD)
+//         odds = FISHING_OLD_ROD_ODDS;
+//     if (rod == GOOD_ROD)
+//         odds = FISHING_GOOD_ROD_ODDS;
+//     if (rod == SUPER_ROD)
+//         odds = FISHING_SUPER_ROD_ODDS;
 
-    odds += CalculateFishingFollowerBoost();
-    odds += CalculateFishingProximityBoost();
-    odds += CalculateFishingTimeOfDayBoost();
+//     odds += CalculateFishingFollowerBoost();
+//     odds += CalculateFishingProximityBoost();
+//     odds += CalculateFishingTimeOfDayBoost();
 
-    if (isStickyHold && I_FISHING_STICKY_BOOST >= GEN_4)
-        odds *= 2;
+//     if (isStickyHold && I_FISHING_STICKY_BOOST >= GEN_4)
+//         odds *= 2;
 
-    odds = min(100, odds);
-    return odds;
-}
+//     odds = min(100, odds);
+//     return odds;
+// }
 
-static u32 CalculateFishingFollowerBoost()
-{
-    u32 friendship;
-    struct Pokemon *mon = GetFirstLiveMon();
+// static u32 CalculateFishingFollowerBoost()
+// {
+//     u32 friendship;
+//     struct Pokemon *mon = GetFirstLiveMon();
 
-    if (!I_FISHING_FOLLOWER_BOOST || !mon)
-        return 0;
+//     if (!I_FISHING_FOLLOWER_BOOST || !mon)
+//         return 0;
 
-    friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
-    for (u32 i = 0;; i++)
-    {
-        if (friendship >= sFriendshipHookChanceBoostArray[i].threshold)
-            return sFriendshipHookChanceBoostArray[i].bonus;
-    }
-}
+//     friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
+//     for (u32 i = 0;; i++)
+//     {
+//         if (friendship >= sFriendshipHookChanceBoostArray[i].threshold)
+//             return sFriendshipHookChanceBoostArray[i].bonus;
+//     }
+// }
 
-static u32 CalculateFishingProximityBoost()
-{
-    s16 bobber_x, bobber_y, tile_x, tile_y;
-    enum Direction direction, facingDirection;
-    u32 numQualifyingTile = 0;
-    struct ObjectEvent *objectEvent;
+// static u32 CalculateFishingProximityBoost()
+// {
+//     s16 bobber_x, bobber_y, tile_x, tile_y;
+//     enum Direction direction, facingDirection;
+//     u32 numQualifyingTile = 0;
+//     struct ObjectEvent *objectEvent;
 
-    if (!I_FISHING_PROXIMITY)
-        return 0;
+//     if (!I_FISHING_PROXIMITY)
+//         return 0;
 
-    objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+//     objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
-    bobber_x = objectEvent->currentCoords.x;
-    bobber_y = objectEvent->currentCoords.y;
+//     bobber_x = objectEvent->currentCoords.x;
+//     bobber_y = objectEvent->currentCoords.y;
 
-    facingDirection = GetPlayerFacingDirection();
-    MoveCoords(facingDirection, &bobber_x, &bobber_y);
+//     facingDirection = GetPlayerFacingDirection();
+//     MoveCoords(facingDirection, &bobber_x, &bobber_y);
 
-    numQualifyingTile = 0;
-    for (direction = DIR_SOUTH; direction < CARDINAL_DIRECTION_COUNT; direction++)
-    {
-        tile_x = bobber_x;
-        tile_y = bobber_y;
-        MoveCoords(direction, &tile_x, &tile_y);
-        if (tile_x == objectEvent->currentCoords.x && tile_y == objectEvent->currentCoords.y)
-            continue;
-        if (!MetatileBehavior_IsFishableWater(MapGridGetMetatileBehaviorAt(tile_x, tile_y)))
-            numQualifyingTile++;
-        else if (MapGridGetCollisionAt(tile_x, tile_y))
-            numQualifyingTile++;
-        else if (GetMapBorderIdAt(tile_x, tile_y) == CONNECTION_INVALID)
-            numQualifyingTile++;
-    }
+//     numQualifyingTile = 0;
+//     for (direction = DIR_SOUTH; direction < CARDINAL_DIRECTION_COUNT; direction++)
+//     {
+//         tile_x = bobber_x;
+//         tile_y = bobber_y;
+//         MoveCoords(direction, &tile_x, &tile_y);
+//         if (tile_x == objectEvent->currentCoords.x && tile_y == objectEvent->currentCoords.y)
+//             continue;
+//         if (!MetatileBehavior_IsFishableWater(MapGridGetMetatileBehaviorAt(tile_x, tile_y)))
+//             numQualifyingTile++;
+//         else if (MapGridGetCollisionAt(tile_x, tile_y))
+//             numQualifyingTile++;
+//         else if (GetMapBorderIdAt(tile_x, tile_y) == CONNECTION_INVALID)
+//             numQualifyingTile++;
+//     }
 
-    return (numQualifyingTile * FISHING_PROXIMITY_BOOST);
-}
+//     return (numQualifyingTile * FISHING_PROXIMITY_BOOST);
+// }
 
-static u32 CalculateFishingTimeOfDayBoost()
-{
-    if (!I_FISHING_TIME_OF_DAY_BOOST)
-        return 0;
+// static u32 CalculateFishingTimeOfDayBoost()
+// {
+//     if (!I_FISHING_TIME_OF_DAY_BOOST)
+//         return 0;
 
-    enum TimeOfDay timeOfDay = GetTimeOfDay();
-    if (timeOfDay == TIME_MORNING || timeOfDay == TIME_EVENING)
-        return FISHING_TIME_OF_DAY_BOOST;
-    return 0;
-}
+//     enum TimeOfDay timeOfDay = GetTimeOfDay();
+//     if (timeOfDay == TIME_MORNING || timeOfDay == TIME_EVENING)
+//         return FISHING_TIME_OF_DAY_BOOST;
+//     return 0;
+// }
 
 #undef tStep
 #undef tFrameCounter
