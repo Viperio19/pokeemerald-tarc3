@@ -261,7 +261,7 @@ void TrySpawnPlayer2(void)
     if (gSaveBlock1Ptr->location.mapNum != gSaveBlock2Ptr->player2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gSaveBlock2Ptr->player2Pos.mapGroup)
         return;
 
-    u8 state = MetatileBehavior_IsSurfableFishableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)) ? PLAYER_AVATAR_STATE_SURFING : PLAYER_AVATAR_STATE_NORMAL;
+    u8 state = MetatileBehavior_IsSurfableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)) ? PLAYER_AVATAR_STATE_SURFING : PLAYER_AVATAR_STATE_NORMAL;
 
     struct ObjectEventTemplate template =
     {
@@ -298,6 +298,9 @@ void SwitchCharacters(void)
     gSaveBlock2Ptr->player2FacingDirection = gSaveBlock2Ptr->player2Pos.facingDirection;
     FlagSet(FLAG_DOING_PLAYER_SWITCH);
     StoreInitialPlayerAvatarState();
+
+    if (IS_PLAYER_ONE && (abs(gSaveBlock1Ptr->pos.x - gSaveBlock2Ptr->player2Pos.x) > 10 || abs(gSaveBlock1Ptr->pos.y - gSaveBlock2Ptr->player2Pos.y) > 7))
+        FlagSet(FLAG_HIDE_SURF_BLOBS);
 
     struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)];
 
@@ -816,7 +819,7 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, u8 metati
 {
     if (MetatileBehavior_IsFastWater(metatileBehavior) == TRUE && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
         return EventScript_CurrentTooFast;
-    if (IsFieldMoveUnlocked(FIELD_MOVE_SURF) && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE
+    if (IsFieldMoveUnlocked(FIELD_MOVE_SURF) && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableWater() == TRUE
      && CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_SURF)
      )
         return EventScript_UseSurf;

@@ -2358,6 +2358,17 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
     return FALSE;
 }
 
+void SetOldRodBob(void)
+{
+    u8 objId = GetObjectEventIdByLocalId(gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F) ? LOCALID_2F_OLD_ROD : LOCALID_1F_OLD_ROD);
+    gFieldEffectArguments[0] = VarGet(VAR_OLD_ROD_X);
+    gFieldEffectArguments[1] = VarGet(VAR_OLD_ROD_Y);
+    gFieldEffectArguments[2] = objId;
+    u8 spriteId = FieldEffectStart(FLDEFF_SURF_BLOB);
+    gObjectEvents[objId].fieldEffectSpriteId = spriteId;
+    SetSurfBlob_BobState(spriteId, BOB_JUST_PLAYER);
+}
+
 static bool32 ReturnToFieldLocal(u8 *state)
 {
     switch (*state)
@@ -2374,7 +2385,7 @@ static bool32 ReturnToFieldLocal(u8 *state)
         SetCameraToTrackPlayer();
         if (gSaveBlock1Ptr->location.mapNum == gSaveBlock2Ptr->player2Pos.mapNum
          && gSaveBlock1Ptr->location.mapGroup == gSaveBlock2Ptr->player2Pos.mapGroup
-         && MetatileBehavior_IsSurfableFishableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)))
+         && MetatileBehavior_IsSurfableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)))
         {
             u8 objId = GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2);
             gFieldEffectArguments[0] = gObjectEvents[objId].currentCoords.x;
@@ -2384,6 +2395,10 @@ static bool32 ReturnToFieldLocal(u8 *state)
             gObjectEvents[objId].fieldEffectSpriteId = spriteId;
             SetSurfBlob_BobState(spriteId, BOB_PLAYER_AND_MON);
         }
+        if (FlagGet(FLAG_DROPPED_VOLCANION_CAVE_1F_OLD_ROD) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_1F))
+            SetOldRodBob();
+        if (FlagGet(FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F))
+            SetOldRodBob();
         (*state)++;
         break;
     case 1:

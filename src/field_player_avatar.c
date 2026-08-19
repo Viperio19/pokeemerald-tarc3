@@ -1694,7 +1694,7 @@ bool8 IsPlayerSurfingNorth(void)
         return FALSE;
 }
 
-bool8 IsPlayerFacingSurfableFishableWater(void)
+bool8 IsPlayerFacingSurfableWater(void)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     s16 x = playerObjEvent->currentCoords.x;
@@ -1703,7 +1703,37 @@ bool8 IsPlayerFacingSurfableFishableWater(void)
     MoveCoords(playerObjEvent->facingDirection, &x, &y);
     if (GetCollisionAtCoords(playerObjEvent, x, y, playerObjEvent->facingDirection) == COLLISION_ELEVATION_MISMATCH
      && PlayerGetElevation() == ELEVATION_DEFAULT
-     && MetatileBehavior_IsSurfableFishableWater(MapGridGetMetatileBehaviorAt(x, y)))
+     && MetatileBehavior_IsSurfableWater(MapGridGetMetatileBehaviorAt(x, y)))
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 IsPlayerFacingFishableWater(void)
+{
+    DebugPrintf("2");
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    s16 x = playerObjEvent->currentCoords.x;
+    s16 y = playerObjEvent->currentCoords.y;
+
+    MoveCoords(playerObjEvent->facingDirection, &x, &y);
+    if (MapGridGetMetatileBehaviorAt(x, y) == MB_LAVA
+     || (GetCollisionAtCoords(playerObjEvent, x, y, playerObjEvent->facingDirection) == COLLISION_ELEVATION_MISMATCH
+      && PlayerGetElevation() == ELEVATION_DEFAULT
+      && MetatileBehavior_IsFishableWater(MapGridGetMetatileBehaviorAt(x, y))))
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 IsPlayerFacingLava(void)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    s16 x = playerObjEvent->currentCoords.x;
+    s16 y = playerObjEvent->currentCoords.y;
+
+    MoveCoords(playerObjEvent->facingDirection, &x, &y);
+    if (MapGridGetMetatileBehaviorAt(x, y) == MB_LAVA)
         return TRUE;
     else
         return FALSE;

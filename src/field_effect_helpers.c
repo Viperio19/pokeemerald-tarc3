@@ -12,6 +12,7 @@
 #include "sprite.h"
 #include "trig.h"
 #include "wild_encounter_ow.h"
+#include "event_data.h"
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
 #include "constants/rgb.h"
@@ -1252,7 +1253,9 @@ static u8 GetSurfBlob_HasPlayerOffset(struct Sprite *sprite)
 
 void UpdateSurfBlobFieldEffect(struct Sprite *sprite)
 {
-    sprite->invisible = !IS_PLAYER_ONE && (abs(gSaveBlock1Ptr->pos.x - gSaveBlock2Ptr->player2Pos.x) > 10 || abs(gSaveBlock1Ptr->pos.y - gSaveBlock2Ptr->player2Pos.y) > 7);
+    sprite->invisible = GetSurfBlob_BobState(sprite) == BOB_JUST_PLAYER
+                     || FlagGet(FLAG_HIDE_SURF_BLOBS)
+                     || (!IS_PLAYER_ONE && (abs(gSaveBlock1Ptr->pos.x - gSaveBlock2Ptr->player2Pos.x) > 10 || abs(gSaveBlock1Ptr->pos.y - gSaveBlock2Ptr->player2Pos.y) > 7));
 
     struct ObjectEvent *playerObj = &gObjectEvents[sprite->sPlayerObjId];
     struct Sprite *playerSprite = &gSprites[playerObj->spriteId];
