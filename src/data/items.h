@@ -2208,6 +2208,24 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Repel,
     },
 
+    [ITEM_EMPTY_REPEL] =
+    {
+        .name = ITEM_NAME("Empty Repel"),
+        .price = (I_PRICE >= GEN_7) ? 400 : 350,
+        .holdEffectParam = 100,
+        .description = COMPOUND_STRING(
+            "Repels nothing\n"
+            "because it is\n"
+            "already used."),
+        .pocket = POCKET_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+        .iconPic = gItemIcon_Repel,
+        .iconPalette = gItemIconPalette_Repel,
+    },
+
     [ITEM_SUPER_REPEL] =
     {
         .name = ITEM_NAME("Super Repel"),
