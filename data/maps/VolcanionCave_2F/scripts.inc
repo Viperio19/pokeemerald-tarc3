@@ -8,6 +8,7 @@ VolcanionCave_2F_MapScripts::
 VolcanionCave_2F_OnLoad::
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_SetRockBarrier1
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_SetRockBarrier2
+	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_SetRockBarrier3
 	end
 
 VolcanionCave_2F_EventScript_SetRockBarrier1::
@@ -20,6 +21,12 @@ VolcanionCave_2F_EventScript_SetRockBarrier2::
 	setmetatile 18, 40, METATILE_Cave_RockBarrier_Top, 1
 	setmetatile 18, 41, METATILE_Cave_RockBarrier_MiddleVertical, 1
 	setmetatile 18, 42, METATILE_Cave_RockBarrier_Bottom, 1
+	return
+
+VolcanionCave_2F_EventScript_SetRockBarrier3::
+	setmetatile 26, 64, METATILE_Cave_RockBarrier_Left, 1
+	setmetatile 27, 64, METATILE_Cave_RockBarrier_MiddleHorizontal, 1
+	setmetatile 28, 64, METATILE_Cave_RockBarrier_Right, 1
 	return
 
 VolcanionCave_2F_OnTransition:
@@ -216,19 +223,12 @@ VolcanionCave_2F_Text_DroppedRodFloated::
 
 VolcanionCave_2F_EventScript_Diglett::
 	lock
-	getplayerxy VAR_0x8000, VAR_0x8001
-	getobjectxy LOCALID_2F_DIGLETT, CURRENT_POSITION, VAR_0x8002, VAR_0x8003
-	goto_if_ne VAR_0x8001, VAR_0x8003, VolcanionCave_2F_EventScript_DiglettDoNothing
 	applymovement LOCALID_2F_DIGLETT, Common_Movement_FacePlayer
 	waitmovement
 	callnative IsPlayerOne
 	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_2F_EventScript_DiglettMagma
 	goto VolcanionCave_2F_EventScript_DiglettAqua
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
-	release
-	end
-
-VolcanionCave_2F_EventScript_DiglettDoNothing::
 	release
 	end
 
@@ -285,8 +285,6 @@ VolcanionCave_2F_EventScript_FloorSwitch1::
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
-	setobjectmovementtype LOCALID_VOLCANION_CAVE_2F_BOULDER_1, MOVEMENT_TYPE_NONE
-	copyobjectxytoperm LOCALID_VOLCANION_CAVE_2F_BOULDER_1
 	setvar VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100
 	releaseall
 	end
@@ -294,17 +292,26 @@ VolcanionCave_2F_EventScript_FloorSwitch1::
 VolcanionCave_2F_EventScript_FloorSwitch2::
 	lock
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed
-	setmetatile 10, 34, METATILE_Cave_Floor, 0
-	setmetatile 10, 35, METATILE_Cave_Floor, 0
-	setmetatile 10, 36, METATILE_Cave_Floor, 0
-	setmetatile 10, 37, METATILE_Cave_Floor, 0
-	setmetatile 10, 18, METATILE_Cave_Floor, 0
+	setmetatile 18, 40, METATILE_Cave_Floor, 0
+	setmetatile 18, 41, METATILE_Cave_Floor, 0
+	setmetatile 18, 42, METATILE_Cave_Floor, 0
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
-	setobjectmovementtype LOCALID_VOLCANION_CAVE_2F_BOULDER_2, MOVEMENT_TYPE_NONE
-	copyobjectxytoperm LOCALID_VOLCANION_CAVE_2F_BOULDER_2
 	setvar VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100
+	releaseall
+	end
+
+VolcanionCave_2F_EventScript_FloorSwitch3::
+	lock
+	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed
+	setmetatile 26, 64, METATILE_Cave_Floor, 0
+	setmetatile 27, 64, METATILE_Cave_Floor, 0
+	setmetatile 28, 64, METATILE_Cave_Floor, 0
+	playse SE_ICE_BREAK
+	special DrawWholeMapView
+	waitse
+	setvar VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100
 	releaseall
 	end
 

@@ -1064,8 +1064,10 @@ static bool8 TryPushBoulder(s16 x, s16 y, enum Direction direction)
     if (FlagGet(FLAG_SYS_USE_STRENGTH))
     {
         u8 objectEventId = GetObjectEventIdByXY(x, y);
+        u8 isPlayerOnIce = MapGridGetMetatileBehaviorAt(gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.x,
+                                                        gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.y) == MB_ICE; 
 
-        if (objectEventId != OBJECT_EVENTS_COUNT && (gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER || gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG))
+        if (!isPlayerOnIce && objectEventId != OBJECT_EVENTS_COUNT && (gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER || gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG))
         {
             x = gObjectEvents[objectEventId].currentCoords.x;
             y = gObjectEvents[objectEventId].currentCoords.y;
