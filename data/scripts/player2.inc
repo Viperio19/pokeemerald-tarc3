@@ -2,7 +2,9 @@ EventScript_Player2_Singleplayer::
 	lock
 	goto_if_set FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, EventScript_Player2_ReadyToBattle
 	faceplayer
-	message Player2_Text_HiPlayer
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, Player2_Message_HiPlayerMagma
+	call_if_eq VAR_RESULT, FALSE, Player2_Message_HiPlayerAqua
 	waitmessage
 	multichoicedefault 21, 6, MULTI_PLAYER_2, 0, FALSE
 	switch VAR_RESULT
@@ -48,17 +50,52 @@ Player2_Singleplayer_DoTrade::
 	end
 
 Player2_Singleplayer_Talk::
+	goto_if_set FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, Player2_Message_RockBroken
 	msgbox Player2_Text_Talk, MSGBOX_NPC
 	release
 	end
+
+Player2_Message_RockBroken::
+	msgbox Player2_Text_RockBroken, MSGBOX_NPC
+	release
+	end
+
+Player2_Text_RockBroken::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT 5}hmmmm… mmgrmh… mrgrgr…\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}{FONT_NORMAL}Hey, quit mumbling!\p"
+	.string "If you have another insult for me\n"
+	.string "then just spit it out already!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Shockingly, that isn't what I was\n"
+	.string "planning this time.\p"
+	.string "I'm simply thinking about my strategy\n"
+	.string "to beat the GOLEM blocking the exit.\p"
+	.string "{FONT 5}I have no problems when it uses\n"
+	.string "THUNDERPUNCH, but I can't easily\l"
+	.string "take an EARTHQUAKE.\p"
+	.string "I wonder if there's a way to\n"
+	.string "avoid both of its moves…\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}{FONT_NORMAL}Sweet! Thanks for the tips, loose lips!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Wait… I said that all out LOUD???$"
 
 Player2_Singleplayer_Cancel::
 	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
 	release
 	end
 
-Player2_Text_HiPlayer::
-	.string "{RIVAL}: Hi {PLAYER}!\nWhat do you want to do?$"
+Player2_Message_HiPlayerMagma::
+	msgbox Player2_Text_HiPlayerMagma, MSGBOX_NPC
+	return
+
+Player2_Message_HiPlayerAqua::
+	msgbox Player2_Text_HiPlayerAqua, MSGBOX_NPC
+	return
+
+Player2_Text_HiPlayerMagma::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}You again?\n"
+	.string "What did I do to deserve this?$"
+
+Player2_Text_HiPlayerAqua::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What, you need something?$"
 
 Player2_Text_GiveWhatPokemon::
 	.string "{RIVAL}: What POKéMON do you\nwant to give?$"
@@ -73,7 +110,19 @@ Player2_Text_TakeGoodCareOfPokemon::
 	.string "{RIVAL}: I'll take good care\nof {STR_VAR_2}!$"
 
 Player2_Text_Talk::
-	.string "{RIVAL}: Wow, we're talking!$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}This sucks!!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Yes, I'm aware that TEAM AQUA is the\n"
+	.string "objectively worse organization here.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oh come on, you know that's\n"
+	.string "not what I meant!\p"
+	.string "There's this stupid rock in my way!!\p"
+	.string "If only SHELLY had enough DYNAMO\n"
+	.string "BADGES to give to all of us…\p"
+	.string "Even then, I don't have a POKéMON\n"
+	.string "that knows ROCK SMASH.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Sounds to me like there's\n"
+	.string "nothing you can do about that.\p"
+	.string "Good luck, sucker!!$"
 
 Player2_Text_WeGotThis::
 	.string "{RIVAL}: We got this!$"
@@ -110,7 +159,9 @@ Player2_LinkSuccess::
 EventScript_Player2_Multiplayer::
 	lock
 	faceplayer
-	message Player2_Text_HiPlayer
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, FALSE, Player2_Text_HiPlayerMagma
+	message Player2_Text_HiPlayerAqua
 	waitmessage
 	multichoicedefault 21, 6, MULTI_PLAYER_2, 0, FALSE
 	switch VAR_RESULT
