@@ -7853,7 +7853,7 @@ s32 CalcCritChanceStage(struct DamageContext *ctx)
         critChance = CRITICAL_HIT_BLOCKED;
     }
 
-    return critChance;
+    return critChance == CRITICAL_HIT_ALWAYS ? CRITICAL_HIT_ALWAYS : 0;
 }
 
 // Bulbapedia: https://bulbapedia.bulbagarden.net/wiki/Critical_hit#Generation_I

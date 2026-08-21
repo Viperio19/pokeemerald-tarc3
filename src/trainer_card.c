@@ -1510,7 +1510,7 @@ static void DrawStarsAndBadgesOnCard(void)
     if (!sData->isLink)
     {
         x = 4;
-        y = IS_FRLG ? 15 : 16;
+        y = IS_FRLG ? 16 : 15;
         for (i = 0; i < NUM_BADGES; i++, tileNum += 2, x += 3)
         {
             if (sData->badgeCount[i])
@@ -1843,7 +1843,7 @@ static void InitTrainerCardData(void)
 
 static u8 GetSetCardType(void)
 {
-    return IS_FRLG ? CARD_TYPE_EMERALD : CARD_TYPE_FRLG;
+    return IS_FRLG ? CARD_TYPE_FRLG : CARD_TYPE_EMERALD;
 }
 
 static u8 VersionToCardType(enum GameVersion version)

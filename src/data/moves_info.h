@@ -3439,17 +3439,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Waterfall"),
         .description = COMPOUND_STRING(
-    #if B_UPDATED_MOVE_DATA >= GEN_4
-            "Charges with speed to\n"
-            "climb waterfalls. May flinch."),
-        .additionalEffects = ADDITIONAL_EFFECTS({
-            .moveEffect = MOVE_EFFECT_FLINCH,
-            .chance = 20,
-        }),
-    #else
             "Charges the foe with speed\n"
             "to climb waterfalls."),
-    #endif
         .effect = EFFECT_HIT,
         .power = 80,
         .type = TYPE_WATER,
@@ -3816,12 +3807,12 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .effect = EFFECT_HIT,
         .power = 15,
         .type = TYPE_NORMAL,
-        .accuracy = 85,
-        .pp = 20,
+        .accuracy = 100,
+        .pp = 40,
         .target = TARGET_SELECTED,
         .priority = 0,
         .category = DAMAGE_CATEGORY_PHYSICAL,
-        .multiHit = TRUE,
+        .strikeCount = 2,
         .ballisticMove = TRUE,
         .contestEffect = C_UPDATED_MOVE_EFFECTS >= GEN_6 ? CONTEST_EFFECT_QUALITY_DEPENDS_ON_TIMING : CONTEST_EFFECT_BETTER_IF_SAME_TYPE,
         .contestCategory = C_UPDATED_MOVE_CATEGORIES >= GEN_6 ? CONTEST_CATEGORY_CUTE : CONTEST_CATEGORY_TOUGH,
@@ -6574,7 +6565,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .power = 0,
         .type = TYPE_FIRE,
         .accuracy = 0,
-        .pp = 5,
+        .pp = 10,
         .target = TARGET_FIELD,
         .priority = 0,
         .category = DAMAGE_CATEGORY_STATUS,

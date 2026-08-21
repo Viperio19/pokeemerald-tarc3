@@ -58,10 +58,10 @@ gText_Intro_Shelly_AndYouAre::
 	.string "and you'll be good to go.\p$"
 
 gText_Intro_Shelly_BoyOrGirl::
-	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Gender first, please.$"
+	.string "Gender first, please.$"
 
 gText_Intro_Shelly_WhatsYourName::
-	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Perfect.\n"
+	.string "Perfect.\n"
 	.string "And your name?$"
 
 gText_Intro_Shelly_SoItsPlayer::
@@ -152,10 +152,10 @@ gText_Intro_Courtney_AndYouAre::
 	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}I will need your name and gender.\p$"
 
 gText_Intro_Courtney_BoyOrGirl::
-	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}Your gender, please?$"
+	.string "Your gender, please?$"
 
 gText_Intro_Courtney_WhatsYourName::
-	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}And your name?$"
+	.string "And your name?$"
 
 gText_Intro_Courtney_SoItsPlayer::
 	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}{PLAYER}{KUN} is correct?\p$"

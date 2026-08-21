@@ -17,11 +17,9 @@ VolcanionCave_2F_EventScript_SetRockBarrier1::
 	return
 
 VolcanionCave_2F_EventScript_SetRockBarrier2::
-	setmetatile 10, 34, METATILE_Cave_RockBarrier_Top, 1
-	setmetatile 10, 35, METATILE_Cave_RockBarrier_MiddleVertical, 1
-	setmetatile 10, 36, METATILE_Cave_RockBarrier_MiddleVertical, 1
-	setmetatile 10, 37, METATILE_Cave_RockBarrier_MiddleVertical, 1
-	setmetatile 10, 18, METATILE_Cave_RockBarrier_Bottom, 1
+	setmetatile 18, 40, METATILE_Cave_RockBarrier_Top, 1
+	setmetatile 18, 41, METATILE_Cave_RockBarrier_MiddleVertical, 1
+	setmetatile 18, 42, METATILE_Cave_RockBarrier_Bottom, 1
 	return
 
 VolcanionCave_2F_OnTransition:
@@ -316,23 +314,50 @@ VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed::
 
 VolcanionCave_2F_EventScript_Exeggutor::
 	playmoncry SPECIES_EXEGGUTOR_ALOLA, CRY_MODE_NORMAL
-	msgbox VolcanionCave_2F_Text_Exeggutor
+	msgbox VolcanionCave_2F_Text_Exeggutor, MSGBOX_DEFAULT
 	waitmoncry
+	setwildbattle SPECIES_EXEGGUTOR_ALOLA, 25, TRUE, ITEM_SITRUS_BERRY
+	dowildbattle
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_2F_EventScript_DefeatedExeggutor
+	release
+	end
+
+VolcanionCave_2F_EventScript_DefeatedExeggutor::
+	playmoncry SPECIES_EXEGGUTOR_ALOLA, CRY_MODE_NORMAL
+	msgbox VolcanionCave_2F_Text_Exeggutor, MSGBOX_DEFAULT
+	waitmoncry
+	setflag FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR
+	removeobject LOCALID_2F_EXEGGUTOR_1
+	removeobject LOCALID_2F_EXEGGUTOR_2
 	release
 	end
 
 VolcanionCave_2F_Text_Exeggutor::
-	.string "Tall.$"
+	.string "(exeggutor cry)$"
 
 VolcanionCave_2F_EventScript_Toxapex::
 	playmoncry SPECIES_TOXAPEX, CRY_MODE_NORMAL
-	msgbox VolcanionCave_2F_Text_Toxapex
+	msgbox VolcanionCave_2F_Text_Toxapex, MSGBOX_DEFAULT
 	waitmoncry
+	setwildbattle SPECIES_TOXAPEX, 35, TRUE
+	dowildbattle
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_2F_EventScript_DefeatedToxapex
+	release
+	end
+
+VolcanionCave_2F_EventScript_DefeatedToxapex::
+	playmoncry SPECIES_TOXAPEX, CRY_MODE_NORMAL
+	msgbox VolcanionCave_2F_Text_Toxapex, MSGBOX_DEFAULT
+	waitmoncry
+	setflag FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX
+	removeobject VAR_LAST_TALKED
 	release
 	end
 
 VolcanionCave_2F_Text_Toxapex::
-	.string "Not tall.$"
+	.string "(toxapex cry)$"
 
 VolcanionCave_2F_EventScript_OldRod::
 	lock
@@ -343,3 +368,14 @@ VolcanionCave_2F_EventScript_OldRod::
 	setvar VAR_OLD_ROD_STATE, 0
 	release
 	end
+
+VolcanionCave_2F_EventScript_MagmaMemberFGoldeen::
+	msgbox VolcanionCave_2F_Text_ShowMeGoldeen, MSGBOX_NPC
+	end
+
+VolcanionCave_2F_Text_ShowMeGoldeen::
+	.string "I found a GOLDEEN and ditched it\n"
+	.string "in the lava over there.\p"
+	.string "I feel a bit bad though...\p"
+	.string "Can you fish it up and\n"
+	.string "show it to me?$"

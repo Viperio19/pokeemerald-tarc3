@@ -65,7 +65,7 @@ static bool32 IsFieldMoveUnlocked_Waterfall(void)
 
 static bool32 IsFieldMoveUnlocked_RockClimb(void)
 {
-    return OW_ROCK_CLIMB_FIELD_MOVE;
+    return FlagGet(FLAG_BADGE02_GET);
 }
 
 static bool32 IsFieldMoveUnlocked_Teleport(void)

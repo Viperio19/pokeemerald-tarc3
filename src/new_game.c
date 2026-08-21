@@ -272,6 +272,7 @@ static void InitTARCData(void)
     FlagSet(FLAG_BADGE02_GET);
     FlagSet(FLAG_BADGE03_GET);
     FlagSet(FLAG_P2_BADGE05_GET);
+    FlagSet(FLAG_P2_BADGE08_GET);
 
     AddBagItem(ITEM_POKE_BALL, 10);
     ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);

@@ -69,8 +69,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_M",
-      "x": 27,
-      "y": 74,
+      "x": 40,
+      "y": 35,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -109,6 +109,7 @@
       "flag": "FLAG_TEMP_2"
     },
     {
+      "local_id": "LOCALID_2F_EXEGGUTOR_1",
       "graphics_id": "OBJ_EVENT_GFX_EXEGGUTOR",
       "x": 23,
       "y": 48,
@@ -119,7 +120,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_2F_EventScript_Exeggutor",
-      "flag": "0"
+      "flag": "FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR"
     },
     {
       "local_id": "LOCALID_2F_OLD_ROD",
@@ -146,9 +147,10 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_2F_EventScript_Toxapex",
-      "flag": "0"
+      "flag": "FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX"
     },
     {
+      "local_id": "LOCALID_2F_EXEGGUTOR_2",
       "graphics_id": "OBJ_EVENT_GFX_BRENDAN_NORMAL",
       "x": 23,
       "y": 43,
@@ -159,7 +161,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_2F_EventScript_Exeggutor",
-      "flag": "0"
+      "flag": "FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
@@ -173,6 +175,19 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_StrengthBoulder",
       "flag": "FLAG_TEMP_3"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_F",
+      "x": 19,
+      "y": 14,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VolcanionCave_2F_EventScript_MagmaMemberFGoldeen",
+      "flag": "0"
     }
   ],
   "warp_events": [

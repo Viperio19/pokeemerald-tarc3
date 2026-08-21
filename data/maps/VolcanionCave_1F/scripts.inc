@@ -136,37 +136,37 @@ VolcanionCave_1F_Movement_PlayerEnterCave::
 	step_end
 
 VolcanionCave_1F_Text_IntroOhNo::
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Oh no…\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oh no…\p"
 	.string "Of all of the people to run into\n"
 	.string "on this job, it HAD to be you???\p$"
 
 VolcanionCave_1F_Text_IntroWeirdo::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}(What is this TEAM AQUA\n"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}(What is this TEAM AQUA\n"
 	.string "weirdo yelling at me for?)\p$"
 
 VolcanionCave_1F_Text_IntroDontStare::
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Don't just stare at me like that!!\n"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Don't just stare at me like that!!\n"
 	.string "…You do remember who I am, right?\p$"
 
 VolcanionCave_1F_Text_IntroLookTheSame::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}I've seen hundreds of AQUA GRUNTS over\n"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I've seen hundreds of AQUA GRUNTS over\n"
 	.string "the years and you all either look like\l"
 	.string "pirates or pirates with orange hair.\p"
 	.string "You'll have to forgive me for\n"
 	.string "having zero clue who you are.\p$"
 
 VolcanionCave_1F_Text_IntroBeatPoochyena::
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}hrRrrRRNGH-YOU BEAT MY POOCHYENA ON\n"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}hrRrrRRNGH-YOU BEAT MY POOCHYENA ON\n"
 	.string "TOP OF MT. CHIMNEY AND YOU KNOW IT!!\p$"
 
 VolcanionCave_1F_Text_IntroHowDoYouKnow::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}How do you know that was me?\p$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}How do you know that was me?\p$"
 
 VolcanionCave_1F_Text_IntroSmellLikeEggs::
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}YOU SMELL LIKE EGGS!!!!!\p$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}YOU SMELL LIKE EGGS!!!!!\p$"
 
 VolcanionCave_1F_Text_IntroJobToDo::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}{FONT 5}oh for the love of- {PAUSE 20}{FONT_NORMAL}Don't bring my\n"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT 5}oh for the love of- {PAUSE 20}{FONT_NORMAL}Don't bring my\n"
 	.string "sister's TOGEPI into this…\p"
 	.string "Look, unlike you ARAQUA-NERDS,\n"
 	.string "I have an important job to do.\p"
@@ -174,15 +174,15 @@ VolcanionCave_1F_Text_IntroJobToDo::
 	.string "stayed out of my way.\p$"
 
 VolcanionCave_1F_Text_IntroTellMeTwice::
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Don't have to tell me twice!!\p$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Don't have to tell me twice!!\p$"
 
 VolcanionCave_1F_Text_IntroScrewsLoose::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}{FONT 5}(Woah… I knew TEAM AQUA had a few\n"
-	.string "screws loose, but {HESHE_2}'s way worse\l"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT 5}(Woah… I knew TEAM AQUA had a few\n"
+	.string "screws loose, but {HESHE_1}'s way worse\l"
 	.string "than I expected.)\p"
-	.string "(Hmm… {HESHE_2} may not look very\n"
+	.string "(Hmm… {HESHE_1} may not look very\n"
 	.string "useful, but you never know…)\p"
-	.string "(I'm sure {HESHE_2}'ll make for a\n"
+	.string "(I'm sure {HESHE_1}'ll make for a\n"
 	.string "decent meatshield in a pinch.){FONT_NORMAL}\p$"
 
 VolcanionCave_1F_EventScript_DropOldRod::
@@ -467,13 +467,15 @@ VolcanionCave_1F_Movement_DiglettDigUp2::
 	step_end
 
 VolcanionCave_1F_EventScript_AquaGruntF::
+	lock
 	applymovement LOCALID_1F_AQUA_GRUNT_F, Common_Movement_FacePlayer
 	waitmovement 0
 	callnative IsPlayerOne
 	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_AquaGruntFMagmaPlayer
 	goto_if_set FLAG_RECEIVED_REPEL, VolcanionCave_1F_EventScript_AquaGruntFSprayingRepels
-	msgbox VolcanionCave_1F_Text_AquaGruntFAquaPlayer, MSGBOX_NPC
-	waitmessage
+	msgbox VolcanionCave_1F_Text_AquaGruntFAquaPlayer, MSGBOX_DEFAULT
+	closemessage
+	delay 10
 	giveitem ITEM_REPEL
 	setflag FLAG_RECEIVED_REPEL
 VolcanionCave_1F_EventScript_AquaGruntFSprayingRepels::
@@ -507,7 +509,7 @@ VolcanionCave_1F_Text_AquaGruntFSprayingRepels::
 
 VolcanionCave_1F_Text_NoRepels::
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}EWWWWW!!!{PAUSE 20} MAGMA!!!!!\p"
-	.string "(The GRUNT sprays you with a repel.)\p"
+	.string "{SPEAKER NAME_NONE COLOR_NORMAL}(The GRUNT sprays you with a repel.)\p"
 	.string "(You now smell like eggs and repel.)$"
 
 VolcanionCave_1F_EventScript_RemoveLastTalked::
@@ -559,9 +561,6 @@ VolcanionCave_1F_EventScript_SmashRock:: @ fallthrough
 	waitmovement 0
 	removeobject VAR_LAST_TALKED
 	delay 10
-	applymovement LOCALID_PLAYER, Common_Movement_FacePlayer2
-	waitmovement 0
-	callnative UpdateVarFacing
 	call_if_eq VAR_FACING, DIR_NORTH, VolcanionCave_1F_EventScript_PlayerWalkInPlaceNorth
 	call_if_eq VAR_FACING, DIR_SOUTH, VolcanionCave_1F_EventScript_PlayerWalkInPlaceSouth
 	call_if_eq VAR_FACING, DIR_EAST, VolcanionCave_1F_EventScript_PlayerWalkInPlaceEast
@@ -704,29 +703,29 @@ VolcanionCave_1F_Text_BattleTogetherAquaFine::
 	.string "{SPEAKER NAME_NONE COLOR_NORMAL}{PLAYER} is ready to battle!$"
 	
 VolcanionCave_1F_Text_DidWeKillIt::
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Is that it??{PAUSE 20} DID WE DO IT???\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Indoor voice please.\p"
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Ugh, you're no fun.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Is that it??{PAUSE 20} DID WE DO IT???\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Indoor voice please.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Ugh, you're no fun.\p"
 	.string "We just beat the strongest\n"
 	.string "POKéMON we've ever battled\l"
 	.string "and THAT'S your reaction??\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}If THAT'S the strongest POKéMON\n"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}If THAT'S the strongest POKéMON\n"
 	.string "you've ever battled, you should\l"
 	.string "seriously reconsider being here.\p"
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Are all TEAM MAGMA GRUNTS as\n"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Are all TEAM MAGMA GRUNTS as\n"
 	.string "annoying as you????\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Yeah.\p"
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}Look, as much as I really really REALLY\n"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Yeah.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Look, as much as I really really REALLY\n"
 	.string "don't want to say it, we needed to work\l"
 	.string "together to take out that GOLEM.\p"
 	.string "There's probably more POKéMON in here\n"
 	.string "that are too strong for just one of us.\p"
 	.string "What do you say to a truce for now?\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}As long as it's ONLY temporary.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}As long as it's ONLY temporary.\p"
 	.string "Any more than that, and the shame\n"
 	.string "of working with you will kill me.\p"
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}{FONT 5}{AUTO_SCROLL 1}not if i kill you first{PAUSE 10}\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}{FONT_NORMAL}{AUTO_SCROLL 0}What???\p"
-	.string "{SPEAKER NAME_RIVAL COLOR_AQUA}What?\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}{FONT 5}Sigh… {FONT_NORMAL}We're getting nowhere with this.\n"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}{FONT 5}{AUTO_SCROLL 1}not if i kill you first{PAUSE 10}\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT_NORMAL}{AUTO_SCROLL 0}What???\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What?\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT 5}Sigh… {FONT_NORMAL}We're getting nowhere with this.\n"
 	.string "Let's go.$"
