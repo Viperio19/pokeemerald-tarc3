@@ -18,6 +18,9 @@
 #define VAR_TEMP_7                 (TEMP_VARS_START + 0x7)
 #define VAR_TEMP_8                 (TEMP_VARS_START + 0x8)
 #define VAR_TEMP_9                 (TEMP_VARS_START + 0x9)
+
+#define TEMP_ISH_VARS_START        (TEMP_VARS_START + 0xA)
+
 #define VAR_TEMP_A                 (TEMP_VARS_START + 0xA)
 #define VAR_TEMP_B                 (TEMP_VARS_START + 0xB)
 #define VAR_TEMP_C                 (TEMP_VARS_START + 0xC)
@@ -26,6 +29,7 @@
 #define VAR_TEMP_F                 (TEMP_VARS_START + 0xF)
 #define TEMP_VARS_END              VAR_TEMP_F
 #define NUM_TEMP_VARS              (TEMP_VARS_END - TEMP_VARS_START + 1)
+#define NUM_TEMP_ISH_VARS          (TEMP_VARS_END - TEMP_ISH_VARS_START + 1)
 
 // object gfx id vars
 // These 0x10 vars are used to dynamically control a map object's sprite.
@@ -239,7 +243,7 @@
 #define VAR_HAS_TALKED_TO_SEAFLOOR_CAVERN_ENTRANCE_GRUNT 0x40D9
 #define VAR_REGISTER_BIRCH_STATE                         0x40DA
 #define VAR_UNUSED_0x40DB                                0x40DB // Unused Var
-#define VAR_UNUSED_0x40DC                                0x40DC // Unused Var
+#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4          0x40DC
 #define VAR_GIFT_PICHU_SLOT                              0x40DD
 #define VAR_GIFT_UNUSED_1                                0x40DE // Var is written to, but never read
 #define VAR_GIFT_UNUSED_2                                0x40DF // Var is written to, but never read

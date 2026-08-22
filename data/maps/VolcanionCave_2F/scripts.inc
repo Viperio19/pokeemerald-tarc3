@@ -9,24 +9,31 @@ VolcanionCave_2F_OnLoad::
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_SetRockBarrier1
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_SetRockBarrier2
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_SetRockBarrier3
+	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 100, VolcanionCave_2F_EventScript_SetRockBarrier4
+	call_if_eq VAR_TEMP_F, 1, VolcanionCave_2F_EventScript_SetMetatilesBlueButtonPressed
 	end
 
 VolcanionCave_2F_EventScript_SetRockBarrier1::
-	setmetatile 36, 45, METATILE_Cave_RockBarrier_Left, 1
-	setmetatile 37, 45, METATILE_Cave_RockBarrier_MiddleHorizontal, 1
-	setmetatile 38, 45, METATILE_Cave_RockBarrier_Right, 1
+	setmetatile 26, 64, METATILE_Cave_RockBarrier_Left, TRUE
+	setmetatile 27, 64, METATILE_Cave_RockBarrier_MiddleHorizontal, TRUE
+	setmetatile 28, 64, METATILE_Cave_RockBarrier_Right, TRUE
 	return
 
 VolcanionCave_2F_EventScript_SetRockBarrier2::
-	setmetatile 18, 40, METATILE_Cave_RockBarrier_Top, 1
-	setmetatile 18, 41, METATILE_Cave_RockBarrier_MiddleVertical, 1
-	setmetatile 18, 42, METATILE_Cave_RockBarrier_Bottom, 1
+	setmetatile 18, 40, METATILE_Cave_RockBarrier_Top, TRUE
+	setmetatile 18, 41, METATILE_Cave_RockBarrier_MiddleVertical, TRUE
+	setmetatile 18, 42, METATILE_Cave_RockBarrier_Bottom, TRUE
 	return
 
 VolcanionCave_2F_EventScript_SetRockBarrier3::
-	setmetatile 26, 64, METATILE_Cave_RockBarrier_Left, 1
-	setmetatile 27, 64, METATILE_Cave_RockBarrier_MiddleHorizontal, 1
-	setmetatile 28, 64, METATILE_Cave_RockBarrier_Right, 1
+	setmetatile 20, 8, METATILE_Cave_RockBarrier_TopEdge, TRUE
+	setmetatile 20, 9, METATILE_Cave_RockBarrier_Bottom, TRUE
+	return
+
+VolcanionCave_2F_EventScript_SetRockBarrier4::
+	setmetatile 23, 4, METATILE_Cave_RockBarrier_Top, TRUE
+	setmetatile 23, 5, METATILE_Cave_RockBarrier_MiddleVertical, TRUE
+	setmetatile 23, 6, METATILE_Cave_RockBarrier_Bottom, TRUE
 	return
 
 VolcanionCave_2F_OnTransition:
@@ -279,9 +286,9 @@ VolcanionCave_2F_EventScript_AquaMemberMFishingRod::
 VolcanionCave_2F_EventScript_FloorSwitch1::
 	lock
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed
-	setmetatile 36, 45, METATILE_Cave_Floor, 0
-	setmetatile 37, 45, METATILE_Cave_Floor, 0
-	setmetatile 38, 45, METATILE_Cave_Floor, 0
+	setmetatile 26, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 27, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 28, 64, METATILE_Cave_Floor, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
@@ -292,9 +299,9 @@ VolcanionCave_2F_EventScript_FloorSwitch1::
 VolcanionCave_2F_EventScript_FloorSwitch2::
 	lock
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed
-	setmetatile 18, 40, METATILE_Cave_Floor, 0
-	setmetatile 18, 41, METATILE_Cave_Floor, 0
-	setmetatile 18, 42, METATILE_Cave_Floor, 0
+	setmetatile 18, 40, METATILE_Cave_Floor, FALSE
+	setmetatile 18, 41, METATILE_Cave_Floor, FALSE
+	setmetatile 18, 42, METATILE_Cave_Floor, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
@@ -305,13 +312,25 @@ VolcanionCave_2F_EventScript_FloorSwitch2::
 VolcanionCave_2F_EventScript_FloorSwitch3::
 	lock
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed
-	setmetatile 26, 64, METATILE_Cave_Floor, 0
-	setmetatile 27, 64, METATILE_Cave_Floor, 0
-	setmetatile 28, 64, METATILE_Cave_Floor, 0
+	setmetatile 20, 8, METATILE_Cave_Floor, FALSE
+	setmetatile 20, 9, METATILE_Cave_Floor, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
 	setvar VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100
+	releaseall
+	end
+
+VolcanionCave_2F_EventScript_FloorSwitch4::
+	lock
+	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 100, VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed
+	setmetatile 23, 4, METATILE_Cave_Floor, FALSE
+	setmetatile 23, 5, METATILE_Cave_Floor, FALSE
+	setmetatile 23, 6, METATILE_Cave_Floor, FALSE
+	playse SE_ICE_BREAK
+	special DrawWholeMapView
+	waitse
+	setvar VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 100
 	releaseall
 	end
 
@@ -386,3 +405,39 @@ VolcanionCave_2F_Text_ShowMeGoldeen::
 	.string "I feel a bit bad though...\p"
 	.string "Can you fish it up and\n"
 	.string "show it to me?$"
+
+VolcanionCave_2F_EventScript_BlueButton::
+	lockall
+	setvar VAR_TEMP_F, 1
+	playse SE_PIN
+	call VolcanionCave_2F_EventScript_SetMetatilesBlueButtonPressed
+	special DrawWholeMapView
+	releaseall
+	end
+
+VolcanionCave_2F_EventScript_RedButton::
+	lockall
+	setvar VAR_TEMP_F, 0
+	playse SE_PIN
+	call VolcanionCave_2F_EventScript_SetMetatilesRedButtonPressed
+	special DrawWholeMapView
+	releaseall
+	end
+
+VolcanionCave_2F_EventScript_SetMetatilesBlueButtonPressed::
+	setmetatile 7, 48, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 11, 46, METATILE_Cave_CoolButton_Red, FALSE
+	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 33, 58, METATILE_Cave_CoolGem_Blue_Mud_Empty, FALSE
+	setmetatile 35, 50, METATILE_Cave_CoolGem_Blue_Mud_Empty, FALSE
+	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	return
+
+VolcanionCave_2F_EventScript_SetMetatilesRedButtonPressed::
+	setmetatile 7, 48, METATILE_Cave_CoolButton_Blue, FALSE
+	setmetatile 11, 46, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 33, 58, METATILE_Cave_CoolGem_Blue_Mud_Full, TRUE
+	setmetatile 35, 50, METATILE_Cave_CoolGem_Blue_Mud_Full, TRUE
+	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	return

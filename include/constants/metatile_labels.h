@@ -123,6 +123,17 @@
 #define METATILE_BuildingFrlg_PCOn   0x063
 
 // gTileset_Cave
+#define METATILE_Cave_CoolButton_Blue                    0x387
+#define METATILE_Cave_CoolButton_Pressed                 0x397
+#define METATILE_Cave_CoolButton_Red                     0x38F
+#define METATILE_Cave_CoolGem_Blue_Ground_Empty          0x34D
+#define METATILE_Cave_CoolGem_Blue_Ground_Full           0x34C
+#define METATILE_Cave_CoolGem_Blue_Mud_Empty             0x34B
+#define METATILE_Cave_CoolGem_Blue_Mud_Full              0x34A
+#define METATILE_Cave_CoolGem_Red_Ground_Empty           0x34F
+#define METATILE_Cave_CoolGem_Red_Ground_Full            0x34E
+#define METATILE_Cave_CoolGem_Red_Mud_Empty              0x349
+#define METATILE_Cave_CoolGem_Red_Mud_Full               0x348
 #define METATILE_Cave_CrackedFloor                       0x22F
 #define METATILE_Cave_CrackedFloor_Hole                  0x206
 #define METATILE_Cave_EntranceCover                      0x229
@@ -135,6 +146,7 @@
 #define METATILE_Cave_RockBarrier_MiddleVertical         0x382
 #define METATILE_Cave_RockBarrier_Right                  0x37D
 #define METATILE_Cave_RockBarrier_Top                    0x37A
+#define METATILE_Cave_RockBarrier_TopEdge                0x37E
 #define METATILE_Cave_SealedChamberEntrance_BottomLeft   0x232
 #define METATILE_Cave_SealedChamberEntrance_BottomMid    0x233
 #define METATILE_Cave_SealedChamberEntrance_BottomRight  0x234
