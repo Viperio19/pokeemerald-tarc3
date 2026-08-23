@@ -1134,9 +1134,6 @@ bool8 MetatileBehavior_IsSurfableWater(u8 metatileBehavior)
 }
 bool8 MetatileBehavior_IsFishableWater(u8 metatileBehavior)
 {
-    DebugPrintf("metatileBehavior = %d", metatileBehavior);
-    DebugPrintf("MB_LAVA = %d", MB_LAVA);
-
     if (metatileBehavior == MB_POND_WATER
      || metatileBehavior == MB_OCEAN_WATER
      || metatileBehavior == MB_INTERIOR_DEEP_WATER

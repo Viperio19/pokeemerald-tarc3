@@ -3797,17 +3797,18 @@ static void Cmd_getexp(void)
     switch (gBattleScripting.getexpState)
     {
     case 0: // check if should receive exp at all
-        if (IsOnPlayerSide(gBattlerFainted)
-            || IsAiVsAiBattle()
-            || !BattleTypeAllowsExp())
-        {
-            gBattleScripting.getexpState = 6; // goto last case
-        }
-        else
-        {
-            gBattleScripting.getexpState++;
-            gBattleStruct->givenExpMons |= (1u << gBattlerPartyIndexes[gBattlerFainted]);
-        }
+        gBattleScripting.getexpState = 6; // fully disable exp
+        // if (IsOnPlayerSide(gBattlerFainted)
+        //     || IsAiVsAiBattle()
+        //     || !BattleTypeAllowsExp())
+        // {
+        //     gBattleScripting.getexpState = 6; // goto last case
+        // }
+        // else
+        // {
+        //     gBattleScripting.getexpState++;
+        //     gBattleStruct->givenExpMons |= (1u << gBattlerPartyIndexes[gBattlerFainted]);
+        // }
         break;
     case 1: // calculate experience points to redistribute
         {

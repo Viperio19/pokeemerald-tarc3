@@ -2357,15 +2357,41 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
     return FALSE;
 }
 
+static u8 GetAnyObjectEventIdByLocalId(u8 localId)
+{
+    u8 i;
+    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+    {
+        if (gObjectEvents[i].localId == localId)
+            return i;
+    }
+
+    return OBJECT_EVENTS_COUNT;
+}
+
 void SetOldRodBob(void)
 {
-    u8 objId = GetObjectEventIdByLocalId(gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F) ? LOCALID_2F_OLD_ROD : LOCALID_1F_OLD_ROD);
+    if (FlagGet(FLAG_DISABLE_OLD_ROD_BOB))
+        return;
+    u8 objId = GetAnyObjectEventIdByLocalId(gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F) ? LOCALID_2F_OLD_ROD : LOCALID_1F_OLD_ROD);
+    if (objId == OBJECT_EVENTS_COUNT)
+        return;
     gFieldEffectArguments[0] = VarGet(VAR_OLD_ROD_X);
     gFieldEffectArguments[1] = VarGet(VAR_OLD_ROD_Y);
     gFieldEffectArguments[2] = objId;
     u8 spriteId = FieldEffectStart(FLDEFF_SURF_BLOB);
     gObjectEvents[objId].fieldEffectSpriteId = spriteId;
     SetSurfBlob_BobState(spriteId, BOB_JUST_PLAYER);
+}
+
+void StopOldRodBob(void)
+{
+    FlagSet(FLAG_DISABLE_OLD_ROD_BOB);
+    u8 objId = GetAnyObjectEventIdByLocalId(gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F) ? LOCALID_2F_OLD_ROD : LOCALID_1F_OLD_ROD);
+    if (objId == OBJECT_EVENTS_COUNT)
+        return;
+    SetSurfBlob_BobState(gObjectEvents[objId].fieldEffectSpriteId, BOB_NONE);
+    DestroySprite(&gSprites[gObjectEvents[objId].fieldEffectSpriteId]);
 }
 
 static bool32 ReturnToFieldLocal(u8 *state)

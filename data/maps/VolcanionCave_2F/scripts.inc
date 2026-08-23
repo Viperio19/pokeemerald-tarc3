@@ -47,15 +47,9 @@ VolcanionCave_2F_OnWarp:
 VolcanionCave_2F_EventScript_InitObjects::
 	callnative TrySpawnPlayer2
 	setvar VAR_TEMP_1, 1
-	call_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, VolcanionCave_2F_EventScript_HidePlayers
 	call_if_ne VAR_OLD_ROD_STATE, 2, VolcanionCave_2F_EventScript_RemoveOldRod
 	call_if_eq VAR_OLD_ROD_STATE, 2, VolcanionCave_2F_EventScript_SetOldRodPosition
 	end
-
-VolcanionCave_2F_EventScript_HidePlayers::
-	hideobjectat LOCALID_PLAYER_2, MAP_VOLCANION_CAVE_1F
-	hideplayer
-	return
 
 VolcanionCave_2F_EventScript_RemoveOldRod::
 	removeobject LOCALID_2F_OLD_ROD
@@ -73,28 +67,90 @@ VolcanionCave_2F_OnFrame:
 	map_script_2 VAR_OLD_ROD_STATE, 15, VolcanionCave_1F_EventScript_MagmaWarning
 	.2byte 0
 
+#define LOCALID_PLAYER_AQUA  VAR_0x800A
+#define LOCALID_PLAYER_MAGMA VAR_0x800B
+
 VolcanionCave_2F_EventScript_EnterCave::
 	lock
 	setvar VAR_VOLCANION_CAVE_2F_STATE, 1
-	showplayer
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, TRUE, VolcanionCave_2F_EventScript_PlayersEnter
+	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_2F_EventScript_PlayersEnter2
+VolcanionCave_2F_EventScript_Intro::
+	delay 30
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceFasterLeft
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
+	delay 30
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceRight
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroOhNo
+	waitmessage
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceLeft
+	waitmovement 0
+	message VolcanionCave_1F_Text_IntroWeirdo
+	waitmessage
+	callnative UpdatePlayer2Pos
 	release
 	end
 
+VolcanionCave_2F_EventScript_PlayersEnter::
+	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_PlayerAquaEnterCave
+	waitmovement 0
+	callnative SpawnPlayer2For2FIntro
+	applymovement LOCALID_PLAYER_2, VolcanionCave_2F_Movement_Player2Enter
+	waitmovement 0
+	applymovement LOCALID_PLAYER_2, VolcanionCave_2F_Movement_PlayerMagmaEnterCave
+	waitmovement 0
+	setvar LOCALID_PLAYER_AQUA, LOCALID_PLAYER
+	setvar LOCALID_PLAYER_MAGMA, LOCALID_PLAYER_2
+	goto VolcanionCave_2F_EventScript_Intro
+	end
+
+VolcanionCave_2F_EventScript_PlayersEnter2::
+	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_PlayerMagmaEnterCave
+	waitmovement 0
+	callnative SpawnPlayer2For2FIntro
+	applymovement LOCALID_PLAYER_2, VolcanionCave_2F_Movement_Player2Enter
+	waitmovement 0
+	applymovement LOCALID_PLAYER_2, VolcanionCave_2F_Movement_PlayerAquaEnterCave
+	waitmovement 0
+	setvar LOCALID_PLAYER_AQUA, LOCALID_PLAYER_2
+	setvar LOCALID_PLAYER_MAGMA, LOCALID_PLAYER
+	goto VolcanionCave_2F_EventScript_Intro
+	end
+
+VolcanionCave_2F_Movement_Player2Enter::
+	set_visible
+	walk_up
+	step_end
+
+VolcanionCave_2F_Movement_PlayerMagmaEnterCave::
+	walk_right
+	walk_up
+	step_end
+
+VolcanionCave_2F_Movement_PlayerAquaEnterCave::
+	walk_left
+	walk_up
+	step_end
+
 VolcanionCave_2F_EventScript_DropOldRod::
 	lock
+	clearflag FLAG_DISABLE_OLD_ROD_BOB
     clearflag FLAG_HIDE_VOLCANION_CAVE_2F_OLD_ROD
     setflag FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD
 	addobject LOCALID_2F_OLD_ROD
 	callnative SetOldRodBob
 	removeitem ITEM_OLD_ROD
 	setvar VAR_OLD_ROD_STATE, 2
-	delay 20
 	getplayerxy VAR_0x8000, VAR_0x8001
 	goto_if_ne VAR_0x8000, 29, VolcanionCave_2F_EventScript_MessageDroppedRod
 	goto_if_eq VAR_0x8001, 24, VolcanionCave_2F_EventScript_OldRodCurrentsY24
 	goto_if_eq VAR_0x8001, 26, VolcanionCave_2F_EventScript_OldRodCurrentsY26
 	goto_if_eq VAR_0x8001, 27, VolcanionCave_2F_EventScript_OldRodCurrentsY27
 VolcanionCave_2F_EventScript_MessageDroppedRod::
+	playfanfare MUS_TOO_BAD
 	msgbox VolcanionCave_2F_Text_DroppedRod
 	closemessage
 	release
@@ -105,7 +161,13 @@ VolcanionCave_2F_EventScript_OldRodCurrentsY24::
 	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodFloatY24
 	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_OldRodFloatY24
 	waitmovement 0
-	setvar VAR_OLD_ROD_X, 28
+	callnative StopOldRodBob
+	playse SE_LEDGE
+	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodJumpY24
+	waitmovement 0
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceDown
+	waitmovement 0
+	setvar VAR_OLD_ROD_X, 29
 	setvar VAR_OLD_ROD_Y, 25
 	setobjectxyperm LOCALID_2F_OLD_ROD, VAR_OLD_ROD_X, VAR_OLD_ROD_Y
 	delay 20
@@ -133,6 +195,10 @@ VolcanionCave_2F_Movement_OldRodFloatY24::
 	walk_right
 	step_end
 
+VolcanionCave_2F_Movement_OldRodJumpY24::
+	jump_right
+	step_end
+
 VolcanionCave_2F_Movement_CameraMoveBackY24::
 	walk_up
 	step_end
@@ -142,7 +208,11 @@ VolcanionCave_2F_EventScript_OldRodCurrentsY26::
 	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodFloatY26
 	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_OldRodFloatY26
 	waitmovement 0
-	setvar VAR_OLD_ROD_X, 18
+	callnative StopOldRodBob
+	playse SE_LEDGE
+	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodJumpY26
+	waitmovement 0
+	setvar VAR_OLD_ROD_X, 17
 	setvar VAR_OLD_ROD_Y, 31
 	setobjectxyperm LOCALID_2F_OLD_ROD, VAR_OLD_ROD_X, VAR_OLD_ROD_Y
 	delay 20
@@ -170,6 +240,10 @@ VolcanionCave_2F_Movement_OldRodFloatY26::
 	walk_left
 	walk_left
 	walk_left
+	step_end
+
+VolcanionCave_2F_Movement_OldRodJumpY26::
+	jump_left
 	step_end
 
 VolcanionCave_2F_Movement_CameraMoveBackY26::
@@ -279,9 +353,56 @@ VolcanionCave_2F_Text_GoodWorkDiggs::
 
 VolcanionCave_2F_EventScript_AquaMemberMFishingRod::
 	lock
+	faceplayer
+	goto_if_set FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX, VolcanionCave_2F_EventScript_AquaGruntReceivedOldRod
+	msgbox VolcanionCave_2F_Text_AquaGruntWantToBattle, MSGBOX_YESNO
+	goto_if_ne VAR_RESULT, YES, VolcanionCave_2F_EventScript_AquaGruntRejected
+	trainerbattle_single TRAINER_GRUNT_VC_2F_TOXAPEX, VolcanionCave_2F_Text_AquaGruntIntro, VolcanionCave_2F_Text_AquaGruntDefeat, VolcanionCave_2F_EventScript_AquaGruntGiveOldRod
+	msgbox VolcanionCave_2F_Text_AquaGruntPostBattle, MSGBOX_NPC
+	end
+
+VolcanionCave_2F_EventScript_AquaGruntRejected::
+	msgbox VolcanionCave_2F_Text_AquaGruntRejected, MSGBOX_NPC
+	end
+
+VolcanionCave_2F_EventScript_AquaGruntGiveOldRod::
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_ne VAR_RESULT, B_OUTCOME_WON, VolcanionCave_2F_EventScript_AquaGruntVictory
+	setflag FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX
+	msgbox VolcanionCave_2F_Text_AquaGruntPostBattle, MSGBOX_DEFAULT
+	closemessage
+	delay 10
 	giveitem ITEM_OLD_ROD
 	release
 	end
+
+VolcanionCave_2F_EventScript_AquaGruntReceivedOldRod::
+	msgbox VolcanionCave_2F_Text_AquaGruntPostBattle, MSGBOX_NPC
+	end
+
+VolcanionCave_2F_EventScript_AquaGruntVictory::
+	msgbox VolcanionCave_2F_Text_AquaGruntVictory, MSGBOX_NPC
+	end
+
+VolcanionCave_2F_Text_AquaGruntWantToBattle:
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Want to battle for my OLD ROD?$"
+
+VolcanionCave_2F_Text_AquaGruntRejected:
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Booooooooooo!!!$"
+
+VolcanionCave_2F_Text_AquaGruntIntro:
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Let's battle for my OLD ROD!$"
+
+VolcanionCave_2F_Text_AquaGruntDefeat:
+	.string "Awwww man there goes my OLD ROD...$"
+
+VolcanionCave_2F_Text_AquaGruntPostBattle:
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Go throw this OLD ROD in the water\n"
+	.string "or something...$"
+
+VolcanionCave_2F_Text_AquaGruntVictory:
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Heh you're not getting my OLD ROD\n"
+	.string "if you battle that way!$"
 
 VolcanionCave_2F_EventScript_FloorSwitch1::
 	lock
@@ -363,27 +484,29 @@ VolcanionCave_2F_Text_Exeggutor::
 	.string "(exeggutor cry)$"
 
 VolcanionCave_2F_EventScript_Toxapex::
+	lock
+	faceplayer
+	waitse
 	playmoncry SPECIES_TOXAPEX, CRY_MODE_NORMAL
-	msgbox VolcanionCave_2F_Text_Toxapex, MSGBOX_DEFAULT
+	call_if_unset FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX, VolcanionCave_2F_EventScript_ToxapexHappy
+	call_if_set FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX, VolcanionCave_2F_EventScript_ToxapexSad
 	waitmoncry
-	setwildbattle SPECIES_TOXAPEX, 35, TRUE
-	dowildbattle
-	specialvar VAR_RESULT, GetBattleOutcome
-	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_2F_EventScript_DefeatedToxapex
 	release
 	end
 
-VolcanionCave_2F_EventScript_DefeatedToxapex::
-	playmoncry SPECIES_TOXAPEX, CRY_MODE_NORMAL
-	msgbox VolcanionCave_2F_Text_Toxapex, MSGBOX_DEFAULT
-	waitmoncry
-	setflag FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX
-	removeobject VAR_LAST_TALKED
-	release
-	end
+VolcanionCave_2F_EventScript_ToxapexHappy:
+	msgbox VolcanionCave_2F_Text_ToxapexHappy, MSGBOX_DEFAULT
+	return
 
-VolcanionCave_2F_Text_Toxapex::
-	.string "(toxapex cry)$"
+VolcanionCave_2F_EventScript_ToxapexSad:
+	msgbox VolcanionCave_2F_Text_ToxapexSad, MSGBOX_DEFAULT
+	return
+
+VolcanionCave_2F_Text_ToxapexHappy::
+	.string "TOXAPEX: Toxaaaaa!$"
+
+VolcanionCave_2F_Text_ToxapexSad::
+	.string "TOXAPEX: Pex...$"
 
 VolcanionCave_2F_EventScript_OldRod::
 	lock
@@ -400,7 +523,7 @@ VolcanionCave_2F_EventScript_MagmaMemberFGoldeen::
 	end
 
 VolcanionCave_2F_Text_ShowMeGoldeen::
-	.string "I found a GOLDEEN and ditched it\n"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}I found a GOLDEEN and ditched it\n"
 	.string "in the lava over there.\p"
 	.string "I feel a bit bad though...\p"
 	.string "Can you fish it up and\n"

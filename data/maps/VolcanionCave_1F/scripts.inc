@@ -187,6 +187,7 @@ VolcanionCave_1F_Text_IntroScrewsLoose::
 
 VolcanionCave_1F_EventScript_DropOldRod::
 	lock
+	clearflag FLAG_DISABLE_OLD_ROD_BOB
     clearflag FLAG_HIDE_VOLCANION_CAVE_1F_OLD_ROD
     setflag FLAG_DROPPED_VOLCANION_CAVE_1F_OLD_ROD
 	addobject LOCALID_1F_OLD_ROD

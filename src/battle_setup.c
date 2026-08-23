@@ -1591,58 +1591,65 @@ static void CB2_EndTrainerBattle(void)
             HealPlayerParty();
     }
 
-    if (TRAINER_BATTLE_PARAM.earlyRival)
-    {
-        if (IsPlayerDefeated(gBattleOutcome) == TRUE)
-        {
-            gSpecialVar_Result = TRUE;
-            if (GetRivalBattleFlags() & RIVAL_BATTLE_HEAL_AFTER)
-            {
-                HealPlayerParty();
-            }
-            else
-            {
-                SetMainCallback2(CB2_WhiteOut);
-                return;
-            }
-        }
-        else
-        {
-            gSpecialVar_Result = FALSE;
-        }
-        DowngradeBadPoison();
-        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-        SetBattledTrainerFlag();
-    }
-    else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_SECRET_BASE)
-    {
-        DowngradeBadPoison();
-        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-    }
-    else if (DidPlayerForfeitNormalTrainerBattle())
-    {
-        if (FlagGet(B_FLAG_NO_WHITEOUT) || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InTrainerHillChallenge())
-            SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-        else
-            SetMainCallback2(CB2_WhiteOut);
-    }
-    else if (IsPlayerDefeated(gBattleOutcome) == TRUE)
-    {
-        if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InTrainerHillChallenge() || (!NoAliveMonsForPlayer()) || FlagGet(B_FLAG_NO_WHITEOUT))
-            SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-        else
-            SetMainCallback2(CB2_WhiteOut);
-    }
-    else
-    {
-        SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
-        DowngradeBadPoison();
-        if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !InTrainerHillChallenge())
-        {
-            RegisterTrainerInMatchCall();
-            SetBattledTrainersFlags();
-        }
-    }
+    HealPlayerParty();
+    SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    DowngradeBadPoison();
+
+    if (gBattleOutcome == B_OUTCOME_WON)
+        SetBattledTrainersFlags();
+
+    // if (TRAINER_BATTLE_PARAM.earlyRival)
+    // {
+    //     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
+    //     {
+    //         gSpecialVar_Result = TRUE;
+    //         if (GetRivalBattleFlags() & RIVAL_BATTLE_HEAL_AFTER)
+    //         {
+    //             HealPlayerParty();
+    //         }
+    //         else
+    //         {
+    //             SetMainCallback2(CB2_WhiteOut);
+    //             return;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         gSpecialVar_Result = FALSE;
+    //     }
+    //     DowngradeBadPoison();
+    //     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    //     SetBattledTrainerFlag();
+    // }
+    // else if (TRAINER_BATTLE_PARAM.opponentA == TRAINER_SECRET_BASE)
+    // {
+    //     DowngradeBadPoison();
+    //     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    // }
+    // else if (DidPlayerForfeitNormalTrainerBattle())
+    // {
+    //     if (FlagGet(B_FLAG_NO_WHITEOUT) || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InTrainerHillChallenge())
+    //         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    //     else
+    //         SetMainCallback2(CB2_WhiteOut);
+    // }
+    // else if (IsPlayerDefeated(gBattleOutcome) == TRUE)
+    // {
+    //     if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE || InTrainerHillChallenge() || (!NoAliveMonsForPlayer()) || FlagGet(B_FLAG_NO_WHITEOUT))
+    //         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    //     else
+    //         SetMainCallback2(CB2_WhiteOut);
+    // }
+    // else
+    // {
+    //     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    //     DowngradeBadPoison();
+    //     if (CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE && !InTrainerHillChallenge())
+    //     {
+    //         RegisterTrainerInMatchCall();
+    //         SetBattledTrainersFlags();
+    //     }
+    // }
 }
 
 static void CB2_EndRematchBattle(void)

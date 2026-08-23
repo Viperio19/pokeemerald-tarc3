@@ -7374,13 +7374,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .name = COMPOUND_STRING("Taunt"),
         .description = COMPOUND_STRING(
             "The foe can use only attack\n"
-        #if B_TAUNT_TURNS >= GEN_5
-            "moves for 3 turns."),
-        #elif B_TAUNT_TURNS == GEN_4
-            "moves for 2 to 4 turns."),
-        #else
-            "moves for 2 turns."),
-        #endif
+            "moves for 4 turns."),
         .effect = EFFECT_TAUNT,
         .power = 0,
         .type = TYPE_DARK,

@@ -7853,7 +7853,7 @@ s32 CalcCritChanceStage(struct DamageContext *ctx)
         critChance = CRITICAL_HIT_BLOCKED;
     }
 
-    return critChance == CRITICAL_HIT_ALWAYS ? CRITICAL_HIT_ALWAYS : 0;
+    return critChance;
 }
 
 // Bulbapedia: https://bulbapedia.bulbagarden.net/wiki/Critical_hit#Generation_I
@@ -7936,7 +7936,7 @@ static bool32 IsCriticalHit(struct DamageContext *ctx)
     else if (GetConfig(B_CRIT_CHANCE) == GEN_2)
         isCrit = RandomChance(RNG_CRITICAL_HIT, GetCriticalHitOdds(critChance), 256);
     else
-        isCrit = RandomChance(RNG_CRITICAL_HIT, 1, GetCriticalHitOdds(critChance));
+        isCrit = GetCriticalHitOdds(critChance) == 1;
 
     // Counter for IF_CRITICAL_HITS_GE evolution condition.
     if (isCrit && IsOnPlayerSide(ctx->battlerAtk)

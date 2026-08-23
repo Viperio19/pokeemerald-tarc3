@@ -1713,7 +1713,6 @@ bool8 IsPlayerFacingSurfableWater(void)
 
 bool8 IsPlayerFacingFishableWater(void)
 {
-    DebugPrintf("2");
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     s16 x = playerObjEvent->currentCoords.x;
     s16 y = playerObjEvent->currentCoords.y;

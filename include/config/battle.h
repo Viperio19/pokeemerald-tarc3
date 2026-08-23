@@ -221,7 +221,7 @@
 #define B_DISABLE_TIMER      4
 #define B_ENCORE_TIMER       4
 #define B_PERISH_SONG_TIMER  3
-#define B_TAUNT_TIMER        5
+#define B_TAUNT_TIMER        6
 #define B_SLOW_START_TIMER   5
 #define B_EMBARGO_TIMER      5
 #define B_MAGNET_RISE_TIMER  5
