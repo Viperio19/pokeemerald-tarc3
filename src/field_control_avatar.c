@@ -261,7 +261,13 @@ void TrySpawnPlayer2(void)
     if (gSaveBlock1Ptr->location.mapNum != gSaveBlock2Ptr->player2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gSaveBlock2Ptr->player2Pos.mapGroup)
         return;
 
-    u8 state = MetatileBehavior_IsSurfableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)) ? PLAYER_AVATAR_STATE_SURFING : PLAYER_AVATAR_STATE_NORMAL;
+    u8 state = PLAYER_AVATAR_STATE_NORMAL;
+
+    u16 metatileBehavior = MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET);
+
+    if (MetatileBehavior_IsSurfableWater(metatileBehavior) == TRUE
+     || (MetatileBehavior_IsBridgeOverWater(metatileBehavior) == TRUE && gSaveBlock2Ptr->player2Pos.elevation == ELEVATION_SURF))
+        state = PLAYER_AVATAR_STATE_SURFING;
 
     struct ObjectEventTemplate template =
     {
@@ -296,6 +302,7 @@ void SwitchCharacters(void)
     SwitchTrainerData();
     
     gSaveBlock2Ptr->player2FacingDirection = gSaveBlock2Ptr->player2Pos.facingDirection;
+    gSaveBlock1Ptr->player2Elevation = gSaveBlock2Ptr->player2Pos.elevation;
     FlagSet(FLAG_DOING_PLAYER_SWITCH);
     StoreInitialPlayerAvatarState();
 

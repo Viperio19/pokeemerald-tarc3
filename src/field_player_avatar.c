@@ -1811,7 +1811,7 @@ void InitPlayerAvatar(s16 x, s16 y, enum Direction direction, enum Gender gender
     playerObjEventTemplate.graphicsId = GetPlayerAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, gender);
     playerObjEventTemplate.x = x - MAP_OFFSET;
     playerObjEventTemplate.y = y - MAP_OFFSET;
-    playerObjEventTemplate.elevation = ELEVATION_TRANSITION;
+    playerObjEventTemplate.elevation = FlagGet(FLAG_DOING_PLAYER_SWITCH) ? gSaveBlock1Ptr->player2Elevation : ELEVATION_TRANSITION;
     playerObjEventTemplate.movementType = MOVEMENT_TYPE_PLAYER;
     playerObjEventTemplate.movementRangeX = 0;
     playerObjEventTemplate.movementRangeY = 0;

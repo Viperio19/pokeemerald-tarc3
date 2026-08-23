@@ -707,8 +707,6 @@ void WarpIntoMap(void)
     ApplyCurrentWarp();
     LoadCurrentMapData();
     SetPlayerCoordsFromWarp();
-    if (FlagGet(FLAG_DOING_PLAYER_SWITCH))
-        gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)].currentElevation = gSaveBlock2Ptr->player2Pos.elevation;
 }
 
 void SetWarpDestination(s8 mapGroup, s8 mapNum, s8 warpId, s8 x, s8 y)
@@ -1031,7 +1029,8 @@ static u8 GetAdjustedInitialTransitionFlags(struct InitialPlayerAvatarState *pla
         return PLAYER_AVATAR_FLAG_UNDERWATER;
     else if (MetatileBehavior_IsSurfableInSeafoamIslands(metatileBehavior) == TRUE)
         return PLAYER_AVATAR_FLAG_ON_FOOT;
-    else if (MetatileBehavior_IsSurfableWaterOrUnderwater(metatileBehavior) == TRUE)
+    else if (MetatileBehavior_IsSurfableWaterOrUnderwater(metatileBehavior) == TRUE
+          || (MetatileBehavior_IsBridgeOverWater(metatileBehavior) == TRUE && FlagGet(FLAG_DOING_PLAYER_SWITCH) && gSaveBlock1Ptr->player2Elevation == ELEVATION_SURF))
         return PLAYER_AVATAR_FLAG_SURFING;
     else if (Overworld_IsBikingAllowed() != TRUE)
         return PLAYER_AVATAR_FLAG_ON_FOOT;
