@@ -83,12 +83,12 @@ VolcanionCave_2F_EventScript_Intro::
 	waitmovement 0
 	delay 30
 	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceRight
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroOhNo
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceLeft
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroWeirdo
+	waitmovement 0
 	waitmessage
 	callnative UpdatePlayer2Pos
 	release

@@ -4886,10 +4886,10 @@
     {
       "id": "LAYOUT_VOLCANION_CAVE_OUTSIDE",
       "name": "VolcanionCave_Outside_Layout",
-      "width": 80,
-      "height": 40,
+      "width": 19,
+      "height": 19,
       "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Mossdeep",
+      "secondary_tileset": "gTileset_EverGrande",
       "border_filepath": "data/layouts/VolcanionCave_Outside/border.bin",
       "blockdata_filepath": "data/layouts/VolcanionCave_Outside/map.bin"
     },

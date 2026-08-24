@@ -78,44 +78,44 @@ VolcanionCave_1F_EventScript_EnterCave::
 	delay 30
 	setvar VAR_VOLCANION_CAVE_1F_STATE, 1
 	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroOhNo
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroWeirdo
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroDontStare
 	waitmessage
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
 	waitmovement 0
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
 	message VolcanionCave_1F_Text_IntroLookTheSame
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroBeatPoochyena
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroHowDoYouKnow
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroSmellLikeEggs
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroJobToDo
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroTellMeTwice
+	waitmovement 0
 	waitmessage
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceLeft
-	waitmovement 0
 	message VolcanionCave_1F_Text_IntroScrewsLoose
+	waitmovement 0
 	waitmessage
 	callnative UpdatePlayer2Pos
 	release
@@ -233,7 +233,7 @@ VolcanionCave_1F_Text_HowDidIGetHere::
 
 VolcanionCave_1F_Text_Help::
 	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}… … …\p"
-	.string "Help.$"
+	.string "Please help me.$"
 
 VolcanionCave_1F_Text_HELP::
 	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}HELP$"
