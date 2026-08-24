@@ -140,6 +140,8 @@
 #define METATILE_Cave_Floor                              0x201
 #define METATILE_Cave_Floor_Ledge_Bottom                 0x2E1
 #define METATILE_Cave_Floor_Ledge_Top                    0x2D1
+#define METATILE_Cave_Floor_Smooth                       0x211
+#define METATILE_Cave_Floor_Smooth_Top                   0x209
 #define METATILE_Cave_RockBarrier_Bottom                 0x38A
 #define METATILE_Cave_RockBarrier_Left                   0x37B
 #define METATILE_Cave_RockBarrier_MiddleHorizontal       0x37C

@@ -316,6 +316,8 @@ static void StandardBikeTransition_MoveDirection(u8 direction)
     {
         if (collision == COLLISION_LEDGE_JUMP)
             PlayerJumpLedge(direction);
+        else if (collision == COLLISION_HOLE_JUMP)
+            PlayerJumpInHole(direction);
         else if (collision == COLLISION_OBJECT_EVENT && IsPlayerCollidingWithFarawayIslandMew(direction))
             PlayerOnBikeCollideWithFarawayIslandMew(direction);
         else if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
@@ -338,6 +340,8 @@ static void StandardBikeTransition_Downhill(u8 v)
         PlayerWalkFaster(DIR_SOUTH);
     else if (collision == COLLISION_LEDGE_JUMP)
         PlayerJumpLedge(DIR_SOUTH);
+    else if (collision == COLLISION_HOLE_JUMP)
+        PlayerJumpInHole(DIR_SOUTH);
 }
 
 static void StandardBikeTransition_Uphill(u8 direction)
@@ -450,6 +454,10 @@ static void MachBikeTransition_TrySpeedUp(enum Direction direction)
             {
                 PlayerJumpLedge(direction);
             }
+            else if (collision == COLLISION_HOLE_JUMP)
+            {
+                PlayerJumpInHole(direction);
+            }
             else
             {
                 // we hit a solid object that is not a ledge, so perform the collision.
@@ -488,6 +496,11 @@ static void MachBikeTransition_TrySlowDown(enum Direction direction)
         if (collision == COLLISION_LEDGE_JUMP)
         {
             PlayerJumpLedge(direction);
+        }
+        else if (collision == COLLISION_HOLE_JUMP)
+        {
+            PlayerJumpInHole(direction);
+
         }
         else
         {
@@ -850,6 +863,8 @@ static void AcroBikeTransition_Moving(enum Direction direction)
     {
         if (collision == COLLISION_LEDGE_JUMP)
             PlayerJumpLedge(direction);
+        else if (collision == COLLISION_HOLE_JUMP)
+            PlayerJumpInHole(direction);
         else if (collision == COLLISION_OBJECT_EVENT && IsPlayerCollidingWithFarawayIslandMew(direction))
             PlayerOnBikeCollideWithFarawayIslandMew(direction);
         else if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
@@ -1048,6 +1063,8 @@ static void AcroBikeTransition_WheelieLoweringMoving(enum Direction direction)
     {
         if (collision == COLLISION_LEDGE_JUMP)
             PlayerJumpLedge(direction);
+        else if (collision == COLLISION_HOLE_JUMP)
+            PlayerJumpInHole(direction);
         else if (collision < COLLISION_STOP_SURFING || collision > COLLISION_ROTATING_GATE)
             PlayerEndWheelie(direction);
         return;
@@ -1169,6 +1186,8 @@ static void AcroBikeTransition_Downhill(enum Direction v)
         PlayerWalkFaster(DIR_SOUTH);
     else if (collision == COLLISION_LEDGE_JUMP)
         PlayerJumpLedge(DIR_SOUTH);
+    else if (collision == COLLISION_HOLE_JUMP)
+        PlayerJumpInHole(DIR_SOUTH);
 }
 
 static void AcroBikeTransition_Uphill(enum Direction direction)

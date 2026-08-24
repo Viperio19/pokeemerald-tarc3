@@ -39,6 +39,9 @@ static void WindowFunc_ClearNamebox(u8, u8, u8, u8, u8, u8);
 
 void PrepareNamebox(u32 tileNum)
 {
+    u16 color = sNameBoxColors[sNameboxColorId];
+    LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
+
     u8 *strbuf = AllocZeroed(32 * sizeof(u8));
     if (FlagGet(OW_FLAG_SUPPRESS_NAME_BOX) || !gSpeakerName || !strbuf)
     {
@@ -81,9 +84,6 @@ void PrepareNamebox(u32 tileNum)
         .paletteNum = matchCall ? 14 : DLG_WINDOW_PALETTE_NUM,
         .baseBlock = tileNum,
     };
-
-    u16 color = sNameBoxColors[sNameboxColorId];
-    LoadPalette(&color, BG_PLTT_ID(template.paletteNum) + 15, sizeof(color));
 
     sNameboxWindowId = AddWindow(&template);
     FillNamebox();
@@ -144,6 +144,9 @@ static const u32 *GetNameboxGraphics(void)
 
 void FillNamebox(void)
 {
+    u16 color = sNameBoxColors[sNameboxColorId];
+    LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
+
     u32 winSize = GetNameboxWidth();
     const u32 *gfx = GetNameboxGraphics();
 
@@ -158,6 +161,9 @@ void FillNamebox(void)
 
 void DrawNamebox(u32 windowId, u32 tileNum, bool32 copyToVram)
 {
+    u16 color = sNameBoxColors[sNameboxColorId];
+    LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
+
     // manual instead of using CallWindowFunction for extra tileNum param
     struct WindowTemplate *w = &gWindows[windowId].window;
     u32 size = TILE_OFFSET_4BPP(NAME_BOX_BASE_TILES_TOTAL);

@@ -16,6 +16,8 @@
 #include "secret_base.h"
 #include "sound.h"
 #include "task.h"
+#include "event_object_movement.h"
+#include "constants/event_objects.h"
 #include "constants/field_tasks.h"
 #include "constants/items.h"
 #include "constants/songs.h"
@@ -912,7 +914,16 @@ static void Task_MuddySlope(u8 taskId)
     int i;
     u16 mapId;
     s16 *data = gTasks[taskId].data;
-    PlayerGetDestCoords(&x, &y);
+    if (FlagGet(FLAG_ANIMATE_MUD_UNDER_BOULDER))
+    {
+        u8 objId = GetObjectEventIdByLocalId(LOCALID_2F_BOULDER_ON_MUD);
+        x = gObjectEvents[objId].currentCoords.x;
+        y = gObjectEvents[objId].currentCoords.y;
+    }
+    else
+    {
+        PlayerGetDestCoords(&x, &y);
+    }
     mapId = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
     switch (tState)
     {

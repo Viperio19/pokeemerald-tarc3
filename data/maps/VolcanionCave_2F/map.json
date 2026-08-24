@@ -15,6 +15,7 @@
   "connections": null,
   "object_events": [
     {
+      "local_id": "LOCALID_2F_BOULDER_ON_MUD",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 26,
       "y": 9,
@@ -108,7 +109,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_M",
-      "x": 38,
+      "x": 37,
       "y": 34,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
@@ -149,7 +150,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(TOXAPEX)",
-      "x": 39,
+      "x": 38,
       "y": 34,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
@@ -185,7 +186,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_2F_EventScript_MagmaMemberFGoldeen",
-      "flag": "0"
+      "flag": "FLAG_HIDE_GOLDEEN_GRUNT"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
@@ -249,7 +250,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_RockSmash",
+      "script": "VolcanionCave_2F_EventScript_RockSmash",
       "flag": "FLAG_TEMP_13"
     },
     {
@@ -375,6 +376,105 @@
       "var": "VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4",
       "var_value": "99",
       "script": "VolcanionCave_2F_EventScript_FloorSwitch4"
+    },
+    {
+      "type": "trigger",
+      "x": 17,
+      "y": 17,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole1A"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole1B"
+    },
+    {
+      "type": "trigger",
+      "x": 21,
+      "y": 16,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole2A"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 14,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole2B"
+    },
+    {
+      "type": "trigger",
+      "x": 14,
+      "y": 11,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole3A"
+    },
+    {
+      "type": "trigger",
+      "x": 21,
+      "y": 9,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole3B"
+    },
+    {
+      "type": "trigger",
+      "x": 19,
+      "y": 9,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole4A"
+    },
+    {
+      "type": "trigger",
+      "x": 16,
+      "y": 5,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole4B"
+    },
+    {
+      "type": "trigger",
+      "x": 30,
+      "y": 7,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole5B"
+    },
+    {
+      "type": "trigger",
+      "x": 22,
+      "y": 12,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_Hole5A"
+    },
+    {
+      "type": "trigger",
+      "x": 17,
+      "y": 11,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "0",
+      "script": "VolcanionCave_2F_EventScript_BlueButton"
     }
   ],
   "bg_events": [],

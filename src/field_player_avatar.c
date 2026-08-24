@@ -105,6 +105,7 @@ static enum Collision CheckForPlayerAvatarStaticCollision(enum Direction);
 static enum Collision CheckForObjectEventStaticCollision(struct ObjectEvent *, s16, s16, enum Direction, u8);
 static bool8 CanStopSurfing(s16, s16, enum Direction);
 static bool8 ShouldJumpLedge(s16, s16, enum Direction);
+static bool8 ShouldJumpHole(s16, s16, enum Direction);
 static bool8 TryPushBoulder(s16, s16, enum Direction);
 static void CheckAcroBikeCollision(s16, s16, u8, enum Collision *);
 
@@ -590,6 +591,11 @@ static bool8 DoForcedMovement(enum Direction direction, void (*moveFunc)(enum Di
                 SetFollowerNPCData(FNPC_DATA_FORCED_MOVEMENT, FNPC_FORCED_NONE);
                 PlayerJumpLedge(direction);
             }
+            else if (collision == COLLISION_HOLE_JUMP)
+            {
+                SetFollowerNPCData(FNPC_DATA_FORCED_MOVEMENT, FNPC_FORCED_NONE);
+                PlayerJumpInHole(direction);
+            }
 
             playerAvatar->flags |= PLAYER_AVATAR_FLAG_FORCED_MOVE;
             playerAvatar->runningState = MOVING;
@@ -889,6 +895,11 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
             PlayerJumpLedge(direction);
             return;
         }
+        else if (collision == COLLISION_HOLE_JUMP)
+        {
+            PlayerJumpInHole(direction);
+            return;
+        }
         else if (collision == COLLISION_OBJECT_EVENT && IsPlayerCollidingWithFarawayIslandMew(direction))
         {
             PlayerNotOnBikeCollideWithFarawayIslandMew(direction);
@@ -911,11 +922,13 @@ static void PlayerNotOnBikeMoving(enum Direction direction, u16 heldKeys)
 #ifdef BUGFIX
             if (collision != COLLISION_STOP_SURFING
              && collision != COLLISION_LEDGE_JUMP
-             && collision != COLLISION_PUSHED_BOULDER)
+             && collision != COLLISION_PUSHED_BOULDER
+             && collision != COLLISION_HOLE_JUMP)
 #else
             if (collision != COLLISION_STOP_SURFING
              && collision != COLLISION_LEDGE_JUMP
              && collision != COLLISION_PUSHED_BOULDER
+             && collision != COLLISION_HOLE_JUMP
              && collision != COLLISION_ROTATING_GATE)
 #endif
             {
@@ -1008,6 +1021,10 @@ enum Collision CheckForObjectEventCollision(struct ObjectEvent *objectEvent, s16
         IncrementGameStat(GAME_STAT_JUMPED_DOWN_LEDGES);
         return COLLISION_LEDGE_JUMP;
     }
+
+    if (ShouldJumpHole(x, y, direction))
+        return COLLISION_HOLE_JUMP;
+
     if (collision == COLLISION_OBJECT_EVENT && TryPushBoulder(x, y, direction))
         return COLLISION_PUSHED_BOULDER;
 
@@ -1057,6 +1074,11 @@ static bool8 ShouldJumpLedge(s16 x, s16 y, enum Direction direction)
         return TRUE;
     else
         return FALSE;
+}
+
+static bool8 ShouldJumpHole(s16 x, s16 y, enum Direction direction)
+{
+    return MapGridGetMetatileBehaviorAt(x, y) == MB_JUMP_HOLE;
 }
 
 static bool8 TryPushBoulder(s16 x, s16 y, enum Direction direction)
@@ -1385,6 +1407,12 @@ void PlayerJumpLedge(enum Direction direction)
 {
     PlaySE(SE_LEDGE);
     PlayerSetAnimId(GetJump2MovementAction(direction), COPY_MOVE_JUMP2);
+}
+
+void PlayerJumpInHole(enum Direction direction)
+{
+    PlaySE(SE_LEDGE);
+    PlayerSetAnimId(GetJumpMovementAction(direction), COPY_MOVE_JUMP2);
 }
 
 // Stop player on current facing direction once they're done moving and if they're not currently Acro Biking on bumpy slope
@@ -2007,6 +2035,14 @@ void UpdateStrengthBoulderPositions(void)
             }
         }
     }
+}
+
+void UpdateBoulderOnMudPosition(void)
+{
+    struct BoulderPos *pos = &gSaveBlock1Ptr->boulderPos[MAP_NUM(MAP_VOLCANION_CAVE_2F)][LOCALID_2F_BOULDER_ON_MUD];
+    u8 objId = GetObjectEventIdByLocalId(LOCALID_2F_BOULDER_ON_MUD);
+    pos->x = gObjectEvents[objId].currentCoords.x - MAP_OFFSET;
+    pos->y = gObjectEvents[objId].currentCoords.y - MAP_OFFSET;
 }
 
 #undef tState
