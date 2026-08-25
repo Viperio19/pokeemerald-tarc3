@@ -286,6 +286,79 @@
     }
   ],
   "coord_events": [],
-  "bg_events": [],
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 32,
+      "y": 22,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_1"
+    },
+    {
+      "type": "hidden_item",
+      "x": 32,
+      "y": 17,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_2"
+    },
+    {
+      "type": "hidden_item",
+      "x": 10,
+      "y": 12,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_3"
+    },
+    {
+      "type": "hidden_item",
+      "x": 36,
+      "y": 8,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_4"
+    },
+    {
+      "type": "hidden_item",
+      "x": 11,
+      "y": 6,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_5"
+    },
+    {
+      "type": "hidden_item",
+      "x": 29,
+      "y": 4,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_6"
+    },
+    {
+      "type": "hidden_item",
+      "x": 18,
+      "y": 10,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_7"
+    },
+    {
+      "type": "hidden_item",
+      "x": 5,
+      "y": 6,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_8"
+    },
+    {
+      "type": "hidden_item",
+      "x": 29,
+      "y": 18,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_9"
+    }
+  ],
   "region": "REGION_HOENN"
 }
