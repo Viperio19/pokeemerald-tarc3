@@ -481,7 +481,7 @@ VolcanionCave_2F_EventScript_DefeatedExeggutor::
 	end
 
 VolcanionCave_2F_Text_Exeggutor::
-	.string "(exeggutor cry)$"
+	.string "{SPEAKER NAME_EXEGGUTOR COLOR_NORMAL}Beuhbwah behdebuh bwah!$"
 
 VolcanionCave_2F_EventScript_Toxapex::
 	lock

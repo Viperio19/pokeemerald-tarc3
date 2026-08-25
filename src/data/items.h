@@ -57,9 +57,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Poké Ball"),
         .price = 200,
         .description = COMPOUND_STRING(
-            "A tool used for\n"
-            "catching wild\n"
-            "Pokémon."),
+            "Super-special Poké\n"
+            "Balls designed for\n"
+            "Team Magma."),
         .pocket = POCKET_POKE_BALLS,
         .type = ITEM_USE_BAG_MENU,
         .battleUsage = EFFECT_ITEM_THROW_BALL,
@@ -73,9 +73,8 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Great Ball"),
         .price = 600,
         .description = COMPOUND_STRING(
-            "A good Ball with a\n"
-            "higher catch rate\n"
-            "than a Poké Ball."),
+            "They're blue for\n"
+            "an amazing reason."),
         .pocket = POCKET_POKE_BALLS,
         .type = ITEM_USE_BAG_MENU,
         .battleUsage = EFFECT_ITEM_THROW_BALL,
@@ -2196,9 +2195,8 @@ const struct ItemInfo gItemsInfo[] =
         .price = (I_PRICE >= GEN_7) ? 400 : 350,
         .holdEffectParam = 100,
         .description = COMPOUND_STRING(
-            "Repels weak wild\n"
-            "Pokémon for 100\n"
-            "steps."),
+            "YUCK!!\n"
+            "This smells AWFUL!"),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_FIELD_USE,
         .type = ITEM_USE_BAG_MENU,
@@ -2214,9 +2212,9 @@ const struct ItemInfo gItemsInfo[] =
         .price = (I_PRICE >= GEN_7) ? 400 : 350,
         .holdEffectParam = 100,
         .description = COMPOUND_STRING(
-            "Repels nothing\n"
-            "because it is\n"
-            "already used."),
+            "The empty husk\n"
+            "of a repel.\n"
+            "Repels nothing."),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_FIELD_USE,
         .type = ITEM_USE_BAG_MENU,
@@ -2816,9 +2814,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Stardust"),
         .price = (I_PRICE >= GEN_7) ? 3000 * TREASURE_FACTOR: 2000,
         .description = COMPOUND_STRING(
-            "Beautiful red sand.\n"
-            "Can be sold at a\n"
-            "high price."),
+            "Shiny white dust.\n"
+            "Have I seen these\n"
+            "in another game?"),
         .pocket = POCKET_ITEMS,
         .sortType = ITEM_TYPE_SELLABLE,
         .type = ITEM_USE_BAG_MENU,
@@ -14063,9 +14061,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Old Rod"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "Use by any body of\n"
-            "water to fish for\n"
-            "wild Pokémon."),
+            "Throw it in water\n"
+            "to catch a fish.\n"
+            "Don't lose it!"),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_FIELD,

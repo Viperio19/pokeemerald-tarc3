@@ -10,4 +10,11 @@ const u8 *const gSpeakerNamesTable[SP_NAME_COUNT] =
     [SP_NAME_SHELLY]       = COMPOUND_STRING("Shelly"),
     [SP_NAME_PLAYER_AQUA]  = COMPOUND_STRING("{PLAYER_AQUA}"),
     [SP_NAME_PLAYER_MAGMA] = COMPOUND_STRING("{PLAYER_MAGMA}"),
+    [SP_NAME_EXEGGUTOR]    = COMPOUND_STRING("Exeggutor"),
+    [SP_NAME_TOXAPEX]      = COMPOUND_STRING("Toxapex"),
+    [SP_NAME_CORSOLA]      = COMPOUND_STRING("Corsola"),
+    [SP_NAME_VOLCANION]    = COMPOUND_STRING("Volcanion"),
+    [SP_NAME_PIKACHU]      = COMPOUND_STRING("Pikachu"),
+    [SP_NAME_CRAMORANT]    = COMPOUND_STRING("Cramorant"),
+    [SP_NAME_GRAPPLOCT]    = COMPOUND_STRING("Grapploct"),
 };
