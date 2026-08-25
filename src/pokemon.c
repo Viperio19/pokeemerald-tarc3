@@ -5163,6 +5163,8 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIELEKI:
         case SPECIES_REGIDRAGO:
             return MUS_VS_REGI;
+        case SPECIES_VOLCANION:
+            return MUS_VS_VOLCANION;
         default:
             return MUS_RG_VS_LEGEND;
         }
