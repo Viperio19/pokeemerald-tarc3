@@ -2951,6 +2951,14 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
         if (gBattleMons[battlerAtk].species != SPECIES_HOOPA_UNBOUND)
             ADJUST_SCORE(-10);
         break;
+    case EFFECT_EAT:
+        if (IsBattlersFirstTurn(battlerAtk))
+            ADJUST_SCORE(20);
+        else
+            ADJUST_SCORE(-20);
+        if (gBattleMons[battlerDef].species == SPECIES_CORSOLA)
+            ADJUST_SCORE(40);
+        break;
     case EFFECT_PLACEHOLDER:
         return 0;   // cannot even select
     } // move effect checks

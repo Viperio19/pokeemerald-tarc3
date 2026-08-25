@@ -2019,6 +2019,11 @@
 	.4byte \jumpInstr
 	.endm
 
+	.macro tryeatcorsola failInstr:req
+	callnative BS_TryEatCorsola
+	.4byte \failInstr
+	.endm
+
 	.macro jumpifabilitypreventsrest battler:req, jumpInstr:req
 	callnative BS_JumpIfAbilityPreventsRest
 	.byte \battler

@@ -14164,6 +14164,25 @@ void BS_JumpIfSpecies(void)
         gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
+void BS_TryEatCorsola(void)
+{
+    NATIVE_ARGS(const u8 *failInstr);
+    if (gBattleMons[gBattlerTarget].species != SPECIES_CORSOLA)
+        gBattlescriptCurrInstr = cmd->failInstr;
+    else
+    {
+        TryBattleFormChange(gBattlerTarget, FORM_CHANGE_GET_EATEN, GetBattlerAbility(gBattlerTarget));
+
+        for (int i = 0; i < MAX_MON_MOVES; i++)
+        {
+            if (gBattleMons[gBattlerTarget].moves[i] == MOVE_REFRESH)
+                gBattleMons[gBattlerTarget].moves[i] = MOVE_TAUNT;
+        }
+
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
+}
+
 void BS_JumpIfAbilityPreventsRest(void)
 {
     NATIVE_ARGS(u8 battler, const u8 *jumpInstr);

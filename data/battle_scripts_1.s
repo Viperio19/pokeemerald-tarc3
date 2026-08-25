@@ -6427,3 +6427,29 @@ BattleScript_BelchFails::
 	printstring STRINGID_BELCHCANTSELECT
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
+
+BattleScript_EffectEat::
+	attackcanceler
+	tryeatcorsola BattleScript_CantBeEaten
+	attackanimation
+	waitanimation
+	printstring STRINGID_PKMNWASEATEN
+	handleformchange BS_TARGET, 0
+	playanimation BS_TARGET, B_ANIM_FORM_CHANGE
+	waitanimation
+	handleformchange BS_TARGET, 1
+	printstring STRINGID_PKMNDIEDKINDA
+	waitmessage B_WAIT_TIME_LONG
+	setadditionaleffects
+	goto BattleScript_MoveEnd
+
+BattleScript_CantBeEaten::
+	call BattleScript_CantBeEatenRet
+	setmoveresultflags MOVE_RESULT_FAILED
+	goto BattleScript_MoveEnd
+
+BattleScript_CantBeEatenRet::
+	pause B_WAIT_TIME_SHORT
+	printstring STRINGID_PKMNCANTBEEATEN
+	waitmessage B_WAIT_TIME_LONG
+	return

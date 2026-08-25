@@ -76,8 +76,8 @@
 #define FLAG_HIDE_GOLDEEN_GRUNT                    0x35
 #define FLAG_TALKED_TO_GOLDEEN_GRUNT               0x36
 #define FLAG_ANIMATE_MUD_UNDER_BOULDER             0x37
+#define FLAG_HIDE_VOLCANION_CAVE_2F_CORSOLA        0x38
 
-#define FLAG_UNUSED_0x038    0x38 // Unused Flag
 #define FLAG_UNUSED_0x039    0x39 // Unused Flag
 #define FLAG_UNUSED_0x03A    0x3A // Unused Flag
 #define FLAG_UNUSED_0x03B    0x3B // Unused Flag

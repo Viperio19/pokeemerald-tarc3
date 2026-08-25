@@ -6085,6 +6085,7 @@ enum Species GetFormChangeTargetSpecies_Internal(struct FormChangeContext ctx)
         case FORM_CHANGE_FAINT:
         case FORM_CHANGE_DAYS_PASSED:
         case FORM_CHANGE_BEGIN_WILD_ENCOUNTER:
+        case FORM_CHANGE_GET_EATEN:
             targetSpecies = formChanges[i].targetSpecies;
             break;
         case FORM_CHANGE_STATUS:
@@ -6444,8 +6445,9 @@ void TryToSetBattleFormChangeMoves(struct Pokemon *mon, enum FormChanges method)
     const struct FormChange *formChanges = GetSpeciesFormChanges(species);
 
     if (formChanges == NULL
-        || (method != FORM_CHANGE_BEGIN_BATTLE && method != FORM_CHANGE_END_BATTLE))
+        || (method != FORM_CHANGE_BEGIN_BATTLE && method != FORM_CHANGE_END_BATTLE && method != FORM_CHANGE_GET_EATEN))
         return;
+
 
     for (i = 0; formChanges[i].method != FORM_CHANGE_TERMINATOR; i++)
     {

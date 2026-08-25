@@ -978,3 +978,20 @@ VolcanionCave_2F_Movement_BoulderSlideDown::
 	walk_fast_down
 	jump_down
 	step_end
+
+
+VolcanionCave_2F_EventScript_Corsola::
+	lock
+	faceplayer
+	playmoncry SPECIES_CORSOLA, CRY_MODE_ENCOUNTER
+	msgbox VolcanionCave_2F_Text_Corsola, MSGBOX_DEFAULT
+	waitmoncry
+	setwildbattle SPECIES_CORSOLA, 20
+	dowildbattle
+	specialvar VAR_RESULT, GetBattleOutcome
+	call_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, VolcanionCave_1F_EventScript_RemoveLastTalked
+	release
+	end
+
+VolcanionCave_2F_Text_Corsola::
+	.string "CORSOLA: Solaaaaa!$"

@@ -22035,6 +22035,35 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_MalignantChain,
     },
 
+    [MOVE_EAT] =
+    {
+        .name = COMPOUND_STRING("Eat"),
+        .description = COMPOUND_STRING(
+            "The foe gets eaten\n"
+            "if its a CORSOLA."),
+        .effect = EFFECT_EAT,
+        .power = 0,
+        .type = TYPE_DARK,
+        .accuracy = 100,
+        .pp = 20,
+        .target = TARGET_SELECTED,
+        .priority = 0,
+        .category = DAMAGE_CATEGORY_STATUS,
+        .additionalEffects = ADDITIONAL_EFFECTS({
+            .moveEffect = MOVE_EFFECT_FLINCH,
+            .chance = 100,
+        }),
+        .ignoresSubstitute = TRUE,
+        .magicCoatAffected = FALSE,
+        .mirrorMoveBanned = TRUE,
+        .contestEffect = CONTEST_EFFECT_STARTLE_MON_WITH_JUDGES_ATTENTION,
+        .contestCategory = CONTEST_CATEGORY_SMART,
+        .contestComboStarterId = COMBO_STARTER_TAUNT,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_Crunch,
+        .validApprenticeMove = TRUE,
+    },
+
     // Z-Moves
     [MOVE_BREAKNECK_BLITZ] =
     {
