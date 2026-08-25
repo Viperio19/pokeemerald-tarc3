@@ -5061,7 +5061,8 @@ static void DebugAction_DestroyFollowerNPC(u8 taskId)
     X(MUS_RG_SLOW_PALLET)           \
     X(MUS_RG_TEACHY_TV_MENU)        \
     X(MUS_VOLCANION_CAVE_2F)        \
-    X(MUS_VOLCANION_CAVE_3F)
+    X(MUS_VOLCANION_CAVE_3F)        \
+    X(MUS_VS_VOLCANION)
 
 #define SOUND_LIST_SE               \
     X(SE_USE_ITEM)                  \
