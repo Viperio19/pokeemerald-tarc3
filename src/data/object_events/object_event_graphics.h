@@ -590,6 +590,8 @@ const u16 gObjectEventPal_SSAnne[] = INCGFX_U16("graphics/object_events/palettes
 const u16 gObjectEventPic_SSAnne[] = INCGFX_U16("graphics/object_events/pics/misc/ss_anne.png", ".4bpp", "-mwidth 8 -mheight 4");
 const u16 gObjectEventPal_Exeggutor[] = INCGFX_U16("graphics/object_events/palettes/exeggutor.pal", ".gbapal");
 const u16 gObjectEventPic_ExeggutorTall[] = INCGFX_U16("graphics/object_events/pics/misc/exeggutor.png", ".4bpp", "-mwidth 4 -mheight 8");
+const u16 gObjectEventPal_HPBar[] = INCGFX_U16("graphics/object_events/palettes/overworld_hp_bar.pal", ".gbapal");
+const u32 gObjectEventPic_HPBar[] = INCGFX_U32("graphics/object_events/pics/misc/overworld_hp_bar.png", ".4bpp", "-mwidth 4 -mheight 4");
 const u16 gObjectEventPic_SurfBlob[] = INCGFX_U16("graphics/object_events/pics/misc/surf_blob.png", ".4bpp", "-mwidth 4 -mheight 4");
 
 const u16 gObjectEventPic_LaprasOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/lapras.png", ".4bpp", "-mwidth 2 -mheight 2");

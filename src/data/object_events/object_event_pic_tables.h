@@ -2023,6 +2023,18 @@ static const struct SpriteFrameImage sPicTable_ExeggutorTall[] = {
     overworld_frame(gObjectEventPic_ExeggutorTall, 8, 16, 0),
 };
 
+static const struct SpriteFrameImage sPicTable_HPBar[] = {
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 0),
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 0),
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 0),
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 0),
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 1),
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 0),
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 1),
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 0),
+    overworld_frame(gObjectEventPic_HPBar, 4, 4, 1),
+};
+
 static const struct SpriteFrameImage sPicTable_Snorlax[] = {
     overworld_frame(gObjectEventPic_SnorlaxOld, 4, 4, 0),
     overworld_frame(gObjectEventPic_SnorlaxOld, 4, 4, 0),

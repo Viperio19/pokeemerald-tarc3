@@ -388,6 +388,7 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DeoxysA;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DeoxysN;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SSAnne;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Exeggutor;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBar;
 // Begin Pokémon event objects
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PokeBall;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Follower;
@@ -824,6 +825,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_PLAYER_2_F_FIELD_MOVE]    = &gObjectEventGraphicsInfo_Player2FFieldMove,
     [OBJ_EVENT_GFX_PLAYER_2_F_FISHING]       = &gObjectEventGraphicsInfo_Player2FFishing,
     [OBJ_EVENT_GFX_EXEGGUTOR]                = &gObjectEventGraphicsInfo_Exeggutor,
+    [OBJ_EVENT_GFX_HP_BAR]                   = &gObjectEventGraphicsInfo_HPBar,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {
