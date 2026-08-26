@@ -9,7 +9,7 @@ gText_Intro_Shelly_Welcome::
 	.string "a path in VOLCANO CAVERN so the main\l"
 	.string "team {FONT 5}(me){FONT_NORMAL} can get through it easily.\p"
 	.string "We've had reports of an unknown\n"
-	.string "WATER-type Legendary POKéMON\l"
+	.string "WATER-type LEGENDARY POKéMON\l"
 	.string "causing a ruckus at the deepest\l"
 	.string "part of the cave.\p"
 	.string "Whatever you do, DO NOT approach it\n"
@@ -117,7 +117,7 @@ gText_Intro_Courtney_Welcome::
 	.string "As much as I loathe to say it, most of\n"
 	.string "the details in her speech were correct.\p"
 	.string "The only amendment I can make is the\n"
-	.string "reports of the Legendary POKéMON in\l"
+	.string "reports of the LEGENDARY POKéMON in\l"
 	.string "the depths of VOLCANO CAVERN prove\l"
 	.string "without a doubt that it is a FIRE-type.\p"
 	.string "Speaking of FIRE-types, I have some\n"
@@ -165,7 +165,7 @@ gText_Intro_Courtney_YourePlayer::
 
 gText_Intro_Courtney_AreYouReady::
 	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}You and NUMEL will find the\n"
-	.string "Legendary POKéMON below.\p"
+	.string "LEGENDARY POKéMON below.\p"
 	.string "You may attempt to capture it, but\n"
 	.string "that is not a task expected of you.\p"
 	.string "Simply subduing it is acceptable.\p"

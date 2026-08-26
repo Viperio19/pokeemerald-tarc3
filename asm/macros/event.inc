@@ -655,6 +655,13 @@
 		.endif
 	.endm
 
+	.macro movementandmessage localId:req, movements:req, text:req
+	applymovement \localId, \movements
+	message \text
+	waitmovement 0
+	waitmessage
+	.endm
+
 	@ Blocks script execution until the movements being applied to the specified (localId) object finish.
 	@ If localId is LOCALID_NONE (0), then the id of the last-moved object will be used instead.
 	@ If the specified object is not currently being manipulated with applymovement, then this command does nothing.
@@ -2137,6 +2144,11 @@
 	.macro case condition:req, dest:req
 	compare VAR_0x8000, \condition
 	goto_if_eq \dest
+	.endm
+
+	.macro case_call condition:req, dest:req
+	compare VAR_0x8000, \condition
+	call_if_eq \dest
 	.endm
 
 	@ Message box types

@@ -305,6 +305,23 @@ void SpawnPlayer2For2FIntro(void)
     TrySpawnPlayer2();
 }
 
+void SpawnPlayer2For3FIntro(void)
+{
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_3F),
+                  MAP_NUM(MAP_VOLCANION_CAVE_3F),
+                  16,
+                  36,
+                  DIR_NORTH,
+                  3);
+    TrySpawnPlayer2();
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_3F),
+                  MAP_NUM(MAP_VOLCANION_CAVE_3F),
+                  IS_PLAYER_ONE ? 17 : 15,
+                  24,
+                  DIR_NORTH,
+                  3);
+}
+
 void SwitchCharacters(void)
 {
     gSaveBlock2Ptr->player ^= 1;

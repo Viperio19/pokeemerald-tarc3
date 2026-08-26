@@ -388,7 +388,18 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DeoxysA;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DeoxysN;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SSAnne;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Exeggutor;
-extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBar;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarGreen;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarGreenPara;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarGreenParaStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarGreenStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarYellow;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarYellowPara;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarYellowParaStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarYellowStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarRed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarRedPara;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarRedParaStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarRedStats;
 // Begin Pokémon event objects
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PokeBall;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Follower;
@@ -825,7 +836,18 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_PLAYER_2_F_FIELD_MOVE]    = &gObjectEventGraphicsInfo_Player2FFieldMove,
     [OBJ_EVENT_GFX_PLAYER_2_F_FISHING]       = &gObjectEventGraphicsInfo_Player2FFishing,
     [OBJ_EVENT_GFX_EXEGGUTOR]                = &gObjectEventGraphicsInfo_Exeggutor,
-    [OBJ_EVENT_GFX_HP_BAR]                   = &gObjectEventGraphicsInfo_HPBar,
+    [OBJ_EVENT_GFX_HP_BAR_GREEN]             = &gObjectEventGraphicsInfo_HPBarGreen,
+    [OBJ_EVENT_GFX_HP_BAR_GREEN_PARA]        = &gObjectEventGraphicsInfo_HPBarGreenPara,
+    [OBJ_EVENT_GFX_HP_BAR_GREEN_PARA_STATS]  = &gObjectEventGraphicsInfo_HPBarGreenParaStats,
+    [OBJ_EVENT_GFX_HP_BAR_GREEN_STATS]       = &gObjectEventGraphicsInfo_HPBarGreenStats,
+    [OBJ_EVENT_GFX_HP_BAR_YELLOW]            = &gObjectEventGraphicsInfo_HPBarYellow,
+    [OBJ_EVENT_GFX_HP_BAR_YELLOW_PARA]       = &gObjectEventGraphicsInfo_HPBarYellowPara,
+    [OBJ_EVENT_GFX_HP_BAR_YELLOW_PARA_STATS] = &gObjectEventGraphicsInfo_HPBarYellowParaStats,
+    [OBJ_EVENT_GFX_HP_BAR_YELLOW_STATS]      = &gObjectEventGraphicsInfo_HPBarYellowStats,
+    [OBJ_EVENT_GFX_HP_BAR_RED]               = &gObjectEventGraphicsInfo_HPBarRed,
+    [OBJ_EVENT_GFX_HP_BAR_RED_PARA]          = &gObjectEventGraphicsInfo_HPBarRedPara,
+    [OBJ_EVENT_GFX_HP_BAR_RED_PARA_STATS]    = &gObjectEventGraphicsInfo_HPBarRedParaStats,
+    [OBJ_EVENT_GFX_HP_BAR_RED_STATS]         = &gObjectEventGraphicsInfo_HPBarRedStats,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

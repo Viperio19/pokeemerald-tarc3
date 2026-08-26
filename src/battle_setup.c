@@ -373,6 +373,12 @@ void BattleSetup_StartMultiBattle(void)
     if (gSpecialVar_0x8005 & MULTI_BATTLE_CHOOSE_MONS) // Skip mons restoring(done in the script)
         gBattleScripting.specialTrainerBattleType = 0xFF;
 
+
+    if (GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_SPECIES) == SPECIES_VOLCANION)
+    {
+        gBattleTypeFlags |= BATTLE_TYPE_LEGENDARY;
+        CreateBattleStartTask(B_TRANSITION_BLUR, MUS_VS_VOLCANION);
+    }
     if (gSpecialVar_0x8005 & (MULTI_BATTLE_2_VS_WILD | MULTI_BATTLE_PLAYERS_VS_WILD))
     {
         CreateBattleStartTask(GetWildBattleTransition(), 0);

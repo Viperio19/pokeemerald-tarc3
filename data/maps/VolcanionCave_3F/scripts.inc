@@ -2,33 +2,490 @@ VolcanionCave_3F_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, VolcanionCave_3F_OnTransition
 	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, VolcanionCave_3F_OnWarp
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, VolcanionCave_3F_OnFrame
+	map_script MAP_SCRIPT_ON_LOAD, VolcanionCave_3F_OnLoad
 	.byte 0
 
 VolcanionCave_3F_OnTransition:
+	call_if_ne VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_SetWeatherFog
 	end
+
+VolcanionCave_3F_EventScript_SetWeatherFog::
+	setweather WEATHER_FOG_HORIZONTAL
+	return
 
 VolcanionCave_3F_OnWarp:
 	map_script_2 VAR_TEMP_1, 0, VolcanionCave_3F_EventScript_TrySpawnPlayer2
 	.2byte 0
 
 VolcanionCave_3F_EventScript_TrySpawnPlayer2::
-	callnative TrySpawnPlayer2
 	setvar VAR_TEMP_1, 1
-	call_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_HidePlayers
+	goto_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_SpawnHiddenPlayer2
+	callnative TrySpawnPlayer2
 	end
 
-VolcanionCave_3F_EventScript_HidePlayers::
+VolcanionCave_3F_EventScript_SpawnHiddenPlayer2::
+	callnative SpawnPlayer2For3FIntro
 	hideobjectat LOCALID_PLAYER_2, MAP_VOLCANION_CAVE_1F
-	hideplayer
-	return
+	end
 
 VolcanionCave_3F_OnFrame:
 	map_script_2 VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_EnterCave
 	.2byte 0
 
+#define LOCALID_PLAYER_AQUA  VAR_0x800A
+#define LOCALID_PLAYER_MAGMA VAR_0x800B
+
 VolcanionCave_3F_EventScript_EnterCave::
 	lock
+	special SpawnCameraObject
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_PlayersEnter
+	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_PlayersEnter2
+VolcanionCave_3F_EventScript_Intro::
+	delay 10
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceFasterLeft
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
+	message VolcanionCave_3F_Text_IntroCoolRoom
+	waitmessage
+	closemessage
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceUp
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceUp
+	message VolcanionCave_3F_Text_IntroIsThat
+	waitmovement 0
+	waitmessage
+	closemessage
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveUpToVolcanion
+	applymovement LOCALID_PLAYER_AQUA, VolcanionCave_3F_Movement_PlayerApproachVolcanion
+	applymovement LOCALID_PLAYER_MAGMA, VolcanionCave_3F_Movement_PlayerApproachVolcanion
+	waitmovement 0
+	delay 10
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	closemessage
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveDown
+	waitmovement 0
+	message VolcanionCave_3F_Text_IntroTheLegendary
+	waitmessage
+	closemessage
+	delay 30
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceFasterLeft
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
+	message VolcanionCave_3F_Text_IntroBothEllipsis
+	waitmessage
+	message VolcanionCave_3F_Text_IntroReportToShelly
+	waitmessage
+	closemessage
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_CameraFollowAquaTryToLeave
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_CameraFollowMagmaTryToStopAqua
+	playse SE_PIN
+	applymovement LOCALID_PLAYER_AQUA, VolcanionCave_3F_Movement_AquaTryToLeave
+	applymovement LOCALID_PLAYER_MAGMA, VolcanionCave_3F_Movement_MagmaTryToStopAqua
+	waitmovement 0
+	message VolcanionCave_3F_Text_IntroCatchIt
+	waitmessage
+	message VolcanionCave_3F_Text_IntroFiiiine
+	waitmessage
+	closemessage
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveBackToVolcanion
+	applymovement LOCALID_PLAYER_AQUA, VolcanionCave_3F_Movement_AquaWalkToVolcanion
+	applymovement LOCALID_PLAYER_MAGMA, VolcanionCave_3F_Movement_MagmaWalkToVolcanion
+	waitmovement 0
+	delay 16
+	setflag FLAG_SYS_WEATHER_CTRL
+	setweather WEATHER_FOG_HORIZONTAL
+	doweather
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	closemessage
+	special WaitWeather
+	setwildbattle SPECIES_VOLCANION, 40, TRUE
+	multi_fixed_players_vs_wild PARTNER_PLAYER_2
+	playbgm MUS_VOLCANION_CAVE_2F, FALSE
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedVolcanion
+	message VolcanionCave_3F_Text_IntroAwNuts
+	waitmessage
+	closemessage
+	playbgm MUS_VS_VOLCANION, FALSE
+	setvar VAR_CURRENT_HP_BAR_COLOR, 1
+	call VolcanionCave_3F_EventScript_SetHPBar
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	message VolcanionCave_3F_Text_IntroVolcanionUsedEarthPower
+	waitmessage
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 5  @ Horizontal pan
+	setvar VAR_0x8006, 15  @ Num shakes
+	setvar VAR_0x8007, 3  @ Shake delay
+	special ShakeScreen
+	playse SE_PIN
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_ExclamationMark
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_ExclamationMark
+	delay 50
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 10  @ Horizontal pan
+	setvar VAR_0x8006, 40  @ Num shakes
+	setvar VAR_0x8007, 3  @ Shake delay
+	special ShakeScreen
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_PlayerGetKnockedBack
+	applymovement LOCALID_PLAYER_AQUA, VolcanionCave_3F_Movement_PlayerGetKnockedBack
+	applymovement LOCALID_PLAYER_MAGMA, VolcanionCave_3F_Movement_PlayerGetKnockedBack
+	closemessage
+	waitmovement
+	delay 20
+	playse SE_M_ROCK_THROW
+	call VolcanionCave_3F_EventScript_SetMetatilesRocksBroken
+	special DrawWholeMapView
 	setvar VAR_VOLCANION_CAVE_3F_STATE, 1
-	showplayer
+	fadedefaultbgm
+	delay 100
+	message VolcanionCave_3F_Text_IntroBattleAgainOrLookAround
+	waitmessage
+	closemessage
+	special RemoveCameraObject
+	special SpawnCameraObject
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_CameraResetToAqua
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_CameraResetToMagma
+	waitmovement 0
+	special RemoveCameraObject
 	release
 	end
+
+VolcanionCave_3F_EventScript_DefeatedVolcanion::
+	release
+	end
+
+VolcanionCave_3F_EventScript_PlayersEnter::
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveWithPlayersEntering
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerAquaEnterCave
+	applymovement LOCALID_PLAYER_2, VolcanionCave_3F_Movement_Player2MagmaEnterCave
+	waitmovement 0
+	setvar LOCALID_PLAYER_AQUA, LOCALID_PLAYER
+	setvar LOCALID_PLAYER_MAGMA, LOCALID_PLAYER_2
+	goto VolcanionCave_3F_EventScript_Intro
+	end
+
+VolcanionCave_3F_EventScript_PlayersEnter2::
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveWithPlayersEntering
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerMagmaEnterCave
+	applymovement LOCALID_PLAYER_2, VolcanionCave_3F_Movement_Player2AquaEnterCave
+	waitmovement 0
+	setvar LOCALID_PLAYER_AQUA, LOCALID_PLAYER_2
+	setvar LOCALID_PLAYER_MAGMA, LOCALID_PLAYER
+	goto VolcanionCave_3F_EventScript_Intro
+	end
+
+VolcanionCave_3F_EventScript_VolcanionCry::
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 3  @ Horizontal pan
+	setvar VAR_0x8006, 10  @ Num shakes
+	setvar VAR_0x8007, 4  @ Shake delay
+	message VolcanionCave_3F_Text_IntroVolcanionCry
+	playmoncry SPECIES_VOLCANION, CRY_MODE_NORMAL
+	special ShakeScreen
+	delay 30
+	waitmessage
+	waitmoncry
+	return
+
+VolcanionCave_3F_EventScript_CameraFollowAquaTryToLeave::
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraFollowAquaTryToLeave
+	return
+
+VolcanionCave_3F_EventScript_CameraFollowMagmaTryToStopAqua::
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraFollowMagmaTryToStopAqua
+	return
+
+VolcanionCave_3F_EventScript_CameraResetToAqua::
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraResetToAqua
+	return
+
+VolcanionCave_3F_EventScript_CameraResetToMagma::
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraResetToMagma
+	return
+
+VolcanionCave_3F_Movement_PlayerAquaEnterCave::
+	walk_up
+	walk_up
+	walk_left
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_PlayerMagmaEnterCave::
+	walk_up
+	walk_up
+	walk_right
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_Player2AquaEnterCave::
+	delay_16
+	set_visible
+	walk_up
+	walk_up
+	walk_up
+	walk_left
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_Player2MagmaEnterCave::
+	delay_16
+	set_visible
+	walk_up
+	walk_up
+	walk_up
+	walk_right
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveWithPlayersEntering::
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_PlayerApproachVolcanion::
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveUpToVolcanion::
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_AquaTryToLeave::
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	step_end
+
+VolcanionCave_3F_Movement_MagmaTryToStopAqua::
+	emote_exclamation_mark
+	delay_8
+	walk_in_place_fast_down
+	walk_in_place_fast_down
+	delay_8
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_left
+	walk_faster_left
+	walk_in_place_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_CameraFollowAquaTryToLeave::
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	walk_down
+	step_end
+
+VolcanionCave_3F_Movement_CameraFollowMagmaTryToStopAqua::
+	delay_8
+	walk_in_place_fast_down
+	walk_in_place_fast_down
+	delay_8
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveDown::
+	walk_down
+	walk_down
+	step_end
+
+VolcanionCave_3F_Movement_AquaWalkToVolcanion::
+	delay_16
+	delay_16
+	walk_right
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_left
+	walk_in_place_up
+	step_end
+
+VolcanionCave_3F_Movement_MagmaWalkToVolcanion::
+	walk_right
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_right
+	walk_in_place_up
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveBackToVolcanion::
+	delay_16
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_PlayerGetKnockedBack::
+	lock_facing_direction
+	jump_2_down
+	step_end
+
+VolcanionCave_3F_Movement_CameraResetToAqua::
+	walk_left
+	step_end
+
+VolcanionCave_3F_Movement_CameraResetToMagma::
+	walk_right
+	step_end
+
+VolcanionCave_3F_Text_IntroCoolRoom::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Wow cool room…\p"
+	.string "Wait…\p$"
+
+VolcanionCave_3F_Text_IntroIsThat::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Is that…\p$"
+
+VolcanionCave_3F_Text_IntroTheLegendary::
+	.string "{SPEAKER NAME_BOTH COLOR_NORMAL}The LEGENDARY POKéMON I've been\n"
+	.string "looking for!\p$"
+
+VolcanionCave_3F_Text_IntroBothEllipsis::
+	.string "{SPEAKER NAME_BOTH COLOR_NORMAL}. {PAUSE 20}. {PAUSE 20}.\p$"
+
+VolcanionCave_3F_Text_IntroReportToShelly::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}I'm going to report to SHELLY.\p$"
+
+VolcanionCave_3F_Text_IntroCatchIt::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What if we catch it?\p$"
+
+VolcanionCave_3F_Text_IntroFiiiine::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Fiiiine, let's battle it.\p$"
+
+VolcanionCave_3F_Text_IntroVolcanionCry::
+	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}(volcanion cry)!\p$"
+
+VolcanionCave_3F_Text_IntroAwNuts::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Aw nuts!\p$"
+
+VolcanionCave_3F_Text_IntroVolcanionUsedEarthPower::
+	.string "{AUTO_SCROLL 1}{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What the-{PAUSE 20}\p"
+	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}VOLCANION used EARTH POWER!$"
+
+VolcanionCave_3F_Text_IntroBattleAgainOrLookAround::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}We could battle again...\p"
+	.string "Or we can look around the room\n"
+	.string "for things that might help.\p$"
+
+VolcanionCave_3F_OnLoad::
+	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_SetRockBarrier1
+	call_if_eq VAR_TEMP_F, 1, VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
+	call_if_ge VAR_VOLCANION_CAVE_3F_STATE, 1, VolcanionCave_3F_EventScript_SetMetatilesRocksBroken
+	call VolcanionCave_3F_EventScript_SetHPBar
+	end
+
+VolcanionCave_3F_EventScript_SetRockBarrier1::
+	@ setmetatile 26, 64, METATILE_Cave_RockBarrier_Left, TRUE
+	@ setmetatile 27, 64, METATILE_Cave_RockBarrier_MiddleHorizontal, TRUE
+	@ setmetatile 28, 64, METATILE_Cave_RockBarrier_Right, TRUE
+	return
+
+VolcanionCave_3F_EventScript_BlueButton::
+	lockall
+	setvar VAR_TEMP_F, 1
+	playse SE_PIN
+	call VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
+	special DrawWholeMapView
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_RedButton::
+	lockall
+	setvar VAR_TEMP_F, 0
+	playse SE_PIN
+	call VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed
+	special DrawWholeMapView
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed::
+	@ setmetatile 7, 48, METATILE_Cave_CoolButton_Pressed, FALSE
+	@ setmetatile 11, 46, METATILE_Cave_CoolButton_Red, FALSE
+	@ setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	@ setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	return
+
+VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed::
+	@ setmetatile 7, 48, METATILE_Cave_CoolButton_Blue, FALSE
+	@ setmetatile 11, 46, METATILE_Cave_CoolButton_Pressed, FALSE
+	@ setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	@ setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	return
+
+VolcanionCave_3F_EventScript_SetMetatilesRocksBroken::
+	setmetatile 10, 24, METATILE_Cave_Floor_Smooth_Top, FALSE
+	setmetatile 10, 25, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 9, 25, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 9, 26, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 22, 24, METATILE_Cave_Floor_Smooth_Top, FALSE
+	setmetatile 22, 25, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 23, 25, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 23, 26, METATILE_Cave_Floor_Smooth, FALSE
+	return
+
+VolcanionCave_3F_EventScript_SetHPBar::
+	switch VAR_CURRENT_HP_BAR_COLOR
+	case_call 1, VolcanionCave_3F_EventScript_SetHPBarGreen
+	case_call 2, VolcanionCave_3F_EventScript_SetHPBarYellow
+	case_call 3, VolcanionCave_3F_EventScript_SetHPBarRed
+	goto_if_eq VAR_LOCALID_CURRENT_HP_BAR, 0, VolcanionCave_3F_EventScript_AddNoHPBar
+	addobject VAR_LOCALID_CURRENT_HP_BAR
+	setobjectxyperm VAR_LOCALID_CURRENT_HP_BAR, 16, 19
+	setobjectxy VAR_LOCALID_CURRENT_HP_BAR, 16, 19
+	return
+
+VolcanionCave_3F_EventScript_AddNoHPBar::
+	return
+
+VolcanionCave_3F_EventScript_SetHPBarGreen::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_GREEN
+	return
+
+VolcanionCave_3F_EventScript_SetHPBarYellow::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_YELLOW
+	return
+
+VolcanionCave_3F_EventScript_SetHPBarRed::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_RED
+	return

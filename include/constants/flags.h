@@ -78,18 +78,19 @@
 #define FLAG_ANIMATE_MUD_UNDER_BOULDER             0x37
 #define FLAG_HIDE_VOLCANION_CAVE_2F_CORSOLA        0x38
 
-#define FLAG_UNUSED_0x039    0x39 // Unused Flag
-#define FLAG_UNUSED_0x03A    0x3A // Unused Flag
-#define FLAG_UNUSED_0x03B    0x3B // Unused Flag
-#define FLAG_UNUSED_0x03C    0x3C // Unused Flag
-#define FLAG_UNUSED_0x03D    0x3D // Unused Flag
-#define FLAG_UNUSED_0x03E    0x3E // Unused Flag
-#define FLAG_UNUSED_0x03F    0x3F // Unused Flag
-#define FLAG_UNUSED_0x040    0x40 // Unused Flag
-#define FLAG_UNUSED_0x041    0x41 // Unused Flag
-#define FLAG_UNUSED_0x042    0x42 // Unused Flag
-#define FLAG_UNUSED_0x043    0x43 // Unused Flag
-#define FLAG_UNUSED_0x044    0x44 // Unused Flag
+#define FLAG_HIDE_HP_BAR_GREEN                     0x39
+#define FLAG_HIDE_HP_BAR_GREEN_PARA                0x3A
+#define FLAG_HIDE_HP_BAR_GREEN_PARA_STATS          0x3B
+#define FLAG_HIDE_HP_BAR_GREEN_STATS               0x3C
+#define FLAG_HIDE_HP_BAR_YELLOW                    0x3D
+#define FLAG_HIDE_HP_BAR_YELLOW_PARA               0x3E
+#define FLAG_HIDE_HP_BAR_YELLOW_PARA_STATS         0x3F
+#define FLAG_HIDE_HP_BAR_YELLOW_STATS              0x40
+#define FLAG_HIDE_HP_BAR_RED                       0x41
+#define FLAG_HIDE_HP_BAR_RED_PARA                  0x42
+#define FLAG_HIDE_HP_BAR_RED_PARA_STATS            0x43
+#define FLAG_HIDE_HP_BAR_RED_STATS                 0x44
+
 #define FLAG_UNUSED_0x045    0x45 // Unused Flag
 #define FLAG_UNUSED_0x046    0x46 // Unused Flag
 #define FLAG_UNUSED_0x047    0x47 // Unused Flag

@@ -20,6 +20,7 @@ enum SpeakerNames {
     SP_NAME_PIKACHU,
     SP_NAME_CRAMORANT,
     SP_NAME_GRAPPLOCT,
+    SP_NAME_BOTH,
     SP_NAME_COUNT
 };
 
