@@ -32,10 +32,10 @@ enum {
 };
 
 #define VERSION_BANNER_RIGHT_TILEOFFSET 64
-#define VERSION_BANNER_LEFT_X 98
-#define VERSION_BANNER_RIGHT_X 162
+#define VERSION_BANNER_LEFT_X 87
+#define VERSION_BANNER_RIGHT_X (VERSION_BANNER_LEFT_X + 162 - 98)
 #define VERSION_BANNER_Y 2
-#define VERSION_BANNER_Y_GOAL 66
+#define VERSION_BANNER_Y_GOAL 76
 #define START_BANNER_X 128
 
 #define CLEAR_SAVE_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_UP)
@@ -51,8 +51,8 @@ static void CB2_GoToMainMenu(void);
 static void CB2_GoToClearSaveDataScreen(void);
 static void CB2_GoToResetRtcScreen(void);
 static void CB2_GoToBerryFixScreen(void);
-static void CB2_GoToCopyrightScreen(void);
-static void UpdateLegendaryMarkingColor(u8);
+// static void CB2_GoToCopyrightScreen(void);
+// static void UpdateLegendaryMarkingColor(u8);
 
 static void SpriteCB_VersionBannerLeft(struct Sprite *sprite);
 static void SpriteCB_VersionBannerRight(struct Sprite *sprite);
@@ -62,10 +62,10 @@ static void SpriteCB_PokemonLogoShine(struct Sprite *sprite);
 // const rom data
 static const u16 sUnusedUnknownPal[] = INCGFX_U16("graphics/title_screen/unused.pal", ".gbapal");
 
-static const u32 sTitleScreenRayquazaGfx[] = INCGFX_U32("graphics/title_screen/rayquaza.png", ".4bpp.smol");
-static const u32 sTitleScreenRayquazaTilemap[] = INCGFX_U32("graphics/title_screen/rayquaza.bin", ".smolTM");
+static const u32 sTitleScreenRayquazaGfx[] = INCGFX_U32("graphics/title_screen/mt_chimney_tiles.png", ".4bpp.smol");
+static const u32 sTitleScreenRayquazaTilemap[] = INCGFX_U32("graphics/title_screen/mt_chimney_tiles.bin", ".smolTM");
 static const u32 sTitleScreenLogoShineGfx[] = INCGFX_U32("graphics/title_screen/logo_shine.png", ".4bpp.smol");
-static const u32 sTitleScreenCloudsGfx[] = INCGFX_U32("graphics/title_screen/clouds.png", ".4bpp.smol");
+static const u32 sTitleScreenCloudsGfx[] = INCGFX_U32("graphics/title_screen/clouds_with_logos.png", ".4bpp.smol");
 
 
 
@@ -747,7 +747,7 @@ static void Task_TitleScreenPhase2(u8 taskId)
     {
         gTasks[taskId].tSkipToNext = TRUE;
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG1 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_BG0 | BLDCNT_TGT2_BD);
-        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(6, 15));
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(12, 15));
         SetGpuReg(REG_OFFSET_BLDY, 0);
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_1
                                     | DISPCNT_OBJ_1D_MAP
@@ -756,7 +756,7 @@ static void Task_TitleScreenPhase2(u8 taskId)
                                     | DISPCNT_BG2_ON
                                     | DISPCNT_OBJ_ON);
         CreatePressStartBanner(START_BANNER_X, 108);
-        CreateCopyrightBanner(START_BANNER_X, 148);
+        CreateCopyrightBanner(120, 148);
         if (QUICKSTART && QUICKSTART_HUD)
             CreateQuickstartHud();
         gTasks[taskId].tBg1Y = 0;
@@ -816,12 +816,12 @@ static void Task_TitleScreenPhase3(u8 taskId)
             gBattle_BG1_Y = gTasks[taskId].tBg1Y / 2;
             gBattle_BG1_X = 0;
         }
-        UpdateLegendaryMarkingColor(gTasks[taskId].tCounter);
-        if ((gMPlayInfo_BGM.status & 0xFFFF) == 0)
-        {
-            BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_WHITEALPHA);
-            SetMainCallback2(CB2_GoToCopyrightScreen);
-        }
+        // UpdateLegendaryMarkingColor(gTasks[taskId].tCounter);
+        // if ((gMPlayInfo_BGM.status & 0xFFFF) == 0)
+        // {
+        //     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_WHITEALPHA);
+        //     SetMainCallback2(CB2_GoToCopyrightScreen);
+        // }
     }
 }
 
@@ -831,11 +831,11 @@ static void CB2_GoToMainMenu(void)
         SetMainCallback2(CB2_InitMainMenu);
 }
 
-static void CB2_GoToCopyrightScreen(void)
-{
-    if (!UpdatePaletteFade())
-        SetMainCallback2(CB2_InitCopyrightScreenAfterTitleScreen);
-}
+// static void CB2_GoToCopyrightScreen(void)
+// {
+//     if (!UpdatePaletteFade())
+//         SetMainCallback2(CB2_InitCopyrightScreenAfterTitleScreen);
+// }
 
 static void CB2_GoToClearSaveDataScreen(void)
 {
@@ -858,16 +858,16 @@ static void CB2_GoToBerryFixScreen(void)
     }
 }
 
-static void UpdateLegendaryMarkingColor(u8 frameNum)
-{
-    if ((frameNum % 4) == 0) // Change color every 4th frame
-    {
-        s32 intensity = Cos(frameNum, Q_8_8(0.5)) + Q_8_8(0.5);
-        u32 r = 31 - Q_8_8_TO_INT(intensity * 31);
-        u32 g = 31 - Q_8_8_TO_INT(intensity * 22);
-        u32 b = 12;
+// static void UpdateLegendaryMarkingColor(u8 frameNum)
+// {
+//     if ((frameNum % 4) == 0) // Change color every 4th frame
+//     {
+//         s32 intensity = Cos(frameNum, Q_8_8(0.5)) + Q_8_8(0.5);
+//         u32 r = 31 - Q_8_8_TO_INT(intensity * 31);
+//         u32 g = 31 - Q_8_8_TO_INT(intensity * 22);
+//         u32 b = 12;
 
-        u16 color = RGB(r, g, b);
-        LoadPalette(&color, BG_PLTT_ID(14) + 15, sizeof(color));
-   }
-}
+//         u16 color = RGB(r, g, b);
+//         LoadPalette(&color, BG_PLTT_ID(14) + 15, sizeof(color));
+//    }
+// }
