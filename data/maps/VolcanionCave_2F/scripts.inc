@@ -385,24 +385,55 @@ VolcanionCave_2F_EventScript_AquaGruntVictory::
 	end
 
 VolcanionCave_2F_Text_AquaGruntWantToBattle:
-	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Want to battle for my OLD ROD?$"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Hey, chum!\p"
+	.string "Fancy some fishing but find yourself\n"
+	.string "completely and utterly rod-less?\p"
+	.string "Well you're in luck!\p"
+	.string "My fishing buddy TOXAPEX has been\n"
+	.string "itching for a battle and a snack!\p"
+	.string "If you can provide both of those\n"
+	.string "things for her, I'll let you have my\l"
+	.string "limited-edition-one-of-a-kind-\l"
+	.string "MEOWSTIX-branded OLD ROD!!\p"
+	.string "Things it is: the best and coolest\n"
+	.string "fishing rod in town.\p"
+	.string "Things it is not: a normal twig with a\n"
+	.string "MEOWSTIC sticker falling off of it.\p"
+	.string "So, do we have a deal?$"
 
 VolcanionCave_2F_Text_AquaGruntRejected:
-	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Booooooooooo!!!$"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Your loss, chum!$"
 
 VolcanionCave_2F_Text_AquaGruntIntro:
-	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Let's battle for my OLD ROD!$"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Now that's what I'm talking about!$"
 
 VolcanionCave_2F_Text_AquaGruntDefeat:
-	.string "Awwww man there goes my OLD ROD...$"
+	.string "Woo-wee! You know a good deal when\n"
+	.string "you see it, chum!$"
 
 VolcanionCave_2F_Text_AquaGruntPostBattle:
-	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Go throw this OLD ROD in the water\n"
-	.string "or something...$"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Here you go, one super-awesome-\n"
+	.string "coolest-thing-ever-mega-\l"
+	.string "extraordinary-limited-edition-\l"
+	.string "MEOWSTIX-branded OLD ROD!!\p"
+	.string "There is no warranty or return policy.\p"
+	.string "Enjoy!!!\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Yeah, that's cool and all but how do\n"
+	.string "I use the thing??\p"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}You don't know how??\p"
+	.string "How can you call yourself a TEAM AQUA\n"
+	.string "GRUNT and not know how to fish?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}My parents were… {PAUSE 40}landlubbers.\p"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}I'm sorry to hear that, chum.\p"
+	.string "Anyway, just throw it in the water,\n"
+	.string "you'll get the hang of it no problem!\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Thanks, big chum!!\p"
+	.string "I now understand everything there\n"
+	.string "is to know about fishing!$"
 
 VolcanionCave_2F_Text_AquaGruntVictory:
-	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Heh you're not getting my OLD ROD\n"
-	.string "if you battle that way!$"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Nice try chum, but you aren't\n"
+	.string "getting my OLD ROD that easily!$"
 
 VolcanionCave_2F_EventScript_FloorSwitch1::
 	lock
