@@ -49,6 +49,11 @@ VolcanionCave_3F_EventScript_Intro::
 	message VolcanionCave_3F_Text_IntroCoolRoom
 	waitmessage
 	closemessage
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_ExclamationMark
+	delay 50
+	message VolcanionCave_3F_Text_IHearSomething
+	waitmessage
+	closemessage
 	call VolcanionCave_3F_EventScript_VolcanionCry
 	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceUp
 	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceUp
@@ -85,8 +90,6 @@ VolcanionCave_3F_EventScript_Intro::
 	applymovement LOCALID_PLAYER_MAGMA, VolcanionCave_3F_Movement_MagmaTryToStopAqua
 	waitmovement 0
 	message VolcanionCave_3F_Text_IntroCatchIt
-	waitmessage
-	message VolcanionCave_3F_Text_IntroFiiiine
 	waitmessage
 	closemessage
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveBackToVolcanion
@@ -371,42 +374,119 @@ VolcanionCave_3F_Movement_CameraResetToMagma::
 	step_end
 
 VolcanionCave_3F_Text_IntroCoolRoom::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Wow cool room…\p"
-	.string "Wait…\p$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Phew, it sure is warm in here!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Tch… this humidity is ruining my hair.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}You wear a hoodie though???\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Yes. {PAUSE 40}Fantastic observation.\p"
+	.string "You got me real good there.\n"
+	.string "Ten points to TEAM AQUA.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}{FONT 5}yes!!! ten points!!!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT_NORMAL}That was… {FONT 5}oh forget it.\p$"
+
+VolcanionCave_3F_Text_IHearSomething::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT_NORMAL}Wait a moment, I think I can\n"
+	.string "hear something moving.\p$"
 
 VolcanionCave_3F_Text_IntroIsThat::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Is that…\p$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}OVER THERE!! IS THAT-\p$"
 
 VolcanionCave_3F_Text_IntroTheLegendary::
-	.string "{SPEAKER NAME_BOTH COLOR_NORMAL}The LEGENDARY POKéMON I've been\n"
-	.string "looking for!\p$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}It certainly matches the reports.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}That's the LEGENDARY POKéMON\n"
+	.string "I've been looking for!\p$"
 
 VolcanionCave_3F_Text_IntroBothEllipsis::
-	.string "{SPEAKER NAME_BOTH COLOR_NORMAL}. {PAUSE 20}. {PAUSE 20}.\p$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Interesting.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Thats ALL you have to say about this??\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}It seems your ADMINS aren't quite\n"
+	.string "as incompetent as I thought.\l"
+	.string "They actually got one of the\l"
+	.string "LEGENDARY POKéMON's types right.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}YOU TAKE THAT BACK!!\p"
+	.string "NOT THE PART ABOUT THEM BEING RIGHT!!!\n"
+	.string "THE INCOMPETENT PART!!!!!\p"
+	.string "I'll have you know that SHELLY is on\n"
+	.string "her way down here right now because\l"
+	.string "she doesn't want us to get hurt\l"
+	.string "while trying to catch this POKéMON.\p"
+	.string "I bet your ADMINS don't even care\n"
+	.string "enough about your well-being to\l"
+	.string "help out in person, am I right?\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}INFURIATINGLY, yes.\p$"
 
 VolcanionCave_3F_Text_IntroReportToShelly::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}I'm going to report to SHELLY.\p$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Well, toodles! My job here is DONE!!\p"
+	.string "Good luck catching a LEGENDARY\n"
+	.string "with your regular POKé BALLS!!!\p$"
 
 VolcanionCave_3F_Text_IntroCatchIt::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What if we catch it?\p$"
-
-VolcanionCave_3F_Text_IntroFiiiine::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Fiiiine, let's battle it.\p$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Hold on, you're just leaving\n"
+	.string "me to die here?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}I mean… not exactly??\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT 5}(Hook.)\p"
+	.string "{FONT_NORMAL}Remember, catching this LEGENDARY\n"
+	.string "is also TEAM MAGMA'S goal here.\p"
+	.string "And look at me, a TEAM MAGMA GRUNT\n"
+	.string "ordered to put their life on the line\l"
+	.string "just to catch a single POKéMON.\p"
+	.string "You know me, I'm not going\n"
+	.string "down without a fight.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Yeah, but…\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT 5}(Line.)\p"
+	.string "{FONT_NORMAL}According to my calculations, I have a\n"
+	.string "3.557% chance to catch it per ball.\p"
+	.string "In the time it takes you to find SHELLY,\n"
+	.string "how many POKé BALLS will I have thrown?\p"
+	.string "20? {PAUSE 40}50? {PAUSE 40}100?\p"
+	.string "I have a surprisingly fast\n"
+	.string "throwing arm, you know.\p"
+	.string "Do you really want to bet the success\n"
+	.string "of your mission on a chance that isn't\l"
+	.string "even in your favour?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oh… {PAUSE 20}FINE!!!\p"
+	.string "I'll catch this LEGENDARY and get\n"
+	.string "out of here faster than the speed of\l"
+	.string "SHELLY'S SHARPEDO multiplied by 5!!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}…\p"
+	.string "{AUTO_SCROLL 1}{FONT 5}(Sinker.){PAUSE 80}\p"
+	.string "{AUTO_SCROLL 0}wait damn it that was a fishing reference\p"
+	.string "{FONT_NORMAL}Alright then, it's a challenge.\n"
+	.string "Whoever knocks it out gets to catch it.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Fine by me! Let's go!!!\p$"
 
 VolcanionCave_3F_Text_IntroVolcanionCry::
-	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}(volcanion cry)!\p$"
+	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}FWAHHRSHHHH!!!\p$"
 
 VolcanionCave_3F_Text_IntroAwNuts::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Aw nuts!\p$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}YOWZA!! That is one strong POKéMON!\p"
+	.string "That's it, I'm getting out of-\p$"
 
 VolcanionCave_3F_Text_IntroVolcanionUsedEarthPower::
 	.string "{AUTO_SCROLL 1}{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What the-{PAUSE 20}\p"
 	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}VOLCANION used EARTH POWER!$"
 
 VolcanionCave_3F_Text_IntroBattleAgainOrLookAround::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}We could battle again...\p"
-	.string "Or we can look around the room\n"
-	.string "for things that might help.\p$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oof, that was a close one!\n"
+	.string "You still alive, {PLAYER_MAGMA}?\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Regrettably, I am.\p"
+	.string "On the bright side, its attack\n"
+	.string "destroyed the rocks over there.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Perfect, let's see if there's anything\n"
+	.string "in here we can use to teach that meanie\l"
+	.string "VOLCANION not to mess with us!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}You named it already?\n"
+	.string "And why did you call it VOLCANION??\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Well, we found it in VOLCANO CAVERN\n"
+	.string "and ion know what its deal is!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Unbelievable…\p"
+	.string "It's too bad that the first person who\n"
+	.string "sees a POKéMON has full legal rights to\l"
+	.string "decide the name of its species forever.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}IM GONNA BE FAMOUS!!!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}If you can get out of here in\n"
+	.string "one piece, maybe.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What are we waiting here for then?\n"
+	.string "Let's go!!!\p$"
 
 VolcanionCave_3F_OnLoad::
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_SetRockBarrier1
