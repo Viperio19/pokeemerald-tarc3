@@ -537,6 +537,8 @@ VolcanionCave_2F_EventScript_ChoosePartyMonGoldeen::
 	goto_if_ne VAR_RESULT, VAR_0x8009, VolcanionCave_2F_EventScript_ThatsNotGoldeen
 	msgbox VolcanionCave_2F_Text_ThatsIt, MSGBOX_DEFAULT
 	closemessage
+	msgbox VolcanionCave_2F_Text_BedtimeTrain, MSGBOX_DEFAULT
+	closemessage
 	fadescreenswapbuffers FADE_TO_BLACK
 	setflag FLAG_HIDE_GOLDEEN_GRUNT
 	removeobject VAR_LAST_TALKED
@@ -555,29 +557,72 @@ VolcanionCave_2F_EventScript_PleaseKeepLooking::
 	end
 
 VolcanionCave_2F_Text_IDroppedGoldeen::
-	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}I found a GOLDEEN and ditched it\n"
-	.string "in the lava over there.\p"
-	.string "I feel a bit bad though...\p"
-	.string "Can you fish it up and\n"
-	.string "show it to me?\p"
-	.string "Please show it to me!$"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}YOU THERE!!! YOU WITH THE RED HOODIE!!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Speaking.\p"
+	.string "Assuming you were talking to me and\n"
+	.string "not the other billion MAGMA GRUNTS\l"
+	.string "in here, of course.\p"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}You'll NEVER believe what I just s-saw!!\p"
+	.string "A g-g-g-g-g-g-g-g-g-g-g-g-g-g-g-g-\n"
+	.string "g-g-g-g-g-g-G-G-G-G-GOLDEEN!!!!!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Yes, they ARE sometimes found in caves.\p"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}I know that!!\p"
+	.string "Watch, I'll list them all off to prove\n"
+	.string "that I'm not a weenie cave-goer:\p"
+	.string "{AUTO_SCROLL 1}Seafoam Islands, Cerulean Cave,{PAUSE 20}\n"
+	.string "Dark Cave, Union Cave, Slowpoke Well,{PAUSE 20}\l"
+	.string "Mt. Mortar, Tohjo Falls, Mt. Silver Cave,{PAUSE 20}\l"
+	.string "Petalburg City, Meteor Falls,{PAUSE 20}\l"
+	.string "Scorched Slab, Victory Road,{PAUSE 20}\l"
+	.string "{AUTO_SCROLL 0}Waterfall Pond, and Murky Cave.\p"
+	.string "You know w-what WASN'T in that list?\n"
+	.string "VOLCANO CAVERN.\p"
+	.string "That's not all t-though…\p"
+	.string "If this was a case of invasive species\n"
+	.string "I would be upset at the environmental\l"
+	.string "impact b-but not scared for m-my life!\p"
+	.string "The GOLDEEN here is… different.\p"
+	.string "It was all c-creepy and red, just like\n"
+	.string "those ALPHA POKéMON that I read about\l"
+	.string "in my History and French textbooks.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}An ALPHA GOLDEEN…\p"
+	.string "Sounds dangerous, but not TOO bad.\p"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}EVEN MORE!!!\p"
+	.string "I saw it in the lava over there!\n"
+	.string "Lava is S-SCARY!!\p"
+	.string "Quick, I need you to f-find a way to get\n"
+	.string "that GOLDEEN out of the lava and into\l"
+	.string "your POKé BALL s-so I can have some\l"
+	.string "peace of mind for once in t-this place.$"
 
 VolcanionCave_2F_Text_PleaseShowGoldeen::
-	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}Please show GOLDEEN to me!$"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}Have you found the G-GOLDEEN yet?$"
 
 VolcanionCave_2F_Text_ThatsNotGoldeen::
-	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}That's not it...\p"
-	.string "Please keep looking for GOLDEEN!$"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}N-no, this can't be it…\p"
+	.string "This isn't s-scary enough to be\n"
+	.string "the GOLDEEN that I saw…$"
 
 VolcanionCave_2F_Text_PleaseKeepLooking::
-	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}Please keep looking for GOLDEEN!$"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}Can you f-find the GOLDEEN soon?\n"
+	.string "I'm s-seriously freaking out here.$"
 
 VolcanionCave_2F_Text_ThatsIt::
-	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}That's it!{PAUSE 40}\n"
-	.string ".{PAUSE 20} .{PAUSE 20} .{PAUSE 40} that's GOLDEEN right?\p"
-	.string "Regardless, thanks for looking!\p"
-	.string "I'm gonna do... something else now!\p"
-	.string "Byeeeeeeeeeeeeeeeeeeee!$"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}EEP! THAT'S IT! THE S-S-SCARY GOLDEEN!\p"
+	.string "NASTY!!!\n"
+	.string "Put that fish away NOW!!!!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Alright, alright.\n"
+	.string "Whatever you say, Captain CLODSIRE.\p"
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}Phew… thanks for getting that freak of\n"
+	.string "nature out of my line of sight!\p"
+	.string "I deserve a nice break after\n"
+	.string "that horrifying situation.\p"
+	.string "And would you look at that, a nice\n"
+	.string "soft rock pillow with my name on it!$"
+
+VolcanionCave_2F_Text_BedtimeTrain::
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}WAHOOO!!! {PAUSE 20}ALL ABOARD THE BEDTIME TRAIN\n"
+	.string "DESTINATION ZZZZZZZZzzzzzzzzzzzzz…$"
 
 VolcanionCave_2F_EventScript_BlueButton::
 	lockall
