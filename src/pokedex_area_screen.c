@@ -299,6 +299,9 @@ static void FindMapsWithMon(enum Species species)
     sPokedexAreaScreen->numOverworldAreas = 0;
     sPokedexAreaScreen->numSpecialAreas = 0;
 
+    if (species != SPECIES_CARVANHA && species != SPECIES_NUMEL && species != SPECIES_POOCHYENA)
+        SetAreaHasMon(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F));
+
     // Check if this species should be hidden from the area map.
     // This only applies to Wynaut, to hide the encounters on Mirage Island.
     for (i = 0; i < ARRAY_COUNT(sSpeciesHiddenFromAreaScreen); i++)

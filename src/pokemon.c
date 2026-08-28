@@ -3220,7 +3220,9 @@ const u8 *GetSpeciesPokedexDescription(enum Species species)
     species = SanitizeSpeciesId(species);
     if (gSpeciesInfo[species].description == NULL)
         return gSpeciesInfo[SPECIES_NONE].description;
-    return gSpeciesInfo[species].description;
+    if (IS_PLAYER_ONE || gSpeciesInfo[species].descriptionMagma == NULL)
+        return gSpeciesInfo[species].description;
+    return gSpeciesInfo[species].descriptionMagma;
 }
 
 u32 GetSpeciesHeight(enum Species species)
@@ -5726,16 +5728,16 @@ enum TrainerPicID FacilityClassToPicIndex(u16 facilityClass)
 
 enum TrainerPicID PlayerGenderToFrontTrainerPicId(enum Gender playerGender)
 {
-    if (playerGender != MALE)
-        return FacilityClassToPicIndex(IS_FRLG ? FACILITY_CLASS_LEAF : FACILITY_CLASS_MAY);
-    else
-        return FacilityClassToPicIndex(IS_FRLG ? FACILITY_CLASS_RED : FACILITY_CLASS_BRENDAN);
+    if (IS_PLAYER_ONE)
+        return playerGender == MALE ? TRAINER_PIC_PLAYER_M : TRAINER_PIC_PLAYER_F;
+
+    return playerGender == MALE ? TRAINER_PIC_PLAYER_2_M : TRAINER_PIC_PLAYER_2_F;
 }
 
 void HandleSetPokedexFlag(enum NationalDexOrder nationalNum, u8 caseId, u32 personality)
 {
-    u8 getFlagCaseId = (caseId == FLAG_SET_SEEN) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;
-    if (!GetSetPokedexFlag(nationalNum, getFlagCaseId)) // don't set if it's already set
+    u8 getFlagCaseId = (caseId == FLAG_SET_SEEN || caseId == FLAG_SET_SEEN_BOTH) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;
+    if (!GetSetPokedexFlag(nationalNum, getFlagCaseId) || caseId == FLAG_SET_SEEN_BOTH || caseId == FLAG_SET_CAUGHT_BOTH) // don't set if it's already set
     {
         GetSetPokedexFlag(nationalNum, caseId);
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_UNOWN)

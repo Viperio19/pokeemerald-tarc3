@@ -36,6 +36,7 @@
 
 EWRAM_DATA struct PokedexView *sPokedexView = NULL;
 static EWRAM_DATA u16 sLastSelectedPokemon = 0;
+static EWRAM_DATA u16 sLastSelectedPokemon2 = 0;
 static EWRAM_DATA u8 sPokeBallRotation = 0;
 EWRAM_DATA struct PokedexListItem *sPokedexListItem = NULL;
 
@@ -1336,6 +1337,7 @@ void ResetPokedex(void)
     u16 i;
 
     sLastSelectedPokemon = 0;
+    sLastSelectedPokemon2 = 0;
     sPokeBallRotation = POKEBALL_ROTATION_TOP;
     gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
     gSaveBlock2Ptr->pokedex.order = 0;
@@ -1349,12 +1351,15 @@ void ResetPokedex(void)
     {
         gSaveBlock1Ptr->dexCaught[i] = 0;
         gSaveBlock1Ptr->dexSeen[i] = 0;
+        gSaveBlock1Ptr->dexCaught2[i] = 0;
+        gSaveBlock1Ptr->dexSeen2[i] = 0;
     }
 }
 
 void ResetPokedexScrollPositions(void)
 {
     sLastSelectedPokemon = 0;
+    sLastSelectedPokemon2 = 0;
     sPokeBallRotation = POKEBALL_ROTATION_TOP;
 }
 
@@ -1448,7 +1453,7 @@ void CB2_OpenPokedex(void)
         if (!IsNationalPokedexEnabled())
             sPokedexView->dexMode = DEX_MODE_HOENN;
         sPokedexView->dexOrder = gSaveBlock2Ptr->pokedex.order;
-        sPokedexView->selectedPokemon = sLastSelectedPokemon;
+        sPokedexView->selectedPokemon = IS_PLAYER_ONE ? sLastSelectedPokemon : sLastSelectedPokemon2;
         sPokedexView->pokeBallRotation = sPokeBallRotation;
         sPokedexView->selectedScreen = AREA_SCREEN;
         if (!IsNationalPokedexEnabled())
@@ -1650,7 +1655,10 @@ static void Task_WaitForExitInfoScreen(u8 taskId)
     else
     {
         // Exiting, back to list view
-        sLastSelectedPokemon = sPokedexView->selectedPokemon;
+        if (IS_PLAYER_ONE)
+            sLastSelectedPokemon = sPokedexView->selectedPokemon;
+        else
+            sLastSelectedPokemon2 = sPokedexView->selectedPokemon;
         sPokeBallRotation = sPokedexView->pokeBallRotation;
         gTasks[taskId].func = Task_OpenPokedexMainPage;
     }
@@ -4475,16 +4483,32 @@ s8 GetSetPokedexFlag(enum NationalDexOrder nationalDexNo, u8 caseID)
     switch (caseID)
     {
     case FLAG_GET_SEEN:
-        retVal = ((gSaveBlock1Ptr->dexSeen[index] & mask) != 0);
+        retVal = (((IS_PLAYER_ONE ? gSaveBlock1Ptr->dexSeen[index] : gSaveBlock1Ptr->dexSeen2[index]) & mask) != 0);
         break;
     case FLAG_GET_CAUGHT:
-         retVal = ((gSaveBlock1Ptr->dexCaught[index] & mask) != 0);
+        retVal = (((IS_PLAYER_ONE ? gSaveBlock1Ptr->dexCaught[index] : gSaveBlock1Ptr->dexCaught2[index]) & mask) != 0);
         break;
     case FLAG_SET_SEEN:
-        gSaveBlock1Ptr->dexSeen[index] |= mask;
+        if (IS_PLAYER_ONE)
+            gSaveBlock1Ptr->dexSeen[index] |= mask;
+        else
+            gSaveBlock1Ptr->dexSeen2[index] |= mask;
         break;
     case FLAG_SET_CAUGHT:
+        if (IS_PLAYER_ONE)
+            gSaveBlock1Ptr->dexCaught[index] |= mask;
+        else
+            gSaveBlock1Ptr->dexCaught2[index] |= mask;
+        break;
+    case FLAG_SET_SEEN_BOTH:
+        gSaveBlock1Ptr->dexSeen[index] |= mask;
+        gSaveBlock1Ptr->dexSeen2[index] |= mask;
+        break;
+    case FLAG_SET_CAUGHT_BOTH:
+        gSaveBlock1Ptr->dexSeen[index] |= mask;
+        gSaveBlock1Ptr->dexSeen2[index] |= mask;
         gSaveBlock1Ptr->dexCaught[index] |= mask;
+        gSaveBlock1Ptr->dexCaught2[index] |= mask;
         break;
     }
 
@@ -5237,7 +5261,10 @@ static void Task_HandleSearchMenuInput(u8 taskId)
             {
                 sPokeBallRotation = POKEBALL_ROTATION_TOP;
                 sPokedexView->pokeBallRotationBackup = POKEBALL_ROTATION_TOP;
-                sLastSelectedPokemon = 0;
+                if (IS_PLAYER_ONE)
+                    sLastSelectedPokemon = 0;
+                else
+                    sLastSelectedPokemon2 = 0;
                 sPokedexView->selectedPokemonBackup = 0;
                 gSaveBlock2Ptr->pokedex.mode = GetSearchModeSelection(taskId, SEARCH_MODE);
                 if (!IsNationalPokedexEnabled())

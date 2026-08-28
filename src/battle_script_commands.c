@@ -10195,9 +10195,6 @@ static void Cmd_trysetcaughtmondexflags(void)
 {
     CMD_ARGS(const u8 *failInstr);
 
-    gBattlescriptCurrInstr = cmd->failInstr;
-    return;
-
     struct Pokemon *caughtMon = GetBattlerMon(GetCatchingBattler());
     enum Species species = GetMonData(caughtMon, MON_DATA_SPECIES);
     u32 personality = GetMonData(caughtMon, MON_DATA_PERSONALITY);
@@ -10391,7 +10388,7 @@ static void Cmd_trygivecaughtmonnick(void)
             struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
             GetMonData(caughtMon, MON_DATA_NICKNAME, gBattleStruct->caughtMonNick);
             CloseMainBattleScreen();
-            MainCallback callback = CalculatePlayerPartyCount() == PARTY_SIZE ? ReshowBlankBattleScreenAfterMenu : BattleMainCB2;
+            MainCallback callback = ReshowBlankBattleScreenAfterMenu;
 
             DoNamingScreen(NAMING_SCREEN_CAUGHT_MON, gBattleStruct->caughtMonNick,
                            GetMonData(caughtMon, MON_DATA_SPECIES),

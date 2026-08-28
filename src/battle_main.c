@@ -5281,13 +5281,10 @@ static void HandleEndTurn_FinishBattle(void)
             {
                 struct Pokemon *party = GetTrainerParty(trainer);
 
-                if ((trainer & BIT_SIDE) == B_SIDE_PLAYER && !B_PARTNER_MONS_MARKED_SEEN)
-                    continue;
-
                 for (u32 partySlot = 0; partySlot < PARTY_SIZE; partySlot++)
                 {
                     if (gBattleStruct->partyState[trainer][partySlot].sentOut)
-                        HandleSetPokedexFlagFromMon(&party[partySlot], FLAG_SET_SEEN);
+                        HandleSetPokedexFlagFromMon(&party[partySlot], FLAG_SET_SEEN_BOTH);
                 }
             }
         }

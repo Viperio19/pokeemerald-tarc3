@@ -962,10 +962,9 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .height = 5,
         .weight = 136,
         .description = COMPOUND_STRING(
-            "It savagely threatens foes with bared\n"
-            "fangs. It chases after fleeing targets\n"
-            "tenaciously. It turns tail and runs,\n"
-            "however, if the foe strikes back."),
+            "Mine died on Mt. Pyre :("),
+        .descriptionMagma = COMPOUND_STRING(
+            "That one on Mt. Pyre sucked."),
         .pokemonScale = 481,
         .pokemonOffset = 19,
         .trainerScale = 256,
