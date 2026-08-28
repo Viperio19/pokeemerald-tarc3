@@ -3207,6 +3207,8 @@ static void DebugAction_FlagsVars_PokedexFlags_Reset(u8 taskId)
     // Reset Pokedex to emtpy
     memset(&gSaveBlock1Ptr->dexCaught, 0, sizeof(gSaveBlock1Ptr->dexCaught));
     memset(&gSaveBlock1Ptr->dexSeen, 0, sizeof(gSaveBlock1Ptr->dexSeen));
+    memset(&gSaveBlock1Ptr->dexCaught2, 0, sizeof(gSaveBlock1Ptr->dexCaught2));
+    memset(&gSaveBlock1Ptr->dexSeen2, 0, sizeof(gSaveBlock1Ptr->dexSeen2));
 
     // Add party Pokemon to Pokedex
     for (partyId = 0; partyId < PARTY_SIZE; partyId++)

@@ -430,6 +430,7 @@ struct SpeciesInfo /*0xC4*/
     u16 trainerScale;
     u16 trainerOffset;
     const u8 *description;
+    const u8 *descriptionMagma;
     enum BodyColor bodyColor:7;
     // Graphical Data
     u8 noFlip:1;

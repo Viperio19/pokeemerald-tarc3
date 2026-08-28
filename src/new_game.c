@@ -118,6 +118,8 @@ static void ClearPokedexFlags(void)
 {
     memset(&gSaveBlock1Ptr->dexCaught, 0, sizeof(gSaveBlock1Ptr->dexCaught));
     memset(&gSaveBlock1Ptr->dexSeen, 0, sizeof(gSaveBlock1Ptr->dexSeen));
+    memset(&gSaveBlock1Ptr->dexCaught2, 0, sizeof(gSaveBlock1Ptr->dexCaught2));
+    memset(&gSaveBlock1Ptr->dexSeen2, 0, sizeof(gSaveBlock1Ptr->dexSeen2));
 }
 
 void ClearAllContestWinnerPics(void)
@@ -264,8 +266,7 @@ static void ResetDexNav(void)
 
 static void InitTARCData(void)
 {
-    EnableNationalPokedex();
-
+    FlagSet(FLAG_SYS_POKEDEX_GET);
     FlagSet(FLAG_SYS_POKEMON_GET);
     FlagSet(FLAG_SYS_B_DASH);
 
@@ -275,6 +276,8 @@ static void InitTARCData(void)
     FlagSet(FLAG_P2_BADGE08_GET);
 
     FlagSet(FLAG_OVERWRITE_MET_LOCATION_NEW_GAME);
+
+    HandleSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_POOCHYENA), FLAG_SET_CAUGHT_BOTH, 0);
 
     AddBagItem(ITEM_POKE_BALL, 10);
     ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);
