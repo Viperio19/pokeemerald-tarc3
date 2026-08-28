@@ -59,8 +59,13 @@ VolcanionCave_1F_EventScript_DontFish::
 	end
 
 VolcanionCave_1F_Text_FishingBad::
-	.string "Better not fish in water\n"
-	.string "unless you want to get FIRED…$"
+	.string "TABITHA'S words echo in your head…\p"
+	.string "“If I catch any of you even THINKING\n"
+	.string "about adding a WATER-TYPE POKéMON to\l"
+	.string "your team, you'll be fired faster than\l"
+	.string "a gas station owned by a CAMERUPT!!”\p"
+	.string "…maybe it's best not to fish here\n"
+	.string "if you want to keep your job.$"
 
 VolcanionCave_1F_EventScript_EnterCave::
 	lock
