@@ -1856,7 +1856,7 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color)
         GetMapNameGeneric(string, gMapHeader.regionMapSectionId);
         break;
     case SAVE_MENU_BADGES:
-        for (curFlag = FLAG_BADGE01_GET, flagCount = 0, endOfString = string + 1; curFlag < FLAG_BADGE01_GET + NUM_BADGES; curFlag++)
+        for (curFlag = FLAG_HIDDEN_ITEM_STARDUST_1, flagCount = 0, endOfString = string + 1; curFlag <= LAST_STARDUST_FLAG; curFlag++)
         {
             if (FlagGet(curFlag))
                 flagCount++;

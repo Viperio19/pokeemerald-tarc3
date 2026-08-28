@@ -1226,58 +1226,62 @@
 #define FLAG_ITEM_SAFARI_ZONE_NORTH_EAST_NUGGET                     0x491
 #define FLAG_ITEM_SAFARI_ZONE_SOUTH_EAST_BIG_PEARL                  0x492
 
-#define FLAG_HIDDEN_ITEM_STARDUST_1                                 0x493 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_2                                 0x494 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_3                                 0x495 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_4                                 0x496 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_5                                 0x497 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_6                                 0x498 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_7                                 0x499 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_8                                 0x49A // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_9                                 0x49B // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_10                                0x49C // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_11                                0x49D // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_12                                0x49E // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_13                                0x49F // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_14                                0x4A0 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_15                                0x4A1 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_16                                0x4A2 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_17                                0x4A3 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_18                                0x4A4 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_19                                0x4A5 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_20                                0x4A6 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_21                                0x4A7 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_22                                0x4A8 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_23                                0x4A9 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_24                                0x4AA // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_25                                0x4AB // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_26                                0x4AC // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_27                                0x4AD // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_28                                0x4AE // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_29                                0x4AF // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_30                                0x4B0 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_31                                0x4B1 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_32                                0x4B2 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_33                                0x4B3 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_34                                0x4B4 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_35                                0x4B5 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_36                                0x4B6 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_37                                0x4B7 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_38                                0x4B8 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_39                                0x4B9 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_40                                0x4BA // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_41                                0x4BB // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_42                                0x4BC // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_43                                0x4BD // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_44                                0x4BE // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_45                                0x4BF // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_46                                0x4C0 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_47                                0x4C1 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_48                                0x4C2 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_49                                0x4C3 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_50                                0x4C4 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_51                                0x4C5 // Unused Flag
-#define FLAG_HIDDEN_ITEM_STARDUST_52                                0x4C6 // Unused Flag
+#define FLAG_HIDDEN_ITEM_STARDUST_1                                 0x493
+#define FLAG_HIDDEN_ITEM_STARDUST_2                                 0x494
+#define FLAG_HIDDEN_ITEM_STARDUST_3                                 0x495
+#define FLAG_HIDDEN_ITEM_STARDUST_4                                 0x496
+#define FLAG_HIDDEN_ITEM_STARDUST_5                                 0x497
+#define FLAG_HIDDEN_ITEM_STARDUST_6                                 0x498
+#define FLAG_HIDDEN_ITEM_STARDUST_7                                 0x499
+#define FLAG_HIDDEN_ITEM_STARDUST_8                                 0x49A
+#define FLAG_HIDDEN_ITEM_STARDUST_9                                 0x49B
+#define FLAG_HIDDEN_ITEM_STARDUST_10                                0x49C
+#define FLAG_HIDDEN_ITEM_STARDUST_11                                0x49D
+#define FLAG_HIDDEN_ITEM_STARDUST_12                                0x49E
+#define FLAG_HIDDEN_ITEM_STARDUST_13                                0x49F
+#define FLAG_HIDDEN_ITEM_STARDUST_14                                0x4A0
+#define FLAG_HIDDEN_ITEM_STARDUST_15                                0x4A1
+#define FLAG_HIDDEN_ITEM_STARDUST_16                                0x4A2
+#define FLAG_HIDDEN_ITEM_STARDUST_17                                0x4A3
+#define FLAG_HIDDEN_ITEM_STARDUST_18                                0x4A4
+#define FLAG_HIDDEN_ITEM_STARDUST_19                                0x4A5
+#define FLAG_HIDDEN_ITEM_STARDUST_20                                0x4A6
+#define FLAG_HIDDEN_ITEM_STARDUST_21                                0x4A7
+#define FLAG_HIDDEN_ITEM_STARDUST_22                                0x4A8
+#define FLAG_HIDDEN_ITEM_STARDUST_23                                0x4A9
+#define FLAG_HIDDEN_ITEM_STARDUST_24                                0x4AA
+#define FLAG_HIDDEN_ITEM_STARDUST_25                                0x4AB
+#define FLAG_HIDDEN_ITEM_STARDUST_26                                0x4AC
+#define FLAG_HIDDEN_ITEM_STARDUST_27                                0x4AD
+#define FLAG_HIDDEN_ITEM_STARDUST_28                                0x4AE
+#define FLAG_HIDDEN_ITEM_STARDUST_29                                0x4AF
+#define FLAG_HIDDEN_ITEM_STARDUST_30                                0x4B0
+#define FLAG_HIDDEN_ITEM_STARDUST_31                                0x4B1
+#define FLAG_HIDDEN_ITEM_STARDUST_32                                0x4B2
+#define FLAG_HIDDEN_ITEM_STARDUST_33                                0x4B3
+#define FLAG_HIDDEN_ITEM_STARDUST_34                                0x4B4
+#define FLAG_HIDDEN_ITEM_STARDUST_35                                0x4B5
+#define FLAG_HIDDEN_ITEM_STARDUST_36                                0x4B6
+#define FLAG_HIDDEN_ITEM_STARDUST_37                                0x4B7
+#define FLAG_HIDDEN_ITEM_STARDUST_38                                0x4B8
+#define FLAG_HIDDEN_ITEM_STARDUST_39                                0x4B9
+#define FLAG_HIDDEN_ITEM_STARDUST_40                                0x4BA
+#define FLAG_HIDDEN_ITEM_STARDUST_41                                0x4BB
+#define FLAG_HIDDEN_ITEM_STARDUST_42                                0x4BC
+#define FLAG_HIDDEN_ITEM_STARDUST_43                                0x4BD
+#define FLAG_HIDDEN_ITEM_STARDUST_44                                0x4BE
+#define FLAG_HIDDEN_ITEM_STARDUST_45                                0x4BF
+#define FLAG_HIDDEN_ITEM_STARDUST_46                                0x4C0
+#define FLAG_HIDDEN_ITEM_STARDUST_47                                0x4C1
+#define FLAG_HIDDEN_ITEM_STARDUST_48                                0x4C2
+#define FLAG_HIDDEN_ITEM_STARDUST_49                                0x4C3
+#define FLAG_HIDDEN_ITEM_STARDUST_50                                0x4C4
+#define FLAG_HIDDEN_ITEM_STARDUST_51                                0x4C5
+#define FLAG_HIDDEN_ITEM_STARDUST_52                                0x4C6
+
+#define LAST_STARDUST_FLAG FLAG_HIDDEN_ITEM_STARDUST_27
+#define STARDUST_COUNT LAST_STARDUST_FLAG
+
 #define FLAG_UNUSED_0x4C7                                           0x4C7 // Unused Flag
 #define FLAG_UNUSED_0x4C8                                           0x4C8 // Unused Flag
 #define FLAG_UNUSED_0x4C9                                           0x4C9 // Unused Flag

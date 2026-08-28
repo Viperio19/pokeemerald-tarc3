@@ -319,7 +319,7 @@ static const u8 gText_MysteryEventsCantUse[] = _("MYSTERY EVENTS can't be used w
 static const u8 gText_ContinueMenuPlayer[] = _("PLAYER");
 static const u8 gText_ContinueMenuTime[] = _("TIME");
 static const u8 gText_ContinueMenuPokedex[] = _("POKéDEX");
-static const u8 gText_ContinueMenuBadges[] = _("BADGES");
+static const u8 gText_ContinueMenuBadges[] = _("STARDUST");
 
 #define MENU_LEFT 2
 #define MENU_TOP_WIN0 1
@@ -3021,7 +3021,7 @@ static void MainMenu_FormatSavegameBadges(void)
     u8 badgeCount = 0;
     u32 i;
 
-    for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
+    for (i = FLAG_HIDDEN_ITEM_STARDUST_1; i <= LAST_STARDUST_FLAG; i++)
     {
         if (FlagGet(i))
             badgeCount++;
