@@ -79,8 +79,6 @@ VolcanionCave_3F_EventScript_Intro::
 	waitmovement 0
 	message VolcanionCave_3F_Text_IntroBothEllipsis
 	waitmessage
-	message VolcanionCave_3F_Text_IntroReportToShelly
-	waitmessage
 	closemessage
 	callnative IsPlayerOne
 	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_CameraFollowAquaTryToLeave
@@ -105,7 +103,6 @@ VolcanionCave_3F_EventScript_Intro::
 	special WaitWeather
 	setwildbattle SPECIES_VOLCANION, 40, TRUE
 	multi_fixed_players_vs_wild PARTNER_PLAYER_2
-	playbgm MUS_VOLCANION_CAVE_2F, FALSE
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedVolcanion
 	message VolcanionCave_3F_Text_IntroAwNuts
@@ -143,6 +140,9 @@ VolcanionCave_3F_EventScript_Intro::
 	setvar VAR_VOLCANION_CAVE_3F_STATE, 1
 	fadedefaultbgm
 	delay 100
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceFasterLeft
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
 	message VolcanionCave_3F_Text_IntroBattleAgainOrLookAround
 	waitmessage
 	closemessage
@@ -412,9 +412,7 @@ VolcanionCave_3F_Text_IntroBothEllipsis::
 	.string "I bet your ADMINS don't even care\n"
 	.string "enough about your well-being to\l"
 	.string "help out in person, am I right?\p"
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}INFURIATINGLY, yes.\p$"
-
-VolcanionCave_3F_Text_IntroReportToShelly::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}INFURIATINGLY, yes.\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Well, toodles! My job here is DONE!!\p"
 	.string "Good luck catching a LEGENDARY\n"
 	.string "with your regular POKé BALLS!!!\p$"
