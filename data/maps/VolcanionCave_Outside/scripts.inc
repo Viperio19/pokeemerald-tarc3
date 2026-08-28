@@ -87,18 +87,18 @@ VolcanionCave_Outside_Text_CourtneyEllipsis::
 	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}…\p$"
 
 VolcanionCave_Outside_Text_PlayerAquaEllipsis::
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}…\p$"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Hey SHELLY! How's it…\p$"
 
 VolcanionCave_Outside_Text_PlayerMagmaEllipsis::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}…\p$"
 
 VolcanionCave_Outside_Text_PlayerAquaIllGoBack::
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}…\p"
-	.string "…yeah I'll go back inside.\p$"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}HOLD ON, I FORGOT MY… {PAUSE 40}KEYS!!!\n"
+	.string "I'LL BE RIGHT BACK!!!!!\p$"
 
 VolcanionCave_Outside_Text_PlayerMagmaIllGoBack::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}…\p"
-	.string "…yeah I'll go back inside.\p$"
+	.string "…point taken.\p$"
 
 VolcanionCave_Outside_Movement_CameraMoveDown::
 	walk_down
