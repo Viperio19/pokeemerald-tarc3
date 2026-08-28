@@ -415,7 +415,7 @@ VolcanionCave_1F_EventScript_Diglett::
 
 VolcanionCave_1F_EventScript_DiglettMagma::
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
-	msgbox VolcanionCave_1F_Text_DiglettCry
+	msgbox VolcanionCave_1F_Text_DiglettCry, MSGBOX_DEFAULT
 	waitmoncry
 	closemessage
 	delay 20
@@ -426,7 +426,7 @@ VolcanionCave_1F_EventScript_DiglettMagma::
 
 VolcanionCave_1F_EventScript_DiglettAqua::
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
-	msgbox VolcanionCave_1F_Text_AgentDiggsCry, 
+	msgbox VolcanionCave_1F_Text_AgentDiggsCry, MSGBOX_DEFAULT
 	waitmoncry
 	closemessage
 	delay 20
@@ -521,8 +521,9 @@ VolcanionCave_1F_EventScript_Tirtouga::
 	lock
 	faceplayer
 	playmoncry SPECIES_TIRTOUGA, CRY_MODE_ENCOUNTER
-	delay 40
+	msgbox VolcanionCave_1F_Text_TirtougaCry, MSGBOX_DEFAULT
 	waitmoncry
+	closemessage
 	setwildbattle SPECIES_TIRTOUGA, 20
 	dowildbattle
 	specialvar VAR_RESULT, GetBattleOutcome
@@ -530,18 +531,25 @@ VolcanionCave_1F_EventScript_Tirtouga::
 	release
 	end
 
+VolcanionCave_1F_Text_TirtougaCry::
+	.string "{SPEAKER NAME_TIRTOUGA COLOR_NORMAL}(tirtouga cry)!$"
+
 VolcanionCave_1F_EventScript_Cubone::
 	lock
 	faceplayer
 	playmoncry SPECIES_CUBONE, CRY_MODE_ENCOUNTER
-	delay 40
+	msgbox VolcanionCave_1F_Text_CuboneCry, MSGBOX_DEFAULT
 	waitmoncry
+	closemessage
 	setwildbattle SPECIES_CUBONE, 20
 	dowildbattle
 	specialvar VAR_RESULT, GetBattleOutcome
 	call_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, VolcanionCave_1F_EventScript_RemoveLastTalked
 	release
 	end
+
+VolcanionCave_1F_Text_CuboneCry::
+	.string "{SPEAKER NAME_CUBONE COLOR_NORMAL}(cubone cry)!$"
 
 VolcanionCave_1F_EventScript_RockSmash::
 	lockall
@@ -614,11 +622,11 @@ VolcanionCave_1F_EventScript_Golem::
 	lock
 	faceplayer
 	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_ENCOUNTER
-	delay 40
+	message VolcanionCave_1F_Text_GolemCry
 	waitmoncry
+	waitmessage
 	goto_if_set FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, VolcanionCave_1F_EventScript_DoGolemMultiBattle
 	goto_if_unset FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, VolcanionCave_1F_EventScript_DoGolemSingleBattle
-
 VolcanionCave_1F_EventScript_AskGolemMultiBattle::
 	callnative IsPlayerOne
 	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_BattleTogetherMagma
@@ -626,6 +634,7 @@ VolcanionCave_1F_EventScript_AskGolemMultiBattle::
 	end
 
 VolcanionCave_1F_EventScript_DoGolemSingleBattle::
+	closemessage
 	setwildbattle SPECIES_GOLEM_ALOLA, 35, TRUE
 	dowildbattle
 	specialvar VAR_RESULT, GetBattleOutcome
@@ -634,6 +643,7 @@ VolcanionCave_1F_EventScript_DoGolemSingleBattle::
 	end
 
 VolcanionCave_1F_EventScript_DoGolemMultiBattle::
+	closemessage
 	clearflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
 	setwildbattle SPECIES_GOLEM_ALOLA, 35, TRUE
 	multi_fixed_players_vs_wild PARTNER_PLAYER_2
@@ -659,12 +669,15 @@ VolcanionCave_1F_EventScript_GetReadyForGolemMultiBattleAqua::
 	end
 
 VolcanionCave_1F_EventScript_DefeatedGolem::
-	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_ENCOUNTER
-	delay 40
+	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_NORMAL
+	msgbox VolcanionCave_1F_Text_GolemCryDefeated, MSGBOX_DEFAULT
 	waitmoncry
+	closemessage
+	playse SE_M_ROCK_THROW
 	removeobject LOCALID_1F_GOLEM
 	addobject LOCALID_1F_GOLEM_BOULDER
 	clearflag FLAG_HIDE_VOLCANION_CAVE_1F_GOLEM_BOULDER
+	delay 20
 	msgbox VolcanionCave_1F_Text_DidWeKillIt, MSGBOX_DEFAULT
 	release
 	end
@@ -682,6 +695,12 @@ VolcanionCave_1F_EventScript_BattleTogetherAqua::
 	case YES, VolcanionCave_1F_EventScript_GetReadyForGolemMultiBattleAqua
 	goto VolcanionCave_1F_EventScript_DoGolemSingleBattle
 	return
+
+VolcanionCave_1F_Text_GolemCry::
+	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}(golem cry)!\p$"
+
+VolcanionCave_1F_Text_GolemCryDefeated::
+	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}(golem cry)…$"
 
 VolcanionCave_1F_Text_BattleTogetherMagma::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}It's definitely too strong\n"

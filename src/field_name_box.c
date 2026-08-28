@@ -28,7 +28,7 @@ static const u32 sNameBoxDefaultGfx[] = INCGFX_U32("graphics/text_window/name_bo
 static const u32 sNameBoxPokenavGfx[] = INCGFX_U32("graphics/pokenav/name_box.png", ".4bpp");
 
 static const u16 sNameBoxColors[SP_COLOR_COUNT] = {
-    [SP_COLOR_NORMAL] = RGB2GBA(176, 176, 176),
+    [SP_COLOR_NORMAL] = RGB2GBA(120, 120, 120),
     [SP_COLOR_MAGMA]  = RGB2GBA(176, 37,  30),
     [SP_COLOR_AQUA]   = RGB2GBA(72,  112, 160)
 };

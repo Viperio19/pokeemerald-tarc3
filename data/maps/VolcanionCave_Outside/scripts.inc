@@ -31,8 +31,20 @@ VolcanionCave_Outside_EventScript_GetSentBackInside::
 	applymovement LOCALID_OUTSIDE_SHARPEDO, VolcanionCave_Outside_Movement_JumpInPlaceUp
 	waitmovement 0
 	waitmoncry
-	playmoncry SPECIES_CAMERUPT, CRY_MODE_NORMAL
-	applymovement LOCALID_OUTSIDE_CAMERUPT, VolcanionCave_Outside_Movement_JumpInPlaceUp
+	playmoncry SPECIES_NUMEL, CRY_MODE_NORMAL
+	applymovement LOCALID_OUTSIDE_NUMEL_3, VolcanionCave_Outside_Movement_JumpInPlaceUp
+	delay 2
+	playmoncry SPECIES_NUMEL, CRY_MODE_NORMAL
+	applymovement LOCALID_OUTSIDE_NUMEL_5, VolcanionCave_Outside_Movement_JumpInPlaceUp
+	delay 2
+	playmoncry SPECIES_NUMEL, CRY_MODE_NORMAL
+	applymovement LOCALID_OUTSIDE_NUMEL_2, VolcanionCave_Outside_Movement_JumpInPlaceUp
+	delay 2
+	playmoncry SPECIES_NUMEL, CRY_MODE_NORMAL
+	applymovement LOCALID_OUTSIDE_NUMEL_4, VolcanionCave_Outside_Movement_JumpInPlaceUp
+	delay 2
+	playmoncry SPECIES_NUMEL, CRY_MODE_NORMAL
+	applymovement LOCALID_OUTSIDE_NUMEL_1, VolcanionCave_Outside_Movement_JumpInPlaceUp
 	waitmovement 0
 	waitmoncry
 	applymovement LOCALID_CAMERA, VolcanionCave_Outside_Movement_CameraMoveUp

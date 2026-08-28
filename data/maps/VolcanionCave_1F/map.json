@@ -56,6 +56,7 @@
       "flag": "FLAG_HIDE_VOLCANION_CAVE_1F_GOLEM"
     },
     {
+      "local_id": "LOCALID_1F_CUBONE",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(CUBONE)",
       "x": 36,
       "y": 12,

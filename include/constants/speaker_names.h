@@ -21,6 +21,9 @@ enum SpeakerNames {
     SP_NAME_CRAMORANT,
     SP_NAME_GRAPPLOCT,
     SP_NAME_BOTH,
+    SP_NAME_TIRTOUGA,
+    SP_NAME_CUBONE,
+    SP_NAME_GOLEM,
     SP_NAME_COUNT
 };
 
