@@ -49,11 +49,7 @@ VolcanionCave_1F_OnFrame:
 
 VolcanionCave_1F_EventScript_MagmaWarning::
 	setvar VAR_OLD_ROD_STATE, 0
-	delay 20
-	msgbox VolcanionCave_1F_Text_FishingBad, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, VolcanionCave_1F_EventScript_DontFish
-	setvar VAR_OLD_ROD_STATE, 20
-	callnative StartFishing
+	msgbox VolcanionCave_1F_Text_FishingBad, MSGBOX_DEFAULT
 	release
 	end
 
@@ -63,7 +59,8 @@ VolcanionCave_1F_EventScript_DontFish::
 	end
 
 VolcanionCave_1F_Text_FishingBad::
-	.string "Fishing bad! Fish regardless?$"
+	.string "Better not fish in water\n"
+	.string "unless you want to get FIRED…$"
 
 VolcanionCave_1F_EventScript_EnterCave::
 	lock

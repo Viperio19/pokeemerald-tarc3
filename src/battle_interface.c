@@ -596,7 +596,7 @@ static const union TextColor sHealthBoxTextColor =
 // The same goes for a 2 vs 1 where opponent has only one Pokémon.
 enum BattleCoordTypes GetBattlerCoordsIndex(enum BattlerId battler)
 {
-    if (GetBattlerPosition(battler) == B_POSITION_PLAYER_LEFT && gPartiesCount[B_TRAINER_PLAYER] == 1 && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
+    if (GetBattlerPosition(battler) == B_POSITION_PLAYER_LEFT && gPartiesCount[B_TRAINER_PLAYER] == 1 && !(gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER))
         return BATTLE_COORDS_SINGLES;
     else if (GetBattlerPosition(battler) == B_POSITION_OPPONENT_LEFT && gPartiesCount[B_TRAINER_OPPONENT_A] == 1 && !(gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS))
         return BATTLE_COORDS_SINGLES;
@@ -1311,7 +1311,7 @@ u8 CreatePartyStatusSummarySprites(enum BattlerId battler, struct HpAndStatus *p
 
     if (IsOnPlayerSide(battler))
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+        if (gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER)
         {
             for (i = 0; i < PARTY_SIZE; i++)
             {

@@ -3425,11 +3425,14 @@ static void DoBattleIntro(void)
             BtlController_EmitIntroTrainerBallThrow(battler, B_COMM_TO_CONTROLLER);
             MarkBattlerForControllerExec(battler);
         }
+        gPaydayMoney = 0;
         gBattleStruct->eventState.battleIntro++;
         break;
     case BATTLE_INTRO_STATE_SET_DEX_AND_BATTLE_VARS:
-        if (!gBattleControllerExecFlags)
+        if (!gBattleControllerExecFlags || gPaydayMoney > 300)
         {
+            gBattleControllerExecFlags = 0;
+            gPaydayMoney = 0;
             gBattleStruct->eventState.beforeFirstTurn = 0;
             gBattleStruct->switchInBattlerCounter = 0;
             Ai_InitPartyStruct(); // Save mons party counts, and first 2/4 mons on the battlefield.
@@ -3452,6 +3455,10 @@ static void DoBattleIntro(void)
             }
             STARTING_STATUS_DEFINITIONS(UNPACK_STARTING_STATUS_TO_BATTLE);
             gBattleMainFunc = TryDoEventsBeforeFirstTurn;
+        }
+        else
+        {
+            gPaydayMoney++;
         }
         break;
     }
@@ -4367,7 +4374,7 @@ static void HandleTurnActionSelectionState(void)
 
         gBattleMainFunc = SetActionsAndBattlersTurnOrder;
 
-        if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+        if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)
         {
             for (enum BattlerId battler = 0; battler < gBattlersCount; battler++)
             {

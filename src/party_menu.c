@@ -580,6 +580,8 @@ static void LoadBattlePartyCurrentOrderForLayout(void)
      || gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL_SHOWCASE_PARTNER
      || gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL_PLAYER_2)
         battler = B_BATTLER_2;
+    else
+        battler = B_BATTLER_0;
 
     if (battler < gBattlersCount) // Including check given recent cases where animations set battlers OOB
         memcpy(gBattlePartyCurrentOrder, gBattleStruct->battlerPartyOrders[battler], sizeof(gBattlePartyCurrentOrder));
@@ -3150,7 +3152,7 @@ static void CB2_ShowPokemonSummaryScreen(void)
 {
     if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE)
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+        if (gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER)
             LoadBattlePartyCurrentOrderForLayout();
 
         UpdatePartyToBattleOrder();
@@ -7495,7 +7497,7 @@ void ChooseMonForWirelessMinigame(void)
 
 static u8 GetPartyLayoutFromBattleType(enum BattlerId battler)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)) 
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER && (battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT))) 
         return PARTY_LAYOUT_MULTI_FULL_PLAYER_2;
     if (IsMultiBattle() == TRUE && !AreMultiPartiesFullTeams())
         return PARTY_LAYOUT_MULTI;
@@ -7533,9 +7535,11 @@ void ChooseMonForInBattleItem(void)
 
 static u8 GetPartyMenuActionsTypeInBattle(struct Pokemon *mon)
 {
-    if (GetMonData(&gParties[B_TRAINER_PLAYER][1], MON_DATA_SPECIES) != SPECIES_NONE
+    u8 partyConstant = gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL_PLAYER_2 ? B_TRAINER_PARTNER : B_TRAINER_PLAYER;
+    if (GetMonData(&gParties[partyConstant][1], MON_DATA_SPECIES) != SPECIES_NONE
      && GetMonData(mon, MON_DATA_IS_EGG) == FALSE
-     && (gPartyMenu.layout != PARTY_LAYOUT_MULTI_FULL_PARTNER || gPartyMenu.layout != PARTY_LAYOUT_MULTI_FULL_PLAYER_2_PARTNER))
+     && gPartyMenu.layout != PARTY_LAYOUT_MULTI_FULL_PARTNER
+     && gPartyMenu.layout != PARTY_LAYOUT_MULTI_FULL_PLAYER_2_PARTNER)
     {
         if (gPartyMenu.action == PARTY_ACTION_SEND_OUT)
             return ACTIONS_SEND_OUT;

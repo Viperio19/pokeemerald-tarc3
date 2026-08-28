@@ -3652,7 +3652,7 @@ bool8 DidMonComeFromRSE(void)
 
 static bool8 IsInGamePartnerMon(void)
 {
-    if (gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL)
+    if (gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL || gPartyMenu.layout == PARTY_LAYOUT_MULTI_FULL_PLAYER_2)
     {
         return FALSE;
     }
