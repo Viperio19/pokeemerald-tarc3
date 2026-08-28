@@ -509,8 +509,8 @@
     },
     {
       "type": "hidden_item",
-      "x": 37,
-      "y": 53,
+      "x": 9,
+      "y": 31,
       "elevation": 0,
       "item": "ITEM_STARDUST",
       "flag": "FLAG_HIDDEN_ITEM_STARDUST_12"
@@ -613,7 +613,7 @@
     },
     {
       "type": "hidden_item",
-      "x": 20,
+      "x": 21,
       "y": 22,
       "elevation": 0,
       "item": "ITEM_STARDUST",
@@ -626,6 +626,22 @@
       "elevation": 0,
       "item": "ITEM_STARDUST",
       "flag": "FLAG_HIDDEN_ITEM_STARDUST_25"
+    },
+    {
+      "type": "hidden_item",
+      "x": 41,
+      "y": 38,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_26"
+    },
+    {
+      "type": "hidden_item",
+      "x": 31,
+      "y": 48,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_27"
     }
   ],
   "region": "REGION_HOENN"
