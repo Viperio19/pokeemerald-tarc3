@@ -274,17 +274,25 @@ static void InitTARCData(void)
     FlagSet(FLAG_P2_BADGE05_GET);
     FlagSet(FLAG_P2_BADGE08_GET);
 
+    FlagSet(FLAG_OVERWRITE_MET_LOCATION_NEW_GAME);
+
     AddBagItem(ITEM_POKE_BALL, 10);
     ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);
     SwitchParties();
     SwitchTrainerData();
     SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
 
+    gSaveBlock2Ptr->player ^= 1;
+
     AddBagItem(ITEM_GREAT_BALL, 10);
     ScriptGiveMon(SPECIES_CARVANHA, 20, ITEM_NONE);
     SwitchParties();
     SwitchTrainerData();
     SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
+
+    gSaveBlock2Ptr->player ^= 1;
+
+    FlagClear(FLAG_OVERWRITE_MET_LOCATION_NEW_GAME);
 
     struct BoulderPos *pos;
     

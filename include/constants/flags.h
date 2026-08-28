@@ -91,8 +91,9 @@
 #define FLAG_HIDE_HP_BAR_RED_PARA_STATS            0x43
 #define FLAG_HIDE_HP_BAR_RED_STATS                 0x44
 
-#define FLAG_UNUSED_0x045    0x45 // Unused Flag
-#define FLAG_UNUSED_0x046    0x46 // Unused Flag
+#define FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK_2 0x45
+#define FLAG_OVERWRITE_MET_LOCATION_NEW_GAME       0x46
+
 #define FLAG_UNUSED_0x047    0x47 // Unused Flag
 #define FLAG_UNUSED_0x048    0x48 // Unused Flag
 #define FLAG_UNUSED_0x049    0x49 // Unused Flag
