@@ -44,28 +44,7 @@ VolcanionCave_1F_EventScript_HidePlayers::
 VolcanionCave_1F_OnFrame:
 	map_script_2 VAR_VOLCANION_CAVE_1F_STATE, 0, VolcanionCave_1F_EventScript_EnterCave
 	map_script_2 VAR_OLD_ROD_STATE, 10, VolcanionCave_1F_EventScript_DropOldRod
-	map_script_2 VAR_OLD_ROD_STATE, 15, VolcanionCave_1F_EventScript_MagmaWarning
 	.2byte 0
-
-VolcanionCave_1F_EventScript_MagmaWarning::
-	setvar VAR_OLD_ROD_STATE, 0
-	msgbox VolcanionCave_1F_Text_FishingBad, MSGBOX_DEFAULT
-	release
-	end
-
-VolcanionCave_1F_EventScript_DontFish::
-	closemessage
-	release
-	end
-
-VolcanionCave_1F_Text_FishingBad::
-	.string "TABITHA'S words echo in your head…\p"
-	.string "“If I catch any of you even THINKING\n"
-	.string "about adding a WATER-TYPE POKéMON to\l"
-	.string "your team, you'll be fired faster than\l"
-	.string "a gas station owned by a CAMERUPT!!”\p"
-	.string "…maybe it's best not to fish here\n"
-	.string "if you want to keep your job.$"
 
 VolcanionCave_1F_EventScript_EnterCave::
 	lock
@@ -476,6 +455,7 @@ VolcanionCave_1F_EventScript_AquaGruntF::
 	callnative IsPlayerOne
 	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_AquaGruntFMagmaPlayer
 	goto_if_set FLAG_RECEIVED_REPEL, VolcanionCave_1F_EventScript_AquaGruntFSprayingRepels
+VolcanionCave_1F_EventScript_AquaGruntFGiveRepel::
 	msgbox VolcanionCave_1F_Text_AquaGruntFAquaPlayer, MSGBOX_DEFAULT
 	closemessage
 	delay 10

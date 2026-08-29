@@ -123,14 +123,14 @@ static const u32 sRegionMapCursorLargeGfxLZ[] = INCGFX_U32("graphics/pokenav/reg
 static const u16 sRegionMapBg_Pal[] = INCGFX_U16("graphics/pokenav/region_map/map.pal", ".gbapal");
 static const u32 sRegionMapBg_GfxLZ[] = INCGFX_U32("graphics/pokenav/region_map/map.png", ".8bpp.smol", "-num_tiles 233 -Wnum_tiles");
 static const u32 sRegionMapBg_TilemapLZ[] = INCGFX_U32("graphics/pokenav/region_map/map.bin", ".smolTM");
-static const u16 sRegionMapPlayerIcon_BrendanPal[] = INCGFX_U16("graphics/pokenav/region_map/brendan_icon.png", ".gbapal");
-static const u8 sRegionMapPlayerIcon_BrendanGfx[] = INCGFX_U8("graphics/pokenav/region_map/brendan_icon.png", ".4bpp");
-static const u16 sRegionMapPlayerIcon_MayPal[] = INCGFX_U16("graphics/pokenav/region_map/may_icon.png", ".gbapal");
-static const u8 sRegionMapPlayerIcon_MayGfx[] = INCGFX_U8("graphics/pokenav/region_map/may_icon.png", ".4bpp");
-static const u16 sRegionMapPlayerIcon_RedPal[] = INCGFX_U16("graphics/pokenav/region_map/red_icon.pal", ".gbapal");
-static const u8 sRegionMapPlayerIcon_RedGfx[] = INCGFX_U8("graphics/pokenav/region_map/red_icon.png", ".4bpp");
-static const u16 sRegionMapPlayerIcon_LeafPal[] = INCGFX_U16("graphics/pokenav/region_map/leaf_icon.pal", ".gbapal");
-static const u8 sRegionMapPlayerIcon_LeafGfx[] = INCGFX_U8("graphics/pokenav/region_map/leaf_icon.png", ".4bpp");
+static const u16 sRegionMapPlayerIcon_AquaMPal[] = INCGFX_U16("graphics/pokenav/region_map/aqua_m_icon.png", ".gbapal");
+static const u8 sRegionMapPlayerIcon_AquaMGfx[] = INCGFX_U8("graphics/pokenav/region_map/aqua_m_icon.png", ".4bpp");
+static const u16 sRegionMapPlayerIcon_AquaFPal[] = INCGFX_U16("graphics/pokenav/region_map/aqua_f_icon.png", ".gbapal");
+static const u8 sRegionMapPlayerIcon_AquaFGfx[] = INCGFX_U8("graphics/pokenav/region_map/aqua_f_icon.png", ".4bpp");
+static const u16 sRegionMapPlayerIcon_MagmaMPal[] = INCGFX_U16("graphics/pokenav/region_map/magma_m_icon.png", ".gbapal");
+static const u8 sRegionMapPlayerIcon_MagmaMGfx[] = INCGFX_U8("graphics/pokenav/region_map/magma_m_icon.png", ".4bpp");
+static const u16 sRegionMapPlayerIcon_MagmaFPal[] = INCGFX_U16("graphics/pokenav/region_map/magma_f_icon.png", ".gbapal");
+static const u8 sRegionMapPlayerIcon_MagmaFGfx[] = INCGFX_U8("graphics/pokenav/region_map/magma_f_icon.png", ".4bpp");
 
 #include "data/region_map/region_map_layout.h"
 #include "data/region_map/region_map_layout_kanto.h"
@@ -1735,8 +1735,8 @@ static void UNUSED ClearUnkCursorSpriteData(void)
 void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
 {
     u8 spriteId;
-    struct SpriteSheet sheet = {sRegionMapPlayerIcon_BrendanGfx, 0x80, tileTag};
-    struct SpritePalette palette = {sRegionMapPlayerIcon_BrendanPal, paletteTag};
+    struct SpriteSheet sheet = {sRegionMapPlayerIcon_AquaMGfx, 0x80, tileTag};
+    struct SpritePalette palette = {sRegionMapPlayerIcon_AquaMPal, paletteTag};
     struct SpriteTemplate template = {tileTag, paletteTag, &sRegionMapPlayerIconOam, sRegionMapPlayerIconAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy};
 
     if (IsEventIslandMapSecId(gMapHeader.regionMapSectionId))
@@ -1744,20 +1744,20 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
         sRegionMap->playerIconSprite = NULL;
         return;
     }
-    if (IS_FRLG && gSaveBlock2Ptr->playerGender == FEMALE)
+    if (!IS_PLAYER_ONE && gSaveBlock2Ptr->playerGender == FEMALE)
     {
-        sheet.data = sRegionMapPlayerIcon_LeafGfx;
-        palette.data = sRegionMapPlayerIcon_LeafPal;
+        sheet.data = sRegionMapPlayerIcon_MagmaFGfx;
+        palette.data = sRegionMapPlayerIcon_MagmaFPal;
     }
     else if (gSaveBlock2Ptr->playerGender == FEMALE)
     {
-        sheet.data = sRegionMapPlayerIcon_MayGfx;
-        palette.data = sRegionMapPlayerIcon_MayPal;
+        sheet.data = sRegionMapPlayerIcon_AquaFGfx;
+        palette.data = sRegionMapPlayerIcon_AquaFPal;
     }
-    else if (IS_FRLG)
+    else if (!IS_PLAYER_ONE)
     {
-        sheet.data = sRegionMapPlayerIcon_RedGfx;
-        palette.data = sRegionMapPlayerIcon_RedPal;
+        sheet.data = sRegionMapPlayerIcon_MagmaMGfx;
+        palette.data = sRegionMapPlayerIcon_MagmaMPal;
     }
     LoadSpriteSheet(&sheet);
     LoadSpritePalette(&palette);

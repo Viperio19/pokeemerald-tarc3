@@ -536,6 +536,7 @@ extern const u16 gItemIconPalette_BlackFlute[];
 extern const u16 gItemIconPalette_WhiteFlute[];
 // Encounter Modifiers
 extern const u32 gItemIcon_Repel[];
+extern const u32 gItemIcon_SignedRepel[];
 extern const u16 gItemIconPalette_Repel[];
 extern const u16 gItemIconPalette_SuperRepel[];
 extern const u16 gItemIconPalette_MaxRepel[];

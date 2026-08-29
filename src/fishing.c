@@ -19,6 +19,7 @@
 #include "item_menu.h"
 #include "sound.h"
 #include "event_object_lock.h"
+#include "pokedex.h"
 #include "config/fishing.h"
 #include "constants/songs.h"
 #include "constants/event_objects.h"
@@ -74,10 +75,18 @@ static bool32 DoesFishingMinigameAllowCancel(void);
 
 static const u8 sText_OhABite[] = _("Oh! A bite!");
 static const u8 sText_PokemonOnHook[] = _("A POKéMON's on the hook!{PAUSE_UNTIL_PRESS}");
-static const u8 sText_NotEvenANibble[] = _("Not even a nibble…{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NotEvenANibble[] = _("There seem to be no more\nPOKéMON in the lava…{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItGotAway[] = _("It got away…{PAUSE_UNTIL_PRESS}");
 static const u8 sText_DroppedRod[] = _("Dropped rod{PAUSE_UNTIL_PRESS}");
-static const u8 sText_FishingBad[] = _("COURTNEY: Fishing bad! Fish regardless?");
+static const u8 sText_FishingBad[] = _(
+	"TABITHA'S words echo in your head…\p"
+	"“If I catch any of you even THINKING\n"
+	"about adding a WATER-TYPE POKéMON to\l"
+	"your team, you'll be fired faster than\l"
+	"a gas station owned by a CAMERUPT!!”\p"
+	"…maybe it's best not to fish here\n"
+	"if you want to keep your job.\p$"
+);
 
 struct FriendshipHookChanceBoost
 {
@@ -162,7 +171,7 @@ void StartFishing()
 {
     u8 taskId = CreateTask(Task_Fishing, 0xFF);
 
-    gTasks[taskId].tFishingRod = IsPlayerFacingLava();
+    gTasks[taskId].tFishingRod = 0;
     Task_Fishing(taskId);
 }
 
@@ -176,15 +185,15 @@ static bool32 Fishing_Init(struct Task *task)
 {
     LockPlayerFieldControls();
     gPlayerAvatar.preventStep = TRUE;
-    task->tStep = (IS_PLAYER_ONE || VarGet(VAR_OLD_ROD_STATE) == 20 || IsPlayerFacingLava()) ? FISHING_GET_ROD_OUT : FISHING_MAGMA_WARNING;
-    VarSet(VAR_OLD_ROD_STATE, 0);
+    task->tStep = (IS_PLAYER_ONE || IsPlayerFacingLava()) ? FISHING_GET_ROD_OUT : FISHING_MAGMA_WARNING;
     return FALSE;
 }
 
 static bool32 Fishing_MagmaWarning(struct Task *task)
 {
-    VarSet(VAR_OLD_ROD_STATE, 15);
-
+    LoadMessageBoxAndFrameGfx(0, TRUE);
+    FillWindowPixelBuffer(0, PIXEL_FILL(1));
+    AddTextPrinterParameterized2(0, FONT_NORMAL, sText_FishingBad, 1, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
     task->tStep = FISHING_END_NO_MON;
     return TRUE;
 }
@@ -301,11 +310,12 @@ static bool32 Fishing_ShowDots(struct Task *task)
 
 static bool32 Fishing_CheckForBite(struct Task *task)
 {
-    // bool32 bite, firstMonHasSuctionOrSticky;
+    bool32 bite;
+    // bool32 firstMonHasSuctionOrSticky;
 
     AlignFishingAnimationFrames();
     task->tStep = FISHING_GOT_BITE;
-    // bite = TRUE;
+    bite = !GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHI_YU), FLAG_GET_CAUGHT);
 
     // if (!DoesCurrentMapHaveFishingMons())
     // {
@@ -321,11 +331,11 @@ static bool32 Fishing_CheckForBite(struct Task *task)
     // if (!bite)
     //     bite = Fishing_RollForBite(task->tFishingRod, firstMonHasSuctionOrSticky);
 
-    // if (!bite)
-    //     task->tStep = FISHING_NOT_EVEN_NIBBLE;
+    if (!bite)
+        task->tStep = FISHING_NOT_EVEN_NIBBLE;
 
-    // if (bite)
-    StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingBiteDirectionAnimNum(GetPlayerFacingDirection()));
+    if (bite)
+        StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingBiteDirectionAnimNum(GetPlayerFacingDirection()));
 
     return TRUE;
 }

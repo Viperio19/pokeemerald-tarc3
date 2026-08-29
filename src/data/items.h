@@ -2224,6 +2224,22 @@ const struct ItemInfo gItemsInfo[] =
         .iconPalette = gItemIconPalette_Repel,
     },
 
+    [ITEM_SIGNED_REPEL] =
+    {
+        .name = ITEM_NAME("Repel"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "The empty husk\n"
+            "of a repel.\n"
+            "Repels nothing."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .iconPic = gItemIcon_SignedRepel,
+        .iconPalette = gItemIconPalette_Repel,
+    },
+
     [ITEM_SUPER_REPEL] =
     {
         .name = ITEM_NAME("Super Repel"),

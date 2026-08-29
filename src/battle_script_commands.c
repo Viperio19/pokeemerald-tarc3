@@ -10388,7 +10388,7 @@ static void Cmd_trygivecaughtmonnick(void)
             struct Pokemon *caughtMon = GetBattlerMon(gBattlerTarget);
             GetMonData(caughtMon, MON_DATA_NICKNAME, gBattleStruct->caughtMonNick);
             CloseMainBattleScreen();
-            MainCallback callback = ReshowBlankBattleScreenAfterMenu;
+            MainCallback callback = CalculatePlayerPartyCount() == PARTY_SIZE ? ReshowBlankBattleScreenAfterMenu : BattleMainCB2;
 
             DoNamingScreen(NAMING_SCREEN_CAUGHT_MON, gBattleStruct->caughtMonNick,
                            GetMonData(caughtMon, MON_DATA_SPECIES),

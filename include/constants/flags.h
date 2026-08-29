@@ -94,8 +94,8 @@
 #define FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK_2 0x45
 #define FLAG_OVERWRITE_MET_LOCATION_NEW_GAME       0x46
 #define FLAG_TALKED_TO_OLD_ROD_GRUNT               0x47
+#define FLAG_RECEIVED_SIGNED_REPEL                 0x48
 
-#define FLAG_UNUSED_0x048    0x48 // Unused Flag
 #define FLAG_UNUSED_0x049    0x49 // Unused Flag
 #define FLAG_UNUSED_0x04A    0x4A // Unused Flag
 #define FLAG_UNUSED_0x04B    0x4B // Unused Flag
@@ -668,26 +668,27 @@
 #define FLAG_HIDDEN_ITEM_ROUTE_123_RARE_CANDY                (FLAG_HIDDEN_ITEMS_START + 0x6E)
 #define FLAG_HIDDEN_ITEM_ROUTE_105_BIG_PEARL                 (FLAG_HIDDEN_ITEMS_START + 0x6F)
 
-#define FLAG_UNUSED_0x264  0x264 // Unused Flag
-#define FLAG_UNUSED_0x265  0x265 // Unused Flag
-#define FLAG_UNUSED_0x266  0x266 // Unused Flag
-#define FLAG_UNUSED_0x267  0x267 // Unused Flag
-#define FLAG_UNUSED_0x268  0x268 // Unused Flag
-#define FLAG_UNUSED_0x269  0x269 // Unused Flag
-#define FLAG_UNUSED_0x26A  0x26A // Unused Flag
-#define FLAG_UNUSED_0x26B  0x26B // Unused Flag
-#define FLAG_UNUSED_0x26C  0x26C // Unused Flag
-#define FLAG_UNUSED_0x26D  0x26D // Unused Flag
-#define FLAG_UNUSED_0x26E  0x26E // Unused Flag
-#define FLAG_UNUSED_0x26F  0x26F // Unused Flag
-#define FLAG_UNUSED_0x270  0x270 // Unused Flag
-#define FLAG_UNUSED_0x271  0x271 // Unused Flag
-#define FLAG_UNUSED_0x272  0x272 // Unused Flag
-#define FLAG_UNUSED_0x273  0x273 // Unused Flag
-#define FLAG_UNUSED_0x274  0x274 // Unused Flag
-#define FLAG_UNUSED_0x275  0x275 // Unused Flag
-#define FLAG_UNUSED_0x276  0x276 // Unused Flag
-#define FLAG_UNUSED_0x277  0x277 // Unused Flag
+#define FLAG_SMASHED_ROCK_1   0x264 
+#define FLAG_SMASHED_ROCK_2   0x265 
+#define FLAG_SMASHED_ROCK_3   0x266 
+#define FLAG_SMASHED_ROCK_4   0x267 
+#define FLAG_SMASHED_ROCK_5   0x268 
+#define FLAG_SMASHED_ROCK_6   0x269 
+#define FLAG_SMASHED_ROCK_7   0x26A 
+#define FLAG_SMASHED_ROCK_8   0x26B 
+#define FLAG_SMASHED_ROCK_9   0x26C 
+#define FLAG_SMASHED_ROCK_10  0x26D 
+#define FLAG_SMASHED_ROCK_11  0x26E 
+#define FLAG_SMASHED_ROCK_12  0x26F 
+#define FLAG_SMASHED_ROCK_13  0x270 
+#define FLAG_SMASHED_ROCK_14  0x271 
+#define FLAG_SMASHED_ROCK_15  0x272 
+#define FLAG_SMASHED_ROCK_16  0x273 
+#define FLAG_SMASHED_ROCK_17  0x274 
+#define FLAG_SMASHED_ROCK_18  0x275 
+#define FLAG_SMASHED_ROCK_19  0x276 
+#define FLAG_SMASHED_ROCK_20  0x277 
+
 #define FLAG_UNUSED_0x278  0x278 // Unused Flag
 #define FLAG_UNUSED_0x279  0x279 // Unused Flag
 #define FLAG_UNUSED_0x27A  0x27A // Unused Flag

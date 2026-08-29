@@ -276,6 +276,8 @@ const u16 gItemIconPalette_WhiteFlute[] = INCGFX_U16("graphics/items/icon_palett
 const u32 gItemIcon_Repel[] = INCGFX_U32("graphics/items/icons/repel.png", ".4bpp.smol");
 const u16 gItemIconPalette_Repel[] = INCGFX_U16("graphics/items/icon_palettes/repel.pal", ".gbapal");
 
+const u32 gItemIcon_SignedRepel[] = INCGFX_U32("graphics/items/icons/signed_repel.png", ".4bpp.smol");
+
 const u16 gItemIconPalette_SuperRepel[] = INCGFX_U16("graphics/items/icon_palettes/super_repel.pal", ".gbapal");
 
 const u16 gItemIconPalette_MaxRepel[] = INCGFX_U16("graphics/items/icon_palettes/max_repel.pal", ".gbapal");

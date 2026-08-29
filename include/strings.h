@@ -1367,6 +1367,7 @@ extern const u8 gText_InUseAlready_PM[];
 extern const u8 gText_CantUseHere[];
 extern const u8 gText_NoPokemonForBattle[];
 extern const u8 gText_ChoosePokemon2[];
+extern const u8 gText_ChooseGoldeen[];
 extern const u8 gText_NotEnoughHp[];
 extern const u8 gText_PokemonAreNeeded[];
 extern const u8 gText_PokemonCantBeSame[];

@@ -534,8 +534,8 @@ bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, enum WildPok
 
 static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 rod)
 {
-    enum Species wildMonSpecies = rod ? SPECIES_CHI_YU : SPECIES_WAILMER;
-    u8 level = rod ? 25 : 20;
+    enum Species wildMonSpecies = SPECIES_CHI_YU;
+    u8 level = 20;
 
     UpdateChainFishingStreak();
     CreateWildMon(wildMonSpecies, level);

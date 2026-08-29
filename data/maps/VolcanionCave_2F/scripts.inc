@@ -69,7 +69,6 @@ VolcanionCave_2F_EventScript_SetOldRodPosition::
 VolcanionCave_2F_OnFrame:
 	map_script_2 VAR_VOLCANION_CAVE_2F_STATE, 0, VolcanionCave_2F_EventScript_EnterCave
 	map_script_2 VAR_OLD_ROD_STATE, 10, VolcanionCave_2F_EventScript_DropOldRod
-	map_script_2 VAR_OLD_ROD_STATE, 15, VolcanionCave_1F_EventScript_MagmaWarning
 	.2byte 0
 
 #define LOCALID_PLAYER_AQUA  VAR_0x800A
@@ -335,12 +334,12 @@ VolcanionCave_2F_EventScript_AquaGruntF::
 	waitmovement 0
 	callnative IsPlayerOne
 	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_2F_EventScript_AquaGruntFMagmaPlayer
-	goto_if_set FLAG_RECEIVED_REPEL, VolcanionCave_2F_EventScript_AquaGruntFSprayingRepels
+	goto_if_set FLAG_RECEIVED_SIGNED_REPEL, VolcanionCave_2F_EventScript_AquaGruntFSprayingRepels
 	msgbox VolcanionCave_2F_Text_AquaGruntFAquaPlayer, MSGBOX_DEFAULT
 	closemessage
 	delay 10
-	giveitem ITEM_REPEL
-	setflag FLAG_RECEIVED_REPEL
+	giveitem ITEM_SIGNED_REPEL
+	setflag FLAG_RECEIVED_SIGNED_REPEL
 VolcanionCave_2F_EventScript_AquaGruntFSprayingRepels::
 	msgbox VolcanionCave_2F_Text_AquaGruntFSprayingRepels, MSGBOX_NPC
 	end
@@ -356,7 +355,7 @@ VolcanionCave_2F_Text_AquaGruntFAquaPlayer::
 	.string "AGENT DIGGS helped me down from\n"
 	.string "the ledge in the last room!\p"
 	.string "I'm so happy!! I can't believe I got\n"
-	.string "to meet the legend himself!!\l"
+	.string "to meet the legend himself!!\p"
 	.string "He even signed one of my repels!!\l"
 	.string "This is the best day EVER!!!!\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}You do realize that you got stuck on\n"
