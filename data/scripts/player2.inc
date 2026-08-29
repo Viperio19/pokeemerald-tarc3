@@ -53,6 +53,8 @@ Player2_Singleplayer_Talk::
 	goto_if_unset FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, Player2_Message_Talk
 	goto_if_unset FLAG_DEFEATED_VOLCANION_CAVE_1F_GOLEM, Player2_Message_PreGolem
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, Player2_Message_PreRoom2
+	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 0, Player2_Message_MudSliding
+	goto_if_unset FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR, Player2_Message_Exeggutor
 	release
 	end
 	
@@ -110,6 +112,38 @@ Player2_Text_PreRoom2::
 	.string "of course.\p"
 	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Go bother a TEAM AQUA GRUNT and\n"
 	.string "leave me alone, then.$"
+
+Player2_Message_MudSliding::
+	msgbox Player2_Text_MudSliding, MSGBOX_NPC
+	release
+	end
+
+Player2_Text_MudSliding::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Mud. My least favourite kind of dirt.\n"
+	.string "It's so slippery and wet and gross!\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}We're in a cave. You're going to have\n"
+	.string "to get used to the ground being wet.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}This is ridiculous though!\p"
+	.string "There's nothing to stop us from\n"
+	.string "sliding until we're past the mud!\p"
+	.string "{PLAYER_AQUA}. Do something about this.$"
+
+Player2_Message_Exeggutor::
+	msgbox Player2_Text_Exeggutor, MSGBOX_NPC
+	release
+	end
+
+Player2_Text_Exeggutor::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Gee, it sure would be nice if there\n"
+	.string "WASN'T AN EXEGGUTOR IN MY PATH!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I believe this is called a skill issue.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}This is called a problem that\n"
+	.string "YOU'RE going to deal with!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Good luck with that, I can't get past\n"
+	.string "this other DISGUSTING MUD PIT with\l"
+	.string "these stupid blue crystals in the way!\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Blue crystals, eh?\n"
+	.string "{FONT 5}(Wasn't there a switch...?){FONT_NORMAL}$"
 
 Player2_Singleplayer_Cancel::
 	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
