@@ -301,11 +301,73 @@ VolcanionCave_2F_Movement_CameraMoveBackY27::
 	step_end
 
 VolcanionCave_2F_Text_DroppedRod::
-	.string "Dropped rod...$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Aw yeah, FISHING SUCCESSFUL!!!\p"
+	.string "…wait no actually it didn't do anything.\p"
+	.string "It must be the water's fault!\n"
+	.string "No self-respecting fish POKéMON\l"
+	.string "would live in water this weak!!!\p"
+	.string "Surely the problem is NOT my own\n"
+	.string "lack of fishing experience!$"
 
 VolcanionCave_2F_Text_DroppedRodFloated::
-	.string "Dropped rod...\p"
-	.string "It floated...$"
+	.string "Ohhhh, you tricky fishy!!!\n"
+	.string "Next time I'll catch you for SURE!!$"
+
+VolcanionCave_2F_EventScript_AquaGruntF::
+	lock
+	applymovement LOCALID_2F_AQUA_GRUNT_F, Common_Movement_FacePlayer
+	waitmovement 0
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_2F_EventScript_AquaGruntFMagmaPlayer
+	goto_if_set FLAG_RECEIVED_REPEL, VolcanionCave_2F_EventScript_AquaGruntFSprayingRepels
+	msgbox VolcanionCave_2F_Text_AquaGruntFAquaPlayer, MSGBOX_DEFAULT
+	closemessage
+	delay 10
+	giveitem ITEM_REPEL
+	setflag FLAG_RECEIVED_REPEL
+VolcanionCave_2F_EventScript_AquaGruntFSprayingRepels::
+	msgbox VolcanionCave_2F_Text_AquaGruntFSprayingRepels, MSGBOX_NPC
+	end
+
+VolcanionCave_2F_EventScript_AquaGruntFMagmaPlayer::
+	msgbox VolcanionCave_2F_Text_NoRepels, MSGBOX_NPC
+	setvar VAR_STINKY_STEP_COUNT, 100
+	end
+
+VolcanionCave_2F_Text_AquaGruntFAquaPlayer::
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Hey partner!\p"
+	.string "You'll never guess how I got here!\p"
+	.string "AGENT DIGGS helped me down from\n"
+	.string "the ledge in the last room!\p"
+	.string "I'm so happy!! I can't believe I got\n"
+	.string "to meet the legend himself!!\l"
+	.string "He even signed one of my repels!!\l"
+	.string "This is the best day EVER!!!!\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}You do realize that you got stuck on\n"
+	.string "another ledge mid-fangirling, right?\p"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Oh, that was completely intentional.\p"
+	.string "I'm hoping AGENT DIGGS sees me up\n"
+	.string "here and helps me down again!\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What you're doing is wasting the time\n"
+	.string "of TEAM AQUA'S best agent, TWICE.\p"
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Oopsie…?\p"
+	.string "Oh well, I'm sure SHELLY won't ignore\n"
+	.string "a GRUNT in need when she comes by!\p"
+	.string "In that case, can you hold onto the\n"
+	.string "repel that AGENT DIGGS signed for me?\p"
+	.string "I wouldn't want SHELLY to take it\n"
+	.string "from me when she finds out I've been \l"
+	.string "intentionally getting myself stuck\l"
+	.string "so I can talk to AGENT DIGGS.\n"
+
+VolcanionCave_2F_Text_AquaGruntFSprayingRepels::
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Thanks, partner!\n"
+	.string "Guard that repel with your life!$"
+
+VolcanionCave_2F_Text_NoRepels::
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}EWWWWW!!!{PAUSE 20} MAGMA!!!!!\p"
+	.string "{SPEAKER NAME_NONE COLOR_NORMAL}(The GRUNT sprays you with a repel.)\p"
+	.string "(You now smell like eggs and repel.)$"
 
 VolcanionCave_2F_EventScript_Diglett::
 	lock
@@ -331,30 +393,59 @@ VolcanionCave_2F_EventScript_DiglettMagma::
 
 VolcanionCave_2F_EventScript_DiglettAqua::
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
-	msgbox VolcanionCave_2F_Text_AgentDiggsCry, 
+	message VolcanionCave_2F_Text_AgentDiggs1 
 	waitmoncry
+	waitmessage
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL 
+	message VolcanionCave_2F_Text_AgentDiggs2
+	waitmoncry
+	waitmessage
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	message VolcanionCave_2F_Text_AgentDiggs3
+	waitmoncry
+	waitmessage
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	message VolcanionCave_2F_Text_AgentDiggs4 
+	waitmoncry
+	waitmessage
 	closemessage
-	delay 20
-	msgbox VolcanionCave_2F_Text_GoodWorkDiggs
-	closemessage
-	delay 20
 	release
 	end
 
 VolcanionCave_2F_Text_DiglettCry::
 	.string "{SPEAKER NAME_DIGLETT COLOR_AQUA}Pipipi wowow!$"
 
-VolcanionCave_2F_Text_AgentDiggsCry::
-	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}Pipipi wowow!$"
+VolcanionCave_2F_Text_AgentDiggs1::
+	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}Pipipi wowow!\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AGENT DIGGS!!! How's it going, my guy??\p$"
 
 VolcanionCave_2F_Text_DiglettSecretAgent::
-	.string "(The DIGLETT seems to be an\n"
-	.string "agent working for TEAM AQUA.)\p"
-	.string "(You decide not to ruin the MAGMA\n"
-	.string "GRUNT'S day with this information.)$"
+	.string "This dialogue is not intended to\n"
+	.string "be accessible in normal gameplay.\p"
+	.string "Hi cheater!!!! - Word$"
+	
+VolcanionCave_2F_Text_AgentDiggs2::
+	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}pi wow.\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Good to hear!!\p"
+	.string "Hey, thanks for the assist back there!\p"
+	.string "I never would have been able to nab\n"
+	.string "that HEAT BADGE off of TEAM MAGMA\l"
+	.string "if it wasn't for your quick thinking!\p"
+	.string "Now I'm one step closer to completing\n"
+	.string "my GYM CHALLENGE!\p$"
 
-VolcanionCave_2F_Text_GoodWorkDiggs::
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Keep up the good work, AGENT DIGGS!$"
+VolcanionCave_2F_Text_AgentDiggs3::
+	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}Pi pi wow. Wow wow.\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}What do you mean they aren't valid\n"
+	.string "if they're stolen from the LEAGUE?\p"
+	.string "They're BADGES, not gift cards to the\n"
+	.string "POKéMON LEAGUE CHAMPION store!!\p"
+	.string "I'll be able to get in just fine!\p"
+	.string "…once I get my hands the other five\n"
+	.string "badges that I need, of course.\p$"
+
+VolcanionCave_2F_Text_AgentDiggs4::
+	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}Pipi, wow.\p$"
 
 VolcanionCave_2F_EventScript_AquaGruntOldRod::
 	lock

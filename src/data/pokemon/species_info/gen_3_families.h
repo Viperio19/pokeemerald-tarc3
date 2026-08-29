@@ -964,7 +964,10 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .description = COMPOUND_STRING(
             "Mine died on Mt. Pyre :("),
         .descriptionMagma = COMPOUND_STRING(
-            "That one on Mt. Pyre sucked."),
+            "Despite its appearance, POOCHYENA are\n"
+            "omnivorous, and purely opportunistic hunters.\n"
+            "When under the leadership of MIGHTYENA, however,\n"
+            "they become ruthless and confident hunters."),
         .pokemonScale = 481,
         .pokemonOffset = 19,
         .trainerScale = 256,
