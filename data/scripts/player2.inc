@@ -50,17 +50,38 @@ Player2_Singleplayer_DoTrade::
 	end
 
 Player2_Singleplayer_Talk::
-	goto_if_set FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, Player2_Message_RockBroken
+	goto_if_unset FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, Player2_Message_Talk
+	goto_if_unset FLAG_DEFEATED_VOLCANION_CAVE_1F_GOLEM, Player2_Message_PreGolem
+	goto_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, Player2_Message_PreRoom2
+	release
+	end
+	
+Player2_Message_Talk::
 	msgbox Player2_Text_Talk, MSGBOX_NPC
 	release
 	end
 
-Player2_Message_RockBroken::
-	msgbox Player2_Text_RockBroken, MSGBOX_NPC
+Player2_Text_Talk::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}This sucks!!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Yes, I'm aware that TEAM AQUA is the\n"
+	.string "objectively worse organization here.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oh come on, you know that's\n"
+	.string "not what I meant!\p"
+	.string "There's this stupid rock in my way!!\p"
+	.string "If only SHELLY had enough DYNAMO\n"
+	.string "BADGES to give to all of us…\p"
+	.string "Even then, I don't have a POKéMON\n"
+	.string "that knows ROCK SMASH.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Sounds to me like there's\n"
+	.string "nothing you can do about that.\p"
+	.string "Good luck, sucker!!$"
+
+Player2_Message_PreGolem::
+	msgbox Player2_Text_PreGolem, MSGBOX_NPC
 	release
 	end
 
-Player2_Text_RockBroken::
+Player2_Text_PreGolem::
 	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{FONT 5}hmmmm… mmgrmh… mrgrgr…\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}{FONT_NORMAL}Hey, quit mumbling!\p"
 	.string "If you have another insult for me\n"
@@ -76,6 +97,19 @@ Player2_Text_RockBroken::
 	.string "avoid both of its moves…\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}{FONT_NORMAL}Sweet! Thanks for the tips, loose lips!\p"
 	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Wait… I said that all out LOUD???$"
+
+Player2_Message_PreRoom2::
+	msgbox Player2_Text_PreRoom2, MSGBOX_NPC
+	release
+	end
+
+Player2_Text_PreRoom2::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}You know, I could get used to\n"
+	.string "this teamwork thing!\p"
+	.string "But only if you were a TEAM AQUA GRUNT,\n"
+	.string "of course.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Go bother a TEAM AQUA GRUNT and\n"
+	.string "leave me alone, then.$"
 
 Player2_Singleplayer_Cancel::
 	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
@@ -109,20 +143,7 @@ Player2_Text_GivePokemonForPokemon::
 Player2_Text_TakeGoodCareOfPokemon::
 	.string "{RIVAL}: I'll take good care\nof {STR_VAR_2}!$"
 
-Player2_Text_Talk::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}This sucks!!!\p"
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Yes, I'm aware that TEAM AQUA is the\n"
-	.string "objectively worse organization here.\p"
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oh come on, you know that's\n"
-	.string "not what I meant!\p"
-	.string "There's this stupid rock in my way!!\p"
-	.string "If only SHELLY had enough DYNAMO\n"
-	.string "BADGES to give to all of us…\p"
-	.string "Even then, I don't have a POKéMON\n"
-	.string "that knows ROCK SMASH.\p"
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Sounds to me like there's\n"
-	.string "nothing you can do about that.\p"
-	.string "Good luck, sucker!!$"
+
 
 Player2_Text_WeGotThis::
 	.string "{RIVAL}: We got this!$"
