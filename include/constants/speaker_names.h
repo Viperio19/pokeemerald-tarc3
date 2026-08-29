@@ -31,6 +31,7 @@ enum SpeakerColorIds {
     SP_COLOR_NORMAL = 0,
     SP_COLOR_MAGMA,
     SP_COLOR_AQUA,
+    SP_COLOR_ZINNIA,
     SP_COLOR_COUNT
 };
 

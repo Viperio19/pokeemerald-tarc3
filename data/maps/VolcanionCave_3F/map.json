@@ -29,6 +29,7 @@
       "flag": "0"
     },
     {
+      "local_id": "LOCALID_3F_CRAMORANT",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(CRAMORANT)",
       "x": 24,
       "y": 20,
@@ -44,7 +45,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(PIKACHU)",
       "x": 22,
-      "y": 9,
+      "y": 3,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -55,6 +56,7 @@
       "flag": "0"
     },
     {
+      "local_id": "LOCALID_3F_DIGLETT",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIGLETT)",
       "x": 11,
       "y": 21,
@@ -68,7 +70,8 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_M",
+      "local_id": "LOCALID_3F_GOLEM",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GOLEM_ALOLA)",
       "x": 29,
       "y": 37,
       "elevation": 0,
@@ -81,11 +84,12 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GRAPPLOCT)",
-      "x": 3,
-      "y": 37,
+      "local_id": "LOCALID_3F_ZINNIA",
+      "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_F",
+      "x": 4,
+      "y": 38,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",

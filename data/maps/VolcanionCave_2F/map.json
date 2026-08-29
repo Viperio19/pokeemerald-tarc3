@@ -117,7 +117,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "VolcanionCave_2F_EventScript_AquaMemberMFishingRod",
+      "script": "VolcanionCave_2F_EventScript_AquaGruntOldRod",
       "flag": "TRAINER_TYPE_NORMAL"
     },
     {
@@ -176,6 +176,7 @@
       "flag": "FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR"
     },
     {
+      "local_id": "LOCALID_2F_GOLDEEN_GRUNT",
       "graphics_id": "OBJ_EVENT_GFX_MAGMA_MEMBER_F",
       "x": 19,
       "y": 14,
@@ -186,7 +187,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_2F_EventScript_MagmaMemberFGoldeen",
-      "flag": "FLAG_HIDE_GOLDEEN_GRUNT"
+      "flag": "0"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
@@ -392,8 +393,8 @@
     },
     {
       "type": "trigger",
-      "x": 17,
-      "y": 17,
+      "x": 21,
+      "y": 16,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -407,24 +408,6 @@
       "var": "VAR_TEMP_0",
       "var_value": "0",
       "script": "VolcanionCave_2F_EventScript_Hole1B"
-    },
-    {
-      "type": "trigger",
-      "x": 21,
-      "y": 16,
-      "elevation": 0,
-      "var": "VAR_TEMP_0",
-      "var_value": "0",
-      "script": "VolcanionCave_2F_EventScript_Hole2A"
-    },
-    {
-      "type": "trigger",
-      "x": 25,
-      "y": 14,
-      "elevation": 0,
-      "var": "VAR_TEMP_0",
-      "var_value": "0",
-      "script": "VolcanionCave_2F_EventScript_Hole2B"
     },
     {
       "type": "trigger",

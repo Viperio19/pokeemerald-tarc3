@@ -73,7 +73,7 @@
 #define FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR  0x32
 #define FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX    0x33
 #define FLAG_DISABLE_OLD_ROD_BOB                   0x34
-#define FLAG_HIDE_GOLDEEN_GRUNT                    0x35
+#define FLAG_MOVE_GOLDEEN_GRUNT                    0x35
 #define FLAG_TALKED_TO_GOLDEEN_GRUNT               0x36
 #define FLAG_ANIMATE_MUD_UNDER_BOULDER             0x37
 #define FLAG_HIDE_VOLCANION_CAVE_2F_CORSOLA        0x38
@@ -93,8 +93,8 @@
 
 #define FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK_2 0x45
 #define FLAG_OVERWRITE_MET_LOCATION_NEW_GAME       0x46
+#define FLAG_TALKED_TO_OLD_ROD_GRUNT               0x47
 
-#define FLAG_UNUSED_0x047    0x47 // Unused Flag
 #define FLAG_UNUSED_0x048    0x48 // Unused Flag
 #define FLAG_UNUSED_0x049    0x49 // Unused Flag
 #define FLAG_UNUSED_0x04A    0x4A // Unused Flag

@@ -25,13 +25,17 @@ EWRAM_DATA u16 gNameboxTileNum = 0;
 EWRAM_DATA const u8 *gSpeakerName = NULL;
 
 static const u32 sNameBoxDefaultGfx[] = INCGFX_U32("graphics/text_window/name_box.png", ".4bpp");
+static const u32 sNameBoxMagmaGfx[] = INCGFX_U32("graphics/text_window/name_box_magma.png", ".4bpp");
+static const u32 sNameBoxAquaGfx[] = INCGFX_U32("graphics/text_window/name_box_aqua.png", ".4bpp");
+static const u32 sNameBoxZinniaGfx[] = INCGFX_U32("graphics/text_window/name_box_zinnia.png", ".4bpp");
 static const u32 sNameBoxPokenavGfx[] = INCGFX_U32("graphics/pokenav/name_box.png", ".4bpp");
 
-static const u16 sNameBoxColors[SP_COLOR_COUNT] = {
-    [SP_COLOR_NORMAL] = RGB2GBA(120, 120, 120),
-    [SP_COLOR_MAGMA]  = RGB2GBA(176, 37,  30),
-    [SP_COLOR_AQUA]   = RGB2GBA(72,  112, 160)
-};
+// static const u32 sNameBoxGfx[SP_COLOR_COUNT] = {
+//     [SP_COLOR_NORMAL] = sNameBoxDefaultGfx,
+//     [SP_COLOR_MAGMA]  = sNameBoxMagmaGfx,
+//     [SP_COLOR_AQUA]   = sNameBoxAquaGfx,
+//     [SP_COLOR_ZINNIA] = sNameBoxZinniaGfx,
+// };
 
 static void DestroyNameboxFrame(void);
 static void WindowFunc_DrawNamebox(u32, u32, u32, u32, u32, u32, u32);
@@ -39,8 +43,8 @@ static void WindowFunc_ClearNamebox(u8, u8, u8, u8, u8, u8);
 
 void PrepareNamebox(u32 tileNum)
 {
-    u16 color = sNameBoxColors[sNameboxColorId];
-    LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
+    // u16 color = sNameBoxColors[sNameboxColorId];
+    // LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
 
     u8 *strbuf = AllocZeroed(32 * sizeof(u8));
     if (FlagGet(OW_FLAG_SUPPRESS_NAME_BOX) || !gSpeakerName || !strbuf)
@@ -136,16 +140,26 @@ u32 GetNameboxWidth(void)
 
 static const u32 *GetNameboxGraphics(void)
 {
-    if (IsMatchCallTaskActive())
-        return sNameBoxPokenavGfx;
-    else
-        return sNameBoxDefaultGfx;
+    switch (sNameboxColorId)
+    {
+        case SP_COLOR_MAGMA:
+            return sNameBoxMagmaGfx;
+        case SP_COLOR_AQUA:
+            return sNameBoxAquaGfx;
+        case SP_COLOR_ZINNIA:
+            return sNameBoxZinniaGfx;
+        case SP_COLOR_NORMAL:
+        default:
+            return sNameBoxDefaultGfx;
+    }
+
+    return sNameBoxDefaultGfx;
 }
 
 void FillNamebox(void)
 {
-    u16 color = sNameBoxColors[sNameboxColorId];
-    LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
+    // u16 color = sNameBoxColors[sNameboxColorId];
+    // LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
 
     u32 winSize = GetNameboxWidth();
     const u32 *gfx = GetNameboxGraphics();
@@ -161,8 +175,8 @@ void FillNamebox(void)
 
 void DrawNamebox(u32 windowId, u32 tileNum, bool32 copyToVram)
 {
-    u16 color = sNameBoxColors[sNameboxColorId];
-    LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
+    // u16 color = sNameBoxColors[sNameboxColorId];
+    // LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
 
     // manual instead of using CallWindowFunction for extra tileNum param
     struct WindowTemplate *w = &gWindows[windowId].window;

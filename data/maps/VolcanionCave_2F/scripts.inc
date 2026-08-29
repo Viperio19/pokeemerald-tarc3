@@ -38,7 +38,12 @@ VolcanionCave_2F_EventScript_SetRockBarrier4::
 
 VolcanionCave_2F_OnTransition:
 	callnative UpdateStrengthBoulderPositions
+	call_if_set FLAG_MOVE_GOLDEEN_GRUNT, VolcanionCave_2F_EventScript_MoveGoldeenGrunt
 	end
+
+VolcanionCave_2F_EventScript_MoveGoldeenGrunt::
+	setobjectxyperm LOCALID_2F_GOLDEEN_GRUNT, 20, 14
+	return
 
 VolcanionCave_2F_OnWarp:
 	map_script_2 VAR_TEMP_1, 0, VolcanionCave_2F_EventScript_InitObjects
@@ -351,15 +356,22 @@ VolcanionCave_2F_Text_DiglettSecretAgent::
 VolcanionCave_2F_Text_GoodWorkDiggs::
 	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Keep up the good work, AGENT DIGGS!$"
 
-VolcanionCave_2F_EventScript_AquaMemberMFishingRod::
+VolcanionCave_2F_EventScript_AquaGruntOldRod::
 	lock
 	faceplayer
 	goto_if_set FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX, VolcanionCave_2F_EventScript_AquaGruntReceivedOldRod
+	goto_if_set FLAG_TALKED_TO_OLD_ROD_GRUNT, VolcanionCave_2F_EventScript_AquaGruntAskBattleShort
+	setflag FLAG_TALKED_TO_OLD_ROD_GRUNT
 	msgbox VolcanionCave_2F_Text_AquaGruntWantToBattle, MSGBOX_YESNO
+VolcanionCave_2F_EventScript_AquaGruntTryBattle::
 	goto_if_ne VAR_RESULT, YES, VolcanionCave_2F_EventScript_AquaGruntRejected
 	trainerbattle_single TRAINER_GRUNT_VC_2F_TOXAPEX, VolcanionCave_2F_Text_AquaGruntIntro, VolcanionCave_2F_Text_AquaGruntDefeat, VolcanionCave_2F_EventScript_AquaGruntGiveOldRod
 	msgbox VolcanionCave_2F_Text_AquaGruntPostBattle, MSGBOX_NPC
 	end
+
+VolcanionCave_2F_EventScript_AquaGruntAskBattleShort::
+	msgbox VolcanionCave_2F_Text_AquaGruntWantToBattleShort, MSGBOX_YESNO
+	goto VolcanionCave_2F_EventScript_AquaGruntTryBattle
 
 VolcanionCave_2F_EventScript_AquaGruntRejected::
 	msgbox VolcanionCave_2F_Text_AquaGruntRejected, MSGBOX_NPC
@@ -400,6 +412,9 @@ VolcanionCave_2F_Text_AquaGruntWantToBattle:
 	.string "Things it is not: a normal twig with a\n"
 	.string "MEOWSTIC sticker falling off of it.\p"
 	.string "So, do we have a deal?$"
+
+VolcanionCave_2F_Text_AquaGruntWantToBattleShort:
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}So, do we have a deal?$"
 
 VolcanionCave_2F_Text_AquaGruntRejected:
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Your loss, chum!$"
@@ -566,14 +581,17 @@ VolcanionCave_2F_EventScript_ChoosePartyMonGoldeen::
 	specialvar VAR_RESULT, GetTradeSpecies
 	goto_if_eq VAR_RESULT, SPECIES_NONE, VolcanionCave_2F_EventScript_PleaseKeepLooking
 	goto_if_ne VAR_RESULT, VAR_0x8009, VolcanionCave_2F_EventScript_ThatsNotGoldeen
-	msgbox VolcanionCave_2F_Text_ThatsIt, MSGBOX_DEFAULT
-	closemessage
+	message VolcanionCave_2F_Text_ThatsIt
+	waitmessage
+	applymovement LOCALID_2F_GOLDEEN_GRUNT, Common_Movement_FaceRight
+	message VolcanionCave_2F_Text_NicePillow
+	waitmessage
+	waitmovement 0
+	applymovement LOCALID_2F_GOLDEEN_GRUNT, VolcanionCave_2F_Movement_GoldeenGruntWalkInPlace
 	msgbox VolcanionCave_2F_Text_BedtimeTrain, MSGBOX_DEFAULT
 	closemessage
-	fadescreenswapbuffers FADE_TO_BLACK
-	setflag FLAG_HIDE_GOLDEEN_GRUNT
-	removeobject VAR_LAST_TALKED
-	fadescreenswapbuffers FADE_FROM_BLACK
+	setflag FLAG_MOVE_GOLDEEN_GRUNT
+	setobjectxyperm LOCALID_2F_GOLDEEN_GRUNT, 20, 14
 	release
 	end
 
@@ -647,13 +665,26 @@ VolcanionCave_2F_Text_ThatsIt::
 	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}Phew… thanks for getting that freak of\n"
 	.string "nature out of my line of sight!\p"
 	.string "I deserve a nice break after\n"
-	.string "that horrifying situation.\p"
+	.string "that horrifying situation.\p$"
+
+VolcanionCave_2F_Text_NicePillow::
 	.string "And would you look at that, a nice\n"
-	.string "soft rock pillow with my name on it!$"
+	.string "soft rock pillow with my name on it!\p$"
 
 VolcanionCave_2F_Text_BedtimeTrain::
-	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}WAHOOO!!! {PAUSE 20}ALL ABOARD THE BEDTIME TRAIN\n"
+	.string "WAHOOO!!! {PAUSE 40}ALL ABOARD THE BEDTIME TRAIN\n"
 	.string "DESTINATION ZZZZZZZZzzzzzzzzzzzzz…$"
+
+VolcanionCave_2F_Movement_GoldeenGruntWalkInPlace::
+	walk_in_place_faster_right
+	walk_in_place_faster_right
+	walk_in_place_faster_right
+	delay_16
+	delay_16
+	jump_right
+	delay_16
+	face_down
+	step_end
 
 VolcanionCave_2F_EventScript_BlueButton::
 	lockall
@@ -722,7 +753,7 @@ VolcanionCave_2F_EventScript_Hole1B::
 	waitmovement 0
 	delay 16
 	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleEast
+	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleWest
 	waitmovement 0
 	release
 	end
@@ -731,11 +762,6 @@ VolcanionCave_2F_Movement_Hole1AToB::
 	walk_fast_right
 	walk_fast_right
 	walk_fast_right
-	walk_fast_right
-	walk_fast_right
-	walk_fast_right
-	walk_fast_right
-	walk_fast_up
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
@@ -755,11 +781,6 @@ VolcanionCave_2F_Movement_Hole1BToA::
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down
-	walk_fast_down
-	walk_fast_left
-	walk_fast_left
-	walk_fast_left
-	walk_fast_left
 	walk_fast_left
 	walk_fast_left
 	walk_fast_left
