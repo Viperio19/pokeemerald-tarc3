@@ -83,16 +83,32 @@ VolcanionCave_2F_EventScript_Intro::
 	waitmovement 0
 	delay 30
 	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceRight
-	message VolcanionCave_1F_Text_IntroOhNo
-	waitmovement 0
-	waitmessage
-	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceLeft
-	message VolcanionCave_1F_Text_IntroWeirdo
+	message VolcanionCave_2F_Text_IntroName
 	waitmovement 0
 	waitmessage
 	callnative UpdatePlayer2Pos
 	release
 	end
+
+VolcanionCave_2F_Text_IntroName::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}So, you got a name?\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Excuse me?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}A name? You know, like the first thing\n"
+	.string "you get when you're 0 years old??\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Yes, I know what those are.\p"
+	.string "I just don't see the need for you\n"
+	.string "to know my name.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Well, unless you want me to confuse\n"
+	.string "every MAGMA grunt in VOLCANO CAVERN\l"
+	.string "when I call for you, I think you should\l"
+	.string "probably let me know your name.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}…{PLAYER_MAGMA}.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}That name sucks.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}piss off.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Anyway, I'm {PLAYER_AQUA}!\p"
+	.string "I would say it's nice to meet you\n"
+	.string "but I hate you so I won't.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Good for you, let's get this over with.\p$"
 
 VolcanionCave_2F_EventScript_PlayersEnter::
 	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_PlayerAquaEnterCave

@@ -681,6 +681,7 @@ VolcanionCave_1F_EventScript_DefeatedGolem::
 	clearflag FLAG_HIDE_VOLCANION_CAVE_1F_GOLEM_BOULDER
 	delay 20
 	msgbox VolcanionCave_1F_Text_DidWeKillIt, MSGBOX_DEFAULT
+	setflag FLAG_DEFEATED_VOLCANION_CAVE_1F_GOLEM
 	release
 	end
 
