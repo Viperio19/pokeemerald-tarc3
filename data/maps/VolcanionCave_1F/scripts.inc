@@ -534,7 +534,7 @@ VolcanionCave_1F_EventScript_Tirtouga::
 	end
 
 VolcanionCave_1F_Text_TirtougaCry::
-	.string "{SPEAKER NAME_TIRTOUGA COLOR_NORMAL}(tirtouga cry)!$"
+	.string "{SPEAKER NAME_TIRTOUGA COLOR_NORMAL}Tir?$"
 
 VolcanionCave_1F_EventScript_Cubone::
 	lock
@@ -551,7 +551,7 @@ VolcanionCave_1F_EventScript_Cubone::
 	end
 
 VolcanionCave_1F_Text_CuboneCry::
-	.string "{SPEAKER NAME_CUBONE COLOR_NORMAL}(cubone cry)!$"
+	.string "{SPEAKER NAME_CUBONE COLOR_NORMAL}Cuu cuu!$"
 
 VolcanionCave_1F_EventScript_RockSmash::
 	lockall
@@ -699,10 +699,10 @@ VolcanionCave_1F_EventScript_BattleTogetherAqua::
 	return
 
 VolcanionCave_1F_Text_GolemCry::
-	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}(golem cry)!\p$"
+	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}GOOOOLEM!\p$"
 
 VolcanionCave_1F_Text_GolemCryDefeated::
-	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}(golem cry)…$"
+	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}Gol…$"
 
 VolcanionCave_1F_Text_BattleTogetherMagma::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}It's definitely too strong\n"
