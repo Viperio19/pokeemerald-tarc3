@@ -975,6 +975,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
     // Determine original trainer ID
     if (trainerId.method == OT_ID_RANDOM_NO_SHINY)
     {
+        neutralPersonality = personality;
         value = Random32();
         isShiny = FALSE;
     }

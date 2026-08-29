@@ -551,7 +551,7 @@ VolcanionCave_1F_EventScript_Cubone::
 	end
 
 VolcanionCave_1F_Text_CuboneCry::
-	.string "{SPEAKER NAME_CUBONE COLOR_NORMAL}(cubone cry)!$"
+	.string "{SPEAKER NAME_CUBONE COLOR_NORMAL}Cuu cuu!$"
 
 VolcanionCave_1F_EventScript_RockSmash::
 	lockall
