@@ -255,7 +255,7 @@ void UnlockPlayerFieldControls(void)
 
 bool8 ArePlayerFieldControlsLocked(void)
 {
-    return sLockFieldControls;
+    return VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && sLockFieldControls;
 }
 
 // The ScriptContext_* functions work with the primary script context,

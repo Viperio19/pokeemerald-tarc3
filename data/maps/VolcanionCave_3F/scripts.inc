@@ -683,8 +683,251 @@ VolcanionCave_3F_EventScript_Whismur::
 	end
 
 VolcanionCave_3F_EventScript_Golem::
+	lock
+	faceplayer
+	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_ENCOUNTER
+	message VolcanionCave_3F_Text_GolemCry
+	waitmoncry
+	waitmessage
+	closemessage
+	delay 10
+	goto_if_set FLAG_TALKED_VOLCANION_CAVE_3F_GOLEM, VolcanionCave_3F_EventScript_GolemUsedRockSlide
+	setflag FLAG_TALKED_VOLCANION_CAVE_3F_GOLEM
+	message VolcanionCave_3F_Text_GolemSeemsAngry
+	waitmessage
+	closemessage
+	delay 20
+	playbgm MUS_VS_VOLCANION, FALSE
+	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
+	message VolcanionCave_3F_Text_GolemUsedRockSlide
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerNoticeRockSlide
+	waitmovement 0
+	waitmessage
+	closemessage
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockUp
+	call VolcanionCave_3F_EventScript_RockSlideDropRocks
+	message VolcanionCave_3F_Text_MaybeICanUseThis
+	waitmessage
+	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerNoticeRockSlide
+	waitmovement 0
+	delay 20
+	message VolcanionCave_3F_Text_GottaRun
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockDown
+	call VolcanionCave_3F_EventScript_RockSlideDropRocks
+	closemessage
+	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 1
+	delay 70
+	goto VolcanionCave_3F_EventScript_RockSlide
+	end
+
+VolcanionCave_3F_EventScript_GolemUsedRockSlide::
+	playbgm MUS_VS_VOLCANION, FALSE
+	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
+	message VolcanionCave_3F_Text_GolemUsedRockSlide
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerNoticeRockSlide
+	waitmovement 0
+	waitmessage
+	delay 20
+	message VolcanionCave_3F_Text_GottaRun
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockUp
+	call VolcanionCave_3F_EventScript_RockSlideDropRocks
+	closemessage
+	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 1
+	delay 70
+	goto VolcanionCave_3F_EventScript_RockSlide
+	end
+
+VolcanionCave_3F_EventScript_RockSlide::
+	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
+	call VolcanionCave_3F_EventScript_RockSlideDropRocks
+
+	goto_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 3, VolcanionCave_3F_EventScript_RockSlideHitVolcanion
+	goto_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 2, VolcanionCave_3F_EventScript_RockSlideHitPlayer
+
+	delay 70
+	goto VolcanionCave_3F_EventScript_RockSlide
+
+VolcanionCave_3F_EventScript_RockSlideSpawnRocks::
+	@ Shake screen
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 3  @ Horizontal pan
+	setvar VAR_0x8006, 10  @ Num shakes
+	setvar VAR_0x8007, 4  @ Shake delay
+	special ShakeScreen
+
+	@ Spawn rocks
+	getplayerxy VAR_0x8008, VAR_0x8009
+
+	subvar VAR_0x8009, 5
+	subvar VAR_0x8008, 1
+	addobject LOCALID_3F_ROCK_SLIDE_1
+	setobjectsubpriority LOCALID_3F_ROCK_SLIDE_1, MAP_VOLCANION_CAVE_3F, 200
+	setobjectxyperm LOCALID_3F_ROCK_SLIDE_1, VAR_0x8008, VAR_0x8009
+	setobjectxy LOCALID_3F_ROCK_SLIDE_1, VAR_0x8008, VAR_0x8009
+
+	addvar VAR_0x8008, 1
+	addobject LOCALID_3F_ROCK_SLIDE_2
+	setobjectsubpriority LOCALID_3F_ROCK_SLIDE_2, MAP_VOLCANION_CAVE_3F, 200
+	setobjectxyperm LOCALID_3F_ROCK_SLIDE_2, VAR_0x8008, VAR_0x8009
+	setobjectxy LOCALID_3F_ROCK_SLIDE_2, VAR_0x8008, VAR_0x8009
+
+	addvar VAR_0x8008, 1
+	addobject LOCALID_3F_ROCK_SLIDE_3
+	setobjectsubpriority LOCALID_3F_ROCK_SLIDE_3, MAP_VOLCANION_CAVE_3F, 200
+	setobjectxyperm LOCALID_3F_ROCK_SLIDE_3, VAR_0x8008, VAR_0x8009
+	setobjectxy LOCALID_3F_ROCK_SLIDE_3, VAR_0x8008, VAR_0x8009
+	return
+
+VolcanionCave_3F_EventScript_RockSlideDropRocks::
+	@ Drop rocks
+	applymovement LOCALID_3F_ROCK_SLIDE_1, VolcanionCave_3F_Movement_Rock1FallDown
+	applymovement LOCALID_3F_ROCK_SLIDE_3, VolcanionCave_3F_Movement_Rock3FallDown
+	applymovement LOCALID_3F_ROCK_SLIDE_2, VolcanionCave_3F_Movement_Rock2FallDown
+	delay 30
+	playse SE_FALL
+	delay 20
+	playse SE_M_ROCK_THROW
+	delay 8
+	playse SE_M_ROCK_THROW
+	delay 8
+	playse SE_M_ROCK_THROW
+	waitmovement 0
+
+	@ Remove rocks
+	setobjectxyperm LOCALID_3F_ROCK_SLIDE_1, 39, 34
+	removeobject LOCALID_3F_ROCK_SLIDE_1
+	setobjectxyperm LOCALID_3F_ROCK_SLIDE_3, 39, 36
+	removeobject LOCALID_3F_ROCK_SLIDE_3
+	setobjectxyperm LOCALID_3F_ROCK_SLIDE_2, 39, 33
+	removeobject LOCALID_3F_ROCK_SLIDE_2
+	return
+
+VolcanionCave_3F_Movement_Rock1FallDown::
+	delay_16
+	delay_16
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	rock_smash_break
+	step_end
+
+VolcanionCave_3F_Movement_Rock3FallDown::
+	delay_16
+	delay_16
+	delay_8
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	rock_smash_break
+	step_end
+
+VolcanionCave_3F_Movement_Rock2FallDown::
+	delay_16
+	delay_16
+	delay_8
+	delay_8
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	rock_smash_break
+	step_end
+
+VolcanionCave_3F_Movement_PlayerNoticeRockSlide::
+	face_up
+	emote_exclamation_mark
+	step_end
+
+VolcanionCave_3F_Movement_PlayerDodgeRockUp::
+	walk_in_place_fast_up
+	walk_in_place_fast_up
+	walk_in_place_fast_up
+	delay_16
+	delay_8
+	jump_up
+	face_down
+	step_end
+
+VolcanionCave_3F_Movement_PlayerDodgeRockDown::
+	walk_in_place_fast_up
+	walk_in_place_fast_up
+	walk_in_place_fast_up
+	delay_16
+	delay_8
+	jump_up
+	step_end
+
+VolcanionCave_3F_Text_GolemCry::
+	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}GOOOOLEM!\p$"
+
+VolcanionCave_3F_Text_GolemSeemsAngry::
+	.string "GOLEM seems angry!\p$"
+
+VolcanionCave_3F_Text_GolemUsedRockSlide::
+	.string "GOLEM used ROCK SLIDE!{PAUSE 40}$"
+
+VolcanionCave_3F_Text_MaybeICanUseThis::
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA} Maybe I can use this.{PAUSE 25}.{PAUSE 25}.$"
+
+VolcanionCave_3F_Text_GottaRun::
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA} Uh oh!{PAUSE 40} Gotta run!$"
+
+VolcanionCave_3F_EventScript_RockSlideHitPlayer::
+	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 0
+	fadedefaultbgm
+	message VolcanionCave_3F_Text_YouGotHit
+	waitmessage
+	closemessage
 	release
 	end
+
+VolcanionCave_3F_Text_YouGotHit::
+	.string "Oh nooooo you got hit!\p"
+	.string "GOLEM seems to be satisfied\n"
+	.string "and stopped using ROCK SLIDE.\p"
+	.string "For now…\p$"
+
+VolcanionCave_3F_EventScript_RockSlideHitVolcanion::
+	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 0
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionFlicker
+	applymovement VAR_LOCALID_CURRENT_HP_BAR, VolcanionCave_3F_Movement_VolcanionFlicker
+	waitmovement 0
+	addvar VAR_CURRENT_HP_BAR_COLOR, 1
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionSetVisible
+	call VolcanionCave_3F_EventScript_SetHPBar
+	message VolcanionCave_3F_Text_VolcanionGotHit
+	waitmessage
+	fadedefaultbgm
+	closemessage
+	release
+	end
+
+VolcanionCave_3F_Movement_VolcanionFlicker::
+	set_invisible
+	delay_8
+	set_visible
+	delay_8
+	set_invisible
+	delay_8
+	set_visible
+	delay_8
+	set_invisible
+	delay_8
+	step_end
+
+VolcanionCave_3F_Movement_VolcanionSetVisible::
+	set_visible
+	step_end
+
+VolcanionCave_3F_Text_VolcanionGotHit::
+	.string "Oh yeaaaah VOLCANION got hit!\p$"
+
 
 VolcanionCave_3F_EventScript_Diglett::
 	release

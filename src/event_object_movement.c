@@ -2942,6 +2942,8 @@ void RemoveObjectEventsOutsideView(void)
                 continue;
             if (IsOWEDespawnExempt(objectEvent))
                 continue;
+            if (gSaveBlock1Ptr->objectEventTemplates[objectEvent->localId].flagId == FLAG_HIDE_VOLCANION_CAVE_3F_ROCK_SLIDE_ROCKS)
+                continue;
 
             RemoveObjectEventIfOutsideView(objectEvent);
         }
@@ -6358,6 +6360,8 @@ enum Collision GetSidewaysStairsCollision(struct ObjectEvent *objectEvent, enum 
 
 static enum Collision GetVanillaCollision(struct ObjectEvent *objectEvent, s16 x, s16 y, enum Direction direction)
 {
+    if (gSaveBlock1Ptr->objectEventTemplates[objectEvent->localId].flagId == FLAG_HIDE_VOLCANION_CAVE_3F_ROCK_SLIDE_ROCKS)
+        return COLLISION_NONE;
     if (IsCoordOutsideObjectEventMovementRange(objectEvent, x, y))
         return COLLISION_OUTSIDE_RANGE;
     else if (MapGridGetCollisionAt(x, y) || GetMapBorderIdAt(x, y) == CONNECTION_INVALID || IsMetatileDirectionallyImpassable(objectEvent, x, y, direction))
@@ -8693,8 +8697,36 @@ bool8 MovementAction_RevealTrainer_Step1(struct ObjectEvent *objectEvent, struct
     return FALSE;
 }
 
+static void CheckRockHitObject(struct ObjectEvent *objectEvent)
+{
+    s16 x = objectEvent->currentCoords.x;
+    s16 y = objectEvent->currentCoords.y;
+    bool8 playSE = FALSE;
+
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+    const struct ObjectEventTemplate *objectEventTemplate = GetObjectEventTemplateByLocalIdAndMap(LOCALID_3F_VOLCANION, MAP_NUM(MAP_VOLCANION_CAVE_3F), MAP_GROUP(MAP_VOLCANION_CAVE_3F));
+
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) == 1 && x == playerObjEvent->currentCoords.x && y == playerObjEvent->currentCoords.y)
+    {
+        playSE = TRUE;
+        VarSet(VAR_GOLEM_ROCK_SLIDE_STATE, 2);
+    }
+    
+    if (x == objectEventTemplate->x + MAP_OFFSET && y == objectEventTemplate->y + MAP_OFFSET)
+    {
+        playSE = TRUE;
+        VarSet(VAR_GOLEM_ROCK_SLIDE_STATE, 3);
+    }
+
+    if (playSE)
+        PlaySE(SE_SUPER_EFFECTIVE);
+}
+
 bool8 MovementAction_RockSmashBreak_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 0)
+        CheckRockHitObject(objectEvent);
+
     SetAndStartSpriteAnim(sprite, ANIM_REMOVE_OBSTACLE, 0);
     sprite->sActionFuncId = 1;
     return FALSE;
@@ -8704,7 +8736,7 @@ bool8 MovementAction_RockSmashBreak_Step1(struct ObjectEvent *objectEvent, struc
 {
     if (SpriteAnimEnded(sprite))
     {
-        SetMovementDelay(sprite, 32);
+        SetMovementDelay(sprite, VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 0 ? 10 : 32);
         sprite->sActionFuncId = 2;
     }
     return FALSE;
