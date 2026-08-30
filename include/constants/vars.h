@@ -247,12 +247,12 @@
 #define VAR_GIFT_PICHU_SLOT                              0x40DD
 #define VAR_LOCALID_CURRENT_HP_BAR                       0x40DE
 #define VAR_CURRENT_HP_BAR_COLOR                         0x40DF
-#define VAR_GIFT_UNUSED_3                                0x40E0
-#define VAR_GIFT_UNUSED_4                                0x40E1
-#define VAR_GIFT_UNUSED_5                                0x40E2
-#define VAR_GIFT_UNUSED_6                                0x40E3
-#define VAR_GIFT_UNUSED_7                                0x40E4
-#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3          0x40E5 // Unused Var
+#define VAR_ZINNIA_STATE                                 0x40E0
+#define VAR_GIFT_UNUSED_4                                0x40E1 // Unused Var
+#define VAR_GIFT_UNUSED_5                                0x40E2 // Unused Var
+#define VAR_GIFT_UNUSED_6                                0x40E3 // Unused Var
+#define VAR_GIFT_UNUSED_7                                0x40E4 // Unused Var
+#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3          0x40E5
 #define VAR_DAILY_SLOTS                                  0x40E6
 #define VAR_DAILY_WILDS                                  0x40E7
 #define VAR_DAILY_BLENDER                                0x40E8

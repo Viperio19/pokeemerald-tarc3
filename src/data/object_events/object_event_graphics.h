@@ -136,6 +136,7 @@ const u32 gObjectEventPic_Scientist2[] = INCGFX_U32("graphics/object_events/pics
 const u32 gObjectEventPic_DevonEmployee[] = INCGFX_U32("graphics/object_events/pics/people/devon_employee.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_AquaMemberM[] = INCGFX_U32("graphics/object_events/pics/people/team_aqua/aqua_member_m.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_AquaMemberF[] = INCGFX_U32("graphics/object_events/pics/people/team_aqua/aqua_member_f.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u32 gObjectEventPic_Zinnia[] = INCGFX_U32("graphics/object_events/pics/people/team_aqua/zinnia.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_MagmaMemberM[] = INCGFX_U32("graphics/object_events/pics/people/team_magma/magma_member_m.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_MagmaMemberF[] = INCGFX_U32("graphics/object_events/pics/people/team_magma/magma_member_f.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u32 gObjectEventPic_Sidney[] = INCGFX_U32("graphics/object_events/pics/people/elite_four/sidney.png", ".4bpp", "-mwidth 2 -mheight 4");

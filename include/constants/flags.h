@@ -95,10 +95,10 @@
 #define FLAG_OVERWRITE_MET_LOCATION_NEW_GAME       0x46
 #define FLAG_TALKED_TO_OLD_ROD_GRUNT               0x47
 #define FLAG_RECEIVED_SIGNED_REPEL                 0x48
+#define FLAG_HIDE_VOLCANION_CAVE_3F_ZINNIA         0x49
+#define FLAG_HIDE_VOLCANION_CAVE_3F_WHISMUR        0x4A
+#define FLAG_HIDE_VOLCANION_CAVE_3F_TEAM_ROCKET    0x4B
 
-#define FLAG_UNUSED_0x049    0x49 // Unused Flag
-#define FLAG_UNUSED_0x04A    0x4A // Unused Flag
-#define FLAG_UNUSED_0x04B    0x4B // Unused Flag
 #define FLAG_UNUSED_0x04C    0x4C // Unused Flag
 #define FLAG_UNUSED_0x04D    0x4D // Unused Flag
 #define FLAG_UNUSED_0x04E    0x4E // Unused Flag

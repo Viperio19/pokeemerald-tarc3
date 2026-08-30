@@ -156,10 +156,6 @@ VolcanionCave_3F_EventScript_Intro::
 	release
 	end
 
-VolcanionCave_3F_EventScript_DefeatedVolcanion::
-	release
-	end
-
 VolcanionCave_3F_EventScript_PlayersEnter::
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveWithPlayersEntering
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerAquaEnterCave
@@ -189,7 +185,6 @@ VolcanionCave_3F_EventScript_VolcanionCry::
 	playmoncry SPECIES_VOLCANION, CRY_MODE_NORMAL
 	special ShakeScreen
 	delay 30
-	waitmessage
 	waitmoncry
 	return
 
@@ -363,6 +358,7 @@ VolcanionCave_3F_Movement_CameraMoveBackToVolcanion::
 VolcanionCave_3F_Movement_PlayerGetKnockedBack::
 	lock_facing_direction
 	jump_2_down
+	unlock_facing_direction
 	step_end
 
 VolcanionCave_3F_Movement_CameraResetToAqua::
@@ -453,7 +449,7 @@ VolcanionCave_3F_Text_IntroCatchIt::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Fine by me! Let's go!!!\p$"
 
 VolcanionCave_3F_Text_IntroVolcanionCry::
-	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}FWAHHRSHHHH!!!\p$"
+	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}FWAHHRSHHHH!!!$"
 
 VolcanionCave_3F_Text_IntroAwNuts::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}YOWZA!! That is one strong POKéMON!\p"
@@ -543,6 +539,8 @@ VolcanionCave_3F_EventScript_SetMetatilesRocksBroken::
 	return
 
 VolcanionCave_3F_EventScript_SetHPBar::
+	call_if_ne VAR_LOCALID_CURRENT_HP_BAR, 0, VolcanionCave_3F_EventScript_RemoveHPBar
+	setvar VAR_LOCALID_CURRENT_HP_BAR, 0
 	switch VAR_CURRENT_HP_BAR_COLOR
 	case_call 1, VolcanionCave_3F_EventScript_SetHPBarGreen
 	case_call 2, VolcanionCave_3F_EventScript_SetHPBarYellow
@@ -551,6 +549,11 @@ VolcanionCave_3F_EventScript_SetHPBar::
 	addobject VAR_LOCALID_CURRENT_HP_BAR
 	setobjectxyperm VAR_LOCALID_CURRENT_HP_BAR, 16, 19
 	setobjectxy VAR_LOCALID_CURRENT_HP_BAR, 16, 19
+	return
+
+VolcanionCave_3F_EventScript_RemoveHPBar::
+	setobjectxyperm VAR_LOCALID_CURRENT_HP_BAR, 43, 18
+	setobjectxy VAR_LOCALID_CURRENT_HP_BAR, 43, 18
 	return
 
 VolcanionCave_3F_EventScript_AddNoHPBar::
@@ -567,3 +570,131 @@ VolcanionCave_3F_EventScript_SetHPBarYellow::
 VolcanionCave_3F_EventScript_SetHPBarRed::
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_RED
 	return
+
+VolcanionCave_3F_EventScript_Volcanion::
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	closemessage
+	goto_if_unset FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, VolcanionCave_3F_EventScript_AskVolcanionMultiBattle
+	clearflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_PlayerWalkLeftForBattle
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_PlayerWalkRightForBattle
+	setwildbattle SPECIES_VOLCANION, 40, TRUE
+	multi_fixed_players_vs_wild PARTNER_PLAYER_2
+	specialvar VAR_RESULT, GetBattleOutcome
+	@ v TODO: change to goto_if_eq (currently goto_if_ne for testing purposes)
+	goto_if_ne VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedVolcanion
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	closemessage
+	release
+	end
+
+VolcanionCave_3F_EventScript_AskVolcanionMultiBattle::
+	delay 10
+	msgbox VolcanionCave_3F_Text_BattleTogether, MSGBOX_YESNO
+	switch VAR_RESULT
+	case YES, VolcanionCave_3F_EventScript_GetReadyForVolcanionMultiBattle
+	closemessage
+	release
+	end
+
+VolcanionCave_3F_EventScript_GetReadyForVolcanionMultiBattle::
+	closemessage
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_PlayerWalkLeftForBattle
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_PlayerWalkRightForBattle
+	setflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
+	callnative SwitchCharacters
+	waitstate
+	release
+	end
+
+VolcanionCave_3F_EventScript_PlayerWalkLeftForBattle::
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkLeftForBattle
+	waitmovement 0
+	return
+
+VolcanionCave_3F_EventScript_PlayerWalkRightForBattle::
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkRightForBattle
+	waitmovement 0
+	return
+
+VolcanionCave_3F_Movement_PlayerWalkLeftForBattle::
+	walk_left
+	walk_in_place_up
+	step_end
+
+VolcanionCave_3F_Movement_PlayerWalkRightForBattle::
+	walk_right
+	walk_in_place_up
+	step_end
+
+VolcanionCave_3F_EventScript_DefeatedVolcanion::
+	setvar VAR_CURRENT_HP_BAR_COLOR, 0
+	call VolcanionCave_3F_EventScript_SetHPBar
+	playmoncry SPECIES_VOLCANION, CRY_MODE_NORMAL
+	message VolcanionCave_3F_Text_VolcanionCryDefeated
+	waitmessage
+	waitmoncry
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_SetLocalIdsPlayer1
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_SetLocalIdsPlayer2
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceFasterLeft
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
+	message VolcanionCave_3F_Text_WeDidIt
+	waitmessage
+	closemessage
+	release
+	end
+
+VolcanionCave_3F_EventScript_SetLocalIdsPlayer1::
+	setvar LOCALID_PLAYER_AQUA, LOCALID_PLAYER
+	setvar LOCALID_PLAYER_MAGMA, LOCALID_PLAYER_2
+	return
+
+VolcanionCave_3F_EventScript_SetLocalIdsPlayer2::
+	setvar LOCALID_PLAYER_AQUA, LOCALID_PLAYER_2
+	setvar LOCALID_PLAYER_MAGMA, LOCALID_PLAYER
+	return
+
+VolcanionCave_3F_Text_BattleTogether::
+	.string "Battle together?$"
+
+VolcanionCave_3F_Text_VolcanionCryDefeated::
+	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}FWAHHRSHHHH…$"
+
+VolcanionCave_3F_Text_WeDidIt::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}We did it!\p$"
+
+VolcanionCave_3F_EventScript_ZinniaEnter::
+	setvar VAR_ZINNIA_STATE, 1
+	addobject LOCALID_3F_ZINNIA
+	addobject LOCALID_3F_WHISMUR
+	release
+	end
+
+VolcanionCave_3F_EventScript_Zinnia::
+	release
+	end
+
+VolcanionCave_3F_EventScript_Whismur::
+	release
+	end
+
+VolcanionCave_3F_EventScript_Golem::
+	release
+	end
+
+VolcanionCave_3F_EventScript_Diglett::
+	release
+	end
+
+VolcanionCave_3F_EventScript_Cramorant::
+	release
+	end
+
+VolcanionCave_3F_EventScript_Pikachu::
+	release
+	end
+

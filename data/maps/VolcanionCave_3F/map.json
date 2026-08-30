@@ -25,7 +25,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "VolcanionCave_3F_EventScript_Volcanion",
       "flag": "0"
     },
     {
@@ -39,7 +39,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "VolcanionCave_3F_EventScript_Cramorant",
       "flag": "0"
     },
     {
@@ -52,7 +52,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_StrengthBoulder",
+      "script": "VolcanionCave_3F_EventScript_Pikachu",
       "flag": "0"
     },
     {
@@ -61,12 +61,12 @@
       "x": 11,
       "y": 21,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "VolcanionCave_3F_EventScript_Diglett",
       "flag": "0"
     },
     {
@@ -80,12 +80,12 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "VolcanionCave_3F_EventScript_Golem",
       "flag": "0"
     },
     {
       "local_id": "LOCALID_3F_ZINNIA",
-      "graphics_id": "OBJ_EVENT_GFX_AQUA_MEMBER_F",
+      "graphics_id": "OBJ_EVENT_GFX_ZINNIA",
       "x": 4,
       "y": 38,
       "elevation": 0,
@@ -94,8 +94,8 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "VolcanionCave_3F_EventScript_Zinnia",
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_ZINNIA"
     },
     {
       "local_id": "LOCALID_3F_HP_BAR_GREEN",
@@ -264,6 +264,75 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
       "flag": "FLAG_HIDE_HP_BAR_RED_STATS"
+    },
+    {
+      "local_id": "LOCALID_3F_WHISMUR",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(WHISMUR)",
+      "x": 3,
+      "y": 38,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VolcanionCave_3F_EventScript_Whismur",
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_WHISMUR"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIGLETT)",
+      "x": 10,
+      "y": 21,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_INVISIBLE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VolcanionCave_3F_EventScript_Diglett",
+      "flag": "0"
+    },
+    {
+      "local_id": "LOCALID_3F_JESSIE",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_F",
+      "x": 39,
+      "y": 0,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_TEAM_ROCKET"
+    },
+    {
+      "local_id": "LOCALID_3F_JAMES",
+      "graphics_id": "OBJ_EVENT_GFX_ROCKET_M",
+      "x": 39,
+      "y": 1,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_TEAM_ROCKET"
+    },
+    {
+      "local_id": "LOCALID_3F_MEOWTH",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(MEOWTH)",
+      "x": 39,
+      "y": 2,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_TEAM_ROCKET"
     }
   ],
   "warp_events": [
@@ -275,7 +344,17 @@
       "dest_warp_id": "1"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 4,
+      "y": 37,
+      "elevation": 0,
+      "var": "VAR_ZINNIA_STATE",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_ZinniaEnter"
+    }
+  ],
   "bg_events": [],
   "region": "REGION_HOENN"
 }

@@ -481,6 +481,10 @@ static const struct SpriteFrameImage sPicTable_AquaMemberF[] = {
     overworld_ascending_frames(gObjectEventPic_AquaMemberF, 2, 4),
 };
 
+static const struct SpriteFrameImage sPicTable_Zinnia[] = {
+    overworld_ascending_frames(gObjectEventPic_Zinnia, 2, 4),
+};
+
 static const struct SpriteFrameImage sPicTable_MagmaMemberM[] = {
     overworld_ascending_frames(gObjectEventPic_MagmaMemberM, 2, 4),
 };

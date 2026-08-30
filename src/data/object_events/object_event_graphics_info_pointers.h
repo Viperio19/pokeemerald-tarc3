@@ -116,6 +116,7 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Scientist2;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DevonEmployee;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AquaMemberM;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AquaMemberF;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Zinnia;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MagmaMemberM;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MagmaMemberF;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sidney;
@@ -848,6 +849,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_HP_BAR_RED_PARA]          = &gObjectEventGraphicsInfo_HPBarRedPara,
     [OBJ_EVENT_GFX_HP_BAR_RED_PARA_STATS]    = &gObjectEventGraphicsInfo_HPBarRedParaStats,
     [OBJ_EVENT_GFX_HP_BAR_RED_STATS]         = &gObjectEventGraphicsInfo_HPBarRedStats,
+    [OBJ_EVENT_GFX_ZINNIA]                   = &gObjectEventGraphicsInfo_Zinnia,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {
