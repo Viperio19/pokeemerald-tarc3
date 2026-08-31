@@ -140,6 +140,25 @@ void CreateScriptedWildMon(enum Species species, u8 level, enum Item item)
         heldItem[1] = item >> 8;
         SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_HELD_ITEM, heldItem);
     }
+    if (species == SPECIES_VOLCANION)
+    {
+        u16 hp = GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_HP);
+        switch (VarGet(VAR_CURRENT_HP_BAR_COLOR))
+        {
+            case 2:
+                hp /= 2;
+                break;
+            case 3:
+                hp /= 4;
+                break;
+            case 0:
+            case 1:
+            default:
+                break;
+        }
+
+        SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_HP, &hp);
+    }
 }
 void CreateScriptedDoubleWildMon(enum Species species1, u8 level1, enum Item item1, enum Species species2, u8 level2, enum Item item2)
 {

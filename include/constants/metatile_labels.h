@@ -149,6 +149,8 @@
 #define METATILE_Cave_RockBarrier_Right                  0x37D
 #define METATILE_Cave_RockBarrier_Top                    0x37A
 #define METATILE_Cave_RockBarrier_TopEdge                0x37E
+#define METATILE_Cave_Rock_1                             0x22D
+#define METATILE_Cave_Rock_2                             0x250
 #define METATILE_Cave_SealedChamberEntrance_BottomLeft   0x232
 #define METATILE_Cave_SealedChamberEntrance_BottomMid    0x233
 #define METATILE_Cave_SealedChamberEntrance_BottomRight  0x234

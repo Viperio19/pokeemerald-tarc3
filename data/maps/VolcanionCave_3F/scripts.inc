@@ -486,6 +486,8 @@ VolcanionCave_3F_OnLoad::
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_SetRockBarrier1
 	call_if_eq VAR_TEMP_F, 1, VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
 	call_if_ge VAR_VOLCANION_CAVE_3F_STATE, 1, VolcanionCave_3F_EventScript_SetMetatilesRocksBroken
+	call_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 0, VolcanionCave_3F_EventScript_SetMetatilesNoRockSlideBlockade
+	call_if_ne VAR_GOLEM_ROCK_SLIDE_STATE, 0, VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade
 	call VolcanionCave_3F_EventScript_SetHPBar
 	end
 
@@ -576,13 +578,14 @@ VolcanionCave_3F_EventScript_Volcanion::
 	closemessage
 	goto_if_unset FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, VolcanionCave_3F_EventScript_AskVolcanionMultiBattle
 	clearflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
+	getplayerxy VAR_0x8008, VAR_0x8009
 	callnative IsPlayerOne
 	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_PlayerWalkLeftForBattle
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_PlayerWalkRightForBattle
 	setwildbattle SPECIES_VOLCANION, 40, TRUE
 	multi_fixed_players_vs_wild PARTNER_PLAYER_2
 	specialvar VAR_RESULT, GetBattleOutcome
-	@ v TODO: change to goto_if_eq (currently goto_if_ne for testing purposes)
+	@ TODO: change to goto_if_eq (currently goto_if_ne for testing purposes)
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedVolcanion
 	call VolcanionCave_3F_EventScript_VolcanionCry
 	closemessage
@@ -600,24 +603,34 @@ VolcanionCave_3F_EventScript_AskVolcanionMultiBattle::
 
 VolcanionCave_3F_EventScript_GetReadyForVolcanionMultiBattle::
 	closemessage
-	callnative IsPlayerOne
-	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_PlayerWalkLeftForBattle
-	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_PlayerWalkRightForBattle
+	setflag FLAG_SET_PLAYER_2_FOR_VOLCANION_BATTLE
 	setflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
 	callnative SwitchCharacters
 	waitstate
 	release
 	end
 
+VolcanionCave_3F_EventScript_PlayerWalkDownForBattle::
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkDownForBattle
+	waitmovement 0
+	return
+
 VolcanionCave_3F_EventScript_PlayerWalkLeftForBattle::
+	goto_if_eq VAR_0x8009, 21, VolcanionCave_3F_EventScript_PlayerWalkDownForBattle
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkLeftForBattle
 	waitmovement 0
 	return
 
 VolcanionCave_3F_EventScript_PlayerWalkRightForBattle::
+	goto_if_eq VAR_0x8009, 21, VolcanionCave_3F_EventScript_PlayerWalkDownForBattle
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkRightForBattle
 	waitmovement 0
 	return
+
+VolcanionCave_3F_Movement_PlayerWalkDownForBattle::
+	walk_down
+	walk_in_place_up
+	step_end
 
 VolcanionCave_3F_Movement_PlayerWalkLeftForBattle::
 	walk_left
@@ -683,8 +696,10 @@ VolcanionCave_3F_EventScript_Whismur::
 	end
 
 VolcanionCave_3F_EventScript_Golem::
-	lock
-	faceplayer
+	applymovement LOCALID_3F_GOLEM, Common_Movement_FacePlayer
+	goto_if_set FLAG_ROCK_SLIDE_HIT_VOLCANION, VolcanionCave_3F_EventScript_GolemSatisfied
+	call VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade
+	special DrawWholeMapView
 	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_ENCOUNTER
 	message VolcanionCave_3F_Text_GolemCry
 	waitmoncry
@@ -803,6 +818,26 @@ VolcanionCave_3F_EventScript_RockSlideDropRocks::
 	removeobject LOCALID_3F_ROCK_SLIDE_2
 	return
 
+VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade::
+	setmetatile 6, 24, METATILE_Cave_Rock_1, TRUE
+	setmetatile 5, 25, METATILE_Cave_Rock_1, TRUE
+	setmetatile 6, 26, METATILE_Cave_Rock_2, TRUE
+	setmetatile 26, 24, METATILE_Cave_Rock_2, TRUE
+	setmetatile 27, 25, METATILE_Cave_Rock_1, TRUE
+	setmetatile 28, 26, METATILE_Cave_Rock_2, TRUE
+	setmetatile 16, 33, METATILE_Cave_Rock_2, TRUE
+	return
+
+VolcanionCave_3F_EventScript_SetMetatilesNoRockSlideBlockade::
+	setmetatile 6, 24, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 5, 25, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 6, 26, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 26, 24, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 27, 25, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 28, 26, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 16, 33, METATILE_Cave_Floor_Smooth, FALSE
+	return
+
 VolcanionCave_3F_Movement_Rock1FallDown::
 	delay_16
 	delay_16
@@ -869,6 +904,9 @@ VolcanionCave_3F_Text_GolemCry::
 VolcanionCave_3F_Text_GolemSeemsAngry::
 	.string "GOLEM seems angry!\p$"
 
+VolcanionCave_3F_Text_GolemSeemsSatisfied::
+	.string "GOLEM seems satisfied!\p$"
+
 VolcanionCave_3F_Text_GolemUsedRockSlide::
 	.string "GOLEM used ROCK SLIDE!{PAUSE 40}$"
 
@@ -879,13 +917,29 @@ VolcanionCave_3F_Text_GottaRun::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA} Uh oh!{PAUSE 40} Gotta run!$"
 
 VolcanionCave_3F_EventScript_RockSlideHitPlayer::
-	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 0
+	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 4
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerFlicker
+	waitmovement 0
 	fadedefaultbgm
 	message VolcanionCave_3F_Text_YouGotHit
 	waitmessage
 	closemessage
 	release
 	end
+
+VolcanionCave_3F_Movement_PlayerFlicker::
+	set_invisible
+	delay_8
+	set_visible
+	delay_8
+	set_invisible
+	delay_8
+	set_visible
+	delay_8
+	set_invisible
+	delay_8
+	set_visible
+	step_end
 
 VolcanionCave_3F_Text_YouGotHit::
 	.string "Oh nooooo you got hit!\p"
@@ -894,6 +948,9 @@ VolcanionCave_3F_Text_YouGotHit::
 	.string "For now…\p$"
 
 VolcanionCave_3F_EventScript_RockSlideHitVolcanion::
+	call VolcanionCave_3F_EventScript_SetMetatilesNoRockSlideBlockade
+	special DrawWholeMapView
+	setflag FLAG_ROCK_SLIDE_HIT_VOLCANION
 	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 0
 	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionFlicker
 	applymovement VAR_LOCALID_CURRENT_HP_BAR, VolcanionCave_3F_Movement_VolcanionFlicker
@@ -928,6 +985,19 @@ VolcanionCave_3F_Movement_VolcanionSetVisible::
 VolcanionCave_3F_Text_VolcanionGotHit::
 	.string "Oh yeaaaah VOLCANION got hit!\p$"
 
+
+VolcanionCave_3F_EventScript_GolemSatisfied::
+	lock
+	playmoncry SPECIES_GOLEM_ALOLA, CRY_MODE_ENCOUNTER
+	message VolcanionCave_3F_Text_GolemCry
+	waitmessage
+	closemessage
+	delay 10
+	message VolcanionCave_3F_Text_GolemSeemsSatisfied
+	waitmessage
+	closemessage
+	release
+	end
 
 VolcanionCave_3F_EventScript_Diglett::
 	release

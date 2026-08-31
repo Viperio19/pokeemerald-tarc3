@@ -318,7 +318,7 @@ void SpawnPlayer2For3FIntro(void)
                   MAP_NUM(MAP_VOLCANION_CAVE_3F),
                   IS_PLAYER_ONE ? 17 : 15,
                   24,
-                  DIR_NORTH,
+                  IS_PLAYER_ONE ? DIR_WEST : DIR_EAST,
                   3);
 }
 
@@ -342,12 +342,26 @@ void SwitchCharacters(void)
     u8 offset = (gSaveBlock2Ptr->player2Pos.mapGroup == objEvent->mapGroup && gSaveBlock2Ptr->player2Pos.mapNum == objEvent->mapNum) ? 0 : 1;
 
     SetWarpDestination(gSaveBlock2Ptr->player2Pos.mapGroup, gSaveBlock2Ptr->player2Pos.mapNum, WARP_ID_NONE, gSaveBlock2Ptr->player2Pos.x - offset, gSaveBlock2Ptr->player2Pos.y - offset);
-    SetPlayer2Pos(objEvent->mapGroup,
-                  objEvent->mapNum,
-                  objEvent->currentCoords.x - MAP_OFFSET,
-                  objEvent->currentCoords.y - MAP_OFFSET,
-                  objEvent->facingDirection,
-                  objEvent->currentElevation);
+
+    if (FlagGet(FLAG_SET_PLAYER_2_FOR_VOLCANION_BATTLE))
+    {
+        FlagClear(FLAG_SET_PLAYER_2_FOR_VOLCANION_BATTLE);
+        SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_3F),
+                      MAP_NUM(MAP_VOLCANION_CAVE_3F),
+                      IS_PLAYER_ONE ? 17 : 15,
+                      22,
+                      DIR_NORTH,
+                      3);
+    }
+    else
+    {
+        SetPlayer2Pos(objEvent->mapGroup,
+                      objEvent->mapNum,
+                      objEvent->currentCoords.x - MAP_OFFSET,
+                      objEvent->currentCoords.y - MAP_OFFSET,
+                      objEvent->facingDirection,
+                      objEvent->currentElevation);
+    }
 
     DoWarp();
 }
@@ -412,7 +426,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->heldDirection && (input->dpadDirection == playerDirection) && (TrySetUpWalkIntoSignpostScript(&position, metatileBehavior, playerDirection) == TRUE))
         return TRUE;
 
-    if (input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection) == TRUE)
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection) == TRUE)
         return TRUE;
 
     if (input->heldDirection2 && input->dpadDirection == playerDirection)
@@ -422,7 +436,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     }
     if (input->pressedAButton && TrySetupDiveDownScript() == TRUE)
         return TRUE;
-    if (input->pressedStartButton)
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedStartButton)
     {
         FlagSet(FLAG_OPENED_START_MENU);
         PlaySE(SE_WIN_OPEN);
@@ -433,11 +447,11 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->tookStep && TryFindHiddenPokemon())
         return TRUE;
 
-    if (input->pressedSelectButton && UseRegisteredKeyItemOnField() == TRUE)
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedSelectButton && UseRegisteredKeyItemOnField() == TRUE)
         return TRUE;
 
     // TARC - Switch characters when pressing R
-    if (input->pressedRButton && !(IS_MULTIPLAYER))
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedRButton && !(IS_MULTIPLAYER))
     {
         if (FlagGet(FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER))
         {

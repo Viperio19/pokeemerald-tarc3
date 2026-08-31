@@ -2339,7 +2339,7 @@ u8 GetHPBarLevel(s16 hp, s16 maxhp)
 
     if (currValue > (maxValue * 50 / 100)) // more than 50% hp
         return HP_BAR_GREEN;
-    else if (currValue > (maxValue * 20 / 100)) // more than 20% hp
+    else if (currValue > (maxValue * 25 / 100)) // more than 20% hp
         return HP_BAR_YELLOW;
     else if (currValue > 0)
         return HP_BAR_RED; // 20% or less

@@ -346,7 +346,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_ROCK_SLIDE_ROCKS"
+      "flag": "FLAG_HIDE_ROCK_SLIDE_ROCKS"
     },
     {
       "local_id": "LOCALID_3F_ROCK_SLIDE_2",
@@ -360,7 +360,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_ROCK_SLIDE_ROCKS"
+      "flag": "FLAG_HIDE_ROCK_SLIDE_ROCKS"
     },
     {
       "local_id": "LOCALID_3F_ROCK_SLIDE_3",
@@ -374,7 +374,20 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
-      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_ROCK_SLIDE_ROCKS"
+      "flag": "FLAG_HIDE_ROCK_SLIDE_ROCKS"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(GOLEM_ALOLA)",
+      "x": 28,
+      "y": 37,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_INVISIBLE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VolcanionCave_3F_EventScript_Golem",
+      "flag": "0"
     }
   ],
   "warp_events": [

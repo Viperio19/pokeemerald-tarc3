@@ -2942,7 +2942,7 @@ void RemoveObjectEventsOutsideView(void)
                 continue;
             if (IsOWEDespawnExempt(objectEvent))
                 continue;
-            if (gSaveBlock1Ptr->objectEventTemplates[objectEvent->localId].flagId == FLAG_HIDE_VOLCANION_CAVE_3F_ROCK_SLIDE_ROCKS)
+            if (gSaveBlock1Ptr->objectEventTemplates[objectEvent->localId].flagId == FLAG_HIDE_ROCK_SLIDE_ROCKS)
                 continue;
 
             RemoveObjectEventIfOutsideView(objectEvent);
@@ -6360,7 +6360,7 @@ enum Collision GetSidewaysStairsCollision(struct ObjectEvent *objectEvent, enum 
 
 static enum Collision GetVanillaCollision(struct ObjectEvent *objectEvent, s16 x, s16 y, enum Direction direction)
 {
-    if (gSaveBlock1Ptr->objectEventTemplates[objectEvent->localId].flagId == FLAG_HIDE_VOLCANION_CAVE_3F_ROCK_SLIDE_ROCKS)
+    if (gSaveBlock1Ptr->objectEventTemplates[objectEvent->localId].flagId == FLAG_HIDE_ROCK_SLIDE_ROCKS)
         return COLLISION_NONE;
     if (IsCoordOutsideObjectEventMovementRange(objectEvent, x, y))
         return COLLISION_OUTSIDE_RANGE;
@@ -8724,7 +8724,7 @@ static void CheckRockHitObject(struct ObjectEvent *objectEvent)
 
 bool8 MovementAction_RockSmashBreak_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 0)
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) > 0 && VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) < 4)
         CheckRockHitObject(objectEvent);
 
     SetAndStartSpriteAnim(sprite, ANIM_REMOVE_OBSTACLE, 0);
@@ -8736,7 +8736,7 @@ bool8 MovementAction_RockSmashBreak_Step1(struct ObjectEvent *objectEvent, struc
 {
     if (SpriteAnimEnded(sprite))
     {
-        SetMovementDelay(sprite, VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 0 ? 10 : 32);
+        SetMovementDelay(sprite, VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) > 0 && VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) < 4 ? 10 : 32);
         sprite->sActionFuncId = 2;
     }
     return FALSE;
