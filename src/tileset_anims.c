@@ -665,19 +665,20 @@ void InitTilesetAnim_Building(void)
 
 static void TilesetAnim_General(u16 timer)
 {
-    if (timer % 16 == 0)
-        QueueAnimTiles_General_Flower(timer / 16);
+    u8 waterfallTimer = gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_3F) ? 2 : 16;
+    if (timer % waterfallTimer == 0)
+        QueueAnimTiles_General_Waterfall(timer / waterfallTimer);
     if (timer % 16 == 1)
-        QueueAnimTiles_General_Water(timer / 16);
-    if (timer % 16 == 2)
-        QueueAnimTiles_General_SandWaterEdge(timer / 16);
+        QueueAnimTiles_General_Flower(timer / 16);
     if (timer % 16 == 3)
-        QueueAnimTiles_General_Waterfall(timer / 16);
-    if (timer % 16 == 4)
-        QueueAnimTiles_General_LandWaterEdge(timer / 16);
+        QueueAnimTiles_General_Water(timer / 16);
     if (timer % 16 == 5)
+        QueueAnimTiles_General_SandWaterEdge(timer / 16);
+    if (timer % 16 == 7)
+        QueueAnimTiles_General_LandWaterEdge(timer / 16);
+    if (timer % 16 == 9)
         QueueAnimTiles_General_WaterCurrents(timer / 16);
-    if (timer % 16 == 6)
+    if (timer % 16 == 11)
         QueueAnimTiles_General_Steam(timer / 16);
 }
 

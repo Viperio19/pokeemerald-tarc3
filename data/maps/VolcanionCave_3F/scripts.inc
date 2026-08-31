@@ -25,7 +25,7 @@ VolcanionCave_3F_EventScript_TrySpawnPlayer2::
 
 VolcanionCave_3F_EventScript_SpawnHiddenPlayer2::
 	callnative SpawnPlayer2For3FIntro
-	hideobjectat LOCALID_PLAYER_2, MAP_VOLCANION_CAVE_1F
+	hideobjectat LOCALID_PLAYER_2, MAP_VOLCANION_CAVE_3F
 	end
 
 VolcanionCave_3F_OnFrame:
@@ -1000,8 +1000,280 @@ VolcanionCave_3F_EventScript_GolemSatisfied::
 	end
 
 VolcanionCave_3F_EventScript_Diglett::
+	lock
+	applymovement LOCALID_3F_DIGLETT, Common_Movement_FacePlayer
+	waitmovement 0
+	callnative IsPlayerOne
+	goto_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_DiglettMagma
+	goto VolcanionCave_3F_EventScript_DiglettAqua
+	end
+
+VolcanionCave_3F_EventScript_DiglettMagma::
+	call VolcanionCave_3F_EventScript_DiglettCry
+	closemessage
+	message VolcanionCave_3F_Text_AskDiggsHelpMagma
+	waitmessage
+	call VolcanionCave_3F_EventScript_DiglettCry
+	closemessage
+	delay 10
+	playbgm MUS_VS_VOLCANION, FALSE
+	message VolcanionCave_3F_Text_DiglettUsedDig
+	waitmessage
+	call VolcanionCave_3F_EventScript_DiglettUseDig
+	call VolcanionCave_3F_EventScript_DiglettCry
+	message VolcanionCave_3F_Text_ThanksDiggsMagma
+	waitmessage
+	call VolcanionCave_1F_EventScript_VolcanionUseSteamEruption
 	release
 	end
+
+VolcanionCave_3F_EventScript_DiglettAqua::
+	call VolcanionCave_3F_EventScript_AgentDiggsCry
+	message VolcanionCave_3F_Text_AskDiggsHelpAqua
+	waitmessage
+	call VolcanionCave_3F_EventScript_AgentDiggsCry
+	closemessage
+	delay 10
+	playbgm MUS_VS_VOLCANION, FALSE
+	message VolcanionCave_3F_Text_AgentDiggsUsedDig
+	waitmessage
+	call VolcanionCave_3F_EventScript_DiglettUseDig
+	call VolcanionCave_3F_EventScript_AgentDiggsCry
+	message VolcanionCave_3F_Text_ThanksDiggsAqua
+	waitmessage
+	call VolcanionCave_1F_EventScript_VolcanionUseSteamEruption
+	release
+	end
+
+VolcanionCave_3F_EventScript_DiglettCry::
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	message VolcanionCave_3F_Text_DiglettCry
+	waitmessage
+	waitmoncry
+	return
+
+VolcanionCave_3F_EventScript_AgentDiggsCry::
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	message VolcanionCave_3F_Text_AgentDiggsCry
+	waitmessage
+	waitmoncry
+	return
+
+VolcanionCave_3F_EventScript_DiglettUseDig::
+	special SpawnCameraObject
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettDigDown
+	delay 10
+	playse SE_M_DIG
+	waitmovement 0
+	waitse
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveWithDiglettToVolcanion
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettDigToVolcanion
+	waitmovement 0
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 3  @ Horizontal pan
+	setvar VAR_0x8006, 3  @ Num shakes
+	setvar VAR_0x8007, 4  @ Shake delay
+	special ShakeScreen
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionLookAround
+	delay 40
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 5  @ Horizontal pan
+	setvar VAR_0x8006, 6  @ Num shakes
+	setvar VAR_0x8007, 2  @ Shake delay
+	special ShakeScreen
+	delay 20
+	waitmovement 0
+	delay 20
+	playse SE_M_DIG
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettAttackVolcanion
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionGetAttackedByDiglett
+	delay 16
+	closemessage
+	playse SE_SUPER_EFFECTIVE
+	delay 16
+	playse SE_M_DIG
+	waitmovement 0
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionFlicker
+	applymovement VAR_LOCALID_CURRENT_HP_BAR, VolcanionCave_3F_Movement_VolcanionFlicker
+	waitmovement 0
+	addvar VAR_CURRENT_HP_BAR_COLOR, 1
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionSetVisible
+	call VolcanionCave_3F_EventScript_SetHPBar
+	lock
+	fadedefaultbgm
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettDigBackUp
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveDownToDiglett
+	waitmovement 0
+	return
+
+VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
+	playbgm MUS_VS_VOLCANION, FALSE
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	closemessage
+	delay 10
+	message VolcanionCave_3F_Text_VolcanionUsedSteamEruption
+	waitmessage
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 3  @ Horizontal pan
+	setvar VAR_0x8006, 40  @ Num shakes
+	setvar VAR_0x8007, 4  @ Shake delay
+	special ShakeScreen
+	delay 20
+	setmetatile 16, 22, METATILE_General_SteamEruption_EndFloor, FALSE
+	special DrawWholeMapView
+	delay 5
+	setmetatile 16, 22, METATILE_General_SteamEruption_Connection, FALSE
+	setmetatile 16, 23, METATILE_General_SteamEruption_EndStairs, FALSE
+	special DrawWholeMapView
+	delay 5
+	setmetatile 16, 22, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 23, METATILE_General_SteamEruption_Connection, FALSE
+	setmetatile 16, 24, METATILE_General_SteamEruption_EndFloor, FALSE
+	special DrawWholeMapView
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettGetPushedBack
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_DiglettGetPushedBack
+	delay 5
+	setmetatile 16, 22, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 23, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 24, METATILE_General_SteamEruption_Connection, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_EndFloor, FALSE
+	special DrawWholeMapView
+	delay 100
+	setmetatile 16, 22, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 16, 23, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 24, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_Connection, FALSE
+	special DrawWholeMapView
+	delay 5
+	setmetatile 16, 23, METATILE_Cave_Stairs, FALSE
+	setmetatile 16, 24, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_Main, FALSE
+	special DrawWholeMapView
+	delay 5
+	setmetatile 16, 24, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_Main, FALSE
+	special DrawWholeMapView
+	delay 5
+	setmetatile 16, 25, METATILE_Cave_Floor_Smooth, FALSE
+	special DrawWholeMapView
+	closemessage
+	playse SE_SUPER_EFFECTIVE
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_PlayerFlicker
+	waitmovement 0
+	delay 20
+	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	waitmoncry
+	playse SE_FAINT
+	removeobject LOCALID_3F_DIGLETT
+	fadedefaultbgm
+	return
+
+VolcanionCave_3F_Movement_DiglettDigDown::
+	walk_in_place_fast_left
+	walk_in_place_fast_left
+	walk_in_place_fast_left
+	set_invisible
+	step_end
+
+VolcanionCave_3F_Movement_DiglettDigToVolcanion::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_down
+	face_up
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveWithDiglettToVolcanion::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	step_end
+
+VolcanionCave_3F_Movement_VolcanionLookAround::
+	emote_question_mark
+	walk_in_place_left
+	delay_16
+	walk_in_place_right
+	delay_16
+	walk_in_place_down
+	step_end
+
+VolcanionCave_3F_Movement_DiglettAttackVolcanion::
+	set_visible
+	walk_fast_up
+	delay_16
+	walk_in_place_fast_up
+	walk_in_place_fast_up
+	walk_in_place_fast_up
+	set_invisible
+
+VolcanionCave_3F_Movement_VolcanionGetAttackedByDiglett::
+	delay_8
+	lock_facing_direction
+	walk_up
+	delay_16
+	walk_fast_down
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveDownToDiglett::
+	walk_down
+	walk_down
+	step_end
+
+VolcanionCave_3F_Movement_DiglettDigBackUp::
+	walk_down
+	walk_down
+	walk_down
+	face_up
+	set_visible
+	walk_in_place_up
+	delay_16
+	step_end
+
+VolcanionCave_3F_Movement_DiglettGetPushedBack::
+	lock_facing_direction
+	walk_down
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Text_DiglettCry::
+	.string "{SPEAKER NAME_DIGLETT COLOR_AQUA}Pipipi wowow!\p$"
+
+VolcanionCave_3F_Text_AgentDiggsCry::
+	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}Pipipi wowow!\p$"
+
+VolcanionCave_3F_Text_AskDiggsHelpMagma::
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Hey eeeeeh…\n"
+	.string "You're working for TEAM AQUA right?\p"
+	.string "Wanna help us out?\p$"
+
+VolcanionCave_3F_Text_AskDiggsHelpAqua::
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Hey AGENT DIGGS!\n"
+	.string "Wanna help us beat up VOLCANION?\p$"
+
+VolcanionCave_3F_Text_DiglettUsedDig::
+	.string "DIGLETT used DIG!$"
+
+VolcanionCave_3F_Text_AgentDiggsUsedDig::
+	.string "AGENT DIGGS used DIG!$"
+
+VolcanionCave_3F_Text_ThanksDiggsMagma::
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Thank you, strange DIGLETT!\p"
+	.string "Now get out of there before-{PAUSE 10}$"
+
+VolcanionCave_3F_Text_ThanksDiggsAqua::
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Thanks, AGENT DIGGS!\p"
+	.string "Now get out of there before-{PAUSE 10}$"
+
+VolcanionCave_3F_Text_VolcanionUsedSteamEruption::
+	.string "VOLCANION used STEAM ERUPTION!$"
 
 VolcanionCave_3F_EventScript_Cramorant::
 	release
