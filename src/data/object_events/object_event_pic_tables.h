@@ -2758,3 +2758,15 @@ static const struct SpriteFrameImage sPicTable_Player2FFieldMove[] = {
 static const struct SpriteFrameImage sPicTable_Player2FFishing[] = {
     overworld_ascending_frames(gObjectEventPic_Player2FFishing, 4, 4),
 };
+
+static const struct SpriteFrameImage sPicTable_Jessie[] = {
+    overworld_ascending_frames(gObjectEventPic_Jessie, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_James[] = {
+    overworld_ascending_frames(gObjectEventPic_James, 2, 4),
+};
+
+static const struct SpriteFrameImage sPicTable_TeamRocketMeowth[] = {
+    overworld_ascending_frames(gObjectEventPic_TeamRocketMeowth, 2, 4),
+};

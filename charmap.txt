@@ -465,6 +465,7 @@ SPEAKER = FC 19
 ACCENT = FC 1A @ same as FC 01. sets accent color
 BACKGROUND = FC 1B @ same as FC 01. sets background color
 TEXT_COLORS = FC 1C @ takes 3 colors: text base color, shadow and accent
+FONT_TYPE = FC 1D @ toggle FRLG font
 
 @ Speaker names, the order must be matching with include/constants/speaker_names.h
 NAME_NONE = 00
@@ -489,13 +490,26 @@ NAME_BOTH = 12
 NAME_TIRTOUGA = 13
 NAME_CUBONE = 14
 NAME_GOLEM = 15
-NAME_COUNT = 16
+NAME_QUESTION_MARKS = 16
+NAME_QUESTION_MARKS_2 = 17
+NAME_ROCKET = 18
+NAME_ROCKET_2 = 19
+NAME_ROCKET_3 = 1A
+NAME_JESSIE = 1B
+NAME_JAMES = 1C
+NAME_MEOWTH = 1D
+NAME_ALL = 1E
+NAME_AQUA_QUESTION = 1F
+NAME_ZINNIA = 20
+NAME_COUNT = 21
 
 COLOR_NORMAL = 00
 COLOR_MAGMA = 01
 COLOR_AQUA = 02
 COLOR_ZINNIA = 03
-COLOR_COUNT = 04
+COLOR_JESSIE = 04
+COLOR_JAMES = 05
+COLOR_COUNT = 06
 
 @ fonts
 

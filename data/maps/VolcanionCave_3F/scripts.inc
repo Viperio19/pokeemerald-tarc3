@@ -1368,6 +1368,70 @@ VolcanionCave_3F_EventScript_Cramorant::
 	end
 
 VolcanionCave_3F_EventScript_Pikachu::
+	message VolcanionCave_3F_Text_RocketMottoStart
+	waitmessage
+	playse SE_FALL
+	addobject LOCALID_3F_JESSIE
+	setobjectxy LOCALID_3F_JESSIE, 28, 2
+	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketFallDown
+	waitmovement 0
+	playse SE_M_STRENGTH
+	message VolcanionCave_3F_Text_RocketMottoJessieEnter
+	waitmessage
+	playse SE_FALL
+	addobject LOCALID_3F_JAMES
+	setobjectxy LOCALID_3F_JAMES, 29, 2
+	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketFallDown
+	waitmovement 0
+	playse SE_M_STRENGTH
+	message VolcanionCave_3F_Text_RocketMottoJamesEnter
+	waitmessage
+	playse SE_FALL
+	addobject LOCALID_3F_MEOWTH
+	setobjectxy LOCALID_3F_MEOWTH, 30, 2
+	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketFallDown
+	waitmovement 0
+	playse SE_M_STRENGTH
+	message VolcanionCave_3F_Text_RocketMottoMeowthEnter
+	waitmessage
+	message VolcanionCave_3F_Text_RocketMottoRest
+	waitmessage
+	trainerbattle_no_intro TRAINER_TEAM_ROCKET_DUO_VC_3F, VolcanionCave_2F_Text_AquaGruntDefeat
 	release
 	end
 
+VolcanionCave_3F_Movement_TeamRocketFallDown::
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	step_end
+
+VolcanionCave_3F_Text_RocketMottoStart::
+	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JESSIE}{FONT_TYPE 1}Prepare for trouble!\p"
+	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JAMES}…we're in HOENN.\p"
+	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JESSIE}…oh. {FONT_TYPE 0}Ahem…\p"
+	.string "Prepare for trouble from the skies!\p"
+	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JAMES}From beyond the stars, a nasty surprise!\p$"
+
+VolcanionCave_3F_Text_RocketMottoJessieEnter::
+	.string "{SPEAKER NAME_ROCKET COLOR_JESSIE}An evil as old as the galaxy…\p$"
+
+VolcanionCave_3F_Text_RocketMottoJamesEnter::
+	.string "{SPEAKER NAME_ROCKET COLOR_JAMES}…sent here to fulfill our destiny!\p$"
+
+VolcanionCave_3F_Text_RocketMottoMeowthEnter::
+	.string "{SPEAKER NAME_ROCKET_3 COLOR_NORMAL}Plus, there's me!\p$"
+
+VolcanionCave_3F_Text_RocketMottoRest::
+	.string "{SPEAKER NAME_ROCKET COLOR_JESSIE}To denounce the evils\n"
+	.string "of truth and love!\p"
+	.string "{SPEAKER NAME_ROCKET COLOR_JAMES}To extend our reach\n"
+	.string "to the stars above!\p"
+	.string "{SPEAKER NAME_JESSIE COLOR_JESSIE}Jessie!\p"
+	.string "{SPEAKER NAME_JAMES COLOR_JAMES}And James!\p"
+	.string "{SPEAKER NAME_MEOWTH COLOR_NORMAL}And Meowth are the names!\p"
+	.string "{SPEAKER NAME_JESSIE COLOR_JESSIE}Anywhere there's peace in the universe…\p"
+	.string "{SPEAKER NAME_JAMES COLOR_JAMES}…Team Rocket…\p"
+	.string "{SPEAKER NAME_MEOWTH COLOR_NORMAL}…will be there…\p"
+	.string "{SPEAKER NAME_ALL COLOR_NORMAL}…to make everything worse!\p$"

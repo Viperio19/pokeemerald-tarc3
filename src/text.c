@@ -1421,6 +1421,10 @@ static u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentChar++;
                 GenerateFontHalfRowLookupTable(textPrinter->printerTemplate.color);
                 return RENDER_REPEAT;
+            case EXT_CTRL_CODE_FONT_TYPE:
+                gSpecialVar_FontType = *textPrinter->printerTemplate.currentChar;
+                textPrinter->printerTemplate.currentChar++;
+                return RENDER_REPEAT;
             case EXT_CTRL_CODE_PALETTE:
                 textPrinter->printerTemplate.currentChar++;
                 return RENDER_REPEAT;
@@ -1755,6 +1759,7 @@ static u32 UNUSED GetStringWidthFixedWidthFont(const u8 *str, u8 fontId, u8 lett
             case EXT_CTRL_CODE_FILL_WINDOW:
             case EXT_CTRL_CODE_JPN:
             case EXT_CTRL_CODE_ENG:
+            case EXT_CTRL_CODE_FONT_TYPE:
             default:
                 break;
             }
@@ -1932,6 +1937,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
             case EXT_CTRL_CODE_PAUSE_UNTIL_PRESS:
             case EXT_CTRL_CODE_WAIT_SE:
             case EXT_CTRL_CODE_FILL_WINDOW:
+            case EXT_CTRL_CODE_FONT_TYPE:
             default:
                 break;
             }
@@ -2090,6 +2096,7 @@ u8 RenderTextHandleBold(u8 *pixels, u8 fontId, u8 *str)
             case EXT_CTRL_CODE_FILL_WINDOW:
             case EXT_CTRL_CODE_JPN:
             case EXT_CTRL_CODE_ENG:
+            case EXT_CTRL_CODE_FONT_TYPE:
             default:
                 continue;
             }
@@ -2369,13 +2376,10 @@ static void DecompressGlyph_Normal(u16 glyphId, bool32 isJapanese)
 
     switch (gSpecialVar_FontType)
     {
-        case FONT_TYPE_EMERALD:
-            useEmeraldFont = TRUE;
-            break;
         case FONT_TYPE_FRLG:
             useEmeraldFont = FALSE;
             break;
-        case FONT_TYPE_DEFAULT:
+        case FONT_TYPE_EMERALD:
         default:
             useEmeraldFont = TRUE;
             break;
@@ -2407,7 +2411,7 @@ static void DecompressGlyph_Normal(u16 glyphId, bool32 isJapanese)
             DecompressGlyphTile(glyphs + 0x18, gCurGlyph.gfxBufferBottom + 8);
         }
 
-        gCurGlyph.height = 15;
+        gCurGlyph.height = useEmeraldFont ? 15 : 16;
     }
 }
 
@@ -2421,13 +2425,10 @@ static u32 GetGlyphWidth_Normal(u16 glyphId, bool32 isJapanese)
 
         switch (gSpecialVar_FontType)
         {
-            case FONT_TYPE_EMERALD:
-                useEmeraldFont = TRUE;
-                break;
             case FONT_TYPE_FRLG:
                 useEmeraldFont = FALSE;
                 break;
-            case FONT_TYPE_DEFAULT:
+            case FONT_TYPE_EMERALD:
             default:
                 useEmeraldFont = TRUE;
                 break;

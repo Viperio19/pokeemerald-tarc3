@@ -605,6 +605,12 @@ const u32 gObjectEventPic_HPBarRedPara[] = INCGFX_U32("graphics/object_events/pi
 const u32 gObjectEventPic_HPBarRedParaStats[] = INCGFX_U32("graphics/object_events/pics/misc/overworld_hp_bar_red_para_stats.png", ".4bpp", "-mwidth 8 -mheight 8");
 const u32 gObjectEventPic_HPBarRedStats[] = INCGFX_U32("graphics/object_events/pics/misc/overworld_hp_bar_red_stats.png", ".4bpp", "-mwidth 8 -mheight 8");
 const u16 gObjectEventPic_SurfBlob[] = INCGFX_U16("graphics/object_events/pics/misc/surf_blob.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u16 gObjectEventPal_Jessie[] = INCGFX_U16("graphics/object_events/palettes/jessie.pal", ".gbapal");
+const u16 gObjectEventPic_Jessie[] = INCGFX_U16("graphics/object_events/pics/people/jessie.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u16 gObjectEventPal_James[] = INCGFX_U16("graphics/object_events/palettes/james.pal", ".gbapal");
+const u16 gObjectEventPic_James[] = INCGFX_U16("graphics/object_events/pics/people/james.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u16 gObjectEventPal_Meowth[] = INCGFX_U16("graphics/object_events/palettes/meowth.pal", ".gbapal");
+const u16 gObjectEventPic_TeamRocketMeowth[] = INCGFX_U16("graphics/object_events/pics/people/meowth.png", ".4bpp", "-mwidth 2 -mheight 4");
 
 const u16 gObjectEventPic_LaprasOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/lapras.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u16 gObjectEventPic_ZapdosOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/zapdos.png", ".4bpp");

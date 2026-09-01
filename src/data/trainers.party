@@ -16895,3 +16895,23 @@ Quirky Nature
 - Toxic
 - Recover
 - Eat
+
+=== TRAINER_TEAM_ROCKET_DUO_VC_3F ===
+Name: DUO
+Class: Team Rocket Duo
+Pic: Team Rocket Duo
+Gender: Male
+Double Battle: Yes
+AI: Basic Trainer
+
+Chimecho
+Level: 20
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Quirky Nature
+- Wrap
+
+Dustox
+Level: 20
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Quirky Nature
+- Poison Sting

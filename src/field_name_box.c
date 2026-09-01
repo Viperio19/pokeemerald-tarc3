@@ -28,14 +28,18 @@ static const u32 sNameBoxDefaultGfx[] = INCGFX_U32("graphics/text_window/name_bo
 static const u32 sNameBoxMagmaGfx[] = INCGFX_U32("graphics/text_window/name_box_magma.png", ".4bpp");
 static const u32 sNameBoxAquaGfx[] = INCGFX_U32("graphics/text_window/name_box_aqua.png", ".4bpp");
 static const u32 sNameBoxZinniaGfx[] = INCGFX_U32("graphics/text_window/name_box_zinnia.png", ".4bpp");
+static const u32 sNameBoxJessieGfx[] = INCGFX_U32("graphics/text_window/name_box_jessie.png", ".4bpp");
+static const u32 sNameBoxJamesGfx[] = INCGFX_U32("graphics/text_window/name_box_james.png", ".4bpp");
 static const u32 sNameBoxPokenavGfx[] = INCGFX_U32("graphics/pokenav/name_box.png", ".4bpp");
 
-// static const u32 sNameBoxGfx[SP_COLOR_COUNT] = {
-//     [SP_COLOR_NORMAL] = sNameBoxDefaultGfx,
-//     [SP_COLOR_MAGMA]  = sNameBoxMagmaGfx,
-//     [SP_COLOR_AQUA]   = sNameBoxAquaGfx,
-//     [SP_COLOR_ZINNIA] = sNameBoxZinniaGfx,
-// };
+static const u16 sNameBoxColors[SP_COLOR_COUNT] = {
+    [SP_COLOR_NORMAL] = RGB2GBA(120, 120, 120),
+    [SP_COLOR_MAGMA]  = RGB2GBA(176, 37,  30 ),
+    [SP_COLOR_AQUA]   = RGB2GBA(72,  112, 160),
+    [SP_COLOR_ZINNIA] = RGB2GBA(32,  152, 8  ),
+    [SP_COLOR_JESSIE] = RGB2GBA(168, 48,  112),
+    [SP_COLOR_JAMES]  = RGB2GBA(104, 104, 176),
+};
 
 static void DestroyNameboxFrame(void);
 static void WindowFunc_DrawNamebox(u32, u32, u32, u32, u32, u32, u32);
@@ -146,10 +150,10 @@ static const u32 *GetNameboxGraphics(void)
             return sNameBoxMagmaGfx;
         case SP_COLOR_AQUA:
             return sNameBoxAquaGfx;
-        case SP_COLOR_ZINNIA:
-            return sNameBoxZinniaGfx;
         case SP_COLOR_NORMAL:
         default:
+            u16 color = sNameBoxColors[sNameboxColorId];
+            LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 12, sizeof(color));
             return sNameBoxDefaultGfx;
     }
 
