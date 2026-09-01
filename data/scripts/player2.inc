@@ -55,6 +55,9 @@ Player2_Singleplayer_Talk::
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, Player2_Message_PreRoom2
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 0, Player2_Message_MudSliding
 	goto_if_unset FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR, Player2_Message_Exeggutor
+	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 0, Player2_Message_MagmaWall
+	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 0, Player2_Message_Holes
+	goto_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, Player2_Message_PreRoom3
 	release
 	end
 	
@@ -143,7 +146,82 @@ Player2_Text_Exeggutor::
 	.string "this other DISGUSTING MUD PIT with\l"
 	.string "these stupid blue crystals in the way!\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Blue crystals, eh?\n"
-	.string "{FONT 5}(Wasn't there a switch...?){FONT_NORMAL}$"
+	.string "{FONT 5}(Wasn't there a switch…?){FONT_NORMAL}$"
+
+Player2_Message_MagmaWall::
+	msgbox Player2_Text_MagmaWall, MSGBOX_NPC
+	release
+	end
+
+Player2_Text_MagmaWall::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}The EXEGGUTOR is out of the way,\n"
+	.string "but now I'm the one at a dead end.\p"
+	.string "You can use STRENGTH, right {PLAYER_AQUA}?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}It's one of my many… {FONT 5}hehe… {FONT_NORMAL}STRENGTHS!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Quit punning around, I asked because\n"
+	.string "the wall in my way looks suspiciously\l"
+	.string "like the one you removed the last time\l"
+	.string "you pushed a boulder onto a switch.\p"
+	.string "Go kick rocks, kid. Maybe you'll luck\n"
+	.string "your way into clearing a path for me.$"
+
+Player2_Message_Holes::
+	msgbox Player2_Text_Holes, MSGBOX_NPC
+	release
+	end
+
+Player2_Text_Holes::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}This… SERGEANT DUGS, you called him?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}EXCUUUSE ME! His name is AGENT DIGGS\n"
+	.string "and you will RESPECT his name!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Well whatever his name is, he made\n"
+	.string "quite the mess of this place.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}I know right, isn't he just the best?\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I fail to understand how me spraining\n"
+	.string "my ankle every time I try to walk here\l"
+	.string "is good… Ah yes, the whole “I hate you”\l"
+	.string "thing, I understand completely now.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}You don't get the point at all!\p"
+	.string "AGENT DIGGS dug those holes so we\n"
+	.string "can reach the ledges that we can't\l"
+	.string "get to on foot!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Hmm… maybe the little guy deserves\n"
+	.string "some credit after all.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}He's the pride and joy of TEAM AQUA!!$"
+
+Player2_Message_PreRoom3::
+	msgbox Player2_Text_PreRoom3, MSGBOX_NPC
+	release
+	end
+
+Player2_Text_PreRoom3::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Well this has been a day and a half…\p"
+	.string "First I get put on this stupid mission,\n"
+	.string "then this jerk shows up, and finally I\l"
+	.string "lose my brand-old fishing rod!!\p"
+	.string "Its not fair!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Would you like your day to be worse?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Not really…\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Hey, {PLAYER_AQUA}.\p"
+	.string "Take a look at how far we've come\n"
+	.string "in such a short amount of time.\p"
+	.string "We're ahead of everyone else now,\n"
+	.string "that's a huge accomplishment.\p"
+	.string "From here on though, we're walking\n"
+	.string "into uncharted territory.\p"
+	.string "You feel that rumbling?\p"
+	.string "Whatever is waiting in there won't be\n"
+	.string "very happy to see us waltzing in.\p"
+	.string "So chin up, we need you to focus on\n"
+	.string "what we can accomplish right now.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Well look at you worrying about me,\n"
+	.string "maybe there is actually something\l"
+	.string "soft in that rocky heart of yours.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}It's not nearly that deep.\p"
+	.string "If you aren't there, then who will be\n"
+	.string "my meatshield if things go wrong?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Yep. {PAUSE 40}Figured.$"
+
 
 Player2_Singleplayer_Cancel::
 	msgbox Player2_Text_WeGotThis, MSGBOX_NPC

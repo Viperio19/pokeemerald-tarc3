@@ -655,10 +655,10 @@ VolcanionCave_2F_EventScript_ToxapexSad:
 	return
 
 VolcanionCave_2F_Text_ToxapexHappy::
-	.string "TOXAPEX: Toxaaaaa!$"
+	.string "{SPEAKER NAME_TOXAPEX COLOR_AQUA}(phonetically impossible cry)$"
 
 VolcanionCave_2F_Text_ToxapexSad::
-	.string "TOXAPEX: Pex...$"
+	.string "{SPEAKER NAME_TOXAPEX COLOR_AQUA}(phonetically impossible cry but sad)$"
 
 VolcanionCave_2F_EventScript_OldRod::
 	lock
@@ -1197,4 +1197,4 @@ VolcanionCave_2F_EventScript_Corsola::
 	end
 
 VolcanionCave_2F_Text_Corsola::
-	.string "CORSOLA: Solaaaaa!$"
+	.string "{SPEAKER NAME_CORSOLA COLOR_NORMAL}Pi uwaa!$"
