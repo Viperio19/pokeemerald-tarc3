@@ -35,6 +35,8 @@ enum SpeakerNames {
     SP_NAME_ALL,
     SP_NAME_AQUA_QUESTION,
     SP_NAME_ZINNIA,
+    SP_NAME_WHISMUR,
+    SP_NAME_ASTER,
     SP_NAME_COUNT
 };
 

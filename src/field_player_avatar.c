@@ -1898,6 +1898,13 @@ void SetPlayerAvatarWatering(enum Direction direction)
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFaceDirectionAnimNum(direction));
 }
 
+void HideWarpArrow(void)
+{
+    struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
+
+    HideShowWarpArrow(playerObjEvent);
+}
+
 static void HideShowWarpArrow(struct ObjectEvent *objectEvent)
 {
     s16 x;

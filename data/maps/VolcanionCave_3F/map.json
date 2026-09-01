@@ -269,8 +269,8 @@
     {
       "local_id": "LOCALID_3F_WHISMUR",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(WHISMUR)",
-      "x": 3,
-      "y": 38,
+      "x": 4,
+      "y": 39,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_FACE_UP",
       "movement_range_x": 0,
@@ -281,6 +281,7 @@
       "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_WHISMUR"
     },
     {
+      "local_id": "LOCALID_3F_DIGLETT_INVISIBLE",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIGLETT)",
       "x": 10,
       "y": 21,
@@ -404,7 +405,7 @@
     {
       "type": "trigger",
       "x": 4,
-      "y": 37,
+      "y": 38,
       "elevation": 0,
       "var": "VAR_ZINNIA_STATE",
       "var_value": "0",

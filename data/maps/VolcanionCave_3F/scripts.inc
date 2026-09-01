@@ -181,6 +181,7 @@ VolcanionCave_3F_EventScript_VolcanionCry::
 	setvar VAR_0x8005, 3  @ Horizontal pan
 	setvar VAR_0x8006, 10  @ Num shakes
 	setvar VAR_0x8007, 4  @ Shake delay
+	applymovement LOCALID_3F_VOLCANION, Common_Movement_WalkInPlaceDown
 	message VolcanionCave_3F_Text_IntroVolcanionCry
 	playmoncry SPECIES_VOLCANION, CRY_MODE_NORMAL
 	special ShakeScreen
@@ -563,15 +564,30 @@ VolcanionCave_3F_EventScript_AddNoHPBar::
 	return
 
 VolcanionCave_3F_EventScript_SetHPBarGreen::
+	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarGreenStats
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_GREEN
 	return
 
+VolcanionCave_3F_EventScript_SetHPBarGreenStats::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_GREEN_STATS
+	return
+
 VolcanionCave_3F_EventScript_SetHPBarYellow::
+	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarYellowStats
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_YELLOW
 	return
 
+VolcanionCave_3F_EventScript_SetHPBarYellowStats::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_YELLOW_STATS
+	return
+
 VolcanionCave_3F_EventScript_SetHPBarRed::
+	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarRedStats
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_RED
+	return
+
+VolcanionCave_3F_EventScript_SetHPBarRedStats::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_RED_STATS
 	return
 
 VolcanionCave_3F_EventScript_Volcanion::
@@ -682,10 +698,273 @@ VolcanionCave_3F_Text_WeDidIt::
 
 VolcanionCave_3F_EventScript_ZinniaEnter::
 	setvar VAR_ZINNIA_STATE, 1
-	addobject LOCALID_3F_ZINNIA
 	addobject LOCALID_3F_WHISMUR
+	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurEnter
+	delay 4
+	playse SE_LEDGE
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerGetPushedByWhismur
+	waitmovement 0
+	callnative HideWarpArrow
+	playmoncry SPECIES_WHISMUR, CRY_MODE_NORMAL
+	message VolcanionCave_3F_Text_WhismurCry
+	waitmessage
+	waitmoncry
+	closemessage
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_ZINNIA
+	addobject LOCALID_3F_ZINNIA
+	setobjectxyperm LOCALID_3F_ZINNIA, 4, 38
+	setobjectxy LOCALID_3F_ZINNIA, 4, 39
+	applymovement LOCALID_3F_ZINNIA, VolcanionCave_3F_Movement_ZinniaEnter
+	delay 30
+	playse SE_PIN
+	waitmovement 0
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_ZinniaDialogueAqua
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_ZinniaDialogueMagma
+	waitmessage
+	applymovement LOCALID_3F_ZINNIA, Common_Movement_WalkInPlaceUp
+	waitmovement 0
+	special SpawnCameraObject
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveToWhismur
+	message VolcanionCave_3F_Text_ZinniaAskAster
+	waitmessage
+	playmoncry SPECIES_WHISMUR, CRY_MODE_NORMAL
+	message VolcanionCave_3F_Text_AsterCry
+	waitmessage
+	waitmoncry
+	closemessage
+	playbgm MUS_VS_VOLCANION, FALSE
+	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurRunToVolcanion
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveWithWhismurToVolcanion
+	waitmovement 0
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_AsterUsedScreeeechAqua
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_AsterUsedScreeeechMagma
+	waitmessage
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 7  @ Horizontal pan
+	setvar VAR_0x8006, 15  @ Num shakes
+	setvar VAR_0x8007, 3  @ Shake delay
+	special ShakeScreen
+	playse SE_M_SCREECH
+	delay 10
+	playse SE_M_SCREECH
+	delay 10
+	playse SE_M_SCREECH
+	delay 20
+	playse SE_M_STAT_DECREASE
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionFlicker
+	applymovement VAR_LOCALID_CURRENT_HP_BAR, VolcanionCave_3F_Movement_VolcanionFlicker
+	waitmovement 0
+	setvar VAR_ZINNIA_STATE, 1
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionSetVisible
+	call VolcanionCave_3F_EventScript_SetHPBar
+	lock
+	message VolcanionCave_3F_Text_VolcanionsStatsDropped
+	waitmessage
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	message VolcanionCave_3F_Text_VolcanionUsedFlamethrower
+	waitmessage
+	playse SE_BALL_OPEN
+	waitse
+	closemessage
+	removeobject LOCALID_3F_WHISMUR
+	delay 20
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	closemessage
+	fadedefaultbgm
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveBackToZinnia
+	waitmovement 0
+	special RemoveCameraObject
+	message VolcanionCave_3F_Text_GoodJobAster
+	waitmessage
+	closemessage
 	release
 	end
+
+VolcanionCave_3F_EventScript_ZinniaDialogueAqua::
+	message VolcanionCave_3F_Text_ZinniaDialogueAqua
+	return
+
+VolcanionCave_3F_EventScript_ZinniaDialogueMagma::
+	message VolcanionCave_3F_Text_ZinniaDialogueMagma
+	return
+
+VolcanionCave_3F_EventScript_AsterUsedScreeeechAqua::
+	message VolcanionCave_3F_Text_AsterUsedScreeeechAqua
+	return
+
+VolcanionCave_3F_EventScript_AsterUsedScreeeechMagma::
+	message VolcanionCave_3F_Text_AsterUsedScreeeechMagma
+	return
+
+VolcanionCave_3F_Movement_WhismurEnter::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_in_place_down
+	step_end
+
+VolcanionCave_3F_Movement_PlayerGetPushedByWhismur::
+	face_left
+	lock_facing_direction
+	jump_right
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_ZinniaEnter::
+	walk_up
+	delay_16
+	emote_exclamation_mark
+	walk_in_place_right
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveToWhismur::
+	walk_diag_northwest
+	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_WhismurRunToVolcanion::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveWithWhismurToVolcanion::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveBackToZinnia::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+VolcanionCave_3F_Text_WhismurCry::
+	.string "{SPEAKER NAME_WHISMUR COLOR_NORMAL}(Whismur cry)!\p$"
+
+VolcanionCave_3F_Text_ZinniaDialogueAqua::
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_AQUA}Oh hi, I thought I would\n"
+	.string "be the first in this room…\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Your hair is purple…\n"
+	.string "You're not an AQUA GRUNT.\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Whaaaaaaaat???\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}And you're green.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Ah shit.\n"
+	.string "Don't tell anyone please.\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}If you help me with VOLCANION\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}What?{PAUSE 40}\n"
+	.string "Oh, that thing over there? Sure.\p$"
+
+VolcanionCave_3F_Text_ZinniaDialogueMagma::
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_AQUA}Oh hi, I thought I would\n"
+	.string "be the first in this room…\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Your hair is purple…\n"
+	.string "You're not an AQUA GRUNT.\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Whaaaaaaaat???\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}And you're green.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Ah shit.\n"
+	.string "Don't tell anyone please.\p"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}If you help me with that{PAUSE 20}\n"
+	.string "{FONT 5}ugh{PAUSE 20} {FONT_NORMAL}“VOLCANION”.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}What?{PAUSE 30}\n"
+	.string "Oh, that POKéMON over there? Sure.\p$"
+
+VolcanionCave_3F_Text_ZinniaAskAster::
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Hey ASTER, wanna have some fun and\n"
+	.string "weaken that big POKéMON over there?\p$"
+
+VolcanionCave_3F_Text_AsterCry::
+	.string "{SPEAKER NAME_ASTER COLOR_ZINNIA}(Whismur cry)!\p$"
+
+VolcanionCave_3F_Text_AsterUsedScreeeechAqua::
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Cover your ears.\p"
+	.string "{AUTO_SCROLL 1}{SPEAKER NAME_PLAYER COLOR_AQUA}Why-{PAUSE 20}\p"
+	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}ASTER used SCREEEECH!$"
+
+VolcanionCave_3F_Text_AsterUsedScreeeechMagma::
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Cover your ears.\p"
+	.string "{AUTO_SCROLL 1}{SPEAKER NAME_PLAYER COLOR_MAGMA}Why-{PAUSE 20}\p"
+	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}ASTER used SCREEEECH!$"
+
+VolcanionCave_3F_Text_VolcanionsStatsDropped::
+	.string "VOLCANION's stats dropped!\p$"
+
+VolcanionCave_3F_Text_VolcanionUsedFlamethrower::
+	.string "{AUTO_SCROLL 1}{SPEAKER NAME_NONE COLOR_NORMAL}VOLCANION used FLAMETHROWE{PAUSE 5}\p"
+	.string "{AUTO_SCROLL 0}{SPEAKER NAME_ZINNIA COLOR_ZINNIA}ASTER, return!$"
+
+VolcanionCave_3F_Text_GoodJobAster::
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Good job ASTER, you deserve\n"
+	.string "a nice long rest!\p$"
 
 VolcanionCave_3F_EventScript_Zinnia::
 	release
@@ -715,6 +994,8 @@ VolcanionCave_3F_EventScript_Golem::
 	playbgm MUS_VS_VOLCANION, FALSE
 	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
 	message VolcanionCave_3F_Text_GolemUsedRockSlide
+	delay 5
+	playse SE_PIN
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerNoticeRockSlide
 	waitmovement 0
 	waitmessage
@@ -726,6 +1007,8 @@ VolcanionCave_3F_EventScript_Golem::
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_MaybeICanUseThisMagma
 	waitmessage
 	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
+	delay 5
+	playse SE_PIN
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerNoticeRockSlide
 	waitmovement 0
 	delay 20
@@ -744,6 +1027,8 @@ VolcanionCave_3F_EventScript_GolemUsedRockSlide::
 	playbgm MUS_VS_VOLCANION, FALSE
 	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
 	message VolcanionCave_3F_Text_GolemUsedRockSlide
+	delay 5
+	playse SE_PIN
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerNoticeRockSlide
 	waitmovement 0
 	waitmessage
@@ -986,6 +1271,7 @@ VolcanionCave_3F_EventScript_RockSlideHitVolcanion::
 	addvar VAR_CURRENT_HP_BAR_COLOR, 1
 	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionSetVisible
 	call VolcanionCave_3F_EventScript_SetHPBar
+	lock
 	message VolcanionCave_3F_Text_VolcanionGotHit
 	waitmessage
 	fadedefaultbgm
@@ -1229,6 +1515,8 @@ VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
 	waitmoncry
 	playse SE_FAINT
 	removeobject LOCALID_3F_DIGLETT
+	removeobject LOCALID_3F_DIGLETT_INVISIBLE
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_DIGLETT
 	fadedefaultbgm
 	delay 40
 	return
@@ -1518,6 +1806,7 @@ VolcanionCave_3F_EventScript_BattleTeamRocket::
 	end
 
 VolcanionCave_3F_EventScript_DefeatedTeamRocket::
+	delay 20
 	playse SE_M_EXPLOSION
 	setvar VAR_0x8004, 0  @ Vertical pan
 	setvar VAR_0x8005, 5  @ Horizontal pan
@@ -1572,15 +1861,25 @@ VolcanionCave_3F_Movement_TeamRocketFallDown::
 VolcanionCave_3F_Movement_TeamRocketBlastOffRight::
 	lock_facing_direction
 	walk_diag_northeast
+	unlock_facing_direction
 	face_up
+	lock_facing_direction
 	walk_diag_northeast
+	unlock_facing_direction
 	face_left
+	lock_facing_direction
 	walk_diag_northeast
+	unlock_facing_direction
 	face_down
+	lock_facing_direction
 	walk_diag_northeast
+	unlock_facing_direction
 	face_right
+	lock_facing_direction
 	walk_diag_northeast
+	unlock_facing_direction
 	face_up
+	lock_facing_direction
 	walk_diag_northeast
 	unlock_facing_direction
 	step_end
@@ -1588,16 +1887,27 @@ VolcanionCave_3F_Movement_TeamRocketBlastOffRight::
 VolcanionCave_3F_Movement_TeamRocketBlastOffLeft::
 	lock_facing_direction
 	walk_diag_northwest
+	unlock_facing_direction
 	face_up
+	lock_facing_direction
 	walk_diag_northwest
+	unlock_facing_direction
 	face_right
+	lock_facing_direction
 	walk_diag_northwest
+	unlock_facing_direction
 	face_down
+	lock_facing_direction
 	walk_diag_northwest
+	unlock_facing_direction
 	face_left
+	lock_facing_direction
 	walk_diag_northwest
+	unlock_facing_direction
 	face_up
+	lock_facing_direction
 	walk_diag_northwest
+	unlock_facing_direction
 	unlock_facing_direction
 	step_end
 

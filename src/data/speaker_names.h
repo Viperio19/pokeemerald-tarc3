@@ -32,4 +32,6 @@ const u8 *const gSpeakerNamesTable[SP_NAME_COUNT] =
     [SP_NAME_ALL]              = COMPOUND_STRING("All"),
     [SP_NAME_AQUA_QUESTION]    = COMPOUND_STRING("Aqua Grunt?"),
     [SP_NAME_ZINNIA]           = COMPOUND_STRING("Zinnia"),
+    [SP_NAME_WHISMUR]          = COMPOUND_STRING("Whismur"),
+    [SP_NAME_ASTER]            = COMPOUND_STRING("Aster"),
 };
