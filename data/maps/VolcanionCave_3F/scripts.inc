@@ -721,13 +721,17 @@ VolcanionCave_3F_EventScript_Golem::
 	closemessage
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockUp
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
-	message VolcanionCave_3F_Text_MaybeICanUseThis
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_MaybeICanUseThisAqua
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_MaybeICanUseThisMagma
 	waitmessage
 	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerNoticeRockSlide
 	waitmovement 0
 	delay 20
-	message VolcanionCave_3F_Text_GottaRun
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_GottaRunAqua
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_GottaRunMagma
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockDown
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
 	closemessage
@@ -744,7 +748,9 @@ VolcanionCave_3F_EventScript_GolemUsedRockSlide::
 	waitmovement 0
 	waitmessage
 	delay 20
-	message VolcanionCave_3F_Text_GottaRun
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_GottaRunAqua
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_GottaRunMagma
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockUp
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
 	closemessage
@@ -816,6 +822,22 @@ VolcanionCave_3F_EventScript_RockSlideDropRocks::
 	removeobject LOCALID_3F_ROCK_SLIDE_3
 	setobjectxyperm LOCALID_3F_ROCK_SLIDE_2, 39, 33
 	removeobject LOCALID_3F_ROCK_SLIDE_2
+	return
+
+VolcanionCave_3F_EventScript_MaybeICanUseThisAqua::
+	message VolcanionCave_3F_Text_MaybeICanUseThisAqua
+	return
+
+VolcanionCave_3F_EventScript_MaybeICanUseThisMagma::
+	message VolcanionCave_3F_Text_MaybeICanUseThisMagma
+	return
+
+VolcanionCave_3F_EventScript_GottaRunAqua::
+	message VolcanionCave_3F_Text_GottaRunAqua
+	return
+
+VolcanionCave_3F_EventScript_GottaRunMagma::
+	message VolcanionCave_3F_Text_GottaRunMagma
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade::
@@ -910,10 +932,16 @@ VolcanionCave_3F_Text_GolemSeemsSatisfied::
 VolcanionCave_3F_Text_GolemUsedRockSlide::
 	.string "GOLEM used ROCK SLIDE!{PAUSE 40}$"
 
-VolcanionCave_3F_Text_MaybeICanUseThis::
+VolcanionCave_3F_Text_MaybeICanUseThisAqua::
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA} Maybe I can use this.{PAUSE 25}.{PAUSE 25}.$"
+
+VolcanionCave_3F_Text_MaybeICanUseThisMagma::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA} Maybe I can use this.{PAUSE 25}.{PAUSE 25}.$"
 
-VolcanionCave_3F_Text_GottaRun::
+VolcanionCave_3F_Text_GottaRunAqua::
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA} Uh oh!{PAUSE 40} Gotta run!$"
+
+VolcanionCave_3F_Text_GottaRunMagma::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA} Uh oh!{PAUSE 40} Gotta run!$"
 
 VolcanionCave_3F_EventScript_RockSlideHitPlayer::
@@ -1010,7 +1038,6 @@ VolcanionCave_3F_EventScript_Diglett::
 
 VolcanionCave_3F_EventScript_DiglettMagma::
 	call VolcanionCave_3F_EventScript_DiglettCry
-	closemessage
 	message VolcanionCave_3F_Text_AskDiggsHelpMagma
 	waitmessage
 	call VolcanionCave_3F_EventScript_DiglettCry
@@ -1024,6 +1051,10 @@ VolcanionCave_3F_EventScript_DiglettMagma::
 	message VolcanionCave_3F_Text_ThanksDiggsMagma
 	waitmessage
 	call VolcanionCave_1F_EventScript_VolcanionUseSteamEruption
+	message VolcanionCave_3F_Text_RipDiggsMagma
+	waitmessage
+	closemessage
+	call VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption
 	release
 	end
 
@@ -1042,6 +1073,10 @@ VolcanionCave_3F_EventScript_DiglettAqua::
 	message VolcanionCave_3F_Text_ThanksDiggsAqua
 	waitmessage
 	call VolcanionCave_1F_EventScript_VolcanionUseSteamEruption
+	message VolcanionCave_3F_Text_RipDiggsAqua
+	waitmessage
+	closemessage
+	call VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption
 	release
 	end
 
@@ -1101,9 +1136,10 @@ VolcanionCave_3F_EventScript_DiglettUseDig::
 	call VolcanionCave_3F_EventScript_SetHPBar
 	lock
 	fadedefaultbgm
-	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettDigBackUp
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveDownToDiglett
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettDigBackUp
 	waitmovement 0
+	applymovement LOCALID_3F_DIGLETT, Common_Movement_WalkInPlaceUp
 	return
 
 VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
@@ -1119,41 +1155,69 @@ VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
 	setvar VAR_0x8007, 4  @ Shake delay
 	special ShakeScreen
 	delay 20
+	playse SE_M_HYDRO_PUMP
 	setmetatile 16, 22, METATILE_General_SteamEruption_EndFloor, FALSE
 	special DrawWholeMapView
-	delay 5
+	delay 2
+	setmetatile 16, 22, METATILE_General_SteamEruption_EndFull, FALSE
+	special DrawWholeMapView
+	delay 2
 	setmetatile 16, 22, METATILE_General_SteamEruption_Connection, FALSE
 	setmetatile 16, 23, METATILE_General_SteamEruption_EndStairs, FALSE
 	special DrawWholeMapView
-	delay 5
+	delay 2
+	setmetatile 16, 22, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 23, METATILE_General_SteamEruption_EndFull, FALSE
+	special DrawWholeMapView
+	delay 2
 	setmetatile 16, 22, METATILE_General_SteamEruption_Main, FALSE
 	setmetatile 16, 23, METATILE_General_SteamEruption_Connection, FALSE
 	setmetatile 16, 24, METATILE_General_SteamEruption_EndFloor, FALSE
 	special DrawWholeMapView
 	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettGetPushedBack
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_DiglettGetPushedBack
-	delay 5
+	delay 2
+	setmetatile 16, 22, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 23, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 24, METATILE_General_SteamEruption_EndFull, FALSE
+	special DrawWholeMapView
+	delay 2
 	setmetatile 16, 22, METATILE_General_SteamEruption_Main, FALSE
 	setmetatile 16, 23, METATILE_General_SteamEruption_Main, FALSE
 	setmetatile 16, 24, METATILE_General_SteamEruption_Connection, FALSE
 	setmetatile 16, 25, METATILE_General_SteamEruption_EndFloor, FALSE
 	special DrawWholeMapView
 	delay 100
+	setmetatile 16, 22, METATILE_General_SteamEruption_BottomHalf, FALSE
+	setmetatile 16, 23, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 24, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_EndTopHalf, FALSE
+	special DrawWholeMapView
+	delay 2
 	setmetatile 16, 22, METATILE_Cave_Floor_Smooth, FALSE
 	setmetatile 16, 23, METATILE_General_SteamEruption_Main, FALSE
 	setmetatile 16, 24, METATILE_General_SteamEruption_Main, FALSE
-	setmetatile 16, 25, METATILE_General_SteamEruption_Connection, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_TopHalf, FALSE
 	special DrawWholeMapView
-	delay 5
+	delay 2
+	setmetatile 16, 23, METATILE_General_SteamEruption_BottomHalfStairs, FALSE
+	setmetatile 16, 24, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_TopHalf, FALSE
+	special DrawWholeMapView
+	delay 2
 	setmetatile 16, 23, METATILE_Cave_Stairs, FALSE
 	setmetatile 16, 24, METATILE_General_SteamEruption_Main, FALSE
-	setmetatile 16, 25, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_TopHalf, FALSE
 	special DrawWholeMapView
-	delay 5
+	delay 2
+	setmetatile 16, 24, METATILE_General_SteamEruption_BottomHalf, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_TopHalf, FALSE
+	special DrawWholeMapView
+	delay 2
 	setmetatile 16, 24, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 16, 25, METATILE_General_SteamEruption_Main, FALSE
+	setmetatile 16, 25, METATILE_General_SteamEruption_TopHalf, FALSE
 	special DrawWholeMapView
-	delay 5
+	delay 2
 	setmetatile 16, 25, METATILE_Cave_Floor_Smooth, FALSE
 	special DrawWholeMapView
 	closemessage
@@ -1166,6 +1230,13 @@ VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
 	playse SE_FAINT
 	removeobject LOCALID_3F_DIGLETT
 	fadedefaultbgm
+	delay 40
+	return
+
+VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption::
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveToPlayerAfterSteamEruption
+	waitmovement 0
+	special RemoveCameraObject
 	return
 
 VolcanionCave_3F_Movement_DiglettDigDown::
@@ -1233,14 +1304,25 @@ VolcanionCave_3F_Movement_DiglettDigBackUp::
 	walk_down
 	face_up
 	set_visible
-	walk_in_place_up
-	delay_16
 	step_end
 
 VolcanionCave_3F_Movement_DiglettGetPushedBack::
 	lock_facing_direction
 	walk_down
 	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveToPlayerAfterSteamEruption::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
 	step_end
 
 VolcanionCave_3F_Text_DiglettCry::
@@ -1274,6 +1356,12 @@ VolcanionCave_3F_Text_ThanksDiggsAqua::
 
 VolcanionCave_3F_Text_VolcanionUsedSteamEruption::
 	.string "VOLCANION used STEAM ERUPTION!$"
+
+VolcanionCave_3F_Text_RipDiggsMagma::
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Nooooooo, strange DIGLETT!!\p$"
+
+VolcanionCave_3F_Text_RipDiggsAqua::
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Nooooooo, AGENT DIGGS!\p$"
 
 VolcanionCave_3F_EventScript_Cramorant::
 	release

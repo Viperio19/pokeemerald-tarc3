@@ -58,16 +58,16 @@
     {
       "local_id": "LOCALID_3F_DIGLETT",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(DIGLETT)",
-      "x": 16,
-      "y": 24,
+      "x": 11,
+      "y": 21,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
       "movement_range_x": 0,
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_3F_EventScript_Diglett",
-      "flag": "0"
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_DIGLETT"
     },
     {
       "local_id": "LOCALID_3F_GOLEM",
@@ -290,7 +290,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_3F_EventScript_Diglett",
-      "flag": "0"
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_DIGLETT"
     },
     {
       "local_id": "LOCALID_3F_JESSIE",
