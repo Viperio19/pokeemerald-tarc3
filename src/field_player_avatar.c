@@ -1089,7 +1089,9 @@ static bool8 TryPushBoulder(s16 x, s16 y, enum Direction direction)
         u8 isPlayerOnIce = MapGridGetMetatileBehaviorAt(gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.x,
                                                         gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.y) == MB_ICE; 
 
-        if (!isPlayerOnIce && objectEventId != OBJECT_EVENTS_COUNT && (gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER || gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG))
+        if (!isPlayerOnIce && objectEventId != OBJECT_EVENTS_COUNT && (gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER
+                                                                    || gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG
+                                                                    || gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_SPECIES(PIKACHU)))
         {
             x = gObjectEvents[objectEventId].currentCoords.x;
             y = gObjectEvents[objectEventId].currentCoords.y;
@@ -2013,7 +2015,8 @@ void UpdateStrengthBoulderPositions(void)
     {
         for (u32 i = 0; i < OBJECT_EVENT_TEMPLATES_COUNT; i++)
         {
-            if (gSaveBlock1Ptr->objectEventTemplates[i].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER)
+            if (gSaveBlock1Ptr->objectEventTemplates[i].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER
+             || gSaveBlock1Ptr->objectEventTemplates[i].graphicsId == OBJ_EVENT_GFX_SPECIES(PIKACHU))
             {
                 pos = &gSaveBlock1Ptr->boulderPos[gSaveBlock1Ptr->location.mapNum][gSaveBlock1Ptr->objectEventTemplates[i].localId];
                 if (gSaveBlock1Ptr->objectEventTemplates[i].movementType == MOVEMENT_TYPE_NONE)
@@ -2035,6 +2038,14 @@ void UpdateStrengthBoulderPositions(void)
             }
         }
     }
+}
+
+void ResetPikachuStrenghBoulderPosition(void)
+{
+    struct BoulderPos *pos = &gSaveBlock1Ptr->boulderPos[MAP_NUM(MAP_VOLCANION_CAVE_3F)][LOCALID_3F_PIKACHU];
+    u8 objId = GetObjectEventIdByLocalId(LOCALID_3F_PIKACHU);
+    pos->x = gObjectEvents[objId].currentCoords.x - MAP_OFFSET;
+    pos->y = gObjectEvents[objId].currentCoords.y - MAP_OFFSET;
 }
 
 void UpdateBoulderOnMudPosition(void)

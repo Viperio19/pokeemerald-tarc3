@@ -488,6 +488,7 @@ VolcanionCave_3F_OnLoad::
 	call_if_ge VAR_VOLCANION_CAVE_3F_STATE, 1, VolcanionCave_3F_EventScript_SetMetatilesRocksBroken
 	call_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 0, VolcanionCave_3F_EventScript_SetMetatilesNoRockSlideBlockade
 	call_if_ne VAR_GOLEM_ROCK_SLIDE_STATE, 0, VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade
+	call_if_set FLAG_SPAWN_VOLCANION_CAVE_3F_TEAM_ROCKET, VolcanionCave_3F_EventScript_SpawnTeamRocket
 	call VolcanionCave_3F_EventScript_SetHPBar
 	end
 
@@ -585,8 +586,7 @@ VolcanionCave_3F_EventScript_Volcanion::
 	setwildbattle SPECIES_VOLCANION, 40, TRUE
 	multi_fixed_players_vs_wild PARTNER_PLAYER_2
 	specialvar VAR_RESULT, GetBattleOutcome
-	@ TODO: change to goto_if_eq (currently goto_if_ne for testing purposes)
-	goto_if_ne VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedVolcanion
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedVolcanion
 	call VolcanionCave_3F_EventScript_VolcanionCry
 	closemessage
 	release
@@ -1368,10 +1368,121 @@ VolcanionCave_3F_EventScript_Cramorant::
 	end
 
 VolcanionCave_3F_EventScript_Pikachu::
+	lock
+	goto_if_set FLAG_TEAM_ROCKET_KNOCKED_OUT_PIKACHU, VolcanionCave_3F_EventScript_PikachuStrengthBoulder
+	goto_if_unset FLAG_SPAWN_VOLCANION_CAVE_3F_TEAM_ROCKET, VolcanionCave_3F_EventScript_TeamRocketMotto
+	faceplayer
+	playmoncry SPECIES_PIKACHU, CRY_MODE_NORMAL
+	message VolcanionCave_3F_Text_PikachuCry
+	waitmessage
+	waitmoncry
+	release
+	end
+
+VolcanionCave_3F_Text_PikachuCry::
+	.string "{SPEAKER NAME_PIKACHU COLOR_NORMAL}Pika-pi?\p$"
+
+VolcanionCave_3F_EventScript_PikachuStrengthBoulder::
+	lockall
+	goto_if_set FLAG_SYS_USE_STRENGTH, VolcanionCave_3F_EventScript_AskResetPikachu
+	checkfieldmove FIELD_MOVE_STRENGTH, TRUE
+	goto_if_eq VAR_RESULT, PARTY_SIZE, VolcanionCave_3F_EventScript_CantStrength
+	setfieldeffectargument 0, VAR_RESULT
+	msgbox VolcanionCave_3F_Text_WantToStrength, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, VolcanionCave_3F_EventScript_CancelStrength
+	closemessage
+	dofieldeffect FLDEFF_USE_STRENGTH
+	waitstate
+	goto VolcanionCave_3F_EventScript_ActivateStrength
+	end
+
+VolcanionCave_3F_EventScript_AskResetPikachu::
+	msgbox VolcanionCave_3F_Text_AskResetPikachu, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, VolcanionCave_3F_EventScript_ResetPikachu
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_ResetPikachu::
+	fadescreen FADE_TO_BLACK
+	setobjectxyperm LOCALID_3F_PIKACHU, 29, 7
+	setobjectxy LOCALID_3F_PIKACHU, 29, 7
+	turnobject LOCALID_3F_PIKACHU, DIR_SOUTH
+	callnative ResetPikachuStrenghBoulderPosition
+	closemessage
+	delay 20
+	fadescreen FADE_FROM_BLACK
+	msgbox VolcanionCave_3F_Text_PikachuMovedBack, MSGBOX_DEFAULT
+	release
+	end
+
+VolcanionCave_3F_EventScript_CantStrength::
+	msgbox VolcanionCave_3F_Text_CantStrength, MSGBOX_DEFAULT
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_CancelStrength::
+	closemessage
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_ActivateStrength::
+	setflag FLAG_SYS_USE_STRENGTH
+	msgbox VolcanionCave_3F_Text_MonUsedStrength, MSGBOX_DEFAULT
+	releaseall
+	end
+
+VolcanionCave_3F_Text_WantToStrength:
+	.string "PIKACHU is out cold, but a POKéMON\n"
+	.string "may be able to push it aside.\p"
+	.string "Would you like to use STRENGTH?$"
+
+VolcanionCave_3F_Text_MonUsedStrength:
+	.string "{STR_VAR_1} used STRENGTH!\p"
+	.string "{STR_VAR_1}'s STRENGTH made it\n"
+	.string "possible to move PIKACHU around!$"
+
+VolcanionCave_3F_Text_CantStrength:
+	.string "PIKACHU is out cold, but a POKéMON\n"
+	.string "may be able to push it aside.$"
+
+VolcanionCave_3F_Text_AskResetPikachu:
+	.string "STRENGTH made it possible to move\n"
+	.string "PIKACHU around.\p"
+	.string "Do you want to move PIKACHU back\n"
+	.string "to it's original place?$"
+
+VolcanionCave_3F_Text_PikachuMovedBack:
+	.string "You moved PIKACHU back\n"
+	.string "to it's original place!$"
+
+VolcanionCave_3F_EventScript_Jessie::
+	applymovement LOCALID_3F_JESSIE, Common_Movement_FacePlayer
+	applymovement LOCALID_3F_JAMES, Common_Movement_FacePlayer
+	applymovement LOCALID_3F_MEOWTH, Common_Movement_FacePlayer
+	msgbox VolcanionCave_3F_Text_JessieBattleIntro, MSGBOX_DEFAULT
+	goto VolcanionCave_3F_EventScript_BattleTeamRocket
+
+VolcanionCave_3F_EventScript_James::
+	applymovement LOCALID_3F_JESSIE, Common_Movement_FacePlayer
+	applymovement LOCALID_3F_JAMES, Common_Movement_FacePlayer
+	applymovement LOCALID_3F_MEOWTH, Common_Movement_FacePlayer
+	msgbox VolcanionCave_3F_Text_JamesBattleIntro, MSGBOX_DEFAULT
+	goto VolcanionCave_3F_EventScript_BattleTeamRocket
+
+VolcanionCave_3F_EventScript_Meowth::
+	applymovement LOCALID_3F_JESSIE, Common_Movement_FacePlayer
+	applymovement LOCALID_3F_JAMES, Common_Movement_FacePlayer
+	applymovement LOCALID_3F_MEOWTH, Common_Movement_FacePlayer
+	msgbox VolcanionCave_3F_Text_MeowthBattleIntro, MSGBOX_DEFAULT
+	goto VolcanionCave_3F_EventScript_BattleTeamRocket
+
+VolcanionCave_3F_EventScript_TeamRocketMotto::
+	setflag FLAG_SPAWN_VOLCANION_CAVE_3F_TEAM_ROCKET
 	message VolcanionCave_3F_Text_RocketMottoStart
 	waitmessage
 	playse SE_FALL
 	addobject LOCALID_3F_JESSIE
+	setobjectxyperm LOCALID_3F_JESSIE, 28, 6
 	setobjectxy LOCALID_3F_JESSIE, 28, 2
 	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketFallDown
 	waitmovement 0
@@ -1380,6 +1491,7 @@ VolcanionCave_3F_EventScript_Pikachu::
 	waitmessage
 	playse SE_FALL
 	addobject LOCALID_3F_JAMES
+	setobjectxyperm LOCALID_3F_JAMES, 29, 6
 	setobjectxy LOCALID_3F_JAMES, 29, 2
 	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketFallDown
 	waitmovement 0
@@ -1388,6 +1500,7 @@ VolcanionCave_3F_EventScript_Pikachu::
 	waitmessage
 	playse SE_FALL
 	addobject LOCALID_3F_MEOWTH
+	setobjectxyperm LOCALID_3F_MEOWTH, 30, 6
 	setobjectxy LOCALID_3F_MEOWTH, 30, 2
 	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketFallDown
 	waitmovement 0
@@ -1396,9 +1509,58 @@ VolcanionCave_3F_EventScript_Pikachu::
 	waitmessage
 	message VolcanionCave_3F_Text_RocketMottoRest
 	waitmessage
-	trainerbattle_no_intro TRAINER_TEAM_ROCKET_DUO_VC_3F, VolcanionCave_2F_Text_AquaGruntDefeat
+VolcanionCave_3F_EventScript_BattleTeamRocket::
+	trainerbattle_no_intro TRAINER_TEAM_ROCKET_DUO_VC_3F, VolcanionCave_3F_Text_RocketDefeat
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedTeamRocket
+	message VolcanionCave_3F_Text_ThatsRight
+	waitmessage
 	release
 	end
+
+VolcanionCave_3F_EventScript_DefeatedTeamRocket::
+	playse SE_M_EXPLOSION
+	setvar VAR_0x8004, 0  @ Vertical pan
+	setvar VAR_0x8005, 5  @ Horizontal pan
+	setvar VAR_0x8006, 40  @ Num shakes
+	setvar VAR_0x8007, 3  @ Shake delay
+	special ShakeScreen
+	message VolcanionCave_3F_Text_BlastingOffAgain
+	getplayerxy VAR_0x8008, VAR_0x8009
+	call_if_eq VAR_0x8008, 31, VolcanionCave_3F_EventScript_TeamRocketBlastOffLeft
+	call_if_ne VAR_0x8008, 31, VolcanionCave_3F_EventScript_TeamRocketBlastOffRight
+	delay 60
+	closemessage
+	playse SE_SUPER_EFFECTIVE
+	applymovement LOCALID_3F_PIKACHU, VolcanionCave_3F_Movement_PikachuFlicker
+	waitmovement 0
+	removeobject LOCALID_3F_JESSIE
+	removeobject LOCALID_3F_JAMES
+	removeobject LOCALID_3F_MEOWTH
+	delay 10
+	playse SE_FAINT
+	msgbox VolcanionCave_3F_Text_PikachuFainted
+	clearflag FLAG_SPAWN_VOLCANION_CAVE_3F_TEAM_ROCKET
+	setflag FLAG_TEAM_ROCKET_KNOCKED_OUT_PIKACHU
+	release
+	end
+
+VolcanionCave_3F_EventScript_TeamRocketBlastOffRight::
+	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketBlastOffRight
+	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketBlastOffRight
+	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketBlastOffRight
+	return
+
+VolcanionCave_3F_EventScript_TeamRocketBlastOffLeft::
+	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketBlastOffLeft
+	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketBlastOffLeft
+	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketBlastOffLeft
+	return
+
+VolcanionCave_3F_EventScript_SpawnTeamRocket::
+	setobjectxyperm LOCALID_3F_JESSIE, 28, 6
+	setobjectxyperm LOCALID_3F_JAMES, 29, 6
+	setobjectxyperm LOCALID_3F_MEOWTH, 30, 6
+	return
 
 VolcanionCave_3F_Movement_TeamRocketFallDown::
 	walk_faster_down
@@ -1407,12 +1569,68 @@ VolcanionCave_3F_Movement_TeamRocketFallDown::
 	walk_faster_down
 	step_end
 
+VolcanionCave_3F_Movement_TeamRocketBlastOffRight::
+	lock_facing_direction
+	walk_diag_northeast
+	face_up
+	walk_diag_northeast
+	face_left
+	walk_diag_northeast
+	face_down
+	walk_diag_northeast
+	face_right
+	walk_diag_northeast
+	face_up
+	walk_diag_northeast
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_TeamRocketBlastOffLeft::
+	lock_facing_direction
+	walk_diag_northwest
+	face_up
+	walk_diag_northwest
+	face_right
+	walk_diag_northwest
+	face_down
+	walk_diag_northwest
+	face_left
+	walk_diag_northwest
+	face_up
+	walk_diag_northwest
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_PikachuFlicker::
+	set_invisible
+	delay_8
+	set_visible
+	delay_8
+	set_invisible
+	delay_8
+	set_visible
+	delay_8
+	set_invisible
+	delay_8
+	set_visible
+	step_end
+
+VolcanionCave_3F_Text_JessieBattleIntro::
+	.string "{SPEAKER NAME_JESSIE COLOR_JESSIE}Prepare for trouble!$"
+
+VolcanionCave_3F_Text_JamesBattleIntro::
+	.string "{SPEAKER NAME_JAMES COLOR_JAMES}Prepare for trouble!$"
+
+VolcanionCave_3F_Text_MeowthBattleIntro::
+	.string "{SPEAKER NAME_MEOWTH COLOR_NORMAL}Prepare for trouble!$"
+
 VolcanionCave_3F_Text_RocketMottoStart::
 	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JESSIE}{FONT_TYPE 1}Prepare for trouble!\p"
 	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JAMES}…we're in HOENN.\p"
 	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JESSIE}…oh. {FONT_TYPE 0}Ahem…\p"
 	.string "Prepare for trouble from the skies!\p"
-	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JAMES}From beyond the stars, a nasty surprise!\p$"
+	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_JAMES}From beyond the stars,\n"
+	.string "a nasty surprise!\p$"
 
 VolcanionCave_3F_Text_RocketMottoJessieEnter::
 	.string "{SPEAKER NAME_ROCKET COLOR_JESSIE}An evil as old as the galaxy…\p$"
@@ -1431,7 +1649,22 @@ VolcanionCave_3F_Text_RocketMottoRest::
 	.string "{SPEAKER NAME_JESSIE COLOR_JESSIE}Jessie!\p"
 	.string "{SPEAKER NAME_JAMES COLOR_JAMES}And James!\p"
 	.string "{SPEAKER NAME_MEOWTH COLOR_NORMAL}And Meowth are the names!\p"
-	.string "{SPEAKER NAME_JESSIE COLOR_JESSIE}Anywhere there's peace in the universe…\p"
+	.string "{SPEAKER NAME_JESSIE COLOR_JESSIE}Anywhere there's peace\n"
+	.string "in the universe…\p"
 	.string "{SPEAKER NAME_JAMES COLOR_JAMES}…Team Rocket…\p"
 	.string "{SPEAKER NAME_MEOWTH COLOR_NORMAL}…will be there…\p"
 	.string "{SPEAKER NAME_ALL COLOR_NORMAL}…to make everything worse!\p$"
+
+VolcanionCave_3F_Text_RocketDefeat::
+	.string "That's not right…$"
+
+VolcanionCave_3F_Text_ThatsRight::
+	.string "{SPEAKER NAME_MEOWTH COLOR_NORMAL}That's right!\p$"
+
+VolcanionCave_3F_Text_BlastingOffAgain::
+	.string "{SPEAKER NAME_ALL COLOR_NORMAL}We're blasting off again!$"
+
+VolcanionCave_3F_Text_PikachuFainted::
+	.string "PIKACHU fainted!\p"
+	.string "A POKéMON may be able\n"
+	.string "to push it aside.$"

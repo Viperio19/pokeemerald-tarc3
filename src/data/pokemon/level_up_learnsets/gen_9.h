@@ -21781,7 +21781,7 @@ static const struct LevelUpMove sTingLuLevelUpLearnset[] = {
 
 #if P_FAMILY_CHI_YU
 static const struct LevelUpMove sChiYuLevelUpLearnset[] = {
-    LEVEL_UP_MOVE( 1, MOVE_FLAME_WHEEL),
+    LEVEL_UP_MOVE( 1, MOVE_FLAME_BURST),
     LEVEL_UP_MOVE( 1, MOVE_WATERFALL),
     LEVEL_UP_END
 };
