@@ -435,6 +435,7 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FFis
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Jessie;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_James;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TeamRocketMeowth;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RockSlideRock;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -857,6 +858,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_JESSIE]                   = &gObjectEventGraphicsInfo_Jessie,
     [OBJ_EVENT_GFX_JAMES]                    = &gObjectEventGraphicsInfo_James,
     [OBJ_EVENT_GFX_TEAM_ROCKET_MEOWTH]       = &gObjectEventGraphicsInfo_TeamRocketMeowth,
+    [OBJ_EVENT_GFX_ROCK_SLIDE_ROCK]          = &gObjectEventGraphicsInfo_RockSlideRock,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

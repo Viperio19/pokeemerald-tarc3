@@ -485,7 +485,8 @@ VolcanionCave_3F_Text_IntroBattleAgainOrLookAround::
 
 VolcanionCave_3F_OnLoad::
 	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_SetRockBarrier1
-	call_if_eq VAR_TEMP_F, 1, VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
+	call_if_eq VAR_TEMP_F, 0, VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
+	call_if_eq VAR_TEMP_F, 1, VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed
 	call_if_ge VAR_VOLCANION_CAVE_3F_STATE, 1, VolcanionCave_3F_EventScript_SetMetatilesRocksBroken
 	call_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 0, VolcanionCave_3F_EventScript_SetMetatilesNoRockSlideBlockade
 	call_if_ne VAR_GOLEM_ROCK_SLIDE_STATE, 0, VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade
@@ -500,35 +501,72 @@ VolcanionCave_3F_EventScript_SetRockBarrier1::
 	return
 
 VolcanionCave_3F_EventScript_BlueButton::
-	lockall
-	setvar VAR_TEMP_F, 1
+	setvar VAR_TEMP_F, 0
 	playse SE_PIN
+	goto_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 1, VolcanionCave_3F_EventScript_BlueButtonGolem
+	lockall
 	call VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
 	special DrawWholeMapView
 	releaseall
 	end
 
+VolcanionCave_3F_EventScript_BlueButtonGolem::
+	call VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
+	special DrawWholeMapView
+	goto_if_eq VAR_GOLEM_ROCK_SLIDE_TIMER, 200, VolcanionCave_3F_EventScript_WaitStartRockSlide
+	goto VolcanionCave_3F_EventScript_RockSlide
+	return
+
 VolcanionCave_3F_EventScript_RedButton::
-	lockall
-	setvar VAR_TEMP_F, 0
+	setvar VAR_TEMP_F, 1
 	playse SE_PIN
+	goto_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 1, VolcanionCave_3F_EventScript_RedButtonGolem
+	lockall
 	call VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed
 	special DrawWholeMapView
 	releaseall
 	end
 
+VolcanionCave_3F_EventScript_RedButtonGolem::
+	call VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed
+	special DrawWholeMapView
+	goto_if_eq VAR_GOLEM_ROCK_SLIDE_TIMER, 200, VolcanionCave_3F_EventScript_WaitStartRockSlide
+	goto VolcanionCave_3F_EventScript_RockSlide
+	return
+
+VolcanionCave_3F_EventScript_WaitStartRockSlide::
+	waitmovement 0
+	goto VolcanionCave_3F_EventScript_RockSlideAfterMovement
+	return	
+
 VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed::
-	@ setmetatile 7, 48, METATILE_Cave_CoolButton_Pressed, FALSE
-	@ setmetatile 11, 46, METATILE_Cave_CoolButton_Red, FALSE
-	@ setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	@ setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 20, 34, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 28, 30, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 25, 30, METATILE_Cave_CoolButton_Red, FALSE
+	setmetatile 29, 34, METATILE_Cave_CoolButton_Red, FALSE
+	setmetatile 26, 38, METATILE_Cave_CoolButton_Red, FALSE
+	setmetatile 24, 30, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 28, 35, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 24, 37, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 27, 28, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 25, 32, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 27, 34, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 26, 37, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed::
-	@ setmetatile 7, 48, METATILE_Cave_CoolButton_Blue, FALSE
-	@ setmetatile 11, 46, METATILE_Cave_CoolButton_Pressed, FALSE
-	@ setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	@ setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 20, 34, METATILE_Cave_CoolButton_Blue, FALSE
+	setmetatile 28, 30, METATILE_Cave_CoolButton_Blue, FALSE
+	setmetatile 25, 30, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 29, 34, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 26, 38, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 24, 30, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 28, 35, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 24, 37, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 27, 28, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 25, 32, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 27, 34, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 26, 37, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesRocksBroken::
@@ -1002,6 +1040,7 @@ VolcanionCave_3F_EventScript_Golem::
 	closemessage
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockUp
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
+	call VolcanionCave_3F_EventScript_RockSlideRemoveRocks
 	callnative IsPlayerOne
 	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_MaybeICanUseThisAqua
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_MaybeICanUseThisMagma
@@ -1017,9 +1056,10 @@ VolcanionCave_3F_EventScript_Golem::
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_GottaRunMagma
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockDown
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
+	call VolcanionCave_3F_EventScript_RockSlideRemoveRocks
 	closemessage
 	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 1
-	delay 70
+	setvar VAR_GOLEM_ROCK_SLIDE_TIMER, 0
 	goto VolcanionCave_3F_EventScript_RockSlide
 	end
 
@@ -1038,20 +1078,31 @@ VolcanionCave_3F_EventScript_GolemUsedRockSlide::
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_GottaRunMagma
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockUp
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
+	call VolcanionCave_3F_EventScript_RockSlideRemoveRocks
 	closemessage
 	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 1
-	delay 70
+	setvar VAR_GOLEM_ROCK_SLIDE_TIMER, 0
 	goto VolcanionCave_3F_EventScript_RockSlide
 	end
 
 VolcanionCave_3F_EventScript_RockSlide::
+	delay 1
+	addvar VAR_GOLEM_ROCK_SLIDE_TIMER, 1
+	goto_if_le VAR_GOLEM_ROCK_SLIDE_TIMER, 50, VolcanionCave_3F_EventScript_RockSlide
+
+	setvar VAR_GOLEM_ROCK_SLIDE_TIMER, 200
+
 	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
+	@ fall through
+VolcanionCave_3F_EventScript_RockSlideAfterMovement::
+	call VolcanionCave_3F_EventScript_RockSlideRemoveRocks
 
 	goto_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 3, VolcanionCave_3F_EventScript_RockSlideHitVolcanion
 	goto_if_eq VAR_GOLEM_ROCK_SLIDE_STATE, 2, VolcanionCave_3F_EventScript_RockSlideHitPlayer
 
-	delay 70
+	setvar VAR_GOLEM_ROCK_SLIDE_TIMER, 0
+
 	goto VolcanionCave_3F_EventScript_RockSlide
 
 VolcanionCave_3F_EventScript_RockSlideSpawnRocks::
@@ -1086,7 +1137,6 @@ VolcanionCave_3F_EventScript_RockSlideSpawnRocks::
 	return
 
 VolcanionCave_3F_EventScript_RockSlideDropRocks::
-	@ Drop rocks
 	applymovement LOCALID_3F_ROCK_SLIDE_1, VolcanionCave_3F_Movement_Rock1FallDown
 	applymovement LOCALID_3F_ROCK_SLIDE_3, VolcanionCave_3F_Movement_Rock3FallDown
 	applymovement LOCALID_3F_ROCK_SLIDE_2, VolcanionCave_3F_Movement_Rock2FallDown
@@ -1099,8 +1149,9 @@ VolcanionCave_3F_EventScript_RockSlideDropRocks::
 	delay 8
 	playse SE_M_ROCK_THROW
 	waitmovement 0
+	return
 
-	@ Remove rocks
+VolcanionCave_3F_EventScript_RockSlideRemoveRocks::
 	setobjectxyperm LOCALID_3F_ROCK_SLIDE_1, 39, 34
 	removeobject LOCALID_3F_ROCK_SLIDE_1
 	setobjectxyperm LOCALID_3F_ROCK_SLIDE_3, 39, 36

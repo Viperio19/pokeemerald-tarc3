@@ -443,6 +443,7 @@ enum
     OBJ_EVENT_GFX_JESSIE,
     OBJ_EVENT_GFX_JAMES,
     OBJ_EVENT_GFX_TEAM_ROCKET_MEOWTH,
+    OBJ_EVENT_GFX_ROCK_SLIDE_ROCK,
     NUM_OBJ_EVENT_GFX,
 };
 
@@ -613,6 +614,7 @@ enum
 #define OBJ_EVENT_PAL_TAG_JESSIE                  0x113E
 #define OBJ_EVENT_PAL_TAG_JAMES                   0x113F
 #define OBJ_EVENT_PAL_TAG_MEOWTH                  0x1140
+#define OBJ_EVENT_PAL_TAG_ROCK_SLIDE              0x1141
 
 #if OW_FOLLOWERS_POKEBALLS
 // Vanilla

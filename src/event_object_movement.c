@@ -556,7 +556,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_HPBar,                 OBJ_EVENT_PAL_TAG_HP_BAR},
     {gObjectEventPal_Jessie,                OBJ_EVENT_PAL_TAG_JESSIE},
     {gObjectEventPal_James,                 OBJ_EVENT_PAL_TAG_JAMES},
-    {gObjectEventPal_Meowth,                 OBJ_EVENT_PAL_TAG_MEOWTH},
+    {gObjectEventPal_Meowth,                OBJ_EVENT_PAL_TAG_MEOWTH},
+    {gObjectEventPal_RockSlide,             OBJ_EVENT_PAL_TAG_ROCK_SLIDE},
 #if OW_FOLLOWERS_POKEBALLS
     {gObjectEventPal_MasterBall,            OBJ_EVENT_PAL_TAG_BALL_MASTER},
     {gObjectEventPal_UltraBall,             OBJ_EVENT_PAL_TAG_BALL_ULTRA},
@@ -8728,7 +8729,11 @@ static void CheckRockHitObject(struct ObjectEvent *objectEvent)
 bool8 MovementAction_RockSmashBreak_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) > 0 && VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) < 4)
+    {
+        objectEvent->fixedPriority = FALSE;
+        objectEvent->triggerGroundEffectsOnMove = TRUE;
         CheckRockHitObject(objectEvent);
+    }
 
     SetAndStartSpriteAnim(sprite, ANIM_REMOVE_OBSTACLE, 0);
     sprite->sActionFuncId = 1;
