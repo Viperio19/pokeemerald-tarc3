@@ -31,7 +31,7 @@
     {
       "local_id": "LOCALID_3F_CRAMORANT",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(CRAMORANT)",
-      "x": 24,
+      "x": 23,
       "y": 21,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
@@ -40,7 +40,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_3F_EventScript_Cramorant",
-      "flag": "0"
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_CRAMORANT"
     },
     {
       "local_id": "LOCALID_3F_PIKACHU",
@@ -54,7 +54,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_3F_EventScript_Pikachu",
-      "flag": "0"
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_PIKACHU"
     },
     {
       "local_id": "LOCALID_3F_DIGLETT",
@@ -414,7 +414,7 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
+      "script": "EventScript_StrengthBoulder",
       "flag": "0"
     },
     {
@@ -440,8 +440,8 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "EventScript_StrengthBoulder",
+      "flag": "FLAG_TEMP_2"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
@@ -453,8 +453,8 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "EventScript_StrengthBoulder",
+      "flag": "FLAG_TEMP_3"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
@@ -466,8 +466,8 @@
       "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "NULL",
-      "flag": "0"
+      "script": "EventScript_StrengthBoulder",
+      "flag": "FLAG_TEMP_4"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
@@ -572,6 +572,34 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
       "flag": "FLAG_SMASHED_ROCK_8"
+    },
+    {
+      "local_id": "LOCALID_3F_CRAMORANT_GORGING",
+      "graphics_id": "OBJ_EVENT_GFX_CRAMORANT_GORGING",
+      "x": 23,
+      "y": 21,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VolcanionCave_3F_EventScript_Cramorant",
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_GORGING"
+    },
+    {
+      "local_id": "LOCALID_3F_CRAMORANT_ICON",
+      "graphics_id": "OBJ_EVENT_GFX_CRAMORANT",
+      "x": 23,
+      "y": 21,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VolcanionCave_3F_EventScript_Cramorant",
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_ICON"
     }
   ],
   "warp_events": [
@@ -637,6 +665,42 @@
       "var": "VAR_TEMP_F",
       "var_value": "0",
       "script": "VolcanionCave_3F_EventScript_RedButton"
+    },
+    {
+      "type": "trigger",
+      "x": 23,
+      "y": 20,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_PIKACHU_STATE",
+      "var_value": "99",
+      "script": "VolcanionCave_3F_EventScript_CramorantEatPikachu"
+    },
+    {
+      "type": "trigger",
+      "x": 18,
+      "y": 11,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_1",
+      "var_value": "99",
+      "script": "VolcanionCave_3F_EventScript_FloorSwitch1"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 8,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2",
+      "var_value": "99",
+      "script": "VolcanionCave_3F_EventScript_FloorSwitch2"
+    },
+    {
+      "type": "trigger",
+      "x": 25,
+      "y": 16,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3",
+      "var_value": "99",
+      "script": "VolcanionCave_3F_EventScript_FloorSwitch3"
     }
   ],
   "bg_events": [],

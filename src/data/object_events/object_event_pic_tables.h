@@ -2770,3 +2770,27 @@ static const struct SpriteFrameImage sPicTable_James[] = {
 static const struct SpriteFrameImage sPicTable_TeamRocketMeowth[] = {
     overworld_ascending_frames(gObjectEventPic_TeamRocketMeowth, 2, 4),
 };
+
+static const struct SpriteFrameImage sPicTable_CramorantIcon[] = {
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 1),
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 1),
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantIcon, 4, 4, 1),
+};
+
+static const struct SpriteFrameImage sPicTable_CramorantGorging[] = {
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 1),
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 1),
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 0),
+    overworld_frame(gObjectEventPic_CramorantGorging, 4, 4, 1),
+};

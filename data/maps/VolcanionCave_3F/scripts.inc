@@ -484,7 +484,9 @@ VolcanionCave_3F_Text_IntroBattleAgainOrLookAround::
 	.string "Let's go!!!\p$"
 
 VolcanionCave_3F_OnLoad::
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_SetRockBarrier1
+	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier1
+	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier2
+	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier3
 	call_if_eq VAR_TEMP_F, 0, VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
 	call_if_eq VAR_TEMP_F, 1, VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed
 	call_if_ge VAR_VOLCANION_CAVE_3F_STATE, 1, VolcanionCave_3F_EventScript_SetMetatilesRocksBroken
@@ -494,10 +496,16 @@ VolcanionCave_3F_OnLoad::
 	call VolcanionCave_3F_EventScript_SetHPBar
 	end
 
-VolcanionCave_3F_EventScript_SetRockBarrier1::
-	@ setmetatile 26, 64, METATILE_Cave_RockBarrier_Left, TRUE
-	@ setmetatile 27, 64, METATILE_Cave_RockBarrier_MiddleHorizontal, TRUE
-	@ setmetatile 28, 64, METATILE_Cave_RockBarrier_Right, TRUE
+VolcanionCave_3F_EventScript_RemoveRockBarrier1::
+	setmetatile 21, 8, METATILE_Cave_Floor, FALSE
+	return
+
+VolcanionCave_3F_EventScript_RemoveRockBarrier2::
+	setmetatile 22, 9, METATILE_Cave_Floor, FALSE
+	return
+
+VolcanionCave_3F_EventScript_RemoveRockBarrier3::
+	setmetatile 23, 18, METATILE_Cave_Floor, FALSE
 	return
 
 VolcanionCave_3F_EventScript_BlueButton::
@@ -602,30 +610,60 @@ VolcanionCave_3F_EventScript_AddNoHPBar::
 	return
 
 VolcanionCave_3F_EventScript_SetHPBarGreen::
+	goto_if_eq VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100, VolcanionCave_3F_EventScript_SetHPBarGreenPara
 	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarGreenStats
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_GREEN
+	return
+
+VolcanionCave_3F_EventScript_SetHPBarGreenPara::
+	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarGreenParaStats
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_GREEN_PARA
 	return
 
 VolcanionCave_3F_EventScript_SetHPBarGreenStats::
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_GREEN_STATS
 	return
 
+VolcanionCave_3F_EventScript_SetHPBarGreenParaStats::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_GREEN_PARA_STATS
+	return
+
 VolcanionCave_3F_EventScript_SetHPBarYellow::
+	goto_if_eq VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100, VolcanionCave_3F_EventScript_SetHPBarYellowPara
 	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarYellowStats
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_YELLOW
+	return
+
+VolcanionCave_3F_EventScript_SetHPBarYellowPara::
+	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarYellowParaStats
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_YELLOW_PARA
 	return
 
 VolcanionCave_3F_EventScript_SetHPBarYellowStats::
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_YELLOW_STATS
 	return
 
+VolcanionCave_3F_EventScript_SetHPBarYellowParaStats::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_YELLOW_PARA_STATS
+	return
+
 VolcanionCave_3F_EventScript_SetHPBarRed::
+	goto_if_eq VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100, VolcanionCave_3F_EventScript_SetHPBarRedPara
 	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarRedStats
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_RED
 	return
 
+VolcanionCave_3F_EventScript_SetHPBarRedPara::
+	goto_if_eq VAR_ZINNIA_STATE, 1, VolcanionCave_3F_EventScript_SetHPBarRedParaStats
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_RED_PARA
+	return
+
 VolcanionCave_3F_EventScript_SetHPBarRedStats::
 	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_RED_STATS
+	return
+
+VolcanionCave_3F_EventScript_SetHPBarRedParaStats::
+	setvar VAR_LOCALID_CURRENT_HP_BAR LOCALID_3F_HP_BAR_RED_PARA_STATS
 	return
 
 VolcanionCave_3F_EventScript_Volcanion::
@@ -1702,9 +1740,228 @@ VolcanionCave_3F_Text_RipDiggsMagma::
 VolcanionCave_3F_Text_RipDiggsAqua::
 	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Nooooooo, AGENT DIGGS!\p$"
 
-VolcanionCave_3F_EventScript_Cramorant::
+VolcanionCave_3F_EventScript_FloorSwitch1::
+	lock
+	goto_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed
+	setmetatile 21, 8, METATILE_Cave_Floor, FALSE
+	playse SE_ICE_BREAK
+	special DrawWholeMapView
+	waitse
+	setvar VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_1, 100
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_FloorSwitch2::
+	lock
+	goto_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2, 100, VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed
+	setmetatile 22, 9, METATILE_Cave_Floor, FALSE
+	playse SE_ICE_BREAK
+	special DrawWholeMapView
+	waitse
+	setvar VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2, 100
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_FloorSwitch3::
+	lock
+	goto_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3, 100, VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed
+	setmetatile 23, 18, METATILE_Cave_Floor, FALSE
+	playse SE_ICE_BREAK
+	special DrawWholeMapView
+	waitse
+	setvar VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3, 100
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed::
 	release
 	end
+
+VolcanionCave_3F_EventScript_Cramorant::
+	lock
+	faceplayer
+	call VolcanionCave_3F_EventScript_CramorantCry
+	release
+	end
+
+VolcanionCave_3F_EventScript_CramorantEatPikachu::
+	lock
+	setvar VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100
+	special SpawnCameraObject
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveToCramorant
+	applymovement LOCALID_3F_CRAMORANT, Common_Movement_WalkInPlaceUp
+	call VolcanionCave_3F_EventScript_CramorantCry
+
+	@ Cramorant eat Pikachu
+	applymovement LOCALID_3F_CRAMORANT, VolcanionCave_3F_Movement_CramorantEatPikachu
+	waitmovement 0
+	removeobject LOCALID_3F_PIKACHU
+	removeobject LOCALID_3F_CRAMORANT
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_PIKACHU
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAMORANT
+	addobject LOCALID_3F_CRAMORANT_GORGING
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_GORGING
+	setobjectxyperm LOCALID_3F_CRAMORANT_GORGING, 23, 21
+	setobjectxy LOCALID_3F_CRAMORANT_GORGING, 23, 20
+	applymovement LOCALID_3F_CRAMORANT_GORGING, Common_Movement_WalkDown
+	waitmovement 0
+	call VolcanionCave_3F_EventScript_CramorantCry
+	closemessage
+	delay 20
+
+	@ Pikachu attack Cramorant
+	playbgm MUS_VS_VOLCANION, FALSE
+	message VolcanionCave_3F_Text_PikachuUsedQuickAttack
+	waitmessage
+	delay 30
+	applymovement LOCALID_3F_CRAMORANT_GORGING, VolcanionCave_3F_Movement_CramorantShake
+	waitmovement 0
+	message VolcanionCave_3F_Text_ButItFailed
+	waitmessage
+	delay 60
+	closemessage
+	applymovement LOCALID_3F_CRAMORANT_GORGING, VolcanionCave_3F_Movement_CramorantLaunchPikachu
+	waitmovement 0
+
+	@ Launch Pikachu
+	addobject LOCALID_3F_PIKACHU
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_PIKACHU
+	setobjectxy LOCALID_3F_PIKACHU, 23, 21
+	removeobject LOCALID_3F_CRAMORANT_GORGING
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_GORGING
+	addobject LOCALID_3F_CRAMORANT_ICON
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_ICON
+	lock
+	playse SE_FALL
+	setobjectsubpriority LOCALID_3F_PIKACHU, MAP_VOLCANION_CAVE_3F, 200
+	applymovement LOCALID_3F_PIKACHU, VolcanionCave_3F_Movement_PikachuFly
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraFollowPikachuFly
+	delay 100
+
+	@ Pikachu hit Volcanion
+	removeobject LOCALID_3F_PIKACHU
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_PIKACHU
+	playse SE_M_THUNDERBOLT2
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionShake
+	waitmovement 0
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionSetVisible
+	call VolcanionCave_3F_EventScript_SetHPBar
+	lock
+	waitmovement 0
+	delay 20
+
+	@ Volcanion is confused (well, paralyzed) 
+	playse SE_M_TEETER_DANCE
+	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionLookAround
+	waitmovement 0
+	delay 40
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	closemessage
+
+	@ Camera move back
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveBackToCramorant
+	waitmovement 0
+	delay 20
+
+	@ Reset Cramorant
+	fadedefaultbgm
+	removeobject LOCALID_3F_CRAMORANT_ICON
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_ICON
+	addobject LOCALID_3F_CRAMORANT
+	applymovement LOCALID_3F_CRAMORANT, Common_Movement_FaceLeft
+	call VolcanionCave_3F_EventScript_CramorantCry
+
+	@ Reset Camera
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveBackUpFromCramorant
+	waitmovement 0
+	special RemoveCameraObject
+	release
+	end
+
+VolcanionCave_3F_EventScript_CramorantCry::
+	playmoncry SPECIES_CRAMORANT, CRY_MODE_NORMAL
+	message VolcanionCave_3F_Text_CramorantCry
+	waitmessage
+	waitmoncry
+	closemessage
+	return
+
+VolcanionCave_3F_Movement_CameraMoveToCramorant::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+VolcanionCave_3F_Movement_CramorantEatPikachu::
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_CramorantShake::
+	levitate
+	walk_in_place_left
+	stop_levitate
+	step_end
+
+VolcanionCave_3F_Movement_CramorantLaunchPikachu::
+	lock_facing_direction
+	walk_slow_right
+	delay_16
+	walk_fast_left
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_PikachuFly::
+	lock_facing_direction
+	walk_diag_northwest
+	walk_diag_northwest
+	walk_diag_northwest
+	walk_left
+	walk_diag_southwest
+	walk_diag_southwest
+	walk_diag_southwest
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_CameraFollowPikachuFly::
+	delay_16
+	delay_8
+	walk_diag_northwest
+	walk_diag_northwest
+	walk_left
+	walk_diag_southwest
+	walk_diag_southwest
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_VolcanionShake::
+	levitate
+	delay_16
+	delay_16
+	stop_levitate
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveBackToCramorant::
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	walk_right
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveBackUpFromCramorant::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Text_CramorantCry::
+	.string "{SPEAKER NAME_CRAMORANT COLOR_NORMAL}(Cramorant cry)!\p$"
+
+VolcanionCave_3F_Text_PikachuUsedQuickAttack::
+	.string "PIKACHU used QUICK ATTACK!$"
+
+VolcanionCave_3F_Text_ButItFailed::
+	.string "But it failed!$"
 
 VolcanionCave_3F_EventScript_Pikachu::
 	lock

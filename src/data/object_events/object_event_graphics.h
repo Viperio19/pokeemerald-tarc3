@@ -612,6 +612,9 @@ const u16 gObjectEventPic_James[] = INCGFX_U16("graphics/object_events/pics/peop
 const u16 gObjectEventPal_Meowth[] = INCGFX_U16("graphics/object_events/palettes/meowth.pal", ".gbapal");
 const u16 gObjectEventPic_TeamRocketMeowth[] = INCGFX_U16("graphics/object_events/pics/people/meowth.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u16 gObjectEventPal_RockSlide[] = INCGFX_U16("graphics/object_events/palettes/rock_slide.pal", ".gbapal");
+const u16 gObjectEventPal_CramorantGorging[] = INCGFX_U16("graphics/object_events/palettes/cramorant_gorging.pal", ".gbapal");
+const u32 gObjectEventPic_CramorantIcon[] = INCGFX_U32("graphics/object_events/pics/misc/cramorant_icon.png", ".4bpp", "-mwidth 4 -mheight 4");
+const u32 gObjectEventPic_CramorantGorging[] = INCGFX_U32("graphics/object_events/pics/misc/cramorant_gorging.png", ".4bpp", "-mwidth 4 -mheight 4");
 
 const u16 gObjectEventPic_LaprasOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/lapras.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u16 gObjectEventPic_ZapdosOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/zapdos.png", ".4bpp");

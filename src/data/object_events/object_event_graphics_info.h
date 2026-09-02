@@ -7849,3 +7849,39 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RockSlideRock = {
     .anims = sAnimTable_BreakableRock,
     .images = sPicTable_BreakableRock,
 };
+
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CramorantIcon = {
+    .tileTag = TAG_NONE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_CRAMORANT_GORGING,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
+    .size = 512,
+    .width = 32,
+    .height = 32,
+    .paletteSlot = PALSLOT_NPC_SPECIAL,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .compressed = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
+    .anims = sAnimTable_HoOh,
+    .images = sPicTable_CramorantIcon,
+};
+
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CramorantGorging = {
+    .tileTag = TAG_NONE,
+    .paletteTag = OBJ_EVENT_PAL_TAG_CRAMORANT_GORGING,
+    .reflectionPaletteTag = OBJ_EVENT_PAL_TAG_NONE,
+    .size = 512,
+    .width = 32,
+    .height = 32,
+    .paletteSlot = PALSLOT_NPC_SPECIAL,
+    .shadowSize = SHADOW_SIZE_M,
+    .inanimate = FALSE,
+    .compressed = FALSE,
+    .tracks = TRACKS_FOOT,
+    .oam = &gObjectEventBaseOam_32x32,
+    .subspriteTables = sOamTables_32x32,
+    .anims = sAnimTable_HoOh,
+    .images = sPicTable_CramorantGorging,
+};

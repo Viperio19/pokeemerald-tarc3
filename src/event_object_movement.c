@@ -558,6 +558,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_James,                 OBJ_EVENT_PAL_TAG_JAMES},
     {gObjectEventPal_Meowth,                OBJ_EVENT_PAL_TAG_MEOWTH},
     {gObjectEventPal_RockSlide,             OBJ_EVENT_PAL_TAG_ROCK_SLIDE},
+    {gObjectEventPal_CramorantGorging,      OBJ_EVENT_PAL_TAG_CRAMORANT_GORGING},
 #if OW_FOLLOWERS_POKEBALLS
     {gObjectEventPal_MasterBall,            OBJ_EVENT_PAL_TAG_BALL_MASTER},
     {gObjectEventPal_UltraBall,             OBJ_EVENT_PAL_TAG_BALL_ULTRA},
@@ -9541,14 +9542,14 @@ bool8 MovementAction_Levitate_Step0(struct ObjectEvent *objectEvent, struct Spri
 bool8 MovementAction_StopLevitate_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     DestroyLevitateMovementTask(objectEvent->warpArrowSpriteId);
-    sprite->y2 = 0;
+    sprite->x2 = 0;
     sprite->sActionFuncId = 1;
     return TRUE;
 }
 
 bool8 MovementAction_StopLevitateAtTop_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (sprite->y2 == 0)
+    if (sprite->x2 == 0)
     {
         DestroyLevitateMovementTask(objectEvent->warpArrowSpriteId);
         sprite->sActionFuncId = 1;
@@ -11324,9 +11325,9 @@ static void ApplyLevitateMovement(u8 taskId)
     sprite = &gSprites[objectEvent->spriteId];
 
     if (!(task->data[2] & 3))
-        sprite->y2 += task->data[3];
+        sprite->x2 += task->data[3] * 2;
 
-    if (!(task->data[2] & 15))
+    if (!(task->data[2] & 7))
         task->data[3] = -task->data[3];
 
     task->data[2]++;
