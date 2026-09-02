@@ -233,14 +233,18 @@ VolcanionCave_1F_EventScript_MagmaGruntM::
 	message VolcanionCave_1F_Text_MagmaGruntMLookAtDiglett
 	waitmessage
 	closemessage
+	playse SE_M_DIG
 	applymovement LOCALID_1F_DIGLETT, VolcanionCave_1F_Movement_DiglettDigDown
 	waitmovement 0
+	playse SE_M_TEETER_DANCE
 	applymovement LOCALID_1F_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMConfused
 	waitmovement 0
 	delay 20
+	playse SE_M_DIG
 	applymovement LOCALID_1F_DIGLETT, VolcanionCave_1F_Movement_DiglettDigUp
 	waitmovement 0
 	playmoncry SPECIES_DIGLETT, CRY_MODE_NORMAL
+	playse SE_PIN
 	applymovement LOCALID_1F_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMSurprised
 	waitmovement 0
 	delay 20
@@ -250,6 +254,8 @@ VolcanionCave_1F_EventScript_MagmaGruntM::
 	clearflag FLAG_HIDE_VOLCANION_CAVE_1F_HEAT_BADGE
 	applymovement LOCALID_1F_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMWatchBadgeFallDown
 	applymovement LOCALID_1F_HEAT_BADGE, VolcanionCave_1F_Movement_BadgeFallDown
+	delay 16
+	playse SE_PIN
 	waitmovement 0
 	delay 20
 	msgbox VolcanionCave_1F_Text_MagmaGruntMDroppedBadge

@@ -15,6 +15,111 @@
   "connections": null,
   "object_events": [
     {
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 20,
+      "y": 6,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 20,
+      "y": 7,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 22,
+      "y": 8,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 20,
+      "y": 62,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 3,
+      "y": 14,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 28,
+      "y": 32,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
+      "x": 20,
+      "y": 34,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "EventScript_StrengthBoulder",
+      "flag": "0"
+    },
+    {
+      "local_id": "LOCALID_3F_PIKACHU",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(PIKACHU)",
+      "x": 29,
+      "y": 7,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "VolcanionCave_3F_EventScript_Pikachu",
+      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_PIKACHU"
+    },
+    {
       "local_id": "LOCALID_3F_VOLCANION",
       "graphics_id": "OBJ_EVENT_GFX_SPECIES(VOLCANION)",
       "x": 16,
@@ -41,20 +146,6 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "VolcanionCave_3F_EventScript_Cramorant",
       "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_CRAMORANT"
-    },
-    {
-      "local_id": "LOCALID_3F_PIKACHU",
-      "graphics_id": "OBJ_EVENT_GFX_SPECIES(PIKACHU)",
-      "x": 29,
-      "y": 7,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "VolcanionCave_3F_EventScript_Pikachu",
-      "flag": "FLAG_HIDE_VOLCANION_CAVE_3F_PIKACHU"
     },
     {
       "local_id": "LOCALID_3F_DIGLETT",
@@ -392,32 +483,6 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "x": 20,
-      "y": 62,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_StrengthBoulder",
-      "flag": "FLAG_TEMP_4"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "x": 3,
-      "y": 14,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_StrengthBoulder",
-      "flag": "0"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
       "x": 28,
       "y": 31,
@@ -429,45 +494,6 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
       "flag": "FLAG_SMASHED_ROCK_10"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "x": 20,
-      "y": 6,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_StrengthBoulder",
-      "flag": "FLAG_TEMP_2"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "x": 20,
-      "y": 7,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_StrengthBoulder",
-      "flag": "FLAG_TEMP_3"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "x": 22,
-      "y": 8,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_StrengthBoulder",
-      "flag": "FLAG_TEMP_4"
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
@@ -548,32 +574,6 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "x": 28,
-      "y": 32,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_RockSmash",
-      "flag": "FLAG_SMASHED_ROCK_9"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "x": 20,
-      "y": 34,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_NONE",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "EventScript_RockSmash",
-      "flag": "FLAG_SMASHED_ROCK_8"
-    },
-    {
       "local_id": "LOCALID_3F_CRAMORANT_GORGING",
       "graphics_id": "OBJ_EVENT_GFX_CRAMORANT_GORGING",
       "x": 23,
@@ -623,47 +623,20 @@
     },
     {
       "type": "trigger",
-      "x": 20,
-      "y": 34,
+      "x": 25,
+      "y": 31,
       "elevation": 3,
       "var": "VAR_TEMP_F",
-      "var_value": "1",
+      "var_value": "0",
       "script": "VolcanionCave_3F_EventScript_BlueButton"
     },
     {
       "type": "trigger",
       "x": 28,
-      "y": 30,
+      "y": 29,
       "elevation": 3,
       "var": "VAR_TEMP_F",
       "var_value": "1",
-      "script": "VolcanionCave_3F_EventScript_BlueButton"
-    },
-    {
-      "type": "trigger",
-      "x": 25,
-      "y": 30,
-      "elevation": 3,
-      "var": "VAR_TEMP_F",
-      "var_value": "0",
-      "script": "VolcanionCave_3F_EventScript_RedButton"
-    },
-    {
-      "type": "trigger",
-      "x": 29,
-      "y": 34,
-      "elevation": 3,
-      "var": "VAR_TEMP_F",
-      "var_value": "0",
-      "script": "VolcanionCave_3F_EventScript_RedButton"
-    },
-    {
-      "type": "trigger",
-      "x": 26,
-      "y": 38,
-      "elevation": 3,
-      "var": "VAR_TEMP_F",
-      "var_value": "0",
       "script": "VolcanionCave_3F_EventScript_RedButton"
     },
     {
@@ -701,6 +674,51 @@
       "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3",
       "var_value": "99",
       "script": "VolcanionCave_3F_EventScript_FloorSwitch3"
+    },
+    {
+      "type": "trigger",
+      "x": 30,
+      "y": 31,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_BlueButton"
+    },
+    {
+      "type": "trigger",
+      "x": 28,
+      "y": 28,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_4",
+      "var_value": "99",
+      "script": "VolcanionCave_3F_EventScript_FloorSwitch4"
+    },
+    {
+      "type": "trigger",
+      "x": 19,
+      "y": 34,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_5",
+      "var_value": "99",
+      "script": "VolcanionCave_3F_EventScript_FloorSwitch5"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 31,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "1",
+      "script": "VolcanionCave_3F_EventScript_RedButton"
+    },
+    {
+      "type": "trigger",
+      "x": 24,
+      "y": 37,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_BlueButton"
     }
   ],
   "bg_events": [],

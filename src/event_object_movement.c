@@ -8729,11 +8729,12 @@ static void CheckRockHitObject(struct ObjectEvent *objectEvent)
 
 bool8 MovementAction_RockSmashBreak_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) > 0 && VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) < 4)
+    if (objectEvent->graphicsId == OBJ_EVENT_GFX_ROCK_SLIDE_ROCK)
     {
         objectEvent->fixedPriority = FALSE;
         objectEvent->triggerGroundEffectsOnMove = TRUE;
-        CheckRockHitObject(objectEvent);
+        if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) > 0 && VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) < 4)
+            CheckRockHitObject(objectEvent);
     }
 
     SetAndStartSpriteAnim(sprite, ANIM_REMOVE_OBSTACLE, 0);
