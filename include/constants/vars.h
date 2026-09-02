@@ -249,7 +249,7 @@
 #define VAR_CURRENT_HP_BAR_COLOR                         0x40DF
 #define VAR_ZINNIA_STATE                                 0x40E0
 #define VAR_GOLEM_ROCK_SLIDE_STATE                       0x40E1
-#define VAR_GIFT_UNUSED_5                                0x40E2 // Unused Var
+#define VAR_GOLEM_ROCK_SLIDE_TIMER                       0x40E2
 #define VAR_GIFT_UNUSED_6                                0x40E3 // Unused Var
 #define VAR_GIFT_UNUSED_7                                0x40E4 // Unused Var
 #define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3          0x40E5

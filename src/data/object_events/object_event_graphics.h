@@ -611,6 +611,7 @@ const u16 gObjectEventPal_James[] = INCGFX_U16("graphics/object_events/palettes/
 const u16 gObjectEventPic_James[] = INCGFX_U16("graphics/object_events/pics/people/james.png", ".4bpp", "-mwidth 2 -mheight 4");
 const u16 gObjectEventPal_Meowth[] = INCGFX_U16("graphics/object_events/palettes/meowth.pal", ".gbapal");
 const u16 gObjectEventPic_TeamRocketMeowth[] = INCGFX_U16("graphics/object_events/pics/people/meowth.png", ".4bpp", "-mwidth 2 -mheight 4");
+const u16 gObjectEventPal_RockSlide[] = INCGFX_U16("graphics/object_events/palettes/rock_slide.pal", ".gbapal");
 
 const u16 gObjectEventPic_LaprasOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/lapras.png", ".4bpp", "-mwidth 2 -mheight 2");
 const u16 gObjectEventPic_ZapdosOld[] = INCGFX_U16("graphics/object_events/pics/pokemon_old/zapdos.png", ".4bpp");
