@@ -490,6 +490,7 @@ VolcanionCave_3F_OnLoad::
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier3
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_4, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier4
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_5, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier5
+	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_6, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier6
 	call_if_eq VAR_TEMP_F, 0, VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed
 	call_if_eq VAR_TEMP_F, 1, VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
 	call_if_ge VAR_VOLCANION_CAVE_3F_STATE, 1, VolcanionCave_3F_EventScript_SetMetatilesRocksBroken
@@ -517,6 +518,10 @@ VolcanionCave_3F_EventScript_RemoveRockBarrier4::
 
 VolcanionCave_3F_EventScript_RemoveRockBarrier5::
 	setmetatile 26, 37, METATILE_Cave_Floor, FALSE
+	return
+
+VolcanionCave_3F_EventScript_RemoveRockBarrier6::
+	setmetatile 4, 32, METATILE_Cave_Floor, FALSE
 	return
 
 VolcanionCave_3F_EventScript_BlueButton::
@@ -828,6 +833,9 @@ VolcanionCave_3F_EventScript_ZinniaEnter::
 	waitmoncry
 	closemessage
 	playbgm MUS_VS_VOLCANION, FALSE
+	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurDoSlidePuzzle
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_WhismurDoSlidePuzzle
+	waitmovement 0
 	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurRunToVolcanion
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveWithWhismurToVolcanion
 	waitmovement 0
@@ -892,7 +900,6 @@ VolcanionCave_3F_EventScript_AsterUsedScreeeechMagma::
 VolcanionCave_3F_Movement_WhismurEnter::
 	walk_fast_up
 	walk_fast_up
-	walk_fast_up
 	walk_in_place_down
 	step_end
 
@@ -912,20 +919,120 @@ VolcanionCave_3F_Movement_ZinniaEnter::
 
 VolcanionCave_3F_Movement_CameraMoveToWhismur::
 	walk_diag_northwest
-	walk_up
+	step_end
+
+VolcanionCave_3F_Movement_WhismurDoSlidePuzzle::
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	lock_anim
+	walk_fast_up
+	unlock_anim
+	face_left
+	lock_anim
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	unlock_anim
+	face_down
+	lock_anim
+	walk_fast_down
+	unlock_anim
+	face_right
+	lock_anim
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	unlock_anim
+	face_down
+	lock_anim
+	walk_fast_down
+	unlock_anim
+	face_left
+	lock_anim
+	walk_fast_left
+	unlock_anim
+	face_up
+	lock_anim
+	walk_fast_up
+	walk_fast_up
+	unlock_anim
+	face_right
+	lock_anim
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	delay_16
+	unlock_anim
+	emote_question_mark
+	delay_16
+	face_up
+	delay_16
+	face_down
+	delay_16
+	face_right
+	delay_16
+	delay_16
+	face_up
+	emote_exclamation_mark
+	delay_16
+	face_left
+	lock_anim
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	unlock_anim
+	face_down
+	lock_anim
+	walk_fast_down
+	walk_fast_down
+	unlock_anim
+	face_right
+	lock_anim
+	walk_fast_right
+	unlock_anim
+	face_up
+	lock_anim
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	unlock_anim
+	walk_fast_up
+	walk_fast_up
+	lock_anim
+	walk_fast_up
+	unlock_anim
+	face_left
+	lock_anim
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	unlock_anim
+	face_up
+	lock_anim
+	walk_fast_up
+	unlock_anim
+	delay_16
+	delay_16
+	emote_exclamation_mark
+	jump_in_place_down
+	jump_in_place_down
+	delay_16
+	delay_16
 	step_end
 
 VolcanionCave_3F_Movement_WhismurRunToVolcanion::
 	walk_fast_right
 	walk_fast_right
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
@@ -945,14 +1052,6 @@ VolcanionCave_3F_Movement_WhismurRunToVolcanion::
 VolcanionCave_3F_Movement_CameraMoveWithWhismurToVolcanion::
 	walk_fast_right
 	walk_fast_right
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
-	walk_fast_up
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
@@ -1827,6 +1926,17 @@ VolcanionCave_3F_EventScript_FloorSwitch5::
 	special DrawWholeMapView
 	waitse
 	setvar VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_5, 100
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_FloorSwitch6::
+	lock
+	goto_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_6, 100, VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed
+	setmetatile 4, 32, METATILE_Cave_Floor, FALSE
+	playse SE_ICE_BREAK
+	special DrawWholeMapView
+	waitse
+	setvar VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_6, 100
 	releaseall
 	end
 
