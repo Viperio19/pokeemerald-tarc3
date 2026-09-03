@@ -39,7 +39,7 @@ VolcanionCave_2F_EventScript_SetRockBarrier4::
 
 VolcanionCave_2F_OnTransition:
 	callnative UpdateStrengthBoulderPositions
-	call_if_set FLAG_MOVE_GOLDEEN_GRUNT, VolcanionCave_2F_EventScript_MoveGoldeenGrunt
+	call_if_set FLAG_SHOWED_GOLDEEN_TO_GOLDEEN_GRUNT, VolcanionCave_2F_EventScript_MoveGoldeenGrunt
 	end
 
 VolcanionCave_2F_EventScript_MoveGoldeenGrunt::
@@ -673,6 +673,7 @@ VolcanionCave_2F_EventScript_OldRod::
 
 VolcanionCave_2F_EventScript_MagmaMemberFGoldeen::
 	lock
+	goto_if_set FLAG_SHOWED_GOLDEEN_TO_GOLDEEN_GRUNT, VolcanionCave_2F_EventScript_GoldeenGruntSleeping
 	faceplayer
 	goto_if_set FLAG_TALKED_TO_GOLDEEN_GRUNT, VolcanionCave_2F_EventScript_PleaseShowGoldeen
 	setflag FLAG_TALKED_TO_GOLDEEN_GRUNT
@@ -697,7 +698,7 @@ VolcanionCave_2F_EventScript_ChoosePartyMonGoldeen::
 	applymovement LOCALID_2F_GOLDEEN_GRUNT, VolcanionCave_2F_Movement_GoldeenGruntWalkInPlace
 	msgbox VolcanionCave_2F_Text_BedtimeTrain, MSGBOX_DEFAULT
 	closemessage
-	setflag FLAG_MOVE_GOLDEEN_GRUNT
+	setflag FLAG_SHOWED_GOLDEEN_TO_GOLDEEN_GRUNT
 	setobjectxyperm LOCALID_2F_GOLDEEN_GRUNT, 20, 14
 	release
 	end
@@ -710,6 +711,12 @@ VolcanionCave_2F_EventScript_PleaseKeepLooking::
 	closemessage
 	delay 5
 	msgbox VolcanionCave_2F_Text_PleaseKeepLooking, MSGBOX_NPC
+	end
+
+VolcanionCave_2F_EventScript_GoldeenGruntSleeping::
+	msgbox VolcanionCave_2F_Text_GoldeenGruntSleeping, MSGBOX_DEFAULT
+	closemessage
+	release
 	end
 
 VolcanionCave_2F_Text_IDroppedGoldeen::
@@ -781,6 +788,10 @@ VolcanionCave_2F_Text_NicePillow::
 VolcanionCave_2F_Text_BedtimeTrain::
 	.string "WAHOOO!!! {PAUSE 40}ALL ABOARD THE BEDTIME TRAIN\n"
 	.string "DESTINATION ZZZZZZZZzzzzzzzzzzzzz…$"
+
+VolcanionCave_2F_Text_GoldeenGruntSleeping::
+	.string "{SPEAKER NAME_MAGMA COLOR_MAGMA}ZZZZZZZZzzzzzzzzzzzzz…\n"
+	.string "Choo-choo!$"
 
 VolcanionCave_2F_Movement_GoldeenGruntWalkInPlace::
 	walk_in_place_faster_right

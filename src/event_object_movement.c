@@ -2947,7 +2947,7 @@ void RemoveObjectEventsOutsideView(void)
                 continue;
             if (IsOWEDespawnExempt(objectEvent))
                 continue;
-            if (gSaveBlock1Ptr->objectEventTemplates[objectEvent->localId].flagId == FLAG_HIDE_ROCK_SLIDE_ROCKS)
+            if (objectEvent->graphicsId == OBJ_EVENT_GFX_ROCK_SLIDE_ROCK)
                 continue;
 
             RemoveObjectEventIfOutsideView(objectEvent);
@@ -6365,8 +6365,6 @@ enum Collision GetSidewaysStairsCollision(struct ObjectEvent *objectEvent, enum 
 
 static enum Collision GetVanillaCollision(struct ObjectEvent *objectEvent, s16 x, s16 y, enum Direction direction)
 {
-    if (gSaveBlock1Ptr->objectEventTemplates[objectEvent->localId].flagId == FLAG_HIDE_ROCK_SLIDE_ROCKS)
-        return COLLISION_NONE;
     if (IsCoordOutsideObjectEventMovementRange(objectEvent, x, y))
         return COLLISION_OUTSIDE_RANGE;
     else if (MapGridGetCollisionAt(x, y) || GetMapBorderIdAt(x, y) == CONNECTION_INVALID || IsMetatileDirectionallyImpassable(objectEvent, x, y, direction))
@@ -6376,7 +6374,12 @@ static enum Collision GetVanillaCollision(struct ObjectEvent *objectEvent, s16 x
     else if (IsElevationMismatchAt(objectEvent->currentElevation, x, y))
         return COLLISION_ELEVATION_MISMATCH;
     else if (DoesObjectCollideWithObjectAt(objectEvent, x, y))
-        return COLLISION_OBJECT_EVENT;
+    {
+        if (gObjectEvents[GetObjectObjectCollidesWith(objectEvent, x, y, FALSE)].graphicsId == OBJ_EVENT_GFX_ROCK_SLIDE_ROCK)
+            return COLLISION_NONE;
+        else
+            return COLLISION_OBJECT_EVENT;
+    }
 
     return COLLISION_NONE;
 }

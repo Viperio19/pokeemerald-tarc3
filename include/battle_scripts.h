@@ -349,6 +349,7 @@ extern const u8 BattleScript_EmergencyExitSendReplacement[];
 extern const u8 BattleScript_QueuedSwitch[];
 extern const u8 BattleScript_QueuedSwitchOpenPartyScreen[];
 extern const u8 BattleScript_CheekPouchActivates[];
+extern const u8 BattleScript_VolcanionDropStats[];
 extern const u8 BattleScript_TotemBoost[];
 extern const u8 BattleScript_AnnounceAirLockCloudNine[];
 extern const u8 BattleScript_ActivateTeraformZero[];

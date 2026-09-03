@@ -949,10 +949,11 @@
 
 	@ Displays a YES/NO multichoice box at the specified coordinates, and blocks script execution until the user makes a selection.
 	@ Their selection is stored in VAR_RESULT as NO (0) or YES (1). Pressing B is equivalent to answering NO
-	.macro yesnobox x:req, y:req
+	.macro yesnobox x:req, y:req, defaultChoice=0
 	.byte SCR_OP_YESNOBOX
 	.byte \x
 	.byte \y
+	.byte \defaultChoice
 	.endm
 
 	@ Displays a multichoice box from which the user can choose a selection, and blocks script execution until a selection is made.

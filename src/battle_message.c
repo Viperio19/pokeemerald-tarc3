@@ -905,6 +905,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNCANTBEEATEN]                      = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} doesn't like\nthe taste of {B_DEF_NAME_WITH_PREFIX}."),
     [STRINGID_PKMNWASEATEN]                         = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} ate\n{B_DEF_NAME_WITH_PREFIX}!"),
     [STRINGID_PKMNDIEDKINDA]                        = COMPOUND_STRING("{B_DEF_NAME_WITH_PREFIX} died!\nKinda."),
+    [STRINGID_STATSFELL]                            = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX}'s stats fell!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

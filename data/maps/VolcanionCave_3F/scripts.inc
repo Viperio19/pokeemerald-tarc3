@@ -1058,8 +1058,13 @@ VolcanionCave_3F_Text_GoodJobAster::
 	.string "a nice long rest!\p$"
 
 VolcanionCave_3F_EventScript_Zinnia::
+	lock
+	msgbox VolcanionCave_3F_Text_Zinnia, MSGBOX_NPC
 	release
 	end
+
+VolcanionCave_3F_Text_Zinnia::
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}I'm not moving.\p$"
 
 VolcanionCave_3F_EventScript_Whismur::
 	release
@@ -1084,6 +1089,9 @@ VolcanionCave_3F_EventScript_Golem::
 	delay 20
 	playbgm MUS_VS_VOLCANION, FALSE
 	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
+	resetobjectsubpriority LOCALID_3F_ROCK_SLIDE_1, MAP_VOLCANION_CAVE_3F
+	resetobjectsubpriority LOCALID_3F_ROCK_SLIDE_2, MAP_VOLCANION_CAVE_3F
+	resetobjectsubpriority LOCALID_3F_ROCK_SLIDE_3, MAP_VOLCANION_CAVE_3F
 	message VolcanionCave_3F_Text_GolemUsedRockSlide
 	delay 5
 	playse SE_PIN
@@ -1091,7 +1099,7 @@ VolcanionCave_3F_EventScript_Golem::
 	waitmovement 0
 	waitmessage
 	closemessage
-	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockUp
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockSlideLeftDown
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
 	call VolcanionCave_3F_EventScript_RockSlideRemoveRocks
 	callnative IsPlayerOne
@@ -1107,7 +1115,7 @@ VolcanionCave_3F_EventScript_Golem::
 	callnative IsPlayerOne
 	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_GottaRunAqua
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_GottaRunMagma
-	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockDown
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockSlideUp
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
 	call VolcanionCave_3F_EventScript_RockSlideRemoveRocks
 	closemessage
@@ -1119,6 +1127,9 @@ VolcanionCave_3F_EventScript_Golem::
 VolcanionCave_3F_EventScript_GolemUsedRockSlide::
 	playbgm MUS_VS_VOLCANION, FALSE
 	call VolcanionCave_3F_EventScript_RockSlideSpawnRocks
+	resetobjectsubpriority LOCALID_3F_ROCK_SLIDE_1, MAP_VOLCANION_CAVE_3F
+	resetobjectsubpriority LOCALID_3F_ROCK_SLIDE_2, MAP_VOLCANION_CAVE_3F
+	resetobjectsubpriority LOCALID_3F_ROCK_SLIDE_3, MAP_VOLCANION_CAVE_3F
 	message VolcanionCave_3F_Text_GolemUsedRockSlide
 	delay 5
 	playse SE_PIN
@@ -1129,7 +1140,7 @@ VolcanionCave_3F_EventScript_GolemUsedRockSlide::
 	callnative IsPlayerOne
 	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_GottaRunAqua
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_GottaRunMagma
-	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockUp
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerDodgeRockSlideLeftDown
 	call VolcanionCave_3F_EventScript_RockSlideDropRocks
 	call VolcanionCave_3F_EventScript_RockSlideRemoveRocks
 	closemessage
@@ -1290,7 +1301,7 @@ VolcanionCave_3F_Movement_PlayerNoticeRockSlide::
 	emote_exclamation_mark
 	step_end
 
-VolcanionCave_3F_Movement_PlayerDodgeRockUp::
+VolcanionCave_3F_Movement_PlayerDodgeRockSlideLeftDown::
 	walk_in_place_fast_up
 	walk_in_place_fast_up
 	walk_in_place_fast_up
@@ -1301,7 +1312,7 @@ VolcanionCave_3F_Movement_PlayerDodgeRockUp::
 	face_up
 	step_end
 
-VolcanionCave_3F_Movement_PlayerDodgeRockDown::
+VolcanionCave_3F_Movement_PlayerDodgeRockSlideUp::
 	walk_in_place_fast_up
 	walk_in_place_fast_up
 	walk_in_place_fast_up
@@ -1380,6 +1391,11 @@ VolcanionCave_3F_EventScript_RockSlideHitVolcanion::
 	message VolcanionCave_3F_Text_VolcanionGotHit
 	waitmessage
 	fadedefaultbgm
+	call VolcanionCave_3F_EventScript_VolcanionCry
+	closemessage
+	delay 10
+	message VolcanionCave_3F_Text_GolemSeemsFullySatisfied
+	waitmessage
 	closemessage
 	release
 	end
@@ -1404,6 +1420,9 @@ VolcanionCave_3F_Movement_VolcanionSetVisible::
 VolcanionCave_3F_Text_VolcanionGotHit::
 	.string "Oh yeaaaah VOLCANION got hit!\p$"
 
+VolcanionCave_3F_Text_GolemSeemsFullySatisfied::
+	.string "GOLEM seems to be satisfied\n"
+	.string "and stopped using ROCK SLIDE.\p$"
 
 VolcanionCave_3F_EventScript_GolemSatisfied::
 	lock
@@ -1817,8 +1836,19 @@ VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed::
 
 VolcanionCave_3F_EventScript_Cramorant::
 	lock
-	faceplayer
 	call VolcanionCave_3F_EventScript_CramorantCry
+	delay 20
+	goto_if_eq VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100, VolcanionCave_3F_EventScript_CramorantStillLookingForFood
+	message VolcanionCave_3F_Text_CramorantLookingForFood
+	waitmessage
+	closemessage
+	release
+	end
+
+VolcanionCave_3F_EventScript_CramorantStillLookingForFood::
+	message VolcanionCave_3F_Text_CramorantStillLookingForFood
+	waitmessage
+	closemessage
 	release
 	end
 
@@ -1910,6 +1940,7 @@ VolcanionCave_3F_EventScript_CramorantEatPikachu::
 	call VolcanionCave_3F_EventScript_CramorantCry
 
 	@ Reset Camera
+	applymovement LOCALID_3F_CRAMORANT, Common_Movement_FaceDown
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveBackUpFromCramorant
 	waitmovement 0
 	special RemoveCameraObject
@@ -1995,6 +2026,18 @@ VolcanionCave_3F_Movement_CameraMoveBackUpFromCramorant::
 VolcanionCave_3F_Text_CramorantCry::
 	.string "{SPEAKER NAME_CRAMORANT COLOR_NORMAL}(Cramorant cry)!\p$"
 
+VolcanionCave_3F_Text_CramorantLookingForFood::
+	.string "CRAMORANT seems to be looking\n"
+	.string "for food in the water.\p"
+	.string "It doesn't seem to realize that\n"
+	.string "the puddle is completely empty.\p$"
+
+VolcanionCave_3F_Text_CramorantStillLookingForFood::
+	.string "CRAMORANT still seems to be looking\n"
+	.string "for food in the water.\p"
+	.string "It still doesn't seem to realize that\n"
+	.string "the puddle is completely empty.\p$"
+
 VolcanionCave_3F_Text_PikachuUsedQuickAttack::
 	.string "PIKACHU used QUICK ATTACK!$"
 
@@ -2031,7 +2074,9 @@ VolcanionCave_3F_EventScript_PikachuStrengthBoulder::
 	end
 
 VolcanionCave_3F_EventScript_AskResetPikachu::
-	msgbox VolcanionCave_3F_Text_AskResetPikachu, MSGBOX_YESNO
+	message VolcanionCave_3F_Text_AskResetPikachu
+	waitmessage
+	yesnobox 20, 8, 1
 	goto_if_eq VAR_RESULT, YES, VolcanionCave_3F_EventScript_ResetPikachu
 	releaseall
 	end

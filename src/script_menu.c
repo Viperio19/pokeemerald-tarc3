@@ -596,6 +596,21 @@ bool8 ScriptMenu_YesNo(u8 left, u8 top)
     }
 }
 
+bool8 ScriptMenu_YesNoDefault(u8 left, u8 top, u8 defaultChoice)
+{
+    if (FuncIsActiveTask(Task_HandleYesNoInput) == TRUE)
+    {
+        return FALSE;
+    }
+    else
+    {
+        gSpecialVar_Result = 0xFF;
+        DisplayYesNoMenuWithDefault(defaultChoice);
+        CreateTask(Task_HandleYesNoInput, 0x50);
+        return TRUE;
+    }
+}
+
 static void Task_HandleYesNoInput(u8 taskId)
 {
     if (gTasks[taskId].tRight < 5)

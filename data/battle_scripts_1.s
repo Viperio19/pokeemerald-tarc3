@@ -5647,6 +5647,12 @@ BattleScript_OpportunistCopyStatChange::
 	trybattlerstatchange BS_SCRIPTING, STAT_CHANGE_OPPORTUNIST
 	return
 
+BattleScript_VolcanionDropStats::
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, NULL
+	printstring STRINGID_STATSFELL
+	waitmessage B_WAIT_TIME_LONG
+	end3
+
 BattleScript_TotemBoost::
 	playanimation BS_ATTACKER, B_ANIM_TOTEM_FLARE, NULL
 	printstring STRINGID_AURAFLAREDTOLIFE

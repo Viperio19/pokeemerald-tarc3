@@ -7373,7 +7373,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Taunt"),
         .description = COMPOUND_STRING(
-            "The foe can use only attack\n"
+            "The foe can't use status\n"
             "moves for 4 turns."),
         .effect = EFFECT_TAUNT,
         .power = 0,
@@ -12607,8 +12607,8 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Wide Guard"),
         .description = COMPOUND_STRING(
-            "Evades wide-ranging attacks\n"
-            "for one turn."),
+            "Protects side from attacks\n"
+            "that target all allies."),
         .effect = EFFECT_PROTECT,
         .power = 0,
         .type = TYPE_ROCK,
@@ -13636,11 +13636,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
     {
         .name = COMPOUND_STRING("Incinerate"),
         .description = COMPOUND_STRING(
-        #if B_INCINERATE_GEMS >= GEN_6
-            "Burns up certain items,\n"
-        #else
             "Burns up Berries,\n"
-        #endif
             "making them unusable."),
         .effect = EFFECT_HIT,
         .power = B_UPDATED_MOVE_DATA >= GEN_6 ? 60 : 30,

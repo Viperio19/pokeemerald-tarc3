@@ -33,7 +33,7 @@ static const u32 sNameBoxJamesGfx[] = INCGFX_U32("graphics/text_window/name_box_
 static const u32 sNameBoxPokenavGfx[] = INCGFX_U32("graphics/pokenav/name_box.png", ".4bpp");
 
 static const u16 sNameBoxColors[SP_COLOR_COUNT] = {
-    [SP_COLOR_NORMAL] = RGB2GBA(120, 120, 120),
+    [SP_COLOR_NORMAL] = RGB2GBA(128, 128, 128),
     [SP_COLOR_MAGMA]  = RGB2GBA(176, 37,  30 ),
     [SP_COLOR_AQUA]   = RGB2GBA(72,  112, 160),
     [SP_COLOR_ZINNIA] = RGB2GBA(32,  152, 8  ),
@@ -47,9 +47,6 @@ static void WindowFunc_ClearNamebox(u8, u8, u8, u8, u8, u8);
 
 void PrepareNamebox(u32 tileNum)
 {
-    // u16 color = sNameBoxColors[sNameboxColorId];
-    // LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
-
     u8 *strbuf = AllocZeroed(32 * sizeof(u8));
     if (FlagGet(OW_FLAG_SUPPRESS_NAME_BOX) || !gSpeakerName || !strbuf)
     {
@@ -153,7 +150,7 @@ static const u32 *GetNameboxGraphics(void)
         case SP_COLOR_NORMAL:
         default:
             u16 color = sNameBoxColors[sNameboxColorId];
-            LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 12, sizeof(color));
+            LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 10, sizeof(color));
             return sNameBoxDefaultGfx;
     }
 
@@ -162,9 +159,6 @@ static const u32 *GetNameboxGraphics(void)
 
 void FillNamebox(void)
 {
-    // u16 color = sNameBoxColors[sNameboxColorId];
-    // LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
-
     u32 winSize = GetNameboxWidth();
     const u32 *gfx = GetNameboxGraphics();
 
@@ -179,9 +173,6 @@ void FillNamebox(void)
 
 void DrawNamebox(u32 windowId, u32 tileNum, bool32 copyToVram)
 {
-    // u16 color = sNameBoxColors[sNameboxColorId];
-    // LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 15, sizeof(color));
-
     // manual instead of using CallWindowFunction for extra tileNum param
     struct WindowTemplate *w = &gWindows[windowId].window;
     u32 size = TILE_OFFSET_4BPP(NAME_BOX_BASE_TILES_TOTAL);

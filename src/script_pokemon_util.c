@@ -158,6 +158,12 @@ void CreateScriptedWildMon(enum Species species, u8 level, enum Item item)
         }
 
         SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_HP, &hp);
+
+        if (VarGet(VAR_VOLCANION_CAVE_3F_PIKACHU_STATE) == 100)
+        {
+            u32 status = STATUS1_PARALYSIS;
+            SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_STATUS, &status);
+        }
     }
 }
 void CreateScriptedDoubleWildMon(enum Species species1, u8 level1, enum Item item1, enum Species species2, u8 level2, enum Item item2)

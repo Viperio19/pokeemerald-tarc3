@@ -3506,6 +3506,20 @@ static void TryDoEventsBeforeFirstTurn(void)
         gBattleTurnCounter = 0;
         gBattleStruct->eventState.beforeFirstTurn++;
         break;
+    case FIRST_TURN_EVENTS_VOLCANION_DROP_STATS:
+        if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY && VarGet(VAR_ZINNIA_STATE) == 1)
+        {
+            gBattlerAttacker = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+            for (enum Stat stat = STAT_ATK; stat < NUM_STATS; stat++)
+            {
+                gBattleMons[gBattlerAttacker].statStages[stat] = DEFAULT_STAT_STAGE - 1;
+            }
+
+            BattleScriptPushCursorAndCallback(BattleScript_VolcanionDropStats);
+        }
+
+        gBattleStruct->eventState.beforeFirstTurn++;
+        break;
     case FIRST_TURN_EVENTS_OVERWORLD_WEATHER:
         gBattleStruct->eventState.beforeFirstTurn++;
         if (TryFieldEffects(FIELD_EFFECT_OVERWORLD_WEATHER))

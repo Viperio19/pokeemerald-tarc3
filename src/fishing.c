@@ -75,7 +75,8 @@ static bool32 DoesFishingMinigameAllowCancel(void);
 
 static const u8 sText_OhABite[] = _("Oh! A bite!");
 static const u8 sText_PokemonOnHook[] = _("A POKéMON's on the hook!{PAUSE_UNTIL_PRESS}");
-static const u8 sText_NotEvenANibble[] = _("There seem to be no more\nPOKéMON in the lava…{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NotEvenANibble[] = _("Not even a nibble…{PAUSE_UNTIL_PRESS}");
+static const u8 sText_NoMorePokemon[] = _("There seem to be no more\nPOKéMON in the lava…{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItGotAway[] = _("It got away…{PAUSE_UNTIL_PRESS}");
 static const u8 sText_DroppedRod[] = _("Dropped rod{PAUSE_UNTIL_PRESS}");
 static const u8 sText_FishingBad[] = _(
@@ -470,7 +471,7 @@ static bool32 Fishing_NotEvenNibble(struct Task *task)
     AlignFishingAnimationFrames();
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingNoCatchDirectionAnimNum(GetPlayerFacingDirection()));
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
-    AddTextPrinterParameterized2(0, FONT_NORMAL, sText_NotEvenANibble, 1, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    AddTextPrinterParameterized2(0, FONT_NORMAL, GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHI_YU), FLAG_GET_CAUGHT) ? sText_NoMorePokemon : sText_NotEvenANibble, 1, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
     task->tStep = FISHING_NO_MON;
     return TRUE;
 }
