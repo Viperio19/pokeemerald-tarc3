@@ -236,7 +236,7 @@ VolcanionCave_1F_EventScript_MagmaGruntM::
 	playse SE_M_DIG
 	applymovement LOCALID_1F_DIGLETT, VolcanionCave_1F_Movement_DiglettDigDown
 	waitmovement 0
-	playse SE_M_TEETER_DANCE
+	playse SE_M_ATTRACT2
 	applymovement LOCALID_1F_MAGMA_GRUNT_M, VolcanionCave_1F_Movement_MagmaGruntMConfused
 	waitmovement 0
 	delay 20

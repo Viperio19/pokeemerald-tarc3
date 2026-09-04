@@ -480,6 +480,15 @@
 	formatwarp \map, \a, \b, \c
 	.endm
 
+	@ Warps to a map, and plays the script passed to it
+	.macro warpcontinuescript map:req, X:req, Y:req, script:req, startBlack=TRUE
+	.byte SCR_OP_WARPCONTINUESCRIPT
+	.2byte \map
+	.2byte \X
+	.2byte \Y
+	.4byte \script
+	.endm
+
 	@ Warps the player to the specified map without playing a sound effect.
 	@ Warp commands can be given either the id of which warp location to go to on the destination map
 	@ or a pair of x/y coordinates to go to directly on the destination map.
@@ -1905,6 +1914,15 @@
 	.macro messageinstant text:req
 	.byte SCR_OP_MESSAGEINSTANT
 	.4byte \text
+	.endm
+
+	.macro creditsmessage text:req
+	delay 40
+	messageinstant \text
+	waitmessage
+	delay 120
+	closemessage
+	delay 40
 	.endm
 
 	@ Equivalent to fadescreen but uses a hardware fade and darken/lighten blend modes,

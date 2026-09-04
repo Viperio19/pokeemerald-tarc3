@@ -70,6 +70,7 @@
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
 
+EWRAM_DATA const u8 *gAfterWarpScript = {0};
 EWRAM_DATA const u8 *gRamScriptRetAddr = NULL;
 static EWRAM_DATA u32 sAddressOffset = 0; // For relative addressing in vgoto etc., used by saved scripts (e.g. Mystery Event)
 static EWRAM_DATA u16 sPauseCounter = 0;
@@ -974,6 +975,34 @@ bool8 ScrCmd_warp(struct ScriptContext *ctx)
     return TRUE;
 }
 
+static void FieldCallback_SetupWarpScript(void)
+{
+    if (gAfterWarpScript == NULL)
+    {
+        gFieldCallback = NULL;
+        return;
+    }
+
+    LockPlayerFieldControls();
+    CpuFastFill(0, gPlttBufferFaded, PLTT_SIZE);
+    ScriptContext_SetupScript(gAfterWarpScript);
+}
+
+bool8 ScrCmd_warpcontinuescript(struct ScriptContext *ctx)
+{
+    u8 mapNum = ScriptReadByte(ctx);
+    u8 mapGroup = ScriptReadByte(ctx);
+    u16 x = VarGet(ScriptReadHalfword(ctx));
+    u16 y = VarGet(ScriptReadHalfword(ctx));
+    gAfterWarpScript = (const u8 *) ScriptReadWord(ctx);
+
+    gFieldCallback = FieldCallback_SetupWarpScript;
+    SetWarpDestination(mapGroup, mapNum, WARP_ID_NONE, x, y);
+    WarpIntoMap();
+    SetMainCallback2(CB2_LoadMap);
+    return TRUE;
+}
+
 bool8 ScrCmd_warpsilent(struct ScriptContext *ctx)
 {
     u8 mapGroup = ScriptReadByte(ctx);
@@ -1733,6 +1762,7 @@ bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
 
     if (msg == NULL)
         msg = (const u8 *)ctx->data[0];
+    gWindows[0].window.tilemapTop = 40;
     LoadMessageBoxAndBorderGfx();
     DrawDialogueFrame(0, TRUE);
     AddTextPrinterParameterized(0, FONT_NORMAL, msg, 0, 1, 0, NULL);
