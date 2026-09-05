@@ -247,11 +247,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Lightning Rod"),
         .description = COMPOUND_STRING(
-        #if B_REDIRECT_ABILITY_IMMUNITY >= GEN_4
-            "Draws Electr. to up Sp. Atk."),
-        #else
             "Draws Electric moves."),
-        #endif
         .aiRating = 7,
         .breakable = TRUE,
     },

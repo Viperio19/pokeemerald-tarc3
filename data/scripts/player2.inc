@@ -6,11 +6,21 @@ EventScript_Player2_Singleplayer::
 	call_if_eq VAR_RESULT, TRUE, Player2_Message_HiPlayerMagma
 	call_if_eq VAR_RESULT, FALSE, Player2_Message_HiPlayerAqua
 	waitmessage
-	multichoicedefault 21, 6, MULTI_PLAYER_2, 0, FALSE
+	goto_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, EventScript_Player2_MultiChoiceNoTrade
+	multichoicedefault 21, 6, MULTI_PLAYER_2_TRADE, 0, FALSE
 	switch VAR_RESULT
-	case 0, Player2_Singleplayer_Trade
-	case 1, Player2_Singleplayer_Talk
+	case 0, Player2_Singleplayer_Talk
+	case 1, Player2_Singleplayer_Trade
 	case 2, Player2_Singleplayer_Cancel
+	case MULTI_B_PRESSED, Player2_Singleplayer_Cancel
+	release
+	end
+
+EventScript_Player2_MultiChoiceNoTrade::
+	multichoicedefault 21, 8, MULTI_PLAYER_2, 0, FALSE
+	switch VAR_RESULT
+	case 0, Player2_Singleplayer_Talk
+	case 1, Player2_Singleplayer_Cancel
 	case MULTI_B_PRESSED, Player2_Singleplayer_Cancel
 	release
 	end
@@ -229,11 +239,11 @@ Player2_Singleplayer_Cancel::
 	end
 
 Player2_Message_HiPlayerMagma::
-	msgbox Player2_Text_HiPlayerMagma, MSGBOX_NPC
+	message Player2_Text_HiPlayerMagma
 	return
 
 Player2_Message_HiPlayerAqua::
-	msgbox Player2_Text_HiPlayerAqua, MSGBOX_NPC
+	message Player2_Text_HiPlayerAqua
 	return
 
 Player2_Text_HiPlayerMagma::
@@ -254,8 +264,6 @@ Player2_Text_GivePokemonForPokemon::
 
 Player2_Text_TakeGoodCareOfPokemon::
 	.string "{RIVAL}: I'll take good care\nof {STR_VAR_2}!$"
-
-
 
 Player2_Text_WeGotThis::
 	.string "{RIVAL}: We got this!$"
@@ -322,9 +330,21 @@ Player2_Multiplayer_Cancel::
 
 EventScript_Player2_ReadyToBattle::
 	lock
-	msgbox Player2_Text_ReadyToBattle, MSGBOX_DEFAULT
+	message Player2_Text_ReadyToBattle
+	waitmessage
+	yesnobox 20, 8, 1
+	goto_if_eq VAR_RESULT, YES, EventScript_Player2_CancelBattleAndSwitch
+	release
+	end
+
+EventScript_Player2_CancelBattleAndSwitch::
+	clearflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
+	callnative SwitchCharacters
+	waitstate
 	release
 	end
 
 Player2_Text_ReadyToBattle::
-	.string "{RIVAL} is ready to battle!$"
+	.string "{RIVAL} is ready to battle!\p"
+	.string "Do you want to cancel the battle\n"
+	.string "and switch anyways?$"

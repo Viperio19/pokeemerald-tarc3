@@ -1257,7 +1257,7 @@ VolcanionCave_3F_EventScript_Zinnia::
 
 VolcanionCave_3F_Text_Zinnia::
 	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Mind giving ASTER some space?\n"
-	.string "He's all tuckered out now.$"
+	.string "She's all tuckered out now.$"
 
 VolcanionCave_3F_EventScript_Whismur::
 	release
@@ -1533,7 +1533,7 @@ VolcanionCave_3F_Text_MaybeICanUseThisMagma::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Goodness, somebody seems upset.{PAUSE 25}.{PAUSE 25}.$"
 
 VolcanionCave_3F_Text_GottaRunAqua::
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA} Uh oh!{PAUSE 40} Gotta run!$"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Uh oh!{PAUSE 40} Gotta run!$"
 
 VolcanionCave_3F_Text_GottaRunMagma::
 	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Careful, you might end up hitting\n"
