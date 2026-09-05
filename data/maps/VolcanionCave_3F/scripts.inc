@@ -1098,45 +1098,103 @@ VolcanionCave_3F_Movement_CameraMoveBackToZinnia::
 	step_end
 
 VolcanionCave_3F_Text_WhismurCry::
-	.string "{SPEAKER NAME_WHISMUR COLOR_NORMAL}(Whismur cry)!\p$"
+	.string "{SPEAKER NAME_WHISMUR COLOR_NORMAL}Walawala!\p$"
 
 VolcanionCave_3F_Text_ZinniaDialogueAqua::
-	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_AQUA}Oh hi, I thought I would\n"
-	.string "be the first in this room…\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Your hair is purple…\n"
-	.string "You're not an AQUA GRUNT.\p"
-	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Whaaaaaaaat???\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}And you're green.\p"
-	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Ah shit.\n"
-	.string "Don't tell anyone please.\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}If you help me with VOLCANION\p"
-	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}What?{PAUSE 40}\n"
-	.string "Oh, that thing over there? Sure.\p$"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Come on, ASTER!\p"
+	.string "We're so close to finding what we're\n"
+	.string "looking for, I can feel it!\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}And what do we have here?\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Excuse me?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Just when I thought I found a new\n"
+	.string "AQUA GRUNT to befriend, this walking\l"
+	.string "dress code violation shows up instead!\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}{AUTO_SCROLL 1}Well, that's-{PAUSE 20}\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}{AUTO_SCROLL 0}NO EXCUSES!\p"
+	.string "The stripes on your shirt are 2 cm wider\n"
+	.string "than they should be, your pants don't\l"
+	.string "have a single hole in them, and your hair\l"
+	.string "isn't even dyed orange!\p"
+	.string "This is TEAM AQUA, not the CIRCUS!!\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Wow, and here I thought this was\n"
+	.string "a pretty convicing disguise.\p"
+	.string "You found me out, I'm not actually\n"
+	.string "a TEAM AQUA GRUNT.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}YOU'RE A SPY FROM TEAM MAGMA????\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Hold on, let me finish.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}My name is ZINNIA, and I'm looking\n"
+	.string "for MEGA STONES.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Aren't those the weird shiny rocks\n"
+	.string "that fell from the sky when RAYQUAZA\l"
+	.string "stopped KYOGRE from totally owning\l"
+	.string "that stupid GROUDON?\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Yes, I guess you could say that.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Well I'm no science-ologist, but\n"
+	.string "VOLCANO CAVERN is just about as\l"
+	.string "far away from the sky as you can get.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Aw man, {HESHE_1}'s got a point.\p"
+	.string "Hey, want to do me a favour and stay\n"
+	.string "quiet about all this while I sneak out?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Not really.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}How about if I help you out with that\n"
+	.string "LEGENDARY POKéMON that's been giving\l"
+	.string "you some trouble?\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oh fine, just make it quick.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}You betcha!\p$"
 
 VolcanionCave_3F_Text_ZinniaDialogueMagma::
-	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_AQUA}Oh hi, I thought I would\n"
-	.string "be the first in this room…\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Your hair is purple…\n"
-	.string "You're not an AQUA GRUNT.\p"
-	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Whaaaaaaaat???\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}And you're green.\p"
-	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Ah shit.\n"
-	.string "Don't tell anyone please.\p"
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}If you help me with that{PAUSE 20}\n"
-	.string "{FONT 5}ugh{PAUSE 20} {FONT_NORMAL}“VOLCANION”.\p"
-	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}What?{PAUSE 30}\n"
-	.string "Oh, that POKéMON over there? Sure.\p$"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Come on, ASTER!\p"
+	.string "We're so close to finding what we're\n"
+	.string "looking for, I can feel it!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Weird.\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Excuse me?\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Your hair, it's not orange like the\n"
+	.string "rest of the AQUA GRUNTS.\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}{AUTO_SCROLL 1}Well, that's-{PAUSE 20}\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}{AUTO_SCROLL 0}And your accent.\p"
+	.string "If mine was red and {PLAYER_AQUA}'s was blue,\n"
+	.string "yours would be… green?\p"
+	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Alright, alright.\p"
+	.string "That's enough scrutinizing, you got me.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}My name is ZINNIA, and I'm not with\n"
+	.string "either team here.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}So you're a spy? For who?\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Not quite.\p"
+	.string "I'm looking for MEGA STONES, and it\n"
+	.string "would have been impossible to walk\l"
+	.string "around here freely without a disguise.\p"
+	.string "That's all, I promise.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}MEGA STONES? In a cave?\p"
+	.string "News flash bud, those fell from the\n"
+	.string "sky when RAYQUAZA broke up GROUDON\l"
+	.string "and KYOGRE'S fight.\p"
+	.string "You're looking for those things on\n"
+	.string "the wrong side of the crust.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Aw man, {HESHE_2}'s got a point.\p"
+	.string "Well then, guess I'll skedaddle.\p"
+	.string "Wouldn't want the AQUA ADMINS to\n"
+	.string "know I'm running around here in a\l"
+	.string "poorly-made cosplay.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Before you go, can I make a proposal?\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Ooo! I do! I do!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}NOT WHAT I MEANT.\p"
+	.string "I've been {FONT 5}reluctantly {FONT_NORMAL}working with\n"
+	.string "a GRUNT from TEAM AQUA.\p"
+	.string "If you were willing to help out with\n"
+	.string "the pissed-off LEGENDARY POKéMON\l"
+	.string "over there, I might consider keeping\l"
+	.string "this whole conversation to myself.\p"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Easiest deal of my life!\p$"
 
 VolcanionCave_3F_Text_ZinniaAskAster::
-	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Hey ASTER, wanna have some fun and\n"
-	.string "weaken that big POKéMON over there?\p$"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Go get em, ASTER!\p$"
 
 VolcanionCave_3F_Text_AsterCry::
-	.string "{SPEAKER NAME_ASTER COLOR_ZINNIA}(Whismur cry)!\p$"
+	.string "{SPEAKER NAME_ASTER COLOR_ZINNIA}Walawala!\p$"
 
 VolcanionCave_3F_Text_AsterUsedScreeeechAqua::
 	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Cover your ears.\p"
-	.string "{AUTO_SCROLL 1}{SPEAKER NAME_PLAYER COLOR_AQUA}Why-{PAUSE 20}\p"
+	.string "{AUTO_SCROLL 1}{SPEAKER NAME_PLAYER COLOR_AQUA}Uh, okay-{PAUSE 20}\p"
 	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}ASTER used SCREEEECH!$"
 
 VolcanionCave_3F_Text_AsterUsedScreeeechMagma::
@@ -1148,12 +1206,13 @@ VolcanionCave_3F_Text_VolcanionsStatsDropped::
 	.string "VOLCANION's stats dropped!\p$"
 
 VolcanionCave_3F_Text_VolcanionUsedFlamethrower::
-	.string "{AUTO_SCROLL 1}{SPEAKER NAME_NONE COLOR_NORMAL}VOLCANION used FLAMETHROWE{PAUSE 5}\p"
+	.string "{AUTO_SCROLL 1}{SPEAKER NAME_NONE COLOR_NORMAL}VOLCANION used FLAMETHROWE-{PAUSE 10}\p"
 	.string "{AUTO_SCROLL 0}{SPEAKER NAME_ZINNIA COLOR_ZINNIA}ASTER, return!$"
 
 VolcanionCave_3F_Text_GoodJobAster::
-	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Good job ASTER, you deserve\n"
-	.string "a nice long rest!\p$"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Nice going, ASTER!\p"
+	.string "I'll let you rest a bit before we leave,\n"
+	.string "you deserve it after that performance!\p$"
 
 VolcanionCave_3F_EventScript_Zinnia::
 	lock
@@ -1162,7 +1221,8 @@ VolcanionCave_3F_EventScript_Zinnia::
 	end
 
 VolcanionCave_3F_Text_Zinnia::
-	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}I'm not moving.\p$"
+	.string "{SPEAKER NAME_ZINNIA COLOR_ZINNIA}Mind giving ASTER some space?\n"
+	.string "He's all tuckered out now.$"
 
 VolcanionCave_3F_EventScript_Whismur::
 	release
