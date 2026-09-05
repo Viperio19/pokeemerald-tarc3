@@ -6,35 +6,38 @@ VolcanionCave_2F_MapScripts::
 	.byte 0
 
 VolcanionCave_2F_OnLoad::
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_SetRockBarrier1
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_SetRockBarrier2
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_SetRockBarrier3
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 100, VolcanionCave_2F_EventScript_SetRockBarrier4
+	call_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_RemoveRockBarrier1
+	call_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_RemoveRockBarrier2
+	call_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_RemoveRockBarrier3
+	call_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 100, VolcanionCave_2F_EventScript_RemoveRockBarrier4
 	call_if_eq VAR_TEMP_F, 0, VolcanionCave_2F_EventScript_SetMetatilesRedButtonPressed
 	call_if_eq VAR_TEMP_F, 1, VolcanionCave_2F_EventScript_SetMetatilesBlueButtonPressed
 	end
 
-VolcanionCave_2F_EventScript_SetRockBarrier1::
-	setmetatile 26, 64, METATILE_Cave_RockBarrier_Left, TRUE
-	setmetatile 27, 64, METATILE_Cave_RockBarrier_MiddleHorizontal, TRUE
-	setmetatile 28, 64, METATILE_Cave_RockBarrier_Right, TRUE
+VolcanionCave_2F_EventScript_RemoveRockBarrier1::
+	setmetatile 26, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 27, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 28, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 7, 52, METATILE_Cave_Floor, FALSE
+	setmetatile 8, 52, METATILE_Cave_Floor, FALSE
+	setmetatile 9, 52, METATILE_Cave_Floor, FALSE
 	return
 
-VolcanionCave_2F_EventScript_SetRockBarrier2::
-	setmetatile 18, 40, METATILE_Cave_RockBarrier_Top, TRUE
-	setmetatile 18, 41, METATILE_Cave_RockBarrier_MiddleVertical, TRUE
-	setmetatile 18, 42, METATILE_Cave_RockBarrier_Bottom, TRUE
+VolcanionCave_2F_EventScript_RemoveRockBarrier2::
+	setmetatile 18, 40, METATILE_Cave_Floor, FALSE
+	setmetatile 18, 41, METATILE_Cave_Floor, FALSE
+	setmetatile 18, 42, METATILE_Cave_Floor, FALSE
 	return
 
-VolcanionCave_2F_EventScript_SetRockBarrier3::
-	setmetatile 20, 8, METATILE_Cave_RockBarrier_TopEdge, TRUE
-	setmetatile 20, 9, METATILE_Cave_RockBarrier_Bottom, TRUE
+VolcanionCave_2F_EventScript_RemoveRockBarrier3::
+	setmetatile 20, 8, METATILE_Cave_Floor_Smooth_Top, FALSE
+	setmetatile 20, 9, METATILE_Cave_Floor_Smooth, FALSE
 	return
 
-VolcanionCave_2F_EventScript_SetRockBarrier4::
-	setmetatile 23, 4, METATILE_Cave_RockBarrier_Top, TRUE
-	setmetatile 23, 5, METATILE_Cave_RockBarrier_MiddleVertical, TRUE
-	setmetatile 23, 6, METATILE_Cave_RockBarrier_Bottom, TRUE
+VolcanionCave_2F_EventScript_RemoveRockBarrier4::
+	setmetatile 23, 4, METATILE_Cave_Floor, FALSE
+	setmetatile 23, 5, METATILE_Cave_Floor, FALSE
+	setmetatile 23, 6, METATILE_Cave_Floor, FALSE
 	return
 
 VolcanionCave_2F_OnTransition:
@@ -168,10 +171,10 @@ VolcanionCave_2F_EventScript_DropOldRod::
 	getplayerxy VAR_0x8000, VAR_0x8001
 	goto_if_ne VAR_0x8000, 29, VolcanionCave_2F_EventScript_MessageDroppedRod
 	goto_if_eq VAR_0x8001, 24, VolcanionCave_2F_EventScript_OldRodCurrentsY24
+	goto_if_eq VAR_0x8001, 25, VolcanionCave_2F_EventScript_OldRodCurrentsY25
 	goto_if_eq VAR_0x8001, 26, VolcanionCave_2F_EventScript_OldRodCurrentsY26
 	goto_if_eq VAR_0x8001, 27, VolcanionCave_2F_EventScript_OldRodCurrentsY27
 VolcanionCave_2F_EventScript_MessageDroppedRod::
-	playfanfare MUS_TOO_BAD
 	msgbox VolcanionCave_2F_Text_DroppedRod
 	closemessage
 	release
@@ -224,6 +227,12 @@ VolcanionCave_2F_Movement_CameraMoveBackY24::
 	walk_up
 	step_end
 
+VolcanionCave_2F_EventScript_OldRodCurrentsY25::
+	msgbox VolcanionCave_2F_Text_DroppedRodFloated
+	closemessage
+	release
+	end
+
 VolcanionCave_2F_EventScript_OldRodCurrentsY26::
 	special SpawnCameraObject
 	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodFloatY26
@@ -240,7 +249,7 @@ VolcanionCave_2F_EventScript_OldRodCurrentsY26::
 	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_CameraMoveBackY26
 	waitmovement 0
 	special RemoveCameraObject
-	msgbox VolcanionCave_2F_Text_DroppedRodFloated
+	msgbox VolcanionCave_2F_Text_DroppedRodFloatedSuccessfully
 	closemessage
 	release
 	end
@@ -326,8 +335,13 @@ VolcanionCave_2F_Text_DroppedRod::
 	.string "lack of fishing experience!$"
 
 VolcanionCave_2F_Text_DroppedRodFloated::
-	.string "Ohhhh, you tricky fishy!!!\n"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Ohhhh, you tricky fishy!!!\n"
 	.string "Next time I'll catch you for SURE!!$"
+
+VolcanionCave_2F_Text_DroppedRodFloatedSuccessfully::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Ohhhh, you tricky fishy!!!\n"
+	.string "Next time I'll catch you for SURE!!\p"
+	.string "-wait, will there be a next time???$"
 
 VolcanionCave_2F_EventScript_AquaGruntF::
 	lock
@@ -563,6 +577,9 @@ VolcanionCave_2F_EventScript_FloorSwitch1::
 	setmetatile 26, 64, METATILE_Cave_Floor, FALSE
 	setmetatile 27, 64, METATILE_Cave_Floor, FALSE
 	setmetatile 28, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 7, 52, METATILE_Cave_Floor, FALSE
+	setmetatile 8, 52, METATILE_Cave_Floor, FALSE
+	setmetatile 9, 52, METATILE_Cave_Floor, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
@@ -831,6 +848,7 @@ VolcanionCave_2F_EventScript_SetMetatilesBlueButtonPressed::
 	setmetatile 35, 50, METATILE_Cave_CoolGem_Blue_Mud_Empty, FALSE
 	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
 	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 11, 47, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	return
 
@@ -843,6 +861,7 @@ VolcanionCave_2F_EventScript_SetMetatilesRedButtonPressed::
 	setmetatile 35, 50, METATILE_Cave_CoolGem_Blue_Mud_Full, TRUE
 	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
 	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 11, 47, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
 	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
 	return
 
