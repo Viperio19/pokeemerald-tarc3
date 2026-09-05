@@ -2647,10 +2647,10 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .height = 7,
         .weight = 145,
         .description = COMPOUND_STRING(
-            "Those attacked by Toxapex's poison will\n"
-            "suffer intense pain for three days and\n"
-            "three nights. Post-recovery, there will be\n"
-            "some aftereffects."),
+			"These large marine predators are the\n"
+            "PERFECT partner for a well-seasoned\n"
+            "crewmate. The ferocity of the ocean\n"
+			"should not be feared, but respected!\n"),
         .pokemonScale = 365,
         .pokemonOffset = 12,
         .trainerScale = 256,

@@ -6619,10 +6619,10 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .height = 6,
         .weight = 50,
         .description = COMPOUND_STRING(
-            "Corsola live in warm southern seas.\n"
-            "If the sea becomes polluted, the beautiful\n"
-            "coral stalks become discolored and crumble\n"
-            "away in tatters."),
+            "A sure-fire sign of a healthy ocean can\n"
+            "be boiled down to how many Corsola call\n"
+            "it their home! Sailors keep a few with\n"
+            "'em on long voyages for good luck."),
         .pokemonScale = 410,
         .pokemonOffset = 15,
         .trainerScale = 256,
@@ -6692,10 +6692,10 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .height = 6,
         .weight = 5,
         .description = COMPOUND_STRING(
-            "Sudden climate change wiped out this\n"
-            "ancient kind of Corsola. With its branches,\n"
-            "it absorbs others' life-force. It curses\n"
-            "those unaware that kick it by accident."),
+            "These poor Corsola are proof that our\n"
+            "battle to expand their home is just!\n"
+            "Only a pathetic excuse for a human\n"
+			"would be responsible for one of these!\n"),
         .pokemonScale = 410,
         .pokemonOffset = 15,
         .trainerScale = 256,

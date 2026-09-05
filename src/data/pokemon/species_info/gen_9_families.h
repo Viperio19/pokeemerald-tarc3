@@ -7066,10 +7066,8 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .height = 4,
         .weight = 49,
         .description = COMPOUND_STRING(
-            "It controls flames burning at over\n"
-            "5,400 degrees Fahrenheit. It\n"
-            "casually swims through the sea of lava it\n"
-            "creates by melting rock and sand."),
+			"ERROR: Genetic Data Mismatch.\n"
+            "POKEDEX_ENTRY_ARCHIE not found.\n"
         .pokemonScale = 356,
         .pokemonOffset = 17,
         .trainerScale = 256,

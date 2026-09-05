@@ -6250,10 +6250,10 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .height = 7,
         .weight = 165,
         .description = COMPOUND_STRING(
-            "Reputed to be the ancestor of most\n"
-            "turtle Pokémon, it lived in warm seas\n"
-            "about a hundred million years ago.\n"
-            "It was restored from a fossil."),
+			"Weird lookin' SQUIRTLE thing. Eggheads\n"
+            "in the lab have told me it's some sort\n"
+            "of long-extinct species. But I mean you\n"
+            "have one so what do they know?"),
         .pokemonScale = 365,
         .pokemonOffset = 12,
         .trainerScale = 256,

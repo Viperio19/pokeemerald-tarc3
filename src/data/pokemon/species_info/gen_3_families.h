@@ -962,12 +962,15 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .height = 5,
         .weight = 136,
         .description = COMPOUND_STRING(
-            "Mine died on Mt. Pyre :("),
+			"Hard workin' and in it for the long haul!\n"
+            "Pupper's got a mind for fightin' and\n"
+            "foragin'. Great at finishin' off weakened\n"
+            "foes! Not that you lot would know..."),
         .descriptionMagma = COMPOUND_STRING(
-            "Despite its appearance, POOCHYENA are\n"
-            "omnivorous, and purely opportunistic hunters.\n"
-            "When under the leadership of MIGHTYENA, however,\n"
-            "they become ruthless and confident hunters."),
+            "Despite their large fangs, POOCHYENA are\n"
+            "omnivorous, and rarely hunt alone. When\n"
+            "under the leadership of MIGHTYENA, they\n"
+            "become ruthless and confident hunters."),
         .pokemonScale = 481,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -6414,10 +6417,10 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .height = 8,
         .weight = 208,
         .description = COMPOUND_STRING(
-            "Carvanha attack ships in swarms, making\n"
-            "them sink. Although it is said to be a very\n"
-            "vicious Pokémon, it timidly flees as soon\n"
-            "as it finds itself alone."),
+			"Engage! Chomp! Tear! Scurry! Let the\n"
+            "hunting patterns of CARVANHA inspire us\n"
+            "as the well-oiled crew we are! Even drops\n"
+			"of water can become a roaring ocean!\n"),
         .pokemonScale = 362,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -6790,10 +6793,10 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .height = 7,
         .weight = 240,
         .description = COMPOUND_STRING(
-            "A Numel stores boiling magma in the hump\n"
-            "on its back. It is a hardy Pokémon that can\n"
-            "transport a 220-pound load. It has served\n"
-            "humans at work since long ago."),
+			"An interesting combination of eternal\n"
+            "flame and robust earth, NUMEL are land\n"
+            "incarnate. Their ability to erupt in a\n"
+			"fiery inferno should not be underestimated.\n"),
         .pokemonScale = 342,
         .pokemonOffset = 17,
         .trainerScale = 256,

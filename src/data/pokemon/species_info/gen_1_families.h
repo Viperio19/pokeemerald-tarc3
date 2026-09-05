@@ -13517,10 +13517,10 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 4,
         .weight = 65,
         .description = COMPOUND_STRING(
-            "It pines for the mother it will never see\n"
-            "again. Seeing a likeness of its mother in\n"
-            "the full moon, it cries. The stains on the\n"
-            "skull it wears are from its tears."),
+			"A rare Pokemon that draws power from the\n"
+            "skull that it wears. It is theorized to\n"
+            "be an indirect evolution caused by this,\n"
+            "but the original specimen is unknown."),
         .pokemonScale = 545,
         .pokemonOffset = 21,
         .trainerScale = 256,
