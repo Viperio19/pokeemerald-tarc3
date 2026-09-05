@@ -1480,7 +1480,7 @@ VolcanionCave_3F_Movement_PlayerDodgeRockSlideUp::
 	step_end
 
 VolcanionCave_3F_Text_GolemCry::
-	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}GOOOOLEM!\p$"
+	.string "{SPEAKER NAME_GOLEM COLOR_NORMAL}Buh nuh nt!\p$"
 
 VolcanionCave_3F_Text_GolemSeemsAngry::
 	.string "GOLEM seems angry!\p$"
@@ -1492,16 +1492,17 @@ VolcanionCave_3F_Text_GolemUsedRockSlide::
 	.string "GOLEM used ROCK SLIDE!{PAUSE 40}$"
 
 VolcanionCave_3F_Text_MaybeICanUseThisAqua::
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA} Maybe I can use this.{PAUSE 25}.{PAUSE 25}.$"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Hey, watch where you're dropping those!{PAUSE 50}$"
 
 VolcanionCave_3F_Text_MaybeICanUseThisMagma::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA} Maybe I can use this.{PAUSE 25}.{PAUSE 25}.$"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Goodness, somebody seems upset.{PAUSE 25}.{PAUSE 25}.$"
 
 VolcanionCave_3F_Text_GottaRunAqua::
 	.string "{SPEAKER NAME_PLAYER COLOR_AQUA} Uh oh!{PAUSE 40} Gotta run!$"
 
 VolcanionCave_3F_Text_GottaRunMagma::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA} Uh oh!{PAUSE 40} Gotta run!$"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Careful, you might end up hitting\n"
+	.string "someone else with those!$"
 
 VolcanionCave_3F_EventScript_RockSlideHitPlayer::
 	setvar VAR_GOLEM_ROCK_SLIDE_STATE, 4
@@ -1529,7 +1530,7 @@ VolcanionCave_3F_Movement_PlayerFlicker::
 	step_end
 
 VolcanionCave_3F_Text_YouGotHit::
-	.string "Oh nooooo you got hit!\p"
+	.string "You got hit by a rock, ow!\p"
 	.string "GOLEM seems to be satisfied\n"
 	.string "and stopped using ROCK SLIDE.\p"
 	.string "For now…\p$"
@@ -1576,7 +1577,8 @@ VolcanionCave_3F_Movement_VolcanionSetVisible::
 	step_end
 
 VolcanionCave_3F_Text_VolcanionGotHit::
-	.string "Oh yeaaaah VOLCANION got hit!\p$"
+	.string "VOLCANION was hit by the ROCK SLIDE!\n"
+	.string "It's SUPER EFFECTIVE!\p$"
 
 VolcanionCave_3F_Text_GolemSeemsFullySatisfied::
 	.string "GOLEM seems to be satisfied\n"
@@ -1619,10 +1621,10 @@ VolcanionCave_3F_EventScript_DiglettMagma::
 	message VolcanionCave_3F_Text_ThanksDiggsMagma
 	waitmessage
 	call VolcanionCave_1F_EventScript_VolcanionUseSteamEruption
+	call VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption
 	message VolcanionCave_3F_Text_RipDiggsMagma
 	waitmessage
 	closemessage
-	call VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption
 	release
 	end
 
@@ -1641,10 +1643,10 @@ VolcanionCave_3F_EventScript_DiglettAqua::
 	message VolcanionCave_3F_Text_ThanksDiggsAqua
 	waitmessage
 	call VolcanionCave_1F_EventScript_VolcanionUseSteamEruption
+	call VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption
 	message VolcanionCave_3F_Text_RipDiggsAqua
 	waitmessage
 	closemessage
-	call VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption
 	release
 	end
 
@@ -1903,13 +1905,21 @@ VolcanionCave_3F_Text_AgentDiggsCry::
 	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}Pipipi wowow!\p$"
 
 VolcanionCave_3F_Text_AskDiggsHelpMagma::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Hey eeeeeh…\n"
-	.string "You're working for TEAM AQUA right?\p"
-	.string "Wanna help us out?\p$"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}You're AGENT DIGGS, I presume?\p"
+	.string "I heard about you from {PLAYER_AQUA},\n"
+	.string "it seems you have quite the resume\l"
+	.string "for a DIGLETT.\p"
+	.string "I hate to ask a member of TEAM AQUA\n"
+	.string "for a favour, but as you can see we're\l"
+	.string "in a bit of a pickle here.\p"
+	.string "Would you mind helping us out?\p$"
 
 VolcanionCave_3F_Text_AskDiggsHelpAqua::
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Hey AGENT DIGGS!\n"
-	.string "Wanna help us beat up VOLCANION?\p$"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}AGENT DIGGS, great to see that you've\n"
+	.string "joined us for the grand finale!\p"
+	.string "Want to join in on the fun?\p"
+	.string "Go teach VOLCANION a lesson in\n"
+	.string "GROUND-TYPE attacks!!\p$"
 
 VolcanionCave_3F_Text_DiglettUsedDig::
 	.string "DIGLETT used DIG!$"
@@ -1918,21 +1928,26 @@ VolcanionCave_3F_Text_AgentDiggsUsedDig::
 	.string "AGENT DIGGS used DIG!$"
 
 VolcanionCave_3F_Text_ThanksDiggsMagma::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Thank you, strange DIGLETT!\p"
-	.string "Now get out of there before-{PAUSE 10}$"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Thank you, DIGGS.\p"
+	.string "You've been very helpful-{PAUSE 10}$"
 
 VolcanionCave_3F_Text_ThanksDiggsAqua::
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Thanks, AGENT DIGGS!\p"
-	.string "Now get out of there before-{PAUSE 10}$"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Nice work, AGENT DIGGS!\p"
+	.string "Looks like someone's getting promoted-{PAUSE 10}$"
 
 VolcanionCave_3F_Text_VolcanionUsedSteamEruption::
 	.string "VOLCANION used STEAM ERUPTION!$"
 
 VolcanionCave_3F_Text_RipDiggsMagma::
-	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Nooooooo, strange DIGLETT!!\p$"
+	.string "{SPEAKER NAME_PLAYER COLOR_MAGMA}Of course this happens to the only\n"
+	.string "member of TEAM AQUA I will ever respect.\p"
+	.string "Alright VOLCANION, you asked for it!\n"
+	.string "WE'RE TAKING YOU DOWN!!!\p$"
 
 VolcanionCave_3F_Text_RipDiggsAqua::
-	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}Nooooooo, AGENT DIGGS!\p$"
+	.string "{SPEAKER NAME_PLAYER COLOR_AQUA}AGENT DIGGS, NOOOOO!!!!\p"
+	.string "VOLCANION, you… {PAUSE 10}you… {PAUSE 10}{FONT 5}sniff…\p"
+	.string "{FONT_NORMAL}YOU'LL PAY FOR THIS!!!!!!\p$"
 
 VolcanionCave_3F_EventScript_FloorSwitch1::
 	lock
@@ -2194,7 +2209,7 @@ VolcanionCave_3F_Movement_CameraMoveBackUpFromCramorant::
 	step_end
 
 VolcanionCave_3F_Text_CramorantCry::
-	.string "{SPEAKER NAME_CRAMORANT COLOR_NORMAL}(Cramorant cry)!\p$"
+	.string "{SPEAKER NAME_CRAMORANT COLOR_NORMAL}Wah wuh!\p$"
 
 VolcanionCave_3F_Text_CramorantLookingForFood::
 	.string "CRAMORANT seems to be looking\n"
