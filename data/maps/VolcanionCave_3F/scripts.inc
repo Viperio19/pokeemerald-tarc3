@@ -2595,92 +2595,92 @@ VolcanionCave_3F_EventScript_Credits::
 	message VolcanionCave_3F_Text_Epilogue
 	waitmessage
 	closemessage
-	creditsmessage VolcanionCave_3F_Text_CreditsTagTeamTrials
+	creditsmessage Credits_TagTeamTrials, Credits_Credits
 	warpcontinuescript MAP_VOLCANION_CAVE_1F, 19, 19, VolcanionCave_3F_EventScript_Credits2
 	end
 
 VolcanionCave_3F_EventScript_Credits2::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsTheCompetition
-	creditsmessage VolcanionCave_3F_Text_CreditsTheTeam
+	creditsmessage Credits_TheCompetition, Credits_TARC
+	creditsmessage Credits_TheTeam, Credits_Viperio, Credits_Word, Credits_Keeper
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_1F, 8, 8, VolcanionCave_3F_EventScript_Credits3
 
 VolcanionCave_3F_EventScript_Credits3::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsProgrammer
-	creditsmessage VolcanionCave_3F_Text_CreditsGraphicDesigner
+	creditsmessage Credits_Programmer, Credits_Viperio
+	creditsmessage Credits_GraphicDesigner, Credits_Viperio
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_1F, 32, 15, VolcanionCave_3F_EventScript_Credits4
 
 VolcanionCave_3F_EventScript_Credits4::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsMapDesigners
-	creditsmessage VolcanionCave_3F_Text_CreditsPuzzleDesigners
+	creditsmessage Credits_MapDesigners, Credits_Viperio, Credits_Keeper
+	creditsmessage Credits_PuzzleDesigners, Credits_Viperio, Credits_Keeper
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_2F, 19, 66, VolcanionCave_3F_EventScript_Credits5
 
 VolcanionCave_3F_EventScript_Credits5::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsScriptDesigners
-	creditsmessage VolcanionCave_3F_Text_CreditsMusicComposition
+	creditsmessage Credits_ScriptDesigners, Credits_Viperio, Credits_Word
+	creditsmessage Credits_MusicComposition, Credits_Word
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_2F, 23, 45, VolcanionCave_3F_EventScript_Credits6
 
 VolcanionCave_3F_EventScript_Credits6::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsDialogueWriter
-	creditsmessage VolcanionCave_3F_Text_CreditsPokedexText
+	creditsmessage Credits_DialogueWriter, Credits_Word
+	creditsmessage Credits_PokedexText, Credits_Keeper
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_2F, 15, 11, VolcanionCave_3F_EventScript_Credits7
 
 VolcanionCave_3F_EventScript_Credits7::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsPlaytesters
-	creditsmessage VolcanionCave_3F_Text_CreditsPlaytesters2
+	creditsmessage Credits_Playtesters, Credits_RyanGreenBlue, Credits_FlippyPlays, Credits_CoolOwen
+	@ creditsmessage Credits_Playtesters2
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_3F, 25, 33, VolcanionCave_3F_EventScript_Credits8
 
 VolcanionCave_3F_EventScript_Credits8::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsMagmaGruntsBackPics
-	creditsmessage VolcanionCave_3F_Text_CreditsMagmaGruntsOverworldSprites
+	creditsmessage Credits_MagmaGruntsBackPics, Credits_Necrolichmon
+	creditsmessage Credits_MagmaGruntsOverworldSprites, Credits_Jicem
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_3F, 26, 6, VolcanionCave_3F_EventScript_Credits9
 
 VolcanionCave_3F_EventScript_Credits9::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsTeamRocketOverworldSprites
-	creditsmessage VolcanionCave_3F_Text_CreditsTitleScreen
+	creditsmessage Credits_TeamRocketOverworldSprites, Credits_Kalari
+	creditsmessage Credits_TitleScreenBackground, Credits_Journeys
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_3F, 16, 23, VolcanionCave_3F_EventScript_Credits10
 
 VolcanionCave_3F_EventScript_Credits10::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsTagTeamTrials
+	creditsmessage Credits_TagTeamTrials, Credits_Credits
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_OUTSIDE, 9, 10, VolcanionCave_3F_EventScript_Credits11
 
 VolcanionCave_3F_EventScript_Credits11::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsTagTeamTrials
+	creditsmessage Credits_TagTeamTrials, Credits_Credits
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_PETALBURG_CITY, 20, 9, VolcanionCave_3F_EventScript_Credits12
 
 VolcanionCave_3F_EventScript_Credits12::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage VolcanionCave_3F_Text_CreditsTagTeamTrials
+	creditsmessage Credits_TagTeamTrials, Credits_Credits
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_3F, 57, 27, VolcanionCave_3F_EventScript_Credits13
 
@@ -2688,80 +2688,96 @@ VolcanionCave_3F_EventScript_Credits13::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
 	delay 50
-	message VolcanionCave_3F_Text_CreditsThanksForPlaying
+	message Credits_ThanksForPlaying
 	waitmessage
 	delay 100
 	closemessage
 	release
 	end
 
-VolcanionCave_3F_Text_CreditsTagTeamTrials::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}POKéMON TAG TEAM TRIALS\n"
+Credits_TagTeamTrials::
+	.string "POKéMON TAG TEAM TRIALS$"
+
+Credits_Credits::
 	.string "Credits$"
 
-VolcanionCave_3F_Text_CreditsTheCompetition::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}The Competition{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_TheCompetition::
+	.string "The Competition$"
+
+Credits_TARC::
 	.string "Team Aqua Romhacking Competition 3$"
 
-VolcanionCave_3F_Text_CreditsTheTeam::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}The Team{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
-	.string "Viperio + WordOfTheDayIsYay + Keeper$"
+Credits_TheTeam::
+	.string "The Team$"
 
-VolcanionCave_3F_Text_CreditsProgrammer::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Programmer{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_Viperio::
 	.string "Viperio$"
 
-VolcanionCave_3F_Text_CreditsGraphicDesigner::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Graphic Designer{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
-	.string "Viperio$"
-
-VolcanionCave_3F_Text_CreditsMapDesigners::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Map Designers{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
-	.string "Viperio + Keeper$"
-
-VolcanionCave_3F_Text_CreditsPuzzleDesigners::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Puzzle Designers{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
-	.string "Viperio + Keeper$"
-
-VolcanionCave_3F_Text_CreditsScriptDesigners::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Script Designers{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
-	.string "Viperio + WordOfTheDayIsYay$"
-
-VolcanionCave_3F_Text_CreditsMusicComposition::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Music Composition{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_Word::
 	.string "WordOfTheDayIsYay$"
 
-VolcanionCave_3F_Text_CreditsDialogueWriter::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Dialogue Writer{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
-	.string "WordOfTheDayIsYay$"
-
-VolcanionCave_3F_Text_CreditsPokedexText::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Pokédex Text{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_Keeper::
 	.string "Keeper$"
 
-VolcanionCave_3F_Text_CreditsPlaytesters::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Playtesters{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_Programmer::
+	.string "Programmer$"
+
+Credits_GraphicDesigner::
+	.string "Graphic Designer$"
+
+Credits_MapDesigners::
+	.string "Map Designers$"
+
+Credits_PuzzleDesigners::
+	.string "Puzzle Designers$"
+
+Credits_ScriptDesigners::
+	.string "Script Designers$"
+
+Credits_MusicComposition::
+	.string "Music Composition$"
+
+Credits_DialogueWriter::
+	.string "Dialogue Writer$"
+
+Credits_PokedexText::
+	.string "Pokédex Text$"
+
+Credits_Playtesters::
+	.string "Playtesters$"
+
+Credits_RyanGreenBlue::
 	.string "RyanGreenBlue$"
 
-VolcanionCave_3F_Text_CreditsPlaytesters2::
-	.string "FlippyPlays\n"
+Credits_FlippyPlays::
+	.string "FlippyPlays$"
+
+Credits_CoolOwen::
 	.string "Cool-Owen$"
 
-VolcanionCave_3F_Text_CreditsMagmaGruntsBackPics::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Magma Grunts Back Pics{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_MagmaGruntsBackPics::
+	.string "Magma Grunts Back Pics$"
+
+Credits_Necrolichmon::
 	.string "Necrolichmon (Deviantart)$"
 
-VolcanionCave_3F_Text_CreditsMagmaGruntsOverworldSprites::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Magma Grunts Overworld Sprites{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_MagmaGruntsOverworldSprites::
+	.string "Magma Grunts Overworld Sprites$"
+
+Credits_Jicem::
 	.string "Jicem (Pokémon Mu Magma)$"
 
-VolcanionCave_3F_Text_CreditsTeamRocketOverworldSprites::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Magma Grunts Overworld Sprites{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_TeamRocketOverworldSprites::
+	.string "Magma Grunts Overworld Sprites$"
+
+Credits_Kalari::
 	.string "Kalari (Pokecommunity)$"
 
-VolcanionCave_3F_Text_CreditsTitleScreen::
-	.string "{COLOR RED}{SHADOW LIGHT_RED}Title Screen Background{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}\n"
+Credits_TitleScreenBackground::
+	.string "Title Screen Background$"
+
+Credits_Journeys::
 	.string "Pokémon Journeys: The Series$"
 
-VolcanionCave_3F_Text_CreditsThanksForPlaying::
+Credits_ThanksForPlaying::
 	.string "Thanks for playing!$"

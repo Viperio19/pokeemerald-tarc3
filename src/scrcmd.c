@@ -63,6 +63,7 @@
 #include "list_menu.h"
 #include "malloc.h"
 #include "battle.h"
+#include "international_string_util.h"
 #include "constants/event_objects.h"
 #include "constants/map_types.h"
 #include "constants/party_menu.h"
@@ -1753,19 +1754,65 @@ bool8 ScrCmd_messageautoscroll(struct ScriptContext *ctx)
     return FALSE;
 }
 
+static const struct WindowTemplate sWindowTemplates[] =
+{
+    {
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 6,
+        .width = DISPLAY_TILE_WIDTH,
+        .height = 12,
+        .paletteNum = 12,
+        .baseBlock = 1
+    },
+    DUMMY_WIN_TEMPLATE,
+};
+static const u16 sCredits_Pal[] = INCGFX_U16("graphics/credits/credits.pal", ".gbapal");
+
 // Prints all at once. Skips waiting for player input. Only used by link contests
 bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
 {
-    const u8 *msg = (const u8 *)ScriptReadWord(ctx);
+    const u8 *msg1 = (const u8 *)ScriptReadWord(ctx);
+    const u8 *msg2 = (const u8 *)ScriptReadWord(ctx);
+    const u8 *msg3 = (const u8 *)ScriptReadWord(ctx);
+    const u8 *msg4 = (const u8 *)ScriptReadWord(ctx);
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
 
-    if (msg == NULL)
-        msg = (const u8 *)ctx->data[0];
-    gWindows[0].window.tilemapTop = 40;
-    LoadMessageBoxAndBorderGfx();
-    DrawDialogueFrame(0, TRUE);
-    AddTextPrinterParameterized(0, FONT_NORMAL, msg, 0, 1, 0, NULL);
+    u8 x, y = 0;
+    u8 color[3];
+
+    color[0] = TEXT_COLOR_TRANSPARENT;
+    color[1] = TEXT_COLOR_LIGHT_GRAY;
+    color[2] = TEXT_COLOR_RED;
+    InitWindows(sWindowTemplates);
+    PutWindowTilemap(0);
+    CopyWindowToVram(0, COPYWIN_FULL);
+    LoadPalette(sCredits_Pal, BG_PLTT_ID(12), 2 * PLTT_SIZE_4BPP);
+
+    if (msg3 == NULL)
+        y += 16;
+
+    x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg1, DISPLAY_WIDTH, 1);
+    AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 0, 1, 0, color, TEXT_SKIP_DRAW, msg1);
+
+    color[1] = TEXT_COLOR_WHITE;
+    color[2] = TEXT_COLOR_DARK_GRAY;
+
+    x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg2, DISPLAY_WIDTH, 1);
+    AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 16, 1, 0, color, TEXT_SKIP_DRAW, msg2);
+    if (msg3 != NULL)
+    {
+        x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg3, DISPLAY_WIDTH, 1);
+        AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 32, 1, 0, color, TEXT_SKIP_DRAW, msg3);
+    }
+    if (msg4 != NULL)
+    {
+        x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg4, DISPLAY_WIDTH, 1);
+        AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 48, 1, 0, color, TEXT_SKIP_DRAW, msg4);
+    }
+    
+    CopyWindowToVram(0, COPYWIN_GFX);
     return FALSE;
 }
 
