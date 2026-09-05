@@ -219,6 +219,8 @@ extern const u8 gText_Intro_SwitchingExplanation[];
 extern const u8 gText_Intro_SwitchingConfirmation[];
 extern const u8 gText_Intro_SwitchingFailure[];
 
+extern const u8 gText_Intro_CourtneyPlayer2_Welcome[];
+
 extern const u8 gText_Intro_Courtney_Welcome[];
 extern const u8 gText_Intro_Courtney_ThisIsAPokemon[];
 extern const u8 gText_Intro_Courtney_MainSpeech[];
@@ -2174,6 +2176,8 @@ extern const u8 gText_OakThisIsListOfPokemon[];
 
 extern const u8 gText_Boy[];
 extern const u8 gText_Girl[];
+extern const u8 gText_Aqua[];
+extern const u8 gText_Magma[];
 
 
 #endif // GUARD_STRINGS_H

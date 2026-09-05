@@ -105,6 +105,25 @@ gText_Intro_SwitchingFailure::
 	.string "switch protagonists."
 	.string "$"
 
+gText_Intro_CourtneyPlayer2_Welcome::
+	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}{FONT_NORMAL}First GRUNT please.\p"
+	.string "Sorry for the wait. The loudmouth at\n"
+	.string "the TEAM AQUA check-in made me want\l"
+	.string "to hit her with a rock.\p"
+	.string "Violent urges have been surpressed.{PAUSE 40}\n"
+	.string "For now.\p"
+	.string "You heard what she said, right?\p"
+	.string "As much as I loathe to say it, most of\n"
+	.string "the details in her speech were correct.\p"
+	.string "The only amendment I can make is the\n"
+	.string "reports of the LEGENDARY POKéMON in\l"
+	.string "the depths of VOLCANO CAVERN prove\l"
+	.string "without a doubt that it is a FIRE-type.\p"
+	.string "Speaking of FIRE-types, I have some\n"
+	.string "wonderful news for you.\p"
+	.string "No, you have not been FIRED.\p"
+	.string "$"	
+
 gText_Intro_Courtney_Welcome::
 	@ fade out, fade courtney in
 	.string "{SPEAKER NAME_COURTNEY COLOR_MAGMA}{FONT_NORMAL}Next GRUNT please.\p"
