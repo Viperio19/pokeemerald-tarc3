@@ -58,6 +58,10 @@ Player2_Singleplayer_Talk::
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 0, Player2_Message_MagmaWall
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 0, Player2_Message_Holes
 	goto_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, Player2_Message_PreRoom3
+	goto_if_eq VAR_CURRENT_HP_BAR_COLOR, 3, Player2_Message_Room3Main
+	goto_if_eq VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100, Player2_Message_Room3Main
+	goto_if_eq VAR_ZINNIA_STATE, 1, Player2_Message_Room3Main
+	msgbox Player2_Text_PreVolcanion, MSGBOX_NPC
 	release
 	end
 	
@@ -222,6 +226,28 @@ Player2_Text_PreRoom3::
 	.string "my meatshield if things go wrong?\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Yep. {PAUSE 40}Figured.$"
 
+Player2_Message_Room3Main::
+	msgbox Player2_Text_Room3Main, MSGBOX_NPC
+	release
+	end
+
+Player2_Text_Room3Main::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Wow, VOLCANION is SUPER STRONG!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}It certainly lives up to the title of\n"
+	.string "LEGENDARY POKéMON.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}But how do we catch it?\n"
+	.string "We can barely even make a dent in it!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}If attacking it head on won't work,\n"
+	.string "we go around and look for weak points.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}There are a lot of wild POKéMON around\n"
+	.string "here, I wonder if any of them can help?\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Well, why don't we find out?$"
+
+Player2_Text_PreVolcanion::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}It seems like we've found everything\n"
+	.string "we can find in this room.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}All that's left is beating VOLCANION up!\n"
+	.string "LET'S DO THIS!!!$"
 
 Player2_Singleplayer_Cancel::
 	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
