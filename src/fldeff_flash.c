@@ -17,6 +17,8 @@
 #include "task.h"
 #include "constants/songs.h"
 
+extern const u8 *gAfterWarpScript;
+
 struct FlashStruct
 {
     u8 fromType;
@@ -156,6 +158,9 @@ static bool8 TryDoMapTransition(void)
     u8 i;
     enum MapType fromType = GetLastUsedWarpMapType();
     enum MapType toType = GetCurrentMapType();
+
+    if (gAfterWarpScript != NULL)
+        return FALSE;
 
     if (ShouldRunMapPreview() && (CurrentMapHasPreviewScreen(MPS_TYPE_CAVE) == TRUE || CurrentMapHasPreviewScreen(MPS_TYPE_BASIC) == TRUE))
     {
