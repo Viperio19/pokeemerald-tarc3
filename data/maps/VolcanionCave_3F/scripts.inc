@@ -695,6 +695,7 @@ VolcanionCave_3F_EventScript_Volcanion::
 	goto_if_unset FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, VolcanionCave_3F_EventScript_AskVolcanionMultiBattle
 	clearflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
 	getplayerxy VAR_0x8008, VAR_0x8009
+	special SpawnCameraObject
 	callnative IsPlayerOne
 	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_PlayerWalkLeftForBattle
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_PlayerWalkRightForBattle
@@ -704,6 +705,13 @@ VolcanionCave_3F_EventScript_Volcanion::
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedVolcanion
 	call VolcanionCave_3F_EventScript_VolcanionCry
 	closemessage
+	special RemoveCameraObject
+	special SpawnCameraObject
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_3F_EventScript_CameraResetToAqua
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_3F_EventScript_CameraResetToMagma
+	waitmovement 0
+	special RemoveCameraObject
 	release
 	end
 
@@ -725,19 +733,26 @@ VolcanionCave_3F_EventScript_GetReadyForVolcanionMultiBattle::
 	release
 	end
 
-VolcanionCave_3F_EventScript_PlayerWalkDownForBattle::
+VolcanionCave_3F_EventScript_AquaWalkDownForBattle::
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkDownForBattle
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraCenterRightForBattle
+	waitmovement 0
+	return
+
+VolcanionCave_3F_EventScript_MagmaWalkDownForBattle::
+	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkDownForBattle
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraCenterLeftForBattle
 	waitmovement 0
 	return
 
 VolcanionCave_3F_EventScript_PlayerWalkLeftForBattle::
-	goto_if_eq VAR_0x8009, 21, VolcanionCave_3F_EventScript_PlayerWalkDownForBattle
+	goto_if_eq VAR_0x8009, 21, VolcanionCave_3F_EventScript_AquaWalkDownForBattle
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkLeftForBattle
 	waitmovement 0
 	return
 
 VolcanionCave_3F_EventScript_PlayerWalkRightForBattle::
-	goto_if_eq VAR_0x8009, 21, VolcanionCave_3F_EventScript_PlayerWalkDownForBattle
+	goto_if_eq VAR_0x8009, 21, VolcanionCave_3F_EventScript_MagmaWalkDownForBattle
 	applymovement LOCALID_PLAYER, VolcanionCave_3F_Movement_PlayerWalkRightForBattle
 	waitmovement 0
 	return
@@ -757,6 +772,14 @@ VolcanionCave_3F_Movement_PlayerWalkRightForBattle::
 	walk_in_place_up
 	step_end
 
+VolcanionCave_3F_Movement_CameraCenterLeftForBattle::
+	walk_diag_southwest
+	step_end
+
+VolcanionCave_3F_Movement_CameraCenterRightForBattle::
+	walk_diag_southeast
+	step_end
+
 VolcanionCave_3F_EventScript_DefeatedVolcanion::
 	setvar VAR_CURRENT_HP_BAR_COLOR, 0
 	call VolcanionCave_3F_EventScript_SetHPBar
@@ -771,17 +794,115 @@ VolcanionCave_3F_EventScript_DefeatedVolcanion::
 	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	message VolcanionCave_3F_Text_WeDidIt
+	delay 25
+	removeobject LOCALID_3F_DIGLETT
 	waitmessage
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceUp
+	message VolcanionCave_3F_Text_FinishingTouch
+	waitmessage
+	playse SE_M_DIZZY_PUNCH
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_QuestionMark
+	waitmovement 0
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceRight
 	message VolcanionCave_3F_Text_WhereBalls
 	waitmessage
+	playse SE_M_DIZZY_PUNCH
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_QuestionMark
+	message VolcanionCave_3F_Text_WhereBalls2
+	waitmessage
+	addobject LOCALID_3F_DIGLETT
+	setobjectxy LOCALID_3F_DIGLETT, 16, 26
+	turnobject LOCALID_3F_DIGLETT, DIR_NORTH
+	lock
+	playse SE_M_DIG
 	call VolcanionCave_3F_EventScript_DiglettCry
+	closemessage
+	playse SE_PIN
+	applymovement LOCALID_PLAYER_AQUA, VolcanionCave_3F_Movement_NoticeDiglett
+	applymovement LOCALID_PLAYER_MAGMA, VolcanionCave_3F_Movement_NoticeDiglett
+	waitmovement 0
+	special RemoveCameraObject
+	special SpawnCameraObject
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveToDiglett
+	waitmovement 0
 	message VolcanionCave_3F_Text_AgentDiggsOk
 	waitmessage
+	closemessage
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_EventScript_DiglettWalkToVolcanion
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_EventScript_CameraMoveUpWithDiglett
+	delay 30
+	playse SE_M_DIZZY_PUNCH
+	applymovement LOCALID_PLAYER_AQUA, VolcanionCave_3F_Movement_AquaWatchDiglett
+	applymovement LOCALID_PLAYER_MAGMA, VolcanionCave_3F_Movement_MagmaWatchDiglett
+	waitmovement 0
+	delay 50
+	playse SE_BALL_THROW
+	addobject LOCALID_3F_VOLCANION_JAIL_CELL
+	applymovement LOCALID_3F_VOLCANION_JAIL_CELL, VolcanionCave_3F_Movement_DiglettThrowJailCell
+	delay 3
+	setobjectsubpriority LOCALID_3F_VOLCANION_JAIL_CELL, MAP_VOLCANION_CAVE_3F, 200
+	waitmovement 0
+	delay 20
+	playse SE_BALL_OPEN
+	delay 20
+	removeobject LOCALID_3F_VOLCANION
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_VOLCANION
+	delay 20
+	playse SE_BALL
+	applymovement LOCALID_3F_VOLCANION_JAIL_CELL, VolcanionCave_3F_Movement_JailCellShake
+	waitmovement 0
+	playse SE_BALL
+	applymovement LOCALID_3F_VOLCANION_JAIL_CELL, VolcanionCave_3F_Movement_JailCellShake
+	waitmovement 0
+	playse SE_BALL
+	applymovement LOCALID_3F_VOLCANION_JAIL_CELL, VolcanionCave_3F_Movement_JailCellShake
+	waitmovement 0
+	playse SE_RG_BALL_CLICK
+	applymovement LOCALID_3F_VOLCANION_JAIL_CELL, VolcanionCave_3F_Movement_JailCellJump
+	waitmovement 0
+	delay 20
+	playse SE_PIN
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_ExclamationMark
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_ExclamationMark
 	message VolcanionCave_3F_Text_AgentDiggsCatch
 	waitmessage
+	closemessage
+	addobject LOCALID_3F_SHELLY
+	playse SE_PIN
+	delay 20
+	applymovement LOCALID_3F_SHELLY, VolcanionCave_3F_Movement_ShellyEnter
+	delay 30
+	applymovement LOCALID_CAMERA, Common_Movement_WalkDown
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceDown
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceDown
+	waitmovement LOCALID_3F_SHELLY
 	message VolcanionCave_3F_Text_ShellyEnter
 	waitmessage
-	delay 50
+	resetobjectsubpriority LOCALID_3F_VOLCANION_JAIL_CELL, MAP_VOLCANION_CAVE_3F
+	playse SE_WIN_OPEN
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettTakePokeball
+	waitmovement 0
+	removeobject LOCALID_3F_VOLCANION_JAIL_CELL
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_JAIL_CELL
+	closemessage
+	waitse
+	playse SE_PIN
+	playse SE_PIN
+	playse SE_PIN
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_ExclamationMark
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_ExclamationMark
+	applymovement LOCALID_3F_SHELLY, Common_Movement_ExclamationMark
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceUp
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceUp
+	waitmovement 0
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_MoveToDiglettRunningAround
+	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettRunAround
+	delay 30
+	applymovement LOCALID_PLAYER_AQUA, Common_Movement_WalkInPlaceDown
+	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_WalkInPlaceDown
+	applymovement LOCALID_3F_SHELLY, VolcanionCave_3F_Movement_ShellyChaseDiglett
+	delay 100
+	closemessage
 	goto VolcanionCave_3F_EventScript_Credits
 
 VolcanionCave_3F_EventScript_SetLocalIdsPlayer1::
@@ -794,6 +915,162 @@ VolcanionCave_3F_EventScript_SetLocalIdsPlayer2::
 	setvar LOCALID_PLAYER_MAGMA, LOCALID_PLAYER
 	return
 
+VolcanionCave_3F_Movement_NoticeDiglett::
+	emote_exclamation_mark
+	walk_in_place_down
+	step_end
+
+VolcanionCave_3F_EventScript_DiglettWalkToVolcanion::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_EventScript_CameraMoveUpWithDiglett::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_AquaWatchDiglett::
+	emote_question_mark
+	walk_in_place_right
+	step_end
+
+VolcanionCave_3F_Movement_MagmaWatchDiglett::
+	emote_question_mark
+	walk_in_place_left
+	step_end
+
+VolcanionCave_3F_Movement_CameraMoveToDiglett::
+	walk_down
+	walk_down
+	walk_down
+	step_end
+
+VolcanionCave_3F_Movement_DiglettThrowJailCell::
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_JailCellShake::
+	levitate
+	delay_16
+	stop_levitate
+	delay_16
+	delay_16
+	step_end
+
+VolcanionCave_3F_Movement_JailCellJump::
+	jump_in_place_down
+	delay_16
+	step_end
+
+VolcanionCave_3F_Movement_ShellyEnter::
+	emote_exclamation_mark
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_DiglettTakePokeball::
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_MoveToDiglettRunningAround::
+	walk_down
+	walk_down
+	step_end
+
+VolcanionCave_3F_Movement_DiglettRunAround::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_ShellyChaseDiglett::
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
 VolcanionCave_3F_Text_BattleTogether::
 	.string "Battle together?$"
 
@@ -802,13 +1079,17 @@ VolcanionCave_3F_Text_VolcanionCryDefeated::
 
 VolcanionCave_3F_Text_WeDidIt::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AWWWW YEEEAAAAHHHHH!!!!\p$"
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Incredible… we actually won.\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Incredible… we actually won.\p$"
+
+VolcanionCave_3F_Text_FinishingTouch::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Now, for the finishing touch…\p$"
 
 VolcanionCave_3F_Text_WhereBalls::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Hey! Where did my GREAT BALLS go???\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Hey! Where did my GREAT BALLS go???\p$"
+
+VolcanionCave_3F_Text_WhereBalls2::
 	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}My POKé BALLS are missing too.\n"
-	.string "Who could have-\p$"
+	.string "Who could have-{PAUSE 20}$"
 
 VolcanionCave_3F_Text_AgentDiggsOk::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AGENT DIGGS! You're ok!!\p$"
@@ -817,11 +1098,11 @@ VolcanionCave_3F_Text_AgentDiggsCatch::
 	.string "AGENT DIGGS caught the VOLCANION!\p$"
 
 VolcanionCave_3F_Text_ShellyEnter::
-	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Somebody, stop that DIGLETT!!\n"
-	.string "He's trying to nab our LEGENDARY!!!\p$"
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Somebody, stop that DIGLETT!!{PAUSE 40}\n"
+	.string "He's trying to nab our LEGENDARY!!!{PAUSE 40}$"
 
 VolcanionCave_3F_Text_Epilogue::
-	.string "And so, AGENT DIGGS ran off with\n"
+	.string "{SPEAKER NAME_NONE COLOR_NORMAL}And so, AGENT DIGGS ran off with\n"
 	.string "VOLCANION, selling it to the KALOS\l"
 	.string "POKéMON LAB for a digillion dollars.\p"
 	.string "The professor, MABLE, locked it in a\n"
@@ -1714,7 +1995,7 @@ VolcanionCave_3F_EventScript_DiglettUseDig::
 	setvar VAR_0x8006, 3  @ Num shakes
 	setvar VAR_0x8007, 4  @ Shake delay
 	special ShakeScreen
-	playse SE_M_ATTRACT
+	playse SE_M_DIZZY_PUNCH
 	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionLookAround
 	delay 40
 	setvar VAR_0x8004, 0  @ Vertical pan
@@ -2104,6 +2385,7 @@ VolcanionCave_3F_EventScript_CramorantEatPikachu::
 	delay 30
 	applymovement LOCALID_3F_CRAMORANT_GORGING, VolcanionCave_3F_Movement_CramorantShake
 	waitmovement 0
+	playse SE_NOT_EFFECTIVE
 	message VolcanionCave_3F_Text_ButItFailed
 	waitmessage
 	delay 60
@@ -2138,8 +2420,8 @@ VolcanionCave_3F_EventScript_CramorantEatPikachu::
 	waitmovement 0
 	delay 20
 
-	@ Volcanion is confused (well, paralyzed) 
-	playse SE_M_ATTRACT
+	@ Volcanion is confused (well, paralyzed)
+	playse SE_M_DIZZY_PUNCH
 	applymovement LOCALID_3F_VOLCANION, VolcanionCave_3F_Movement_VolcanionLookAround
 	waitmovement 0
 	delay 40
@@ -2377,6 +2659,7 @@ VolcanionCave_3F_EventScript_Meowth::
 
 VolcanionCave_3F_EventScript_TeamRocketMotto::
 	setflag FLAG_SPAWN_VOLCANION_CAVE_3F_TEAM_ROCKET
+	playbgm MUS_ENCOUNTER_SUSPICIOUS, FALSE
 	message VolcanionCave_3F_Text_RocketMottoStart
 	waitmessage
 	playse SE_FALL
@@ -2591,11 +2874,13 @@ VolcanionCave_3F_Text_PikachuFainted::
 	.string "to push it aside.$"
 
 VolcanionCave_3F_EventScript_Credits::
-	fadescreen FADE_TO_BLACK
+	fadescreenspeed FADE_TO_BLACK, 8
 	message VolcanionCave_3F_Text_Epilogue
 	waitmessage
 	closemessage
+	setflag FLAG_DO_CREDITS_TITLE
 	creditsmessage Credits_TagTeamTrials, Credits_Credits
+	clearflag FLAG_DO_CREDITS_TITLE
 	warpcontinuescript MAP_VOLCANION_CAVE_1F, 19, 19, VolcanionCave_3F_EventScript_Credits2
 	end
 

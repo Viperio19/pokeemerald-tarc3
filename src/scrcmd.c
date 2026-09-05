@@ -1796,8 +1796,11 @@ bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
     x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg1, DISPLAY_WIDTH, 1);
     AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 0, 1, 0, color, TEXT_SKIP_DRAW, msg1);
 
-    color[1] = TEXT_COLOR_WHITE;
-    color[2] = TEXT_COLOR_DARK_GRAY;
+    if (!FlagGet(FLAG_DO_CREDITS_TITLE))
+    {
+        color[1] = TEXT_COLOR_WHITE;
+        color[2] = TEXT_COLOR_DARK_GRAY;
+    }
 
     x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg2, DISPLAY_WIDTH, 1);
     AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 16, 1, 0, color, TEXT_SKIP_DRAW, msg2);
