@@ -7067,7 +7067,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .weight = 49,
         .description = COMPOUND_STRING(
 			"ERROR: Genetic Data Mismatch.\n"
-            "POKEDEX_ENTRY_ARCHIE not found.\n"
+            "POKEDEX_ENTRY_ARCHIE not found.\n"),
         .pokemonScale = 356,
         .pokemonOffset = 17,
         .trainerScale = 256,
