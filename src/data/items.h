@@ -2229,9 +2229,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Repel"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "The empty husk\n"
-            "of a repel.\n"
-            "Repels nothing."),
+            "A priceless repel.\n"
+            "Signed by AGENT\n"
+            "DIGGS."),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_BAG_MENU,
