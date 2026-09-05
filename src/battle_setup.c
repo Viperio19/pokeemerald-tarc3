@@ -53,6 +53,7 @@
 #include "constants/battle_special.h"
 #include "constants/event_objects.h"
 #include "constants/game_stat.h"
+#include "constants/metatile_behaviors.h"
 #include "constants/items.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
@@ -787,6 +788,8 @@ enum BattleEnvironments BattleSetup_GetEnvironmentId(void)
 
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 
+    if (tileBehavior == MB_LAVA)
+        return BATTLE_ENVIRONMENT_LAVA;
     if (MetatileBehavior_IsTallGrass(tileBehavior))
         return BATTLE_ENVIRONMENT_GRASS;
     if (MetatileBehavior_IsLongGrass(tileBehavior))
@@ -804,7 +807,7 @@ enum BattleEnvironments BattleSetup_GetEnvironmentId(void)
         if (MetatileBehavior_IsIndoorEncounter(tileBehavior))
             return BATTLE_ENVIRONMENT_BUILDING;
         if (MetatileBehavior_IsSurfableWaterOrUnderwater(tileBehavior))
-            return BATTLE_ENVIRONMENT_POND;
+            return BATTLE_ENVIRONMENT_WATER;
         return BATTLE_ENVIRONMENT_CAVE;
     case MAP_TYPE_INDOOR:
     case MAP_TYPE_SECRET_BASE:
