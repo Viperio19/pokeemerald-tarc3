@@ -48,6 +48,9 @@ VolcanionCave_1F_OnFrame:
 
 VolcanionCave_1F_EventScript_EnterCave::
 	lock
+	setvar VAR_VOLCANION_CAVE_1F_STATE, 1
+	callnative IsMultiplayer
+	goto_if_eq VAR_RESULT, TRUE, VolcanionCave_1F_EventScript_EnterCaveMultiplayer
 	applymovement LOCALID_PLAYER_2, VolcanionCave_1F_Movement_Player2EnterCave
 	waitmovement 0
 	applymovement LOCALID_PLAYER, VolcanionCave_1F_Movement_PlayerEnterCave
@@ -57,7 +60,6 @@ VolcanionCave_1F_EventScript_EnterCave::
 	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
 	delay 30
-	setvar VAR_VOLCANION_CAVE_1F_STATE, 1
 	applymovement LOCALID_PLAYER_2, Common_Movement_WalkInPlaceRight
 	message VolcanionCave_1F_Text_IntroOhNo
 	waitmovement 0
@@ -101,6 +103,23 @@ VolcanionCave_1F_EventScript_EnterCave::
 	callnative UpdatePlayer2Pos
 	release
 	end
+
+VolcanionCave_1F_EventScript_EnterCaveMultiplayer::
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, VolcanionCave_1F_EventScript_Player1AquaEnter
+	call_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_Player1MagmaEnter
+	waitmovement 0
+	@ connect
+	release
+	end
+
+VolcanionCave_1F_EventScript_Player1AquaEnter::
+	applymovement LOCALID_PLAYER, VolcanionCave_1F_Movement_Player2EnterCave
+	return
+
+VolcanionCave_1F_EventScript_Player1MagmaEnter::
+	applymovement LOCALID_PLAYER, VolcanionCave_1F_Movement_PlayerEnterCave
+	return
 
 VolcanionCave_1F_Movement_Player2EnterCave::
 	set_visible

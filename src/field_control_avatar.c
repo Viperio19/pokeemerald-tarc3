@@ -371,6 +371,11 @@ void IsPlayerOne(void)
     gSpecialVar_Result = IS_PLAYER_ONE;
 }
 
+void IsMultiplayer(void)
+{
+    gSpecialVar_Result = IS_MULTIPLAYER;
+}
+
 int ProcessPlayerFieldInput(struct FieldInput *input)
 {
     struct MapPosition position;

@@ -1849,6 +1849,8 @@ static void Task_NewGameShellySpeech_StartNamingScreen(u8 taskId)
         FreeAllWindowBuffers();
         FreeAndDestroyMonPicSprite(gTasks[taskId].tPokemonSpriteId);
         NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES, gSaveBlock2Ptr->playerName);
+        if (IS_MULTIPLAYER)
+            NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES, gSaveBlock2Ptr->player2Name);
         DestroyTask(taskId);
         DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGameShellySpeech_ReturnFromNamingScreen);
     }
@@ -2425,6 +2427,8 @@ static void Task_NewGameCourtneySpeech_StartNamingScreen(u8 taskId)
         FreeAllWindowBuffers();
         FreeAndDestroyMonPicSprite(gTasks[taskId].tPokemonSpriteId);
         NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES, gSaveBlock2Ptr->playerName);
+        if (IS_MULTIPLAYER)
+            NewGameBirchSpeech_SetDefaultPlayerName(Random() % NUM_PRESET_NAMES, gSaveBlock2Ptr->player2Name);
         DestroyTask(taskId);
         DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGameCourtneySpeech_ReturnFromNamingScreen);
     }
