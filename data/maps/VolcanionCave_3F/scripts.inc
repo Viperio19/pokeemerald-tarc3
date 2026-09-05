@@ -772,6 +772,15 @@ VolcanionCave_3F_EventScript_DefeatedVolcanion::
 	waitmovement 0
 	message VolcanionCave_3F_Text_WeDidIt
 	waitmessage
+	message VolcanionCave_3F_Text_WhereBalls
+	waitmessage
+	call VolcanionCave_3F_EventScript_DiglettCry
+	message VolcanionCave_3F_Text_AgentDiggsOk
+	waitmessage
+	message VolcanionCave_3F_Text_AgentDiggsCatch
+	waitmessage
+	message VolcanionCave_3F_Text_ShellyEnter
+	waitmessage
 	delay 50
 	goto VolcanionCave_3F_EventScript_Credits
 
@@ -792,7 +801,33 @@ VolcanionCave_3F_Text_VolcanionCryDefeated::
 	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}FWAHHRSHHHH…$"
 
 VolcanionCave_3F_Text_WeDidIt::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}We did it!\p$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AWWWW YEEEAAAAHHHHH!!!!\p$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Incredible… we actually won.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Now, for the finishing touch…\p$"
+
+VolcanionCave_3F_Text_WhereBalls::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Hey! Where did my GREAT BALLS go???\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}My POKé BALLS are missing too.\n"
+	.string "Who could have-\p$"
+
+VolcanionCave_3F_Text_AgentDiggsOk::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AGENT DIGGS! You're ok!!\p$"
+
+VolcanionCave_3F_Text_AgentDiggsCatch::	
+	.string "AGENT DIGGS caught the VOLCANION!\p$"
+
+VolcanionCave_3F_Text_ShellyEnter::
+	.string "{SPEAKER NAME_SHELLY COLOR_AQUA}Somebody, stop that DIGLETT!!\n"
+	.string "He's trying to nab our LEGENDARY!!!\p$"
+
+VolcanionCave_3F_Text_Epilogue::
+	.string "And so, AGENT DIGGS ran off with\n"
+	.string "VOLCANION, selling it to the KALOS\l"
+	.string "POKéMON LAB for a digillion dollars.\p"
+	.string "The professor, MABLE, locked it in a\n"
+	.string "dark room for some unknown reason.\p"
+	.string "TO BE CONTINUED IN:\n"
+	.string "{PAUSE 60}POKéMON LEGENDS Z-A\p$"
 
 VolcanionCave_3F_EventScript_ZinniaEnter::
 	setvar VAR_ZINNIA_STATE, 1
@@ -2242,7 +2277,7 @@ VolcanionCave_3F_EventScript_Pikachu::
 	end
 
 VolcanionCave_3F_Text_PikachuCry::
-	.string "{SPEAKER NAME_PIKACHU COLOR_NORMAL}Pika-pi?\p$"
+	.string "{SPEAKER NAME_PIKACHU COLOR_NORMAL}Piiawoh!\p$"
 
 VolcanionCave_3F_EventScript_PikachuStrengthBoulder::
 	lockall
@@ -2557,6 +2592,8 @@ VolcanionCave_3F_Text_PikachuFainted::
 
 VolcanionCave_3F_EventScript_Credits::
 	fadescreen FADE_TO_BLACK
+	message VolcanionCave_3F_Text_Epilogue
+	waitmessage
 	closemessage
 	creditsmessage VolcanionCave_3F_Text_CreditsTagTeamTrials
 	warpcontinuescript MAP_VOLCANION_CAVE_1F, 19, 19, VolcanionCave_3F_EventScript_Credits2
