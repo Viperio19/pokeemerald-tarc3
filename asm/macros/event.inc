@@ -1911,16 +1911,19 @@
 
 	@ Prints and draws the message all at once rather than character by character.
 	@ Does not wait for player input to continue.
-	.macro messageinstant text:req
+	.macro messageinstant text1:req, text2:req, text3=NULL, text4=NULL
 	.byte SCR_OP_MESSAGEINSTANT
-	.4byte \text
+	.4byte \text1
+	.4byte \text2
+	.4byte \text3
+	.4byte \text4
 	.endm
 
-	.macro creditsmessage text:req
+	.macro creditsmessage text1:req, text2:req, text3=NULL, text4=NULL
 	delay 40
-	messageinstant \text
+	messageinstant \text1, \text2, \text3, \text4
 	waitmessage
-	delay 120
+	delay 160
 	closemessage
 	delay 40
 	.endm
