@@ -3469,14 +3469,14 @@ u16 GetPCBoxToSendMon(void)
 
 bool8 ShouldShowBoxWasFullMessage(void)
 {
-    if (!FlagGet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE))
-    {
-        if (StorageGetCurrentBox() != VarGet(VAR_PC_BOX_TO_SEND_MON))
-        {
-            FlagSet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
-            return TRUE;
-        }
-    }
+    // if (!FlagGet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE))
+    // {
+    //     if (StorageGetCurrentBox() != VarGet(VAR_PC_BOX_TO_SEND_MON))
+    //     {
+    //         FlagSet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
+    //         return TRUE;
+    //     }
+    // }
     return FALSE;
 }
 
@@ -3486,18 +3486,23 @@ bool8 IsDestinationBoxFull(void)
     int i;
     SetPCBoxToSendMon(VarGet(VAR_PC_BOX_TO_SEND_MON));
     box = StorageGetCurrentBox();
-
-    for (i = 0; i < IN_BOX_COUNT; i++)
+    do
     {
-        if (GetBoxMonData(GetBoxedMonPtr(box, i), MON_DATA_SPECIES, 0) == SPECIES_NONE)
+        for (i = 0; i < IN_BOX_COUNT; i++)
         {
-            if (GetPCBoxToSendMon() != box)
-                FlagClear(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
-            VarSet(VAR_PC_BOX_TO_SEND_MON, box);
-            return ShouldShowBoxWasFullMessage();
+            if (GetBoxMonData(GetBoxedMonPtr(box, i), MON_DATA_SPECIES, 0) == SPECIES_NONE)
+            {
+                if (GetPCBoxToSendMon() != box)
+                    FlagClear(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
+                VarSet(VAR_PC_BOX_TO_SEND_MON, box);
+                return ShouldShowBoxWasFullMessage();
+            }
         }
-    }
-return FALSE;
+
+        if (++box == TOTAL_BOXES_COUNT)
+            box = 0;
+    } while (box != StorageGetCurrentBox());
+    return FALSE;
 }
 
 void CreateAbnormalWeatherEvent(void)

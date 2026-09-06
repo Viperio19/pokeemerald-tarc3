@@ -620,7 +620,7 @@ void CB2_InitTitleScreen(void)
     {
         u8 taskId = CreateTask(Task_TitleScreenPhase1, 0);
 
-        gTasks[taskId].tCounter = 256;
+        gTasks[taskId].tCounter = 50;
         gTasks[taskId].tSkipToNext = FALSE;
         gTasks[taskId].tPointless = -16;
         gTasks[taskId].tBg2Y = -32;
@@ -657,7 +657,7 @@ void CB2_InitTitleScreen(void)
                                     | DISPCNT_OBJ_ON
                                     | DISPCNT_WIN0_ON
                                     | DISPCNT_OBJWIN_ON);
-        m4aSongNumStart(MUS_TITLE);
+        m4aSongNumStart(MUS_MT_CHIMNEY);
         gMain.state = 5;
         break;
     case 5:
@@ -691,12 +691,6 @@ static void Task_TitleScreenPhase1(u8 taskId)
 
     if (gTasks[taskId].tCounter != 0)
     {
-        u16 frameNum = gTasks[taskId].tCounter;
-        if (frameNum == 176)
-            StartPokemonLogoShine(SHINE_MODE_DOUBLE);
-        else if (frameNum == 64)
-            StartPokemonLogoShine(SHINE_MODE_SINGLE);
-
         gTasks[taskId].tCounter--;
     }
     else

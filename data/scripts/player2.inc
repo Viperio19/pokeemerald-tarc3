@@ -3,21 +3,35 @@ EventScript_Player2_Singleplayer::
 	goto_if_set FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, EventScript_Player2_ReadyToBattle
 	faceplayer
 	callnative IsPlayerOne
-	call_if_eq VAR_RESULT, TRUE, Player2_Message_HiPlayerMagma
-	call_if_eq VAR_RESULT, FALSE, Player2_Message_HiPlayerAqua
+	call_if_eq VAR_RESULT, TRUE, Player2Magma_Message_HiPlayer
+	call_if_eq VAR_RESULT, FALSE, Player2Aqua_Message_HiPlayer
 	waitmessage
-	multichoicedefault 21, 6, MULTI_PLAYER_2, 0, FALSE
+	callnative UpdatePlayer2Pos
+	goto_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, EventScript_Player2_MultiChoiceNoTrade
+	multichoicedefault 21, 6, MULTI_PLAYER_2_TRADE, 0, FALSE
 	switch VAR_RESULT
-	case 0, Player2_Singleplayer_Trade
-	case 1, Player2_Singleplayer_Talk
+	case 0, Player2_Singleplayer_Talk
+	case 1, Player2_Singleplayer_Trade
 	case 2, Player2_Singleplayer_Cancel
+	case MULTI_B_PRESSED, Player2_Singleplayer_Cancel
+	release
+	end
+
+EventScript_Player2_MultiChoiceNoTrade::
+	multichoicedefault 21, 8, MULTI_PLAYER_2, 0, FALSE
+	switch VAR_RESULT
+	case 0, Player2_Singleplayer_Talk
+	case 1, Player2_Singleplayer_Cancel
 	case MULTI_B_PRESSED, Player2_Singleplayer_Cancel
 	release
 	end
 
 Player2_Singleplayer_Trade::
 	@ choose player mon
-	msgbox Player2_Text_GiveWhatPokemon, MSGBOX_NPC
+	callnative IsPlayerOne
+	copyvar VAR_0x8007, VAR_RESULT
+	call_if_eq VAR_0x8007, TRUE, Player2Magma_Singleplayer_GiveWhatPokemon
+	call_if_eq VAR_0x8007, FALSE, Player2Aqua_Singleplayer_GiveWhatPokemon
 	special ChoosePartyMon
 	copyvar VAR_0x800A, VAR_0x8004
 	goto_if_ge VAR_0x800A, PARTY_SIZE, Player2_Singleplayer_Cancel
@@ -25,7 +39,8 @@ Player2_Singleplayer_Trade::
 
 	@ choose partner mon
 	callnative SwitchParties
-	msgbox Player2_Text_ReceiveWhatPokemon, MSGBOX_NPC
+	call_if_eq VAR_0x8007, TRUE, Player2Magma_Singleplayer_ReceiveWhatPokemon
+	call_if_eq VAR_0x8007, FALSE, Player2Aqua_Singleplayer_ReceiveWhatPokemon
 	special ChoosePartyMon
 	copyvar VAR_0x800B, VAR_0x8004
 	specialvar VAR_0x8009, GetTradeSpecies
@@ -34,7 +49,8 @@ Player2_Singleplayer_Trade::
 
 	@ confirm trade
 	callnative BufferSinglePlayerTradeNicknames
-	msgbox Player2_Text_GivePokemonForPokemon, MSGBOX_YESNO
+	call_if_eq VAR_0x8007, TRUE, Player2Magma_Singleplayer_GivePokemonForPokemon
+	call_if_eq VAR_0x8007, FALSE, Player2Aqua_Singleplayer_GivePokemonForPokemon
 	switch VAR_RESULT
 	case NO, Player2_Singleplayer_Cancel
 	case YES, Player2_Singleplayer_DoTrade
@@ -42,12 +58,45 @@ Player2_Singleplayer_Trade::
 	release
 	end
 
+Player2Magma_Singleplayer_GiveWhatPokemon::
+	msgbox Player2Magma_Text_GiveWhatPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Aqua_Singleplayer_GiveWhatPokemon::
+	msgbox Player2Aqua_Text_GiveWhatPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Magma_Singleplayer_ReceiveWhatPokemon::
+	msgbox Player2Magma_Text_ReceiveWhatPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Aqua_Singleplayer_ReceiveWhatPokemon::
+	msgbox Player2Aqua_Text_ReceiveWhatPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Magma_Singleplayer_GivePokemonForPokemon::
+	msgbox Player2Magma_Text_GivePokemonForPokemon, MSGBOX_YESNO
+	return
+
+Player2Aqua_Singleplayer_GivePokemonForPokemon::
+	msgbox Player2Aqua_Text_GivePokemonForPokemon, MSGBOX_YESNO
+	return
+
 Player2_Singleplayer_DoTrade::
 	special DoSinglePlayerTradeScene
 	callnative BufferSinglePlayerTradeNicknames
-	msgbox Player2_Text_TakeGoodCareOfPokemon, MSGBOX_NPC
+	call_if_eq VAR_0x8007, TRUE, Player2Magma_Singleplayer_TakeGoodCareOfPokemon
+	call_if_eq VAR_0x8007, FALSE, Player2Aqua_Singleplayer_TakeGoodCareOfPokemon
 	release
 	end
+
+Player2Magma_Singleplayer_TakeGoodCareOfPokemon::
+	msgbox Player2Magma_Text_TakeGoodCareOfPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Aqua_Singleplayer_TakeGoodCareOfPokemon::
+	msgbox Player2Aqua_Text_TakeGoodCareOfPokemon, MSGBOX_DEFAULT
+	return
 
 Player2_Singleplayer_Talk::
 	goto_if_unset FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, Player2_Message_Talk
@@ -58,6 +107,10 @@ Player2_Singleplayer_Talk::
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 0, Player2_Message_MagmaWall
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 0, Player2_Message_Holes
 	goto_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, Player2_Message_PreRoom3
+	goto_if_ne VAR_CURRENT_HP_BAR_COLOR, 3, Player2_Message_Room3Main
+	goto_if_ne VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100, Player2_Message_Room3Main
+	goto_if_ne VAR_ZINNIA_STATE, 1, Player2_Message_Room3Main
+	msgbox Player2_Text_PreVolcanion, MSGBOX_NPC
 	release
 	end
 	
@@ -222,43 +275,88 @@ Player2_Text_PreRoom3::
 	.string "my meatshield if things go wrong?\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Yep. {PAUSE 40}Figured.$"
 
-
-Player2_Singleplayer_Cancel::
-	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
+Player2_Message_Room3Main::
+	msgbox Player2_Text_Room3Main, MSGBOX_NPC
 	release
 	end
 
-Player2_Message_HiPlayerMagma::
-	msgbox Player2_Text_HiPlayerMagma, MSGBOX_NPC
+Player2_Text_Room3Main::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Wow, VOLCANION is SUPER STRONG!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}It certainly lives up to the title of\n"
+	.string "LEGENDARY POKéMON.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}But how do we catch it?\n"
+	.string "We can barely even make a dent in it!!\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}If attacking it head on won't work,\n"
+	.string "we go around and look for weak points.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}There are a lot of wild POKéMON around\n"
+	.string "here, I wonder if any of them can help?\p"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Well, why don't we find out?$"
+
+Player2_Text_PreVolcanion::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}It seems like we've found everything\n"
+	.string "we can find in this room.\p"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}All that's left is beating VOLCANION up!\n"
+	.string "LET'S DO THIS!!!$"
+
+Player2_Singleplayer_Cancel::
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, Player2Magma_Singleplayer_Cancel
+	call_if_eq VAR_RESULT, FALSE, Player2Aqua_Singleplayer_Cancel
+	release
+	end
+
+Player2Aqua_Singleplayer_Cancel::
+	msgbox Player2Aqua_Text_Cancel, MSGBOX_DEFAULT
 	return
 
-Player2_Message_HiPlayerAqua::
-	msgbox Player2_Text_HiPlayerAqua, MSGBOX_NPC
+Player2Magma_Singleplayer_Cancel::
+	msgbox Player2Magma_Text_Cancel, MSGBOX_DEFAULT
 	return
 
-Player2_Text_HiPlayerMagma::
+Player2Magma_Message_HiPlayer::
+	message Player2Magma_Text_HiPlayer
+	return
+
+Player2Aqua_Message_HiPlayer::
+	message Player2Aqua_Text_HiPlayer
+	return
+
+Player2Magma_Text_HiPlayer::
 	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}You again?\n"
 	.string "What did I do to deserve this?$"
 
-Player2_Text_HiPlayerAqua::
+Player2Aqua_Text_HiPlayer::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What, you need something?$"
 
-Player2_Text_GiveWhatPokemon::
-	.string "{RIVAL}: What POKéMON do you\nwant to give?$"
+Player2Aqua_Text_GiveWhatPokemon::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What are you giving me?$"
 
-Player2_Text_ReceiveWhatPokemon::
-	.string "{RIVAL}: What POKéMON do you\nwant to receive?$"
+Player2Magma_Text_GiveWhatPokemon::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What POKéMON are you offering?$"
 
-Player2_Text_GivePokemonForPokemon::
-	.string "{RIVAL}: Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
+Player2Aqua_Text_ReceiveWhatPokemon::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Cool! I'll give you…$"
 
-Player2_Text_TakeGoodCareOfPokemon::
-	.string "{RIVAL}: I'll take good care\nof {STR_VAR_2}!$"
+Player2Magma_Text_ReceiveWhatPokemon::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Alright, I'll trade for…$"
 
+Player2Aqua_Text_GivePokemonForPokemon::
+	.string "Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
 
+Player2Magma_Text_GivePokemonForPokemon::
+	.string "Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
 
-Player2_Text_WeGotThis::
-	.string "{RIVAL}: We got this!$"
+Player2Aqua_Text_TakeGoodCareOfPokemon::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Thanks! I'll take care of {STR_VAR_2}!$"
+
+Player2Magma_Text_TakeGoodCareOfPokemon::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I'll take good care of {STR_VAR_2}!$"
+
+Player2Aqua_Text_Cancel::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Okie dokie!$"
+
+Player2Magma_Text_Cancel::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Alright, let's go.$"
 
 Player2_Connect::
 	message gText_PleaseWaitForLink
@@ -292,8 +390,8 @@ EventScript_Player2_Multiplayer::
 	lock
 	faceplayer
 	callnative IsPlayerOne
-	goto_if_eq VAR_RESULT, FALSE, Player2_Text_HiPlayerMagma
-	message Player2_Text_HiPlayerAqua
+	goto_if_eq VAR_RESULT, FALSE, Player2Magma_Text_HiPlayer
+	message Player2Aqua_Text_HiPlayer
 	waitmessage
 	multichoicedefault 21, 6, MULTI_PLAYER_2, 0, FALSE
 	switch VAR_RESULT
@@ -315,15 +413,27 @@ Player2_Multiplayer_Talk::
 	end
 
 Player2_Multiplayer_Cancel::
-	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
+	msgbox Player2Aqua_Text_Cancel, MSGBOX_NPC
 	release
 	end
 
 EventScript_Player2_ReadyToBattle::
 	lock
-	msgbox Player2_Text_ReadyToBattle, MSGBOX_DEFAULT
+	message Player2_Text_ReadyToBattle
+	waitmessage
+	yesnobox 20, 8, 1
+	goto_if_eq VAR_RESULT, YES, EventScript_Player2_CancelBattleAndSwitch
+	release
+	end
+
+EventScript_Player2_CancelBattleAndSwitch::
+	clearflag FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER
+	callnative SwitchCharacters
+	waitstate
 	release
 	end
 
 Player2_Text_ReadyToBattle::
-	.string "{RIVAL} is ready to battle!$"
+	.string "{RIVAL} is ready to battle!\p"
+	.string "Do you want to cancel the battle\n"
+	.string "and switch anyways?$"

@@ -9606,12 +9606,15 @@ s16 AdvanceStorageMonIndex(struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex
 
 bool8 CheckFreePokemonStorageSpace(void)
 {
-    s32 j;
+    s32 i, j;
 
-    for (j = 0; j < IN_BOX_COUNT; j++)
+    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
     {
-        if (!GetBoxMonData(&gPokemonStoragePtr->boxes[gPokemonStoragePtr->currentBox][j], MON_DATA_SANITY_HAS_SPECIES))
-            return TRUE;
+        for (j = 0; j < IN_BOX_COUNT; j++)
+        {
+            if (!GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES))
+                return TRUE;
+        }
     }
 
     return FALSE;

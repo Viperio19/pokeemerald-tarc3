@@ -147,12 +147,12 @@
 #define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_5          0x4079
 #define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_6          0x407A
 #define VAR_ROUTE128_STATE                               0x407B
-#define VAR_ROUTE129_STATE                               0x407C // Unused Var
+#define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7          0x407C
 #define VAR_ROUTE130_STATE                               0x407D // Unused Var
-#define VAR_ROUTE131_STATE                               0x407E // Unused Var
-#define VAR_ROUTE132_STATE                               0x407F // Unused Var
-#define VAR_ROUTE133_STATE                               0x4080 // Unused Var
-#define VAR_ROUTE134_STATE                               0x4081 // Unused Var
+#define VAR_VOLCANION_CAVE_3F_TEAM_ROCKET_STATE          0x407E
+#define VAR_VOLCANION_CAVE_2F_CORSOLA_X                  0x407F
+#define VAR_VOLCANION_CAVE_2F_CORSOLA_Y                  0x4080
+#define VAR_VOLCANION_CAVE_2F_CORSOLA_STATE              0x4081
 #define VAR_LITTLEROOT_HOUSES_STATE_MAY                  0x4082
 #define VAR_UNUSED_0x4083                                0x4083 // Unused Var
 #define VAR_BIRCH_LAB_STATE                              0x4084

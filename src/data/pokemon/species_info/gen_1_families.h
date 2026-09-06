@@ -6756,10 +6756,15 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 2,
         .weight = 8,
         .description = COMPOUND_STRING(
-            "Diglett are raised in most farms.\n"
-            "The reason is simple--wherever they\n"
-            "burrow, the soil is left perfectly tilled\n"
-            "for growing delicious crops."),
+            "Surprisingly useful li'l critters! If\n"
+            "you find yourself in need of a natural\n"
+            "spring, you won't find yourself one\n"
+            "better suited for the job!"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Living about 1 meter below ground at all\n"
+            "times, DIGLETT's thin skin causes it to\n"
+            "grow weak when exposed to direct sunlight.\n"
+            "They feed off of berry tree roots."),
         .pokemonScale = 833,
         .pokemonOffset = 25,
         .trainerScale = 256,
@@ -9751,47 +9756,46 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_GOLEM,
         .natDexNum = NATIONAL_DEX_GOLEM,
         .categoryName = _("Megaton"),
-        .height = 14,
-        .weight = 3000,
+        .height = 17,
+        .weight = 3160,
         .description = COMPOUND_STRING(
-            "It is said to live in volcanic craters\n"
-            "on mountain peaks. Once a year, it sheds\n"
-            "its hide and grows larger. The shed hide\n"
-            "crumbles and returns to the soil."),
+            "A true terror of the seas! With the beard\n"
+            "to match its frightening demeanor.\n"
+            "In need of a cannon? Try firing a charged\n"
+            "rock from the tip of GOLEM's electric rail!"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Grumpy and stubborn, they dislike moving\n"
+            "when unnecessary. When upset, it will not\n"
+            "hesitate to loose strong tremors or\n"
+            "surges of paralyzing electricity."),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 296,
         .trainerOffset = 2,
-        .frontPic = gMonFrontPic_Golem,
-        .frontPicSize = P_GBA_STYLE_SPECIES_GFX ? MON_COORDS_SIZE(56, 56) : MON_COORDS_SIZE(64, 56),
-        .frontPicYOffset = P_GBA_STYLE_SPECIES_GFX ? 5 : 6,
-        .frontAnimFrames = ANIM_FRAMES(
-            ANIMCMD_FRAME(0, 8),
-            ANIMCMD_FRAME(1, 31),
-            ANIMCMD_FRAME(0, 1),
-            ANIMCMD_FRAME(0, 2),
-            ANIMCMD_FRAME(0, 8),
-        ),
-        .frontAnimId = ANIM_ROTATE_UP_SLAM_DOWN,
-        .backPic = gMonBackPic_Golem,
-        .backPicSize = P_GBA_STYLE_SPECIES_GFX ? MON_COORDS_SIZE(64, 32) : MON_COORDS_SIZE(64, 48),
-        .backPicYOffset = P_GBA_STYLE_SPECIES_GFX ? 16 : 11,
-        .backAnimId = BACK_ANIM_H_SHAKE,
-        .palette = gMonPalette_Golem,
-        .shinyPalette = gMonShinyPalette_Golem,
-        .iconSprite = gMonIcon_Golem,
-        .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 1 : 2,
+        .frontPic = gMonFrontPic_GolemAlola,
+        .frontPicSize = MON_COORDS_SIZE(56, 64),
+        .frontPicYOffset = 1,
+        .frontAnimFrames = sAnims_SingleFramePlaceHolder,
+        //.frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
+        .backPic = gMonBackPic_GolemAlola,
+        .backPicSize = MON_COORDS_SIZE(64, 48),
+        .backPicYOffset = 13,
+        //.backAnimId = BACK_ANIM_NONE,
+        .palette = gMonPalette_GolemAlola,
+        .shinyPalette = gMonShinyPalette_GolemAlola,
+        .iconSprite = gMonIcon_GolemAlola,
+        .iconPalIndex = 2,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
-        SHADOW(3, 5, SHADOW_SIZE_XL_BATTLE_ONLY)
+        SHADOW(2, 11, SHADOW_SIZE_L)
         FOOTPRINT(Golem)
         OVERWORLD(
-            sPicTable_Golem,
+            sPicTable_GolemAlola,
             SIZE_32x32,
             SHADOW_SIZE_M,
             TRACKS_FOOT,
             sAnimTable_Following,
-            gOverworldPalette_Golem,
-            gShinyOverworldPalette_Golem
+            gOverworldPalette_GolemAlola,
+            gShinyOverworldPalette_GolemAlola
         )
         .levelUpLearnset = sGolemLevelUpLearnset,
         .teachableLearnset = sGolemTeachableLearnset,
@@ -9826,10 +9830,15 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 4,
         .weight = 203,
         .description = COMPOUND_STRING(
-            "Its body is a magnetic stone. Iron sand\n"
-            "attach to parts of its body with stronger\n"
-            "magnetism. If you carelessly step on one,\n"
-            "it will headbutt and shock you in anger."),
+            "A true terror of the seas! With the beard\n"
+            "to match its frightening demeanor.\n"
+            "In need of a cannon? Try firing a charged\n"
+            "rock from the tip of GOLEM's electric rail!"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Grumpy and stubborn, they dislike moving\n"
+            "when unnecessary. When upset, it will not\n"
+            "hesitate to loose strong tremors or\n"
+            "surges of paralyzing electricity."),
         .pokemonScale = 347,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -13375,44 +13384,46 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_EXEGGUTOR,
         .natDexNum = NATIONAL_DEX_EXEGGUTOR,
         .categoryName = _("Coconut"),
-        .height = 20,
-        .weight = 1200,
+        .height = 109,
+        .weight = 4156,
         .description = COMPOUND_STRING(
-            "Originally from the tropics, Exeggutor's\n"
-            "heads grow larger from exposure to strong\n"
-            "sunlight. It is said that when the heads\n"
-            "fall, they group to form an Exeggcute."),
+			"The only thing a true pirate loves more\n"
+            "than the ocean is a well-deserved rest on\n"
+            "sunny desert islands! And these EXEGGUTOR\n"
+			"are a sure-fire sign of a relaxing beach!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+			"In warm, tropical enviroments, particularly\n"
+            "healthy EXEGGCUTE will evolve into this\n"
+            "form. Their usual telepathic powers have\n"
+			"become something else all too fantastical.\n"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
         .trainerOffset = 5,
-        .frontPic = gMonFrontPic_Exeggutor,
+        .frontPic = gMonFrontPic_ExeggutorAlola,
         .frontPicSize = MON_COORDS_SIZE(64, 64),
-        .frontPicYOffset = 0,
-        .frontAnimFrames = ANIM_FRAMES(
-            ANIMCMD_FRAME(1, 35),
-            ANIMCMD_FRAME(0, 10),
-        ),
-        .frontAnimId = ANIM_H_JUMPS_V_STRETCH,
-        .backPic = gMonBackPic_Exeggutor,
-        .backPicSize = P_GBA_STYLE_SPECIES_GFX ? MON_COORDS_SIZE(64, 56) : MON_COORDS_SIZE(64, 48),
-        .backPicYOffset = P_GBA_STYLE_SPECIES_GFX ? 4 : 8,
-        .backAnimId = BACK_ANIM_CONCAVE_ARC_LARGE,
-        .palette = gMonPalette_Exeggutor,
-        .shinyPalette = gMonShinyPalette_Exeggutor,
-        .iconSprite = gMonIcon_Exeggutor,
+        .frontPicYOffset = 1,
+        .frontAnimFrames = sAnims_TwoFramePlaceHolder,
+        //.frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
+        .backPic = gMonBackPic_ExeggutorAlola,
+        .backPicSize = MON_COORDS_SIZE(64, 56),
+        .backPicYOffset = 0,
+        //.backAnimId = BACK_ANIM_NONE,
+        .palette = gMonPalette_ExeggutorAlola,
+        .shinyPalette = gMonShinyPalette_ExeggutorAlola,
+        .iconSprite = gMonIcon_ExeggutorAlola,
         .iconPalIndex = 1,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
-        SHADOW(2, 13, SHADOW_SIZE_L)
+        SHADOW(6, 12, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(Exeggutor)
         OVERWORLD(
-            sPicTable_Exeggutor,
-            SIZE_32x32,
+            sPicTable_ExeggutorAlola,
+            SIZE_64x64,
             SHADOW_SIZE_M,
             TRACKS_FOOT,
             sAnimTable_Following,
-            gOverworldPalette_Exeggutor,
-            gShinyOverworldPalette_Exeggutor
+            gOverworldPalette_ExeggutorAlola,
+            gShinyOverworldPalette_ExeggutorAlola
         )
         .levelUpLearnset = sExeggutorLevelUpLearnset,
         .teachableLearnset = sExeggutorTeachableLearnset,
@@ -13447,10 +13458,15 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 109,
         .weight = 4156,
         .description = COMPOUND_STRING(
-            "Alola is the best environment for\n"
-            "this Pokémon. Local people take pride\n"
-            "in its appearance, saying this is how\n"
-            "Exeggutor ought to look."),
+			"The only thing a true pirate loves more\n"
+            "than the ocean is a well-deserved rest on\n"
+            "sunny desert islands! And these EXEGGUTOR\n"
+			"are a sure-fire sign of a relaxing beach!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+			"In warm, tropical enviroments, particularly\n"
+            "healthy EXEGGCUTE will evolve into this\n"
+            "form. Their usual telepathic powers have\n"
+			"become something else all too fantastical.\n"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -13501,7 +13517,6 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .catchRate = 190,
         .expYield = (P_UPDATED_EXP_YIELDS >= GEN_5) ? 64 : 87,
         .evYield_Defense = 1,
-        .itemRare = ITEM_THICK_CLUB,
         .genderRatio = PERCENT_FEMALE(50),
         .eggCycles = 20,
         .friendship = STANDARD_FRIENDSHIP,
@@ -13517,6 +13532,11 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 4,
         .weight = 65,
         .description = COMPOUND_STRING(
+			"Can't help but feel sorry for the\n"
+            "wee critter. CUBONE can be heard\n"
+            "in the dark nights, howling for a\n"
+            "mother's love they shall never know."),
+        .descriptionMagma = COMPOUND_STRING(
 			"A rare Pokemon that draws power from the\n"
             "skull that it wears. It is theorized to\n"
             "be an indirect evolution caused by this,\n"

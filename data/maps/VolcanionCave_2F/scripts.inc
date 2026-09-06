@@ -6,40 +6,44 @@ VolcanionCave_2F_MapScripts::
 	.byte 0
 
 VolcanionCave_2F_OnLoad::
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_SetRockBarrier1
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_SetRockBarrier2
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_SetRockBarrier3
-	call_if_ne VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 100, VolcanionCave_2F_EventScript_SetRockBarrier4
+	call_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1, 100, VolcanionCave_2F_EventScript_RemoveRockBarrier1
+	call_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 100, VolcanionCave_2F_EventScript_RemoveRockBarrier2
+	call_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_RemoveRockBarrier3
+	call_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 100, VolcanionCave_2F_EventScript_RemoveRockBarrier4
 	call_if_eq VAR_TEMP_F, 0, VolcanionCave_2F_EventScript_SetMetatilesRedButtonPressed
 	call_if_eq VAR_TEMP_F, 1, VolcanionCave_2F_EventScript_SetMetatilesBlueButtonPressed
 	end
 
-VolcanionCave_2F_EventScript_SetRockBarrier1::
-	setmetatile 26, 64, METATILE_Cave_RockBarrier_Left, TRUE
-	setmetatile 27, 64, METATILE_Cave_RockBarrier_MiddleHorizontal, TRUE
-	setmetatile 28, 64, METATILE_Cave_RockBarrier_Right, TRUE
+VolcanionCave_2F_EventScript_RemoveRockBarrier1::
+	setmetatile 26, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 27, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 28, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 7, 52, METATILE_Cave_Floor, FALSE
+	setmetatile 8, 52, METATILE_Cave_Floor, FALSE
+	setmetatile 9, 52, METATILE_Cave_Floor, FALSE
 	return
 
-VolcanionCave_2F_EventScript_SetRockBarrier2::
-	setmetatile 18, 40, METATILE_Cave_RockBarrier_Top, TRUE
-	setmetatile 18, 41, METATILE_Cave_RockBarrier_MiddleVertical, TRUE
-	setmetatile 18, 42, METATILE_Cave_RockBarrier_Bottom, TRUE
+VolcanionCave_2F_EventScript_RemoveRockBarrier2::
+	setmetatile 18, 40, METATILE_Cave_Floor, FALSE
+	setmetatile 18, 41, METATILE_Cave_Floor, FALSE
+	setmetatile 18, 42, METATILE_Cave_Floor, FALSE
 	return
 
-VolcanionCave_2F_EventScript_SetRockBarrier3::
-	setmetatile 20, 8, METATILE_Cave_RockBarrier_TopEdge, TRUE
-	setmetatile 20, 9, METATILE_Cave_RockBarrier_Bottom, TRUE
+VolcanionCave_2F_EventScript_RemoveRockBarrier3::
+	setmetatile 20, 8, METATILE_Cave_FloorSmooth_Top, FALSE
+	setmetatile 20, 9, METATILE_Cave_FloorSmooth, FALSE
 	return
 
-VolcanionCave_2F_EventScript_SetRockBarrier4::
-	setmetatile 23, 4, METATILE_Cave_RockBarrier_Top, TRUE
-	setmetatile 23, 5, METATILE_Cave_RockBarrier_MiddleVertical, TRUE
-	setmetatile 23, 6, METATILE_Cave_RockBarrier_Bottom, TRUE
+VolcanionCave_2F_EventScript_RemoveRockBarrier4::
+	setmetatile 23, 4, METATILE_Cave_Floor, FALSE
+	setmetatile 23, 5, METATILE_Cave_Floor, FALSE
+	setmetatile 23, 6, METATILE_Cave_Floor, FALSE
 	return
 
 VolcanionCave_2F_OnTransition:
 	callnative UpdateStrengthBoulderPositions
 	call_if_set FLAG_SHOWED_GOLDEEN_TO_GOLDEEN_GRUNT, VolcanionCave_2F_EventScript_MoveGoldeenGrunt
+	call_if_ne VAR_VOLCANION_CAVE_2F_CORSOLA_X, 0, VolcanionCave_2F_EventScript_UpdateCorsolaPos
 	end
 
 VolcanionCave_2F_EventScript_MoveGoldeenGrunt::
@@ -168,10 +172,10 @@ VolcanionCave_2F_EventScript_DropOldRod::
 	getplayerxy VAR_0x8000, VAR_0x8001
 	goto_if_ne VAR_0x8000, 29, VolcanionCave_2F_EventScript_MessageDroppedRod
 	goto_if_eq VAR_0x8001, 24, VolcanionCave_2F_EventScript_OldRodCurrentsY24
+	goto_if_eq VAR_0x8001, 25, VolcanionCave_2F_EventScript_OldRodCurrentsY25
 	goto_if_eq VAR_0x8001, 26, VolcanionCave_2F_EventScript_OldRodCurrentsY26
 	goto_if_eq VAR_0x8001, 27, VolcanionCave_2F_EventScript_OldRodCurrentsY27
 VolcanionCave_2F_EventScript_MessageDroppedRod::
-	playfanfare MUS_TOO_BAD
 	msgbox VolcanionCave_2F_Text_DroppedRod
 	closemessage
 	release
@@ -224,6 +228,12 @@ VolcanionCave_2F_Movement_CameraMoveBackY24::
 	walk_up
 	step_end
 
+VolcanionCave_2F_EventScript_OldRodCurrentsY25::
+	msgbox VolcanionCave_2F_Text_DroppedRodFloated
+	closemessage
+	release
+	end
+
 VolcanionCave_2F_EventScript_OldRodCurrentsY26::
 	special SpawnCameraObject
 	applymovement LOCALID_2F_OLD_ROD, VolcanionCave_2F_Movement_OldRodFloatY26
@@ -240,7 +250,7 @@ VolcanionCave_2F_EventScript_OldRodCurrentsY26::
 	applymovement LOCALID_CAMERA, VolcanionCave_2F_Movement_CameraMoveBackY26
 	waitmovement 0
 	special RemoveCameraObject
-	msgbox VolcanionCave_2F_Text_DroppedRodFloated
+	msgbox VolcanionCave_2F_Text_DroppedRodFloatedSuccessfully
 	closemessage
 	release
 	end
@@ -326,8 +336,13 @@ VolcanionCave_2F_Text_DroppedRod::
 	.string "lack of fishing experience!$"
 
 VolcanionCave_2F_Text_DroppedRodFloated::
-	.string "Ohhhh, you tricky fishy!!!\n"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Ohhhh, you tricky fishy!!!\n"
 	.string "Next time I'll catch you for SURE!!$"
+
+VolcanionCave_2F_Text_DroppedRodFloatedSuccessfully::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}HEY!! THAT WAS MY FISHING ROD!!!\p"
+	.string "Guess I'm not getting that back\n"
+	.string "anytime soon…$"
 
 VolcanionCave_2F_EventScript_AquaGruntF::
 	lock
@@ -436,9 +451,9 @@ VolcanionCave_2F_Text_AgentDiggs1::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AGENT DIGGS!!! How's it going, my guy??\p$"
 
 VolcanionCave_2F_Text_DiglettSecretAgent::
-	.string "This dialogue is not intended to\n"
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}This dialogue is not intended to\n"
 	.string "be accessible in normal gameplay.\p"
-	.string "Hi cheater!!!! - Word$"
+	.string "Hi cheater!!!!$"
 	
 VolcanionCave_2F_Text_AgentDiggs2::
 	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}pi wow.\p"
@@ -488,10 +503,16 @@ VolcanionCave_2F_EventScript_AquaGruntGiveOldRod::
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, VolcanionCave_2F_EventScript_AquaGruntVictory
 	setflag FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX
-	msgbox VolcanionCave_2F_Text_AquaGruntPostBattle, MSGBOX_DEFAULT
+	message VolcanionCave_2F_Text_AquaGruntPostBattle1
+	waitmessage
 	closemessage
 	delay 10
 	giveitem ITEM_OLD_ROD
+	closemessage
+	delay 10
+	message VolcanionCave_2F_Text_AquaGruntPostBattle2
+	waitmessage
+	closemessage
 	release
 	end
 
@@ -533,13 +554,15 @@ VolcanionCave_2F_Text_AquaGruntDefeat:
 	.string "Woo-wee! You know a good deal when\n"
 	.string "you see it, chum!$"
 
-VolcanionCave_2F_Text_AquaGruntPostBattle:
+VolcanionCave_2F_Text_AquaGruntPostBattle1:
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Here you go, one super-awesome-\n"
 	.string "coolest-thing-ever-mega-\l"
 	.string "extraordinary-limited-edition-\l"
 	.string "MEOWSTIX-branded OLD ROD!!\p"
 	.string "There is no warranty or return policy.\p"
-	.string "Enjoy!!!\p"
+	.string "Enjoy!!!\p$"
+
+VolcanionCave_2F_Text_AquaGruntPostBattle2:
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Yeah, that's cool and all but how do\n"
 	.string "I use the thing??\p"
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}You don't know how??\p"
@@ -553,6 +576,10 @@ VolcanionCave_2F_Text_AquaGruntPostBattle:
 	.string "I now understand everything there\n"
 	.string "is to know about fishing!$"
 
+VolcanionCave_2F_Text_AquaGruntPostBattle:
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Just throw it in the water,\n"
+	.string "you'll get the hang of it no problem!\p"
+
 VolcanionCave_2F_Text_AquaGruntVictory:
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Nice try chum, but you aren't\n"
 	.string "getting my OLD ROD that easily!$"
@@ -563,6 +590,9 @@ VolcanionCave_2F_EventScript_FloorSwitch1::
 	setmetatile 26, 64, METATILE_Cave_Floor, FALSE
 	setmetatile 27, 64, METATILE_Cave_Floor, FALSE
 	setmetatile 28, 64, METATILE_Cave_Floor, FALSE
+	setmetatile 7, 52, METATILE_Cave_Floor, FALSE
+	setmetatile 8, 52, METATILE_Cave_Floor, FALSE
+	setmetatile 9, 52, METATILE_Cave_Floor, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
@@ -586,8 +616,8 @@ VolcanionCave_2F_EventScript_FloorSwitch2::
 VolcanionCave_2F_EventScript_FloorSwitch3::
 	lock
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed
-	setmetatile 20, 8, METATILE_Cave_Floor_Smooth_Top, FALSE
-	setmetatile 20, 9, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 20, 8, METATILE_Cave_FloorSmooth_Top, FALSE
+	setmetatile 20, 9, METATILE_Cave_FloorSmooth, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
@@ -826,55 +856,33 @@ VolcanionCave_2F_EventScript_SetMetatilesBlueButtonPressed::
 	setmetatile 7, 48, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 17, 11, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 11, 46, METATILE_Cave_CoolButton_Red, FALSE
-	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_FloorSmooth_Empty, FALSE
 	setmetatile 33, 58, METATILE_Cave_CoolGem_Blue_Mud_Empty, FALSE
 	setmetatile 35, 50, METATILE_Cave_CoolGem_Blue_Mud_Empty, FALSE
-	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
-	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_FloorSmooth_Empty, FALSE
+	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_FloorSmooth_Full, TRUE
+	setmetatile 11, 47, METATILE_Cave_CoolGem_Red_FloorSmooth_Full, TRUE
+	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_FloorSmooth_Full, TRUE
 	return
 
 VolcanionCave_2F_EventScript_SetMetatilesRedButtonPressed::
 	setmetatile 7, 48, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 17, 11, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 11, 46, METATILE_Cave_CoolButton_Pressed, FALSE
-	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_FloorSmooth_Full, TRUE
 	setmetatile 33, 58, METATILE_Cave_CoolGem_Blue_Mud_Full, TRUE
 	setmetatile 35, 50, METATILE_Cave_CoolGem_Blue_Mud_Full, TRUE
-	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
-	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_FloorSmooth_Full, TRUE
+	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_FloorSmooth_Empty, FALSE
+	setmetatile 11, 47, METATILE_Cave_CoolGem_Red_FloorSmooth_Empty, FALSE
+	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_FloorSmooth_Empty, FALSE
 	return
 
 VolcanionCave_2F_EventScript_Hole1A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole1AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole1AToB, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_EventScript_Hole1B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole1BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleWest
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole1BToA, VolcanionCave_2F_Movement_ExitHoleWest
 
 VolcanionCave_2F_Movement_Hole1AToB::
 	walk_fast_right
@@ -905,34 +913,10 @@ VolcanionCave_2F_Movement_Hole1BToA::
 	step_end
 
 VolcanionCave_2F_EventScript_Hole2A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole2AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleNorth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole2AToB, VolcanionCave_2F_Movement_ExitHoleNorth
 
 VolcanionCave_2F_EventScript_Hole2B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole2BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleWest
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole2BToA, VolcanionCave_2F_Movement_ExitHoleWest
 
 VolcanionCave_2F_Movement_Hole2AToB::
 	walk_fast_right
@@ -953,34 +937,10 @@ VolcanionCave_2F_Movement_Hole2BToA::
 	step_end
 
 VolcanionCave_2F_EventScript_Hole3A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole3AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleNorth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole3AToB, VolcanionCave_2F_Movement_ExitHoleNorth
 
 VolcanionCave_2F_EventScript_Hole3B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole3BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole3BToA, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_Movement_Hole3AToB::
 	walk_fast_right
@@ -1007,34 +967,10 @@ VolcanionCave_2F_Movement_Hole3BToA::
 	step_end
 
 VolcanionCave_2F_EventScript_Hole4A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole4AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole4AToB, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_EventScript_Hole4B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole4BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleNorth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole4BToA, VolcanionCave_2F_Movement_ExitHoleNorth
 
 VolcanionCave_2F_Movement_Hole4AToB::
 	walk_fast_left
@@ -1057,34 +993,10 @@ VolcanionCave_2F_Movement_Hole4BToA::
 	step_end
 
 VolcanionCave_2F_EventScript_Hole5A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole5AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole5AToB, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_EventScript_Hole5B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole5BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole5BToA, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_Movement_Hole5AToB::
 	walk_fast_right
@@ -1194,19 +1106,179 @@ VolcanionCave_2F_Movement_BoulderSlideDown::
 	jump_down
 	step_end
 
+VolcanionCave_2F_EventScript_UpdateCorsolaPos::
+	setobjectxyperm LOCALID_2F_CORSOLA, VAR_VOLCANION_CAVE_2F_CORSOLA_X, VAR_VOLCANION_CAVE_2F_CORSOLA_Y
+	return
+
+VolcanionCave_2F_EventScript_CorsolaFacePlayer::
+	lock
+	playse SE_ICE_CRACK
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaNoticePlayer
+	waitmovement 0
+	release
+	end
 
 VolcanionCave_2F_EventScript_Corsola::
 	lock
+	getobjectfacingdirection LOCALID_PLAYER, VAR_0x800A
+	getobjectfacingdirection LOCALID_2F_CORSOLA, VAR_0x800B
+	goto_if_ne VAR_0x800A, VAR_0x800B, VolcanionCave_2F_EventScript_CorsolaFlee
+	applymovement LOCALID_2F_CORSOLA, Common_Movement_ExclamationMark
 	faceplayer
+	waitmovement 0
 	playmoncry SPECIES_CORSOLA, CRY_MODE_ENCOUNTER
 	msgbox VolcanionCave_2F_Text_Corsola, MSGBOX_DEFAULT
 	waitmoncry
 	setwildbattle SPECIES_CORSOLA, 20
 	dowildbattle
 	specialvar VAR_RESULT, GetBattleOutcome
-	call_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, VolcanionCave_1F_EventScript_RemoveLastTalked
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, VolcanionCave_2F_EventScript_CaughtCorsola
 	release
 	end
+
+VolcanionCave_2F_EventScript_CaughtCorsola::
+	removeobject LOCALID_2F_CORSOLA
+	setflag FLAG_HIDE_VOLCANION_CAVE_2F_CORSOLA
+	setvar VAR_VOLCANION_CAVE_2F_CORSOLA_STATE, 1
+	release
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFlee::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaNoticePlayer
+	playmoncry SPECIES_CORSOLA, CRY_MODE_ENCOUNTER
+	waitmovement 0
+	getobjectcurrentxy LOCALID_2F_CORSOLA, CURRENT_POSITION, VAR_0x8008, VAR_0x8009
+	goto_if_eq VAR_0x8009, 17, VolcanionCave_2F_EventScript_CorsolaFleeNorthCases
+	switch VAR_0x8008
+	case 24, VolcanionCave_2F_EventScript_CorsolaSWFlee
+	case 28, VolcanionCave_2F_EventScript_CorsolaSMFlee
+	case 31, VolcanionCave_2F_EventScript_CorsolaSEFlee
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeNorthCases::
+	switch VAR_0x8008
+	case 24, VolcanionCave_2F_EventScript_CorsolaNWFlee
+	case 28, VolcanionCave_2F_EventScript_CorsolaNMFlee
+	case 31, VolcanionCave_2F_EventScript_CorsolaNEFlee
+	end
+
+VolcanionCave_2F_EventScript_CorsolaSWFlee::
+	goto_if_eq VAR_0x800A, DIR_WEST, VolcanionCave_2F_EventScript_CorsolaFleeUp
+	goto VolcanionCave_2F_EventScript_CorsolaFleeRight4 @ DIR_SOUTH & DIR_EAST
+	end
+
+VolcanionCave_2F_EventScript_CorsolaSMFlee::
+	goto_if_eq VAR_0x800A, DIR_EAST, VolcanionCave_2F_EventScript_CorsolaFleeRight3
+	goto VolcanionCave_2F_EventScript_CorsolaFleeLeft4 @ DIR_SOUTH & DIR_WEST
+	end
+
+VolcanionCave_2F_EventScript_CorsolaSEFlee::
+	goto_if_eq VAR_0x800A, DIR_EAST, VolcanionCave_2F_EventScript_CorsolaFleeUp
+	goto VolcanionCave_2F_EventScript_CorsolaFleeLeft3 @ DIR_SOUTH & DIR_WEST
+	end
+
+VolcanionCave_2F_EventScript_CorsolaNWFlee::
+	goto_if_eq VAR_0x800A, DIR_WEST, VolcanionCave_2F_EventScript_CorsolaFleeDown
+	goto VolcanionCave_2F_EventScript_CorsolaFleeRight4 @ DIR_NORTH
+	end
+
+VolcanionCave_2F_EventScript_CorsolaNMFlee::
+	goto_if_eq VAR_0x800A, DIR_EAST, VolcanionCave_2F_EventScript_CorsolaFleeRight3
+	goto VolcanionCave_2F_EventScript_CorsolaFleeLeft4 @ DIR_NORTH & DIR_WEST
+	end
+
+VolcanionCave_2F_EventScript_CorsolaNEFlee::
+	goto_if_eq VAR_0x800A, DIR_EAST, VolcanionCave_2F_EventScript_CorsolaFleeDown
+	goto VolcanionCave_2F_EventScript_CorsolaFleeLeft3 @ DIR_NORTH
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeUp::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeUp
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeDown::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeDown
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeLeft3::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeLeft3
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeLeft4::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeLeft4
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeRight3::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeRight3
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeRight4::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeRight4
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeEnd::
+	waitmovement 0
+	getobjectcurrentxy LOCALID_2F_CORSOLA, CURRENT_POSITION, VAR_0x8008, VAR_0x8009
+	setobjectxyperm LOCALID_2F_CORSOLA, VAR_0x8008, VAR_0x8009
+	copyvar VAR_VOLCANION_CAVE_2F_CORSOLA_X, VAR_0x8008
+	copyvar VAR_VOLCANION_CAVE_2F_CORSOLA_Y, VAR_0x8009
+	release
+	end
+
+VolcanionCave_2F_Movement_CorsolaNoticePlayer::
+	emote_exclamation_mark
+	face_player
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeUp::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	face_down
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeDown::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	face_up
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeLeft3::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	face_right
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeLeft4::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	face_right
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeRight3::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	face_left
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeRight4::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	face_left
+	step_end
 
 VolcanionCave_2F_Text_Corsola::
 	.string "{SPEAKER NAME_CORSOLA COLOR_NORMAL}Pi uwaa!$"

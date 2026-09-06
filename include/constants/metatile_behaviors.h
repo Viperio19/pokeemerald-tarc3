@@ -222,7 +222,7 @@ enum {
     MB_UNUSED_D9,
     MB_UNUSED_DA,
     MB_UNUSED_DB,
-    MB_UNUSED_DC,
+    MB_GEM,
     MB_PIKACHU_BUTTON,
     MB_JUMP_HOLE,
     MB_LAVA,

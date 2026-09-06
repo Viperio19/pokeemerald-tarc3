@@ -7062,12 +7062,16 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .speciesName = _("Goldeen?"),
         .cryId = CRY_CHI_YU,
         .natDexNum = NATIONAL_DEX_CHI_YU,
-        .categoryName = _("Ruinous"),
+        .categoryName = _("???"),
         .height = 4,
         .weight = 49,
         .description = COMPOUND_STRING(
 			"ERROR: Genetic Data Mismatch.\n"
-            "POKEDEX_ENTRY_ARCHIE not found.\n"),
+            "POKEDEX_ENTRY_ARCHIBALD not found.\n"),
+        .descriptionMagma = COMPOUND_STRING(
+			"Unknown Specimen Discovered.\n"
+            "Uploading genetic data to\n"
+            "USER_MAXAMILLION...\n"),
         .pokemonScale = 356,
         .pokemonOffset = 17,
         .trainerScale = 256,

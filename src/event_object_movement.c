@@ -6244,7 +6244,7 @@ void SetStepAnim(struct ObjectEvent *objectEvent, struct Sprite *sprite, u8 anim
 
 enum Direction GetDirectionToFace(s16 x, s16 y, s16 targetX, s16 targetY)
 {
-    if (abs(x - targetX) >= abs(y - targetY))
+    if (abs(x - targetX) > abs(y - targetY))
         return x > targetX ? DIR_WEST : DIR_EAST;
 
     return y > targetY ? DIR_NORTH : DIR_SOUTH;
