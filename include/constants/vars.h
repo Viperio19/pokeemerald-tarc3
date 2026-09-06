@@ -149,7 +149,7 @@
 #define VAR_ROUTE128_STATE                               0x407B
 #define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7          0x407C
 #define VAR_ROUTE130_STATE                               0x407D // Unused Var
-#define VAR_ROUTE131_STATE                               0x407E // Unused Var
+#define VAR_VOLCANION_CAVE_3F_TEAM_ROCKET_STATE          0x407E
 #define VAR_VOLCANION_CAVE_2F_CORSOLA_X                  0x407F
 #define VAR_VOLCANION_CAVE_2F_CORSOLA_Y                  0x4080
 #define VAR_VOLCANION_CAVE_2F_CORSOLA_STATE              0x4081
