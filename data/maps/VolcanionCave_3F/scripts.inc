@@ -491,6 +491,7 @@ VolcanionCave_3F_OnLoad::
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_4, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier4
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_5, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier5
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_6, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier6
+	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier7
 	call_if_eq VAR_TEMP_F, 0, VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed
 	call_if_eq VAR_TEMP_F, 1, VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed
 	call_if_ge VAR_VOLCANION_CAVE_3F_STATE, 1, VolcanionCave_3F_EventScript_SetMetatilesRocksBroken
@@ -522,6 +523,12 @@ VolcanionCave_3F_EventScript_RemoveRockBarrier5::
 
 VolcanionCave_3F_EventScript_RemoveRockBarrier6::
 	setmetatile 4, 32, METATILE_Cave_Floor, FALSE
+	return
+
+VolcanionCave_3F_EventScript_RemoveRockBarrier7::
+	setmetatile 5, 21, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 8, 20, METATILE_Cave_Floor, FALSE
+	setmetatile 9, 20, METATILE_Cave_Floor, FALSE
 	return
 
 VolcanionCave_3F_EventScript_BlueButton::
@@ -564,6 +571,7 @@ VolcanionCave_3F_EventScript_WaitStartRockSlide::
 	return	
 
 VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed::
+	@ Golem puzzle
 	setmetatile 25, 31, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 30, 31, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 24, 37, METATILE_Cave_CoolButton_Pressed, FALSE
@@ -580,9 +588,21 @@ VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed::
 	setmetatile 27, 34, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	setmetatile 24, 36, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	setmetatile 27, 37, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	@ Agent diggs puzzle
+	setmetatile 10, 1, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 10, 18, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 1, 9, METATILE_Cave_CoolButton_Red, FALSE
+	setmetatile 11, 12, METATILE_Cave_CoolButton_Red, FALSE
+	setmetatile 6, 19, METATILE_Cave_CoolButton_Red, FALSE
+	setmetatile 7, 1, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 1, 7, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 5, 8, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 9, 1, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 9, 10, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed::
+	@ Golem puzzle
 	setmetatile 25, 31, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 30, 31, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 24, 37, METATILE_Cave_CoolButton_Blue, FALSE
@@ -599,6 +619,18 @@ VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed::
 	setmetatile 27, 34, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
 	setmetatile 24, 36, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
 	setmetatile 27, 37, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	@ Agent diggs puzzle
+	setmetatile 10, 1, METATILE_Cave_CoolButton_Blue, FALSE
+	setmetatile 10, 18, METATILE_Cave_CoolButton_Blue, FALSE
+	setmetatile 1, 9, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 11, 12, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 6, 19, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 7, 1, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 1, 7, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 5, 8, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 9, 1, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 9, 10, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	return
 
 VolcanionCave_3F_EventScript_SetMetatilesRocksBroken::
 	setmetatile 10, 24, METATILE_Cave_Floor_Smooth_Top, FALSE
@@ -1913,6 +1945,564 @@ VolcanionCave_3F_EventScript_GolemSatisfied::
 	release
 	end
 
+VolcanionCave_3F_EventScript_Hole1A::
+	jumphole VolcanionCave_3F_Movement_Hole1AToB, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_EventScript_Hole1B::
+	jumphole VolcanionCave_3F_Movement_Hole1BToA, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_Movement_Hole1AToB::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_Hole1BToA::
+	walk_fast_right
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+VolcanionCave_3F_EventScript_Hole2A::
+	jumphole VolcanionCave_3F_Movement_Hole2AToB, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_EventScript_Hole2B::
+	jumphole VolcanionCave_3F_Movement_Hole2BToA, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_Movement_Hole2AToB::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_Hole2BToA::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_EventScript_Hole3A::
+	jumphole VolcanionCave_3F_Movement_Hole3AToB, VolcanionCave_3F_Movement_ExitHoleWest
+
+VolcanionCave_3F_EventScript_Hole3B::
+	jumphole VolcanionCave_3F_Movement_Hole3BToA, VolcanionCave_3F_Movement_ExitHoleEast
+
+VolcanionCave_3F_Movement_Hole3AToB::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_Hole3BToA::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_down
+	step_end
+
+VolcanionCave_3F_EventScript_Hole4A::
+	jumphole VolcanionCave_3F_Movement_Hole4AToB, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_EventScript_Hole4B::
+	jumphole VolcanionCave_3F_Movement_Hole4BToA, VolcanionCave_3F_Movement_ExitHoleWest
+
+VolcanionCave_3F_Movement_Hole4AToB::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_Hole4BToA::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	step_end
+
+VolcanionCave_3F_EventScript_Hole5A::
+	jumphole VolcanionCave_3F_Movement_Hole5AToB, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_EventScript_Hole5B::
+	jumphole VolcanionCave_3F_Movement_Hole5BToA, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_Movement_Hole5AToB::
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_faster_down
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_Hole5BToA::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	walk_faster_up
+	step_end
+
+VolcanionCave_3F_EventScript_Hole6A::
+	jumphole VolcanionCave_3F_Movement_Hole6AToB, VolcanionCave_3F_Movement_ExitHoleWest
+
+VolcanionCave_3F_EventScript_Hole6B::
+	jumphole VolcanionCave_3F_Movement_Hole6BToA, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_Movement_Hole6AToB::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_right
+	walk_fast_right
+	step_end
+
+VolcanionCave_3F_Movement_Hole6BToA::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_EventScript_Hole7A::
+	jumphole VolcanionCave_3F_Movement_Hole7AToB, VolcanionCave_3F_Movement_ExitHoleWest
+
+VolcanionCave_3F_EventScript_Hole7B::
+	jumphole VolcanionCave_3F_Movement_Hole7BToA, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_Movement_Hole7AToB::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_Hole7BToA::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_EventScript_Hole8A::
+	jumphole VolcanionCave_3F_Movement_Hole8AToB, VolcanionCave_3F_Movement_ExitHoleEast
+
+VolcanionCave_3F_EventScript_Hole8B::
+	jumphole VolcanionCave_3F_Movement_Hole8BToA, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_Movement_Hole8AToB::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_Hole8BToA::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_EventScript_Hole9A::
+	jumphole VolcanionCave_3F_Movement_Hole9AToB, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_EventScript_Hole9B::
+	jumphole VolcanionCave_3F_Movement_Hole9BToA, VolcanionCave_3F_Movement_ExitHoleWest
+
+VolcanionCave_3F_Movement_Hole9AToB::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_Hole9BToA::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_EventScript_Hole10A::
+	jumphole VolcanionCave_3F_Movement_Hole10AToB, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_EventScript_Hole10B::
+	jumphole VolcanionCave_3F_Movement_Hole10BToA, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_Movement_Hole10AToB::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_Movement_Hole10BToA::
+	walk_fast_down
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_EventScript_Hole11A::
+	jumphole VolcanionCave_3F_Movement_Hole11AToB, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_EventScript_Hole11B::
+	jumphole VolcanionCave_3F_Movement_Hole11BToA, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_Movement_Hole11AToB::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_Hole11BToA::
+	walk_fast_right
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_EventScript_Hole12A::
+	jumphole VolcanionCave_3F_Movement_Hole12AToB, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_EventScript_Hole12B::
+	jumphole VolcanionCave_3F_Movement_Hole12BToA, VolcanionCave_3F_Movement_ExitHoleEast
+
+VolcanionCave_3F_Movement_Hole12AToB::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_right
+	step_end
+
+VolcanionCave_3F_Movement_Hole12BToA::
+	walk_fast_left
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	step_end
+
+VolcanionCave_3F_EventScript_Hole13A::
+	jumphole VolcanionCave_3F_Movement_Hole13AToB, VolcanionCave_3F_Movement_ExitHoleWest
+
+VolcanionCave_3F_EventScript_Hole13B::
+	jumphole VolcanionCave_3F_Movement_Hole13BToA, VolcanionCave_3F_Movement_ExitHoleSouth
+
+VolcanionCave_3F_Movement_Hole13AToB::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_Hole13BToA::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+VolcanionCave_3F_EventScript_Hole14A::
+	jumphole VolcanionCave_3F_Movement_Hole14AToB, VolcanionCave_3F_Movement_ExitHoleEast
+
+VolcanionCave_3F_EventScript_Hole14B::
+	jumphole VolcanionCave_3F_Movement_Hole14BToA, VolcanionCave_3F_Movement_ExitHoleNorth
+
+VolcanionCave_3F_Movement_Hole14AToB::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	step_end
+
+VolcanionCave_3F_Movement_Hole14BToA::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	step_end
+
+VolcanionCave_3F_Movement_ExitHoleSouth::
+	face_down
+	set_visible
+	jump_down
+	step_end
+
+VolcanionCave_3F_Movement_ExitHoleNorth::
+	face_up
+	set_visible
+	jump_up
+	step_end
+
+VolcanionCave_3F_Movement_ExitHoleEast::
+	face_right
+	set_visible
+	jump_right
+	step_end
+
+VolcanionCave_3F_Movement_ExitHoleWest::
+	face_left
+	set_visible
+	jump_left
+	step_end
+
 VolcanionCave_3F_EventScript_Diglett::
 	lock
 	applymovement LOCALID_3F_DIGLETT, Common_Movement_FacePlayer
@@ -2119,10 +2709,14 @@ VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
 	removeobject LOCALID_3F_DIGLETT_INVISIBLE
 	setflag FLAG_HIDE_VOLCANION_CAVE_3F_DIGLETT
 	fadedefaultbgm
-	delay 40
+	delay 20
+	waitse
 	return
 
 VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption::
+	playse SE_PIN
+	applymovement LOCALID_PLAYER, Common_Movement_ExclamationMark
+	delay 20
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveToPlayerAfterSteamEruption
 	waitmovement 0
 	special RemoveCameraObject
@@ -2328,6 +2922,19 @@ VolcanionCave_3F_EventScript_FloorSwitch6::
 	special DrawWholeMapView
 	waitse
 	setvar VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_6, 100
+	releaseall
+	end
+
+VolcanionCave_3F_EventScript_FloorSwitch7::
+	lock
+	goto_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7, 100, VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed
+	setmetatile 5, 21, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 8, 20, METATILE_Cave_Floor, FALSE
+	setmetatile 9, 20, METATILE_Cave_Floor, FALSE
+	playse SE_ICE_BREAK
+	special DrawWholeMapView
+	waitse
+	setvar VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7, 100
 	releaseall
 	end
 

@@ -575,8 +575,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_SUICUNE",
-      "x": 12,
-      "y": 27,
+      "x": 40,
+      "y": 39,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -616,8 +616,8 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_ENTEI",
-      "x": 13,
-      "y": 26,
+      "x": 41,
+      "y": 39,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -638,7 +638,7 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "EventScript_RockSmash",
-      "flag": "FLAG_SMASHED_ROCK_11"
+      "flag": "FLAG_SMASHED_ROCK_15"
     },
     {
       "local_id": "LOCALID_3F_VOLCANION_JAIL_CELL",
@@ -795,6 +795,312 @@
       "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_6",
       "var_value": "99",
       "script": "VolcanionCave_3F_EventScript_FloorSwitch6"
+    },
+    {
+      "type": "trigger",
+      "x": 3,
+      "y": 6,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole1B"
+    },
+    {
+      "type": "trigger",
+      "x": 4,
+      "y": 11,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole1A"
+    },
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 9,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole2A"
+    },
+    {
+      "type": "trigger",
+      "x": 7,
+      "y": 12,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole2B"
+    },
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 17,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole3A"
+    },
+    {
+      "type": "trigger",
+      "x": 2,
+      "y": 16,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole3B"
+    },
+    {
+      "type": "trigger",
+      "x": 14,
+      "y": 11,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole4A"
+    },
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 11,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole4B"
+    },
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 7,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole5A"
+    },
+    {
+      "type": "trigger",
+      "x": 2,
+      "y": 29,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole5B"
+    },
+    {
+      "type": "trigger",
+      "x": 3,
+      "y": 26,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole6B"
+    },
+    {
+      "type": "trigger",
+      "x": 1,
+      "y": 18,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole6A"
+    },
+    {
+      "type": "trigger",
+      "x": 1,
+      "y": 14,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole7A"
+    },
+    {
+      "type": "trigger",
+      "x": 14,
+      "y": 6,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole7B"
+    },
+    {
+      "type": "trigger",
+      "x": 1,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole8A"
+    },
+    {
+      "type": "trigger",
+      "x": 3,
+      "y": 3,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole8B"
+    },
+    {
+      "type": "trigger",
+      "x": 1,
+      "y": 5,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole9B"
+    },
+    {
+      "type": "trigger",
+      "x": 12,
+      "y": 1,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole9A"
+    },
+    {
+      "type": "trigger",
+      "x": 5,
+      "y": 1,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole12A"
+    },
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 22,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole12B"
+    },
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 20,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole13A"
+    },
+    {
+      "type": "trigger",
+      "x": 3,
+      "y": 10,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole13B"
+    },
+    {
+      "type": "trigger",
+      "x": 4,
+      "y": 9,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole10A"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 8,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole10B"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 18,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole11B"
+    },
+    {
+      "type": "trigger",
+      "x": 9,
+      "y": 12,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole11A"
+    },
+    {
+      "type": "trigger",
+      "x": 2,
+      "y": 13,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7",
+      "var_value": "99",
+      "script": "VolcanionCave_3F_EventScript_FloorSwitch7"
+    },
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 18,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_BlueButton"
+    },
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 1,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_BlueButton"
+    },
+    {
+      "type": "trigger",
+      "x": 6,
+      "y": 19,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "1",
+      "script": "VolcanionCave_3F_EventScript_RedButton"
+    },
+    {
+      "type": "trigger",
+      "x": 1,
+      "y": 9,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "1",
+      "script": "VolcanionCave_3F_EventScript_RedButton"
+    },
+    {
+      "type": "trigger",
+      "x": 8,
+      "y": 23,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole14A"
+    },
+    {
+      "type": "trigger",
+      "x": 1,
+      "y": 12,
+      "elevation": 0,
+      "var": "VAR_TEMP_0",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_Hole14B"
+    },
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 12,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "1",
+      "script": "VolcanionCave_3F_EventScript_RedButton"
     }
   ],
   "bg_events": [],

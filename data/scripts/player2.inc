@@ -3,9 +3,10 @@ EventScript_Player2_Singleplayer::
 	goto_if_set FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, EventScript_Player2_ReadyToBattle
 	faceplayer
 	callnative IsPlayerOne
-	call_if_eq VAR_RESULT, TRUE, Player2_Message_HiPlayerMagma
-	call_if_eq VAR_RESULT, FALSE, Player2_Message_HiPlayerAqua
+	call_if_eq VAR_RESULT, TRUE, Player2Magma_Message_HiPlayer
+	call_if_eq VAR_RESULT, FALSE, Player2Aqua_Message_HiPlayer
 	waitmessage
+	callnative UpdatePlayer2Pos
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STATE, 0, EventScript_Player2_MultiChoiceNoTrade
 	multichoicedefault 21, 6, MULTI_PLAYER_2_TRADE, 0, FALSE
 	switch VAR_RESULT
@@ -27,7 +28,10 @@ EventScript_Player2_MultiChoiceNoTrade::
 
 Player2_Singleplayer_Trade::
 	@ choose player mon
-	msgbox Player2_Text_GiveWhatPokemon, MSGBOX_NPC
+	callnative IsPlayerOne
+	copyvar VAR_0x8007, VAR_RESULT
+	call_if_eq VAR_0x8007, TRUE, Player2Magma_Singleplayer_GiveWhatPokemon
+	call_if_eq VAR_0x8007, FALSE, Player2Aqua_Singleplayer_GiveWhatPokemon
 	special ChoosePartyMon
 	copyvar VAR_0x800A, VAR_0x8004
 	goto_if_ge VAR_0x800A, PARTY_SIZE, Player2_Singleplayer_Cancel
@@ -35,7 +39,8 @@ Player2_Singleplayer_Trade::
 
 	@ choose partner mon
 	callnative SwitchParties
-	msgbox Player2_Text_ReceiveWhatPokemon, MSGBOX_NPC
+	call_if_eq VAR_0x8007, TRUE, Player2Magma_Singleplayer_ReceiveWhatPokemon
+	call_if_eq VAR_0x8007, FALSE, Player2Aqua_Singleplayer_ReceiveWhatPokemon
 	special ChoosePartyMon
 	copyvar VAR_0x800B, VAR_0x8004
 	specialvar VAR_0x8009, GetTradeSpecies
@@ -44,7 +49,8 @@ Player2_Singleplayer_Trade::
 
 	@ confirm trade
 	callnative BufferSinglePlayerTradeNicknames
-	msgbox Player2_Text_GivePokemonForPokemon, MSGBOX_YESNO
+	call_if_eq VAR_0x8007, TRUE, Player2Magma_Singleplayer_GivePokemonForPokemon
+	call_if_eq VAR_0x8007, FALSE, Player2Aqua_Singleplayer_GivePokemonForPokemon
 	switch VAR_RESULT
 	case NO, Player2_Singleplayer_Cancel
 	case YES, Player2_Singleplayer_DoTrade
@@ -52,12 +58,45 @@ Player2_Singleplayer_Trade::
 	release
 	end
 
+Player2Magma_Singleplayer_GiveWhatPokemon::
+	msgbox Player2Magma_Text_GiveWhatPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Aqua_Singleplayer_GiveWhatPokemon::
+	msgbox Player2Aqua_Text_GiveWhatPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Magma_Singleplayer_ReceiveWhatPokemon::
+	msgbox Player2Magma_Text_ReceiveWhatPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Aqua_Singleplayer_ReceiveWhatPokemon::
+	msgbox Player2Aqua_Text_ReceiveWhatPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Magma_Singleplayer_GivePokemonForPokemon::
+	msgbox Player2Magma_Text_GivePokemonForPokemon, MSGBOX_YESNO
+	return
+
+Player2Aqua_Singleplayer_GivePokemonForPokemon::
+	msgbox Player2Aqua_Text_GivePokemonForPokemon, MSGBOX_YESNO
+	return
+
 Player2_Singleplayer_DoTrade::
 	special DoSinglePlayerTradeScene
 	callnative BufferSinglePlayerTradeNicknames
-	msgbox Player2_Text_TakeGoodCareOfPokemon, MSGBOX_NPC
+	call_if_eq VAR_0x8007, TRUE, Player2Magma_Singleplayer_TakeGoodCareOfPokemon
+	call_if_eq VAR_0x8007, FALSE, Player2Aqua_Singleplayer_TakeGoodCareOfPokemon
 	release
 	end
+
+Player2Magma_Singleplayer_TakeGoodCareOfPokemon::
+	msgbox Player2Magma_Text_TakeGoodCareOfPokemon, MSGBOX_DEFAULT
+	return
+
+Player2Aqua_Singleplayer_TakeGoodCareOfPokemon::
+	msgbox Player2Aqua_Text_TakeGoodCareOfPokemon, MSGBOX_DEFAULT
+	return
 
 Player2_Singleplayer_Talk::
 	goto_if_unset FLAG_HIDE_VOLCANION_CAVE_1F_BREAKABLE_ROCK, Player2_Message_Talk
@@ -260,39 +299,64 @@ Player2_Text_PreVolcanion::
 	.string "LET'S DO THIS!!!$"
 
 Player2_Singleplayer_Cancel::
-	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
+	callnative IsPlayerOne
+	call_if_eq VAR_RESULT, TRUE, Player2Magma_Singleplayer_Cancel
+	call_if_eq VAR_RESULT, FALSE, Player2Aqua_Singleplayer_Cancel
 	release
 	end
 
-Player2_Message_HiPlayerMagma::
-	message Player2_Text_HiPlayerMagma
+Player2Aqua_Singleplayer_Cancel::
+	msgbox Player2Aqua_Text_Cancel, MSGBOX_DEFAULT
 	return
 
-Player2_Message_HiPlayerAqua::
-	message Player2_Text_HiPlayerAqua
+Player2Magma_Singleplayer_Cancel::
+	msgbox Player2Magma_Text_Cancel, MSGBOX_DEFAULT
 	return
 
-Player2_Text_HiPlayerMagma::
+Player2Magma_Message_HiPlayer::
+	message Player2Magma_Text_HiPlayer
+	return
+
+Player2Aqua_Message_HiPlayer::
+	message Player2Aqua_Text_HiPlayer
+	return
+
+Player2Magma_Text_HiPlayer::
 	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}You again?\n"
 	.string "What did I do to deserve this?$"
 
-Player2_Text_HiPlayerAqua::
+Player2Aqua_Text_HiPlayer::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What, you need something?$"
 
-Player2_Text_GiveWhatPokemon::
-	.string "{RIVAL}: What POKéMON do you\nwant to give?$"
+Player2Aqua_Text_GiveWhatPokemon::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What POKéMON do you\nwant to give?$"
 
-Player2_Text_ReceiveWhatPokemon::
-	.string "{RIVAL}: What POKéMON do you\nwant to receive?$"
+Player2Magma_Text_GiveWhatPokemon::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What POKéMON do you\nwant to give?$"
 
-Player2_Text_GivePokemonForPokemon::
-	.string "{RIVAL}: Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
+Player2Aqua_Text_ReceiveWhatPokemon::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What POKéMON do you\nwant to receive?$"
 
-Player2_Text_TakeGoodCareOfPokemon::
-	.string "{RIVAL}: I'll take good care\nof {STR_VAR_2}!$"
+Player2Magma_Text_ReceiveWhatPokemon::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What POKéMON do you\nwant to receive?$"
 
-Player2_Text_WeGotThis::
-	.string "{RIVAL}: We got this!$"
+Player2Aqua_Text_GivePokemonForPokemon::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
+
+Player2Magma_Text_GivePokemonForPokemon::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
+
+Player2Aqua_Text_TakeGoodCareOfPokemon::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}I'll take good care\nof {STR_VAR_2}!$"
+
+Player2Magma_Text_TakeGoodCareOfPokemon::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I'll take good care\nof {STR_VAR_2}!$"
+
+Player2Aqua_Text_Cancel::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}We got this!$"
+
+Player2Magma_Text_Cancel::
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}We got this!$"
 
 Player2_Connect::
 	message gText_PleaseWaitForLink
@@ -327,8 +391,8 @@ EventScript_Player2_Multiplayer::
 	lock
 	faceplayer
 	callnative IsPlayerOne
-	goto_if_eq VAR_RESULT, FALSE, Player2_Text_HiPlayerMagma
-	message Player2_Text_HiPlayerAqua
+	goto_if_eq VAR_RESULT, FALSE, Player2Magma_Text_HiPlayer
+	message Player2Aqua_Text_HiPlayer
 	waitmessage
 	multichoicedefault 21, 6, MULTI_PLAYER_2, 0, FALSE
 	switch VAR_RESULT
@@ -350,7 +414,7 @@ Player2_Multiplayer_Talk::
 	end
 
 Player2_Multiplayer_Cancel::
-	msgbox Player2_Text_WeGotThis, MSGBOX_NPC
+	msgbox Player2Aqua_Text_Cancel, MSGBOX_NPC
 	release
 	end
 

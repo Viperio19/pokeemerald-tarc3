@@ -866,34 +866,10 @@ VolcanionCave_2F_EventScript_SetMetatilesRedButtonPressed::
 	return
 
 VolcanionCave_2F_EventScript_Hole1A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole1AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole1AToB, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_EventScript_Hole1B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole1BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleWest
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole1BToA, VolcanionCave_2F_Movement_ExitHoleWest
 
 VolcanionCave_2F_Movement_Hole1AToB::
 	walk_fast_right
@@ -924,34 +900,10 @@ VolcanionCave_2F_Movement_Hole1BToA::
 	step_end
 
 VolcanionCave_2F_EventScript_Hole2A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole2AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleNorth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole2AToB, VolcanionCave_2F_Movement_ExitHoleNorth
 
 VolcanionCave_2F_EventScript_Hole2B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole2BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleWest
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole2BToA, VolcanionCave_2F_Movement_ExitHoleWest
 
 VolcanionCave_2F_Movement_Hole2AToB::
 	walk_fast_right
@@ -972,34 +924,10 @@ VolcanionCave_2F_Movement_Hole2BToA::
 	step_end
 
 VolcanionCave_2F_EventScript_Hole3A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole3AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleNorth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole3AToB, VolcanionCave_2F_Movement_ExitHoleNorth
 
 VolcanionCave_2F_EventScript_Hole3B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole3BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole3BToA, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_Movement_Hole3AToB::
 	walk_fast_right
@@ -1026,34 +954,10 @@ VolcanionCave_2F_Movement_Hole3BToA::
 	step_end
 
 VolcanionCave_2F_EventScript_Hole4A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole4AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole4AToB, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_EventScript_Hole4B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole4BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleNorth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole4BToA, VolcanionCave_2F_Movement_ExitHoleNorth
 
 VolcanionCave_2F_Movement_Hole4AToB::
 	walk_fast_left
@@ -1076,34 +980,10 @@ VolcanionCave_2F_Movement_Hole4BToA::
 	step_end
 
 VolcanionCave_2F_EventScript_Hole5A::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole5AToB
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole5AToB, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_EventScript_Hole5B::
-	lock
-	hideplayer
-	playse SE_FALL
-	waitse
-	delay 16
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_Hole5BToA
-	waitmovement 0
-	delay 16
-	playse SE_LEDGE
-	applymovement LOCALID_PLAYER, VolcanionCave_2F_Movement_ExitHoleSouth
-	waitmovement 0
-	release
-	end
+	jumphole VolcanionCave_2F_Movement_Hole5BToA, VolcanionCave_2F_Movement_ExitHoleSouth
 
 VolcanionCave_2F_Movement_Hole5AToB::
 	walk_fast_right

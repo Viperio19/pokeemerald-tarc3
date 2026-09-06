@@ -3064,3 +3064,20 @@
 	getbraillestringwidth \text
 	call EventScript_BrailleCursorWaitButton
 	.endm
+
+	.macro jumphole movement:req, exit:req
+	lock
+	hideplayer
+	playse SE_FALL
+	waitse
+	delay 16
+	applymovement LOCALID_PLAYER, \movement
+	waitmovement 0
+	delay 16
+	playse SE_LEDGE
+	applymovement LOCALID_PLAYER, \exit
+	waitmovement 0
+	release
+	end
+	.endm
+
