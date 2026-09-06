@@ -329,34 +329,34 @@ Player2Aqua_Text_HiPlayer::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What, you need something?$"
 
 Player2Aqua_Text_GiveWhatPokemon::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What POKéMON do you\nwant to give?$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What are you giving me?$"
 
 Player2Magma_Text_GiveWhatPokemon::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What POKéMON do you\nwant to give?$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What POKéMON are you offering?$"
 
 Player2Aqua_Text_ReceiveWhatPokemon::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}What POKéMON do you\nwant to receive?$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Cool! I'll give you…$"
 
 Player2Magma_Text_ReceiveWhatPokemon::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What POKéMON do you\nwant to receive?$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Alright, I'll trade for…$"
 
 Player2Aqua_Text_GivePokemonForPokemon::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
+	.string "Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
 
 Player2Magma_Text_GivePokemonForPokemon::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
+	.string "Trade {STR_VAR_1}\nfor {STR_VAR_2}?$"
 
 Player2Aqua_Text_TakeGoodCareOfPokemon::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}I'll take good care\nof {STR_VAR_2}!$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Thanks! I'll take care of {STR_VAR_2}!$"
 
 Player2Magma_Text_TakeGoodCareOfPokemon::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I'll take good care\nof {STR_VAR_2}!$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I'll take good care of {STR_VAR_2}!$"
 
 Player2Aqua_Text_Cancel::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}We got this!$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Okie dokie!$"
 
 Player2Magma_Text_Cancel::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}We got this!$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Alright, let's go.$"
 
 Player2_Connect::
 	message gText_PleaseWaitForLink
