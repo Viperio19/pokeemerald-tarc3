@@ -14176,6 +14176,8 @@ void BS_TryEatCorsola(void)
                 gBattleMons[gBattlerTarget].moves[i] = MOVE_TAUNT;
         }
 
+        HandleSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CORSOLA_GALAR), FLAG_SET_CAUGHT, 0);
+
         gBattlescriptCurrInstr = cmd->nextInstr;
     }
 }

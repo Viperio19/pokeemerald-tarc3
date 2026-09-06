@@ -6688,11 +6688,11 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_WATER_1, EGG_GROUP_WATER_3),
-        .abilities = { ABILITY_WEAK_ARMOR, ABILITY_NONE, ABILITY_CURSED_BODY },
+        .abilities = { ABILITY_CURSED_BODY, ABILITY_NONE, ABILITY_CURSED_BODY },
         .bodyColor = BODY_COLOR_WHITE,
         .speciesName = _("Corsola"),
         .cryId = CRY_CORSOLA,
-        .natDexNum = NATIONAL_DEX_CORSOLA,
+        .natDexNum = NATIONAL_DEX_CURSOLA,
         .categoryName = _("Coral"),
         .height = 6,
         .weight = 5,
@@ -6764,45 +6764,50 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .abilities = { ABILITY_WEAK_ARMOR, ABILITY_NONE, ABILITY_PERISH_BODY },
         .bodyColor = BODY_COLOR_WHITE,
         .noFlip = TRUE,
-        .speciesName = _("Cursola"),
-        .cryId = CRY_CURSOLA,
+        .speciesName = _("Corsola"),
+        .cryId = CRY_CORSOLA,
         .natDexNum = NATIONAL_DEX_CURSOLA,
         .categoryName = _("Coral"),
-        .height = 10,
-        .weight = 4,
+        .height = 6,
+        .weight = 5,
         .description = COMPOUND_STRING(
-            "Its shell is overflowing with its\n"
-            "heightened otherworldly energy. The\n"
-            "ectoplasm serves as protection for this\n"
-            "Pokémon's core spirit."),
-        .pokemonScale = 305,
-        .pokemonOffset = 7,
-        .trainerScale = 257,
+            "These poor Corsola are proof that our\n"
+            "battle to expand their home is just!\n"
+            "Only a pathetic excuse for a human\n"
+			"would be responsible for one of these!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Woe it is to be humanity in our prime,\n"
+            "unbeknowst to the misery we inflict\n"
+            "upon those who have lived alongside us\n"
+			"for the sake of our prolonged misery.\n"),
+        .pokemonScale = 410,
+        .pokemonOffset = 15,
+        .trainerScale = 256,
         .trainerOffset = 0,
-        .frontPic = gMonFrontPic_Cursola,
-        .frontPicSize = MON_COORDS_SIZE(64, 64),
-        .frontPicYOffset = 0,
+        .frontPic = gMonFrontPic_CorsolaGalar,
+        .frontPicSize = MON_COORDS_SIZE(48, 48),
+        .frontPicYOffset = 11,
         .frontAnimFrames = sAnims_SingleFramePlaceHolder,
         //.frontAnimId = ANIM_V_SQUISH_AND_BOUNCE,
-        .backPic = gMonBackPic_Cursola,
-        .backPicSize = MON_COORDS_SIZE(64, 56),
-        .backPicYOffset = 5,
+        .backPic = gMonBackPic_CorsolaGalar,
+        .backPicSize = MON_COORDS_SIZE(56, 48),
+        .backPicYOffset = 8,
         //.backAnimId = BACK_ANIM_NONE,
-        .palette = gMonPalette_Cursola,
-        .shinyPalette = gMonShinyPalette_Cursola,
-        .iconSprite = gMonIcon_Cursola,
+        .palette = gMonPalette_CorsolaGalar,
+        .shinyPalette = gMonShinyPalette_CorsolaGalar,
+        .iconSprite = gMonIcon_CorsolaGalar,
         .iconPalIndex = 0,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
-        SHADOW(-3, 13, SHADOW_SIZE_S)
-        FOOTPRINT(Cursola)
+        SHADOW(0, 2, SHADOW_SIZE_M)
+        FOOTPRINT(Corsola)
         OVERWORLD(
-            sPicTable_Cursola,
+            sPicTable_CorsolaGalar,
             SIZE_32x32,
             SHADOW_SIZE_M,
             TRACKS_FOOT,
             sAnimTable_Following,
-            gOverworldPalette_Cursola,
-            gShinyOverworldPalette_Cursola
+            gOverworldPalette_CorsolaGalar,
+            gShinyOverworldPalette_CorsolaGalar
         )
         .levelUpLearnset = sCursolaLevelUpLearnset,
         .teachableLearnset = sCursolaTeachableLearnset,

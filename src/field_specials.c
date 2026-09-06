@@ -3469,14 +3469,14 @@ u16 GetPCBoxToSendMon(void)
 
 bool8 ShouldShowBoxWasFullMessage(void)
 {
-    if (!FlagGet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE))
-    {
-        if (StorageGetCurrentBox() != VarGet(VAR_PC_BOX_TO_SEND_MON))
-        {
-            FlagSet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
-            return TRUE;
-        }
-    }
+    // if (!FlagGet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE))
+    // {
+    //     if (StorageGetCurrentBox() != VarGet(VAR_PC_BOX_TO_SEND_MON))
+    //     {
+    //         FlagSet(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
+    //         return TRUE;
+    //     }
+    // }
     return FALSE;
 }
 

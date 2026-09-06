@@ -5286,16 +5286,18 @@ static void HandleEndTurn_FinishBattle(void)
         if (gIsFishingEncounter && IsMonShiny(&gParties[B_TRAINER_OPPONENT_A][0]))
             gChainFishingDexNavStreak = 0;
 
-        if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER)
+        for (enum BattleTrainer trainer = B_TRAINER_PLAYER; trainer < MAX_BATTLE_TRAINERS; trainer++)
         {
-            for (enum BattleTrainer trainer = B_TRAINER_PLAYER; trainer < MAX_BATTLE_TRAINERS; trainer++)
-            {
-                struct Pokemon *party = GetTrainerParty(trainer);
+            struct Pokemon *party = GetTrainerParty(trainer);
 
-                for (u32 partySlot = 0; partySlot < PARTY_SIZE; partySlot++)
+            for (u32 partySlot = 0; partySlot < PARTY_SIZE; partySlot++)
+            {
+                if (gBattleStruct->partyState[trainer][partySlot].sentOut)
                 {
-                    if (gBattleStruct->partyState[trainer][partySlot].sentOut)
+                    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER)
                         HandleSetPokedexFlagFromMon(&party[partySlot], FLAG_SET_SEEN_BOTH);
+                    else
+                        HandleSetPokedexFlagFromMon(&party[partySlot], FLAG_SET_SEEN);
                 }
             }
         }
