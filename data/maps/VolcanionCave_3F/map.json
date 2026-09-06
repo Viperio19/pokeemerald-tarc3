@@ -122,7 +122,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 2,
-      "y": 24,
+      "y": 25,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -135,7 +135,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
       "x": 2,
-      "y": 11,
+      "y": 13,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -630,7 +630,7 @@
     {
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
       "x": 1,
-      "y": 24,
+      "y": 25,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_NONE",
       "movement_range_x": 0,
@@ -798,7 +798,7 @@
     },
     {
       "type": "trigger",
-      "x": 3,
+      "x": 7,
       "y": 6,
       "elevation": 0,
       "var": "VAR_TEMP_0",
@@ -808,7 +808,7 @@
     {
       "type": "trigger",
       "x": 4,
-      "y": 11,
+      "y": 16,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -844,7 +844,7 @@
     {
       "type": "trigger",
       "x": 2,
-      "y": 16,
+      "y": 18,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -898,7 +898,7 @@
     {
       "type": "trigger",
       "x": 1,
-      "y": 18,
+      "y": 20,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -907,7 +907,7 @@
     {
       "type": "trigger",
       "x": 1,
-      "y": 14,
+      "y": 16,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -924,8 +924,8 @@
     },
     {
       "type": "trigger",
-      "x": 1,
-      "y": 20,
+      "x": 2,
+      "y": 21,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -970,7 +970,7 @@
     {
       "type": "trigger",
       "x": 6,
-      "y": 22,
+      "y": 23,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -979,7 +979,7 @@
     {
       "type": "trigger",
       "x": 6,
-      "y": 20,
+      "y": 21,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -987,8 +987,8 @@
     },
     {
       "type": "trigger",
-      "x": 3,
-      "y": 10,
+      "x": 4,
+      "y": 12,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -1033,7 +1033,7 @@
     {
       "type": "trigger",
       "x": 2,
-      "y": 13,
+      "y": 15,
       "elevation": 3,
       "var": "VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7",
       "var_value": "99",
@@ -1087,7 +1087,7 @@
     {
       "type": "trigger",
       "x": 1,
-      "y": 12,
+      "y": 14,
       "elevation": 0,
       "var": "VAR_TEMP_0",
       "var_value": "0",
@@ -1095,12 +1095,21 @@
     },
     {
       "type": "trigger",
-      "x": 11,
-      "y": 12,
+      "x": 4,
+      "y": 18,
       "elevation": 3,
       "var": "VAR_TEMP_F",
       "var_value": "1",
       "script": "VolcanionCave_3F_EventScript_RedButton"
+    },
+    {
+      "type": "trigger",
+      "x": 1,
+      "y": 10,
+      "elevation": 3,
+      "var": "VAR_TEMP_F",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_BlueButton"
     }
   ],
   "bg_events": [],

@@ -526,9 +526,9 @@ VolcanionCave_3F_EventScript_RemoveRockBarrier6::
 	return
 
 VolcanionCave_3F_EventScript_RemoveRockBarrier7::
-	setmetatile 5, 21, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 8, 20, METATILE_Cave_Floor, FALSE
-	setmetatile 9, 20, METATILE_Cave_Floor, FALSE
+	setmetatile 5, 22, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 8, 21, METATILE_Cave_Floor, FALSE
+	setmetatile 9, 21, METATILE_Cave_Floor, FALSE
 	return
 
 VolcanionCave_3F_EventScript_BlueButton::
@@ -589,13 +589,14 @@ VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed::
 	setmetatile 24, 36, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	setmetatile 27, 37, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	@ Agent diggs puzzle
+	setmetatile 1, 10, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 10, 1, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 10, 18, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 1, 9, METATILE_Cave_CoolButton_Red, FALSE
-	setmetatile 11, 12, METATILE_Cave_CoolButton_Red, FALSE
+	setmetatile 4, 18, METATILE_Cave_CoolButton_Red, FALSE
 	setmetatile 6, 19, METATILE_Cave_CoolButton_Red, FALSE
 	setmetatile 7, 1, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 1, 7, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 1, 8, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
 	setmetatile 5, 8, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
 	setmetatile 9, 1, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
 	setmetatile 9, 10, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
@@ -620,13 +621,14 @@ VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed::
 	setmetatile 24, 36, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
 	setmetatile 27, 37, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
 	@ Agent diggs puzzle
+	setmetatile 1, 10, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 10, 1, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 10, 18, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 1, 9, METATILE_Cave_CoolButton_Pressed, FALSE
-	setmetatile 11, 12, METATILE_Cave_CoolButton_Pressed, FALSE
+	setmetatile 4, 18, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 6, 19, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 7, 1, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 1, 7, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 1, 8, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
 	setmetatile 5, 8, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
 	setmetatile 9, 1, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
 	setmetatile 9, 10, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
@@ -1747,7 +1749,6 @@ VolcanionCave_3F_EventScript_GottaRunMagma::
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade::
-	setmetatile 6, 24, METATILE_Cave_Rock_1, TRUE
 	setmetatile 5, 25, METATILE_Cave_Rock_1, TRUE
 	setmetatile 6, 26, METATILE_Cave_Rock_2, TRUE
 	setmetatile 26, 24, METATILE_Cave_Rock_2, TRUE
@@ -1757,7 +1758,6 @@ VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade::
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesNoRockSlideBlockade::
-	setmetatile 6, 24, METATILE_Cave_Floor_Smooth, FALSE
 	setmetatile 5, 25, METATILE_Cave_Floor_Smooth, FALSE
 	setmetatile 6, 26, METATILE_Cave_Floor_Smooth, FALSE
 	setmetatile 26, 24, METATILE_Cave_Floor_Smooth, FALSE
@@ -1957,11 +1957,25 @@ VolcanionCave_3F_Movement_Hole1AToB::
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
-	walk_fast_left
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
 	step_end
 
 VolcanionCave_3F_Movement_Hole1BToA::
-	walk_fast_right
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down
@@ -1999,14 +2013,14 @@ VolcanionCave_3F_EventScript_Hole3A::
 	jumphole VolcanionCave_3F_Movement_Hole3AToB, VolcanionCave_3F_Movement_ExitHoleWest
 
 VolcanionCave_3F_EventScript_Hole3B::
-	jumphole VolcanionCave_3F_Movement_Hole3BToA, VolcanionCave_3F_Movement_ExitHoleEast
+	jumphole VolcanionCave_3F_Movement_Hole3BToA, VolcanionCave_3F_Movement_ExitHoleNorth
 
 VolcanionCave_3F_Movement_Hole3AToB::
 	walk_fast_left
 	walk_fast_left
 	walk_fast_left
 	walk_fast_left
-	walk_fast_up
+	walk_fast_down
 	step_end
 
 VolcanionCave_3F_Movement_Hole3BToA::
@@ -2014,7 +2028,7 @@ VolcanionCave_3F_Movement_Hole3BToA::
 	walk_fast_right
 	walk_fast_right
 	walk_fast_right
-	walk_fast_down
+	walk_fast_up
 	step_end
 
 VolcanionCave_3F_EventScript_Hole4A::
@@ -2052,28 +2066,28 @@ VolcanionCave_3F_EventScript_Hole5B::
 	jumphole VolcanionCave_3F_Movement_Hole5BToA, VolcanionCave_3F_Movement_ExitHoleSouth
 
 VolcanionCave_3F_Movement_Hole5AToB::
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
-	walk_faster_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
 	walk_fast_left
 	walk_fast_left
 	walk_fast_left
@@ -2085,28 +2099,28 @@ VolcanionCave_3F_Movement_Hole5BToA::
 	walk_fast_right
 	walk_fast_right
 	walk_fast_right
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
-	walk_faster_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
 	step_end
 
 VolcanionCave_3F_EventScript_Hole6A::
@@ -2122,8 +2136,6 @@ VolcanionCave_3F_Movement_Hole6AToB::
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down
-	walk_fast_down
-	walk_fast_down
 	walk_fast_right
 	walk_fast_right
 	step_end
@@ -2131,8 +2143,6 @@ VolcanionCave_3F_Movement_Hole6AToB::
 VolcanionCave_3F_Movement_Hole6BToA::
 	walk_fast_left
 	walk_fast_left
-	walk_fast_up
-	walk_fast_up
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
@@ -2169,9 +2179,13 @@ VolcanionCave_3F_Movement_Hole7AToB::
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
+	walk_fast_up
+	walk_fast_up
 	step_end
 
 VolcanionCave_3F_Movement_Hole7BToA::
+	walk_fast_down
+	walk_fast_down
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down
@@ -2203,7 +2217,7 @@ VolcanionCave_3F_EventScript_Hole8B::
 
 VolcanionCave_3F_Movement_Hole8AToB::
 	walk_fast_right
-	walk_fast_right
+	walk_fast_up
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
@@ -2241,7 +2255,7 @@ VolcanionCave_3F_Movement_Hole8BToA::
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down
-	walk_fast_left
+	walk_fast_down
 	walk_fast_left
 	step_end
 
@@ -2365,11 +2379,13 @@ VolcanionCave_3F_Movement_Hole12AToB::
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down
+	walk_fast_down
 	walk_fast_right
 	step_end
 
 VolcanionCave_3F_Movement_Hole12BToA::
 	walk_fast_left
+	walk_fast_up
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
@@ -2409,8 +2425,6 @@ VolcanionCave_3F_Movement_Hole13AToB::
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
-	walk_fast_up
-	walk_fast_left
 	walk_fast_left
 	walk_fast_left
 	step_end
@@ -2418,8 +2432,6 @@ VolcanionCave_3F_Movement_Hole13AToB::
 VolcanionCave_3F_Movement_Hole13BToA::
 	walk_fast_right
 	walk_fast_right
-	walk_fast_right
-	walk_fast_down
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down
@@ -2447,8 +2459,6 @@ VolcanionCave_3F_Movement_Hole14AToB::
 	walk_fast_up
 	walk_fast_up
 	walk_fast_up
-	walk_fast_up
-	walk_fast_up
 	walk_fast_left
 	walk_fast_left
 	walk_fast_left
@@ -2466,8 +2476,6 @@ VolcanionCave_3F_Movement_Hole14BToA::
 	walk_fast_right
 	walk_fast_right
 	walk_fast_right
-	walk_fast_down
-	walk_fast_down
 	walk_fast_down
 	walk_fast_down
 	walk_fast_down
@@ -2928,9 +2936,9 @@ VolcanionCave_3F_EventScript_FloorSwitch6::
 VolcanionCave_3F_EventScript_FloorSwitch7::
 	lock
 	goto_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7, 100, VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed
-	setmetatile 5, 21, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 8, 20, METATILE_Cave_Floor, FALSE
-	setmetatile 9, 20, METATILE_Cave_Floor, FALSE
+	setmetatile 5, 22, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 8, 21, METATILE_Cave_Floor, FALSE
+	setmetatile 9, 21, METATILE_Cave_Floor, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
