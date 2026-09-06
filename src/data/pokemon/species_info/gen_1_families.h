@@ -6756,10 +6756,15 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 2,
         .weight = 8,
         .description = COMPOUND_STRING(
-            "Diglett are raised in most farms.\n"
-            "The reason is simple--wherever they\n"
-            "burrow, the soil is left perfectly tilled\n"
-            "for growing delicious crops."),
+            "Surprisingly useful li'l critters! If\n"
+            "you find yourself in need of a natural\n"
+            "spring, you won't find yourself one\n"
+            "better suited for the job!"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Living about 1 meter below ground at all\n"
+            "times, DIGLETT's thin skin causes it to\n"
+            "grow weak when exposed to direct sunlight.\n"
+            "They feed off of berry tree roots."),
         .pokemonScale = 833,
         .pokemonOffset = 25,
         .trainerScale = 256,
@@ -9754,10 +9759,15 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 14,
         .weight = 3000,
         .description = COMPOUND_STRING(
-            "It is said to live in volcanic craters\n"
-            "on mountain peaks. Once a year, it sheds\n"
-            "its hide and grows larger. The shed hide\n"
-            "crumbles and returns to the soil."),
+            "A true terror of the seas! With the beard\n"
+            "to match its frightening demeanor.\n"
+            "In need of a cannon? Try firing a charged\n"
+            "rock from the tip of GOLEM's electric rail!"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Grumpy and stubborn, they dislike moving\n"
+            "when unnecessary. When upset, it will not\n"
+            "hesitate to loose strong tremors or\n"
+            "surges of paralyzing electricity."),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 296,
@@ -9826,10 +9836,15 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 4,
         .weight = 203,
         .description = COMPOUND_STRING(
-            "Its body is a magnetic stone. Iron sand\n"
-            "attach to parts of its body with stronger\n"
-            "magnetism. If you carelessly step on one,\n"
-            "it will headbutt and shock you in anger."),
+            "A true terror of the seas! With the beard\n"
+            "to match its frightening demeanor.\n"
+            "In need of a cannon? Try firing a charged\n"
+            "rock from the tip of GOLEM's electric rail!"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Grumpy and stubborn, they dislike moving\n"
+            "when unnecessary. When upset, it will not\n"
+            "hesitate to loose strong tremors or\n"
+            "surges of paralyzing electricity."),
         .pokemonScale = 347,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -13378,10 +13393,15 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 20,
         .weight = 1200,
         .description = COMPOUND_STRING(
-            "Originally from the tropics, Exeggutor's\n"
-            "heads grow larger from exposure to strong\n"
-            "sunlight. It is said that when the heads\n"
-            "fall, they group to form an Exeggcute."),
+			"The only thing a true pirate loves more\n"
+            "than the ocean is a well-deserved rest on\n"
+            "sunny desert islands! And these EXEGGUTOR\n"
+			"are a sure-fire sign of a relaxing beach!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+			"In warm, tropical enviroments, particularly\n"
+            "healthy EXEGGCUTE will evolve into this\n"
+            "form. Their usual telepathic powers have\n"
+			"become something else all too fantastical.\n"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -13447,10 +13467,15 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 109,
         .weight = 4156,
         .description = COMPOUND_STRING(
-            "Alola is the best environment for\n"
-            "this Pokémon. Local people take pride\n"
-            "in its appearance, saying this is how\n"
-            "Exeggutor ought to look."),
+			"The only thing a true pirate loves more\n"
+            "than the ocean is a well-deserved rest on\n"
+            "sunny desert islands! And these EXEGGUTOR\n"
+			"are a sure-fire sign of a relaxing beach!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+			"In warm, tropical enviroments, particularly\n"
+            "healthy EXEGGCUTE will evolve into this\n"
+            "form. Their usual telepathic powers have\n"
+			"become something else all too fantastical.\n"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -13517,6 +13542,11 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .height = 4,
         .weight = 65,
         .description = COMPOUND_STRING(
+			"Can't help but feel sorry for the\n"
+            "wee critter. CUBONE can be heard\n"
+            "in the dark nights, howling for a\n"
+            "mother's love they shall never know."),
+        .descriptionMagma = COMPOUND_STRING(
 			"A rare Pokemon that draws power from the\n"
             "skull that it wears. It is theorized to\n"
             "be an indirect evolution caused by this,\n"

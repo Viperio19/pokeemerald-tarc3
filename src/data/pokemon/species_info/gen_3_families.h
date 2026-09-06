@@ -6421,6 +6421,11 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
             "hunting patterns of CARVANHA inspire us\n"
             "as the well-oiled crew we are! Even drops\n"
 			"of water can become a roaring ocean!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Brutish, unrefined, yet timid. Much\n"
+            "like a certain group that utilizes them.\n"
+            "Their strongly developed jaws carry\n"
+            "enough power to tear through boat hulls."),
         .pokemonScale = 362,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -6793,6 +6798,11 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .height = 7,
         .weight = 240,
         .description = COMPOUND_STRING(
+			"Dim-witted and numb to sensations\n"
+            "around them, their uncaring attitude\n"
+            "does remind me of a certain somebody...\n"
+			"Oh also, there be lava or, whatever.\n"),
+        .descriptionMagma = COMPOUND_STRING(
 			"An interesting combination of eternal\n"
             "flame and robust earth, NUMEL are land\n"
             "incarnate. Their ability to erupt in a\n"

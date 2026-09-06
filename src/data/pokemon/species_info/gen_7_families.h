@@ -2651,6 +2651,11 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
             "PERFECT partner for a well-seasoned\n"
             "crewmate. The ferocity of the ocean\n"
 			"should not be feared, but respected!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+			"It produces a toxin so potent that even\n"
+            "WAILORD could be brought down by it.\n"
+            "Trials are underway to find medical\n"
+			"applications for this unique poison.\n"),
         .pokemonScale = 365,
         .pokemonOffset = 12,
         .trainerScale = 256,

@@ -6620,9 +6620,14 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .weight = 50,
         .description = COMPOUND_STRING(
             "A sure-fire sign of a healthy ocean can\n"
-            "be boiled down to how many Corsola call\n"
-            "it their home! Sailors keep a few with\n"
-            "'em on long voyages for good luck."),
+            "be boiled down to how many CORSOLA call\n"
+            "it their home! Sailors oft keep a few\n"
+            "with 'em on long voyages for good luck."),
+        .descriptionMagma = COMPOUND_STRING(
+            "Rightfully seen as a symbol of rebirth\n"
+            "as their regenerative properties are\n"
+            "seldom rivaled. They are, however,\n"
+            "extremely sensitive to changes in climate."),
         .pokemonScale = 410,
         .pokemonOffset = 15,
         .trainerScale = 256,
@@ -6696,6 +6701,11 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
             "battle to expand their home is just!\n"
             "Only a pathetic excuse for a human\n"
 			"would be responsible for one of these!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Woe it is to be humanity in our prime,\n"
+            "unbeknowst to the misery we inflict\n"
+            "upon those who have lived alongside us\n"
+			"for the sake of our prolonged misery.\n"),
         .pokemonScale = 410,
         .pokemonOffset = 15,
         .trainerScale = 256,

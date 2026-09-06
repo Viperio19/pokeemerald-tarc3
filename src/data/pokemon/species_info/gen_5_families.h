@@ -6252,8 +6252,13 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .description = COMPOUND_STRING(
 			"Weird lookin' SQUIRTLE thing. Eggheads\n"
             "in the lab have told me it's some sort\n"
-            "of long-extinct species. But I mean you\n"
-            "have one so what do they know?"),
+            "of 'long-extinct species'. But I mean,\n"
+            "you have one! So what do they know?"),
+        .descriptionMagma = COMPOUND_STRING(
+			"A long-extinct species brought back to\n"
+            "life in what could only be described as\n"
+            "an affront to natural order. TIRTOUGA now\n"
+            "reside in shallow oceans, as they once did."),
         .pokemonScale = 365,
         .pokemonOffset = 12,
         .trainerScale = 256,
