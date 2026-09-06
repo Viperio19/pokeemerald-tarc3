@@ -284,8 +284,7 @@ Player2_LinkSuccess::
 	callnative StoreLinkPlayerName
 	setvar VAR_0x8004, USING_TRADE_CENTER
 	copyvar VAR_CABLE_CLUB_STATE, VAR_0x8004
-	getplayerxy VAR_TEMP_0, VAR_TEMP_1
-	setwarp MAP_OLDALE_TOWN, VAR_TEMP_0, VAR_TEMP_1
+	callnative SetWarpCurrentPosition
 	special DoCableClubWarp
 	end
 

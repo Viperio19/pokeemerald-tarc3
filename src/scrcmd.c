@@ -1101,6 +1101,11 @@ bool8 ScrCmd_setwarp(struct ScriptContext *ctx)
     return FALSE;
 }
 
+void SetWarpCurrentPosition(void)
+{
+    SetWarpDestination(gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, WARP_ID_NONE, gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y);
+}
+
 bool8 ScrCmd_setdynamicwarp(struct ScriptContext *ctx)
 {
     u8 mapGroup = ScriptReadByte(ctx);

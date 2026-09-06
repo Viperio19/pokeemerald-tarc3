@@ -109,7 +109,7 @@ VolcanionCave_1F_EventScript_EnterCaveMultiplayer::
 	call_if_eq VAR_RESULT, TRUE, VolcanionCave_1F_EventScript_Player1AquaEnter
 	call_if_eq VAR_RESULT, FALSE, VolcanionCave_1F_EventScript_Player1MagmaEnter
 	waitmovement 0
-	@ connect
+	goto Player2_Connect
 	release
 	end
 
