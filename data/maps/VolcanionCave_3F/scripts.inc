@@ -859,7 +859,8 @@ VolcanionCave_3F_EventScript_DefeatedVolcanion::
 	special SpawnCameraObject
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveToDiglett
 	waitmovement 0
-	message VolcanionCave_3F_Text_AgentDiggsOk
+	call_if_set FLAG_AGENT_DIGGS_DIED, VolcanionCave_3F_EventScript_AgentDiggsOk
+	call_if_unset FLAG_AGENT_DIGGS_DIED, VolcanionCave_3F_EventScript_AgentDiggs
 	waitmessage
 	closemessage
 	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_EventScript_DiglettWalkToVolcanion
@@ -913,6 +914,7 @@ VolcanionCave_3F_EventScript_DefeatedVolcanion::
 	message VolcanionCave_3F_Text_ShellyEnter
 	waitmessage
 	resetobjectsubpriority LOCALID_3F_VOLCANION_JAIL_CELL, MAP_VOLCANION_CAVE_3F
+	playbgm MUS_ENCOUNTER_AQUA, FALSE
 	playse SE_WIN_OPEN
 	applymovement LOCALID_3F_DIGLETT, VolcanionCave_3F_Movement_DiglettTakePokeball
 	waitmovement 0
@@ -947,6 +949,14 @@ VolcanionCave_3F_EventScript_SetLocalIdsPlayer1::
 VolcanionCave_3F_EventScript_SetLocalIdsPlayer2::
 	setvar LOCALID_PLAYER_AQUA, LOCALID_PLAYER_2
 	setvar LOCALID_PLAYER_MAGMA, LOCALID_PLAYER
+	return
+
+VolcanionCave_3F_EventScript_AgentDiggsOk::
+	message VolcanionCave_3F_Text_AgentDiggsOk
+	return
+
+VolcanionCave_3F_EventScript_AgentDiggs::
+	message VolcanionCave_3F_Text_AgentDiggs
 	return
 
 VolcanionCave_3F_Movement_NoticeDiglett::
@@ -1127,6 +1137,9 @@ VolcanionCave_3F_Text_WhereBalls2::
 
 VolcanionCave_3F_Text_AgentDiggsOk::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AGENT DIGGS! You're ok!!\p$"
+
+VolcanionCave_3F_Text_AgentDiggs::
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AGENT DIGGS!!\p$"
 
 VolcanionCave_3F_Text_AgentDiggsCatch::	
 	.string "AGENT DIGGS caught the VOLCANION!\p$"
@@ -2716,6 +2729,7 @@ VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
 	removeobject LOCALID_3F_DIGLETT
 	removeobject LOCALID_3F_DIGLETT_INVISIBLE
 	setflag FLAG_HIDE_VOLCANION_CAVE_3F_DIGLETT
+	setflag FLAG_AGENT_DIGGS_DIED
 	fadedefaultbgm
 	delay 20
 	waitse

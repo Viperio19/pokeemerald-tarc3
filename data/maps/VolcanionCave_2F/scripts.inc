@@ -1093,19 +1093,173 @@ VolcanionCave_2F_Movement_BoulderSlideDown::
 	jump_down
 	step_end
 
+VolcanionCave_2F_EventScript_CorsolaFacePlayer::
+	lock
+	playse SE_ICE_CRACK
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaNoticePlayer
+	waitmovement 0
+	release
+	end
 
 VolcanionCave_2F_EventScript_Corsola::
 	lock
+	getobjectfacingdirection LOCALID_PLAYER, VAR_0x800A
+	getobjectfacingdirection LOCALID_2F_CORSOLA, VAR_0x800B
+	goto_if_ne VAR_0x800A, VAR_0x800B, VolcanionCave_2F_EventScript_CorsolaFlee
+	applymovement LOCALID_2F_CORSOLA, Common_Movement_ExclamationMark
 	faceplayer
+	waitmovement 0
 	playmoncry SPECIES_CORSOLA, CRY_MODE_ENCOUNTER
 	msgbox VolcanionCave_2F_Text_Corsola, MSGBOX_DEFAULT
 	waitmoncry
 	setwildbattle SPECIES_CORSOLA, 20
 	dowildbattle
 	specialvar VAR_RESULT, GetBattleOutcome
-	call_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, VolcanionCave_1F_EventScript_RemoveLastTalked
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, VolcanionCave_2F_EventScript_CaughtCorsola
 	release
 	end
+
+VolcanionCave_2F_EventScript_CaughtCorsola::
+	removeobject LOCALID_2F_CORSOLA
+	setflag FLAG_HIDE_VOLCANION_CAVE_2F_CORSOLA
+	setvar VAR_VOLCANION_CAVE_2F_CORSOLA_STATE, 1
+	release
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFlee::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaNoticePlayer
+	playmoncry SPECIES_CORSOLA, CRY_MODE_ENCOUNTER
+	waitmovement 0
+	getobjectcurrentxy LOCALID_2F_CORSOLA, CURRENT_POSITION, VAR_0x8008, VAR_0x8009
+	goto_if_eq VAR_0x8009, 17, VolcanionCave_2F_EventScript_CorsolaFleeNorthCases
+	switch VAR_0x8008
+	case 24, VolcanionCave_2F_EventScript_CorsolaSWFlee
+	case 28, VolcanionCave_2F_EventScript_CorsolaSMFlee
+	case 31, VolcanionCave_2F_EventScript_CorsolaSEFlee
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeNorthCases::
+	switch VAR_0x8008
+	case 24, VolcanionCave_2F_EventScript_CorsolaNWFlee
+	case 28, VolcanionCave_2F_EventScript_CorsolaNMFlee
+	case 31, VolcanionCave_2F_EventScript_CorsolaNEFlee
+	end
+
+VolcanionCave_2F_EventScript_CorsolaSWFlee::
+	goto_if_eq VAR_0x800A, DIR_WEST, VolcanionCave_2F_EventScript_CorsolaFleeUp
+	goto VolcanionCave_2F_EventScript_CorsolaFleeRight4 @ DIR_SOUTH & DIR_EAST
+	end
+
+VolcanionCave_2F_EventScript_CorsolaSMFlee::
+	goto_if_eq VAR_0x800A, DIR_EAST, VolcanionCave_2F_EventScript_CorsolaFleeRight3
+	goto VolcanionCave_2F_EventScript_CorsolaFleeLeft4 @ DIR_SOUTH & DIR_WEST
+	end
+
+VolcanionCave_2F_EventScript_CorsolaSEFlee::
+	goto_if_eq VAR_0x800A, DIR_EAST, VolcanionCave_2F_EventScript_CorsolaFleeUp
+	goto VolcanionCave_2F_EventScript_CorsolaFleeLeft3 @ DIR_SOUTH & DIR_WEST
+	end
+
+VolcanionCave_2F_EventScript_CorsolaNWFlee::
+	goto_if_eq VAR_0x800A, DIR_WEST, VolcanionCave_2F_EventScript_CorsolaFleeDown
+	goto VolcanionCave_2F_EventScript_CorsolaFleeRight4 @ DIR_NORTH
+	end
+
+VolcanionCave_2F_EventScript_CorsolaNMFlee::
+	goto_if_eq VAR_0x800A, DIR_EAST, VolcanionCave_2F_EventScript_CorsolaFleeRight3
+	goto VolcanionCave_2F_EventScript_CorsolaFleeLeft4 @ DIR_NORTH & DIR_WEST
+	end
+
+VolcanionCave_2F_EventScript_CorsolaNEFlee::
+	goto_if_eq VAR_0x800A, DIR_EAST, VolcanionCave_2F_EventScript_CorsolaFleeDown
+	goto VolcanionCave_2F_EventScript_CorsolaFleeLeft3 @ DIR_NORTH
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeUp::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeUp
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeDown::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeDown
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeLeft3::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeLeft3
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeLeft4::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeLeft4
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeRight3::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeRight3
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeRight4::
+	applymovement LOCALID_2F_CORSOLA, VolcanionCave_2F_Movement_CorsolaFleeRight4
+	goto VolcanionCave_2F_EventScript_CorsolaFleeEnd
+	end
+
+VolcanionCave_2F_EventScript_CorsolaFleeEnd::
+	waitmovement 0
+	getobjectcurrentxy LOCALID_2F_CORSOLA, CURRENT_POSITION, VAR_0x8008, VAR_0x8009
+	setobjectxyperm LOCALID_2F_CORSOLA, VAR_0x8008, VAR_0x8009
+	release
+	end
+
+VolcanionCave_2F_Movement_CorsolaNoticePlayer::
+	emote_exclamation_mark
+	face_player
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeUp::
+	walk_fast_up
+	walk_fast_up
+	walk_fast_up
+	face_down
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeDown::
+	walk_fast_down
+	walk_fast_down
+	walk_fast_down
+	face_up
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeLeft3::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	face_right
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeLeft4::
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	walk_fast_left
+	face_right
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeRight3::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	face_left
+	step_end
+
+VolcanionCave_2F_Movement_CorsolaFleeRight4::
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	walk_fast_right
+	face_left
+	step_end
 
 VolcanionCave_2F_Text_Corsola::
 	.string "{SPEAKER NAME_CORSOLA COLOR_NORMAL}Pi uwaa!$"
