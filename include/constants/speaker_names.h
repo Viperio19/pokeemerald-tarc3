@@ -37,6 +37,7 @@ enum SpeakerNames {
     SP_NAME_ZINNIA,
     SP_NAME_WHISMUR,
     SP_NAME_ASTER,
+    SP_NAME_WORD,
     SP_NAME_COUNT
 };
 

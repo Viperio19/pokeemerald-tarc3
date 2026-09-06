@@ -3558,7 +3558,7 @@ VolcanionCave_3F_EventScript_Credits7::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
 	creditsmessage Credits_Playtesters, Credits_RyanGreenBlue, Credits_FlippyPlays, Credits_CoolOwen
-	@ creditsmessage Credits_Playtesters2
+	creditsmessage Credits_Trailer, Credits_RyanGreenBlue
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_3F, 25, 33, VolcanionCave_3F_EventScript_Credits8
 
@@ -3581,21 +3581,23 @@ VolcanionCave_3F_EventScript_Credits9::
 VolcanionCave_3F_EventScript_Credits10::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage Credits_TagTeamTrials, Credits_Credits
+	creditsmessage Credits_IdeaGuy, Credits_Keeper
+	creditsmessage Credits_DiggsVoice, Credits_CassandraLeeMorris
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_OUTSIDE, 9, 10, VolcanionCave_3F_EventScript_Credits11
 
 VolcanionCave_3F_EventScript_Credits11::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage Credits_TagTeamTrials, Credits_Credits
+	creditsmessage Credits_Awesome, Credits_Shelly
+	creditsmessage Credits_Loser, Credits_Viperio
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_PETALBURG_CITY, 20, 9, VolcanionCave_3F_EventScript_Credits12
 
 VolcanionCave_3F_EventScript_Credits12::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage Credits_TagTeamTrials, Credits_Credits
+	creditsmessage Credits_LegendOfDragoon, Credits_Sony
 	fadescreen FADE_TO_BLACK
 	warpcontinuescript MAP_VOLCANION_CAVE_3F, 57, 27, VolcanionCave_3F_EventScript_Credits13
 
@@ -3605,7 +3607,10 @@ VolcanionCave_3F_EventScript_Credits13::
 	delay 50
 	message Credits_ThanksForPlaying
 	waitmessage
-	delay 100
+	message Credits_Stardust0
+	waitmessage
+	message Credits_Outro
+	waitmessage
 	closemessage
 	release
 	end
@@ -3668,7 +3673,10 @@ Credits_FlippyPlays::
 	.string "FlippyPlays$"
 
 Credits_CoolOwen::
-	.string "Cool-Owen$"
+	.string "Cool Owen$"
+
+Credits_Trailer::
+	.string "Trailer$"
 
 Credits_MagmaGruntsBackPics::
 	.string "Magma Grunts Back Pics$"
@@ -3694,5 +3702,70 @@ Credits_TitleScreenBackground::
 Credits_Journeys::
 	.string "Pokémon Journeys: The Series$"
 
+Credits_IdeaGuy::
+	.string "“Idea Guy”$"
+
+Credits_DiggsVoice::
+	.string "Voice of Agent Diggs$"
+
+Credits_CassandraLeeMorris::
+	.string "Cassandra Lee Morris$"
+
+Credits_Awesome::
+	.string "Awesome$"
+
+Credits_Shelly::
+	.string "Shelly$"
+
+Credits_Loser::
+	.string "Told me to add Courtney$"
+
+Credits_LegendOfDragoon::
+	.string "The Legend of Dragoon$"
+
+Credits_Sony::
+	.string "Sony Computer Entertainment$"
+
 Credits_ThanksForPlaying::
-	.string "Thanks for playing!$"
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Thanks for playing!\p"
+	.string "Fun fact!\p"
+	.string "There are 50 pieces of STARDUST\n"
+	.string "hidden throughout the game.\p"
+	.string "You've found… 50 of them!\p$"
+
+Credits_Stardust0::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}That's no good!\p"
+	.string "Better replay the entire game and find\n"
+	.string "them all so you can brag to us about\l"
+	.string "how cool and amazing you are!\p$"
+
+Credits_Stardust10::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}That's less than half of them!\p"
+	.string "Try pressing the A button once per\n"
+	.string "frame to have a higher chance of\l"
+	.string "finding all of the STARDUST!\p$"
+
+Credits_Stardust25::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Hey, not too shabby!\n"
+	.string "That's more than half of them!\p$"
+	.string "Viperio told me you find more STARDUST\n"
+	.string "when you're subscribed to his YouTube\l"
+	.string "channel, have you tried that?$"
+
+Credits_Stardust40::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Almost there!\p"
+	.string "Have you tried spamming Word's DMs to\n"
+	.string "ask where the ones you're missing are?\p$"
+
+Credits_Stardust50::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Wow! Congrats, NERD!!!\p$"
+
+Credits_Outro::
+	.string "That's all for POKéMON TAG TEAM TRIALS!\p"
+	.string "Make sure to check out the other\n"
+	.string "super cool TARC 3 entries!\p"
+	.string "(unless they suck im writing this\n"
+	.string "the day before the due date)\p"
+	.string "Enjoy the VOLCANION room!\p"
+	.string "And of course, stay alive.\n"
+	.string "{PAUSE 100} - Viperio (2004-2027)\p$"
