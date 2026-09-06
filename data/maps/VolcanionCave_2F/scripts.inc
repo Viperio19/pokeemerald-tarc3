@@ -340,9 +340,9 @@ VolcanionCave_2F_Text_DroppedRodFloated::
 	.string "Next time I'll catch you for SURE!!$"
 
 VolcanionCave_2F_Text_DroppedRodFloatedSuccessfully::
-	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Ohhhh, you tricky fishy!!!\n"
-	.string "Next time I'll catch you for SURE!!\p"
-	.string "-wait, will there be a next time???$"
+	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}HEY!! THAT WAS MY FISHING ROD!!!\p"
+	.string "Guess I'm not getting that back\n"
+	.string "anytime soon…$"
 
 VolcanionCave_2F_EventScript_AquaGruntF::
 	lock
@@ -451,9 +451,9 @@ VolcanionCave_2F_Text_AgentDiggs1::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}AGENT DIGGS!!! How's it going, my guy??\p$"
 
 VolcanionCave_2F_Text_DiglettSecretAgent::
-	.string "This dialogue is not intended to\n"
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}This dialogue is not intended to\n"
 	.string "be accessible in normal gameplay.\p"
-	.string "Hi cheater!!!! - Word$"
+	.string "Hi cheater!!!!$"
 	
 VolcanionCave_2F_Text_AgentDiggs2::
 	.string "{SPEAKER NAME_AGENT_DIGGS COLOR_AQUA}pi wow.\p"
