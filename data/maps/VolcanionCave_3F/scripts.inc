@@ -6,6 +6,7 @@ VolcanionCave_3F_MapScripts::
 	.byte 0
 
 VolcanionCave_3F_OnTransition:
+	goto_if_set FLAG_DOING_CREDITS, VolcanionCave_3F_EventScript_SetUpCredits
 	callnative UpdateStrengthBoulderPositions
 	call_if_ne VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_SetWeatherFog
 	end
@@ -14,14 +15,33 @@ VolcanionCave_3F_EventScript_SetWeatherFog::
 	setweather WEATHER_FOG_HORIZONTAL
 	return
 
+VolcanionCave_3F_EventScript_SetUpCredits::
+	addobject LOCALID_3F_WHISMUR
+	setobjectxyperm LOCALID_3F_WHISMUR, 5, 38
+	turnobject LOCALID_3F_WHISMUR, DIR_SOUTH
+	addobject LOCALID_3F_PIKACHU
+	setobjectxyperm LOCALID_3F_PIKACHU, 27, 5
+	addobject LOCALID_3F_JESSIE
+	setobjectxyperm LOCALID_3F_JESSIE, 26, 4
+	addobject LOCALID_3F_JAMES
+	setobjectxyperm LOCALID_3F_JAMES, 27, 4
+	addobject LOCALID_3F_MEOWTH
+	setobjectxyperm LOCALID_3F_MEOWTH, 28, 4
+	addobject LOCALID_3F_VOLCANION
+	end
+
 VolcanionCave_3F_OnWarp:
 	map_script_2 VAR_TEMP_1, 0, VolcanionCave_3F_EventScript_TrySpawnPlayer2
 	.2byte 0
 
 VolcanionCave_3F_EventScript_TrySpawnPlayer2::
 	setvar VAR_TEMP_1, 1
+	goto_if_set FLAG_DOING_CREDITS, VolcanionCave_3F_EventScript_DontSpawnPlayer2
 	goto_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_SpawnHiddenPlayer2
 	callnative TrySpawnPlayer2
+	end
+
+VolcanionCave_3F_EventScript_DontSpawnPlayer2::
 	end
 
 VolcanionCave_3F_EventScript_SpawnHiddenPlayer2::
@@ -1195,8 +1215,17 @@ VolcanionCave_3F_EventScript_ZinniaEnter::
 	waitmoncry
 	closemessage
 	playbgm MUS_VS_VOLCANION, FALSE
-	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurDoSlidePuzzle
-	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_WhismurDoSlidePuzzle
+	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurStartSlidePuzzle
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_WhismurStartSlidePuzzle
+	waitmovement 0
+	playse SE_M_DIZZY_PUNCH
+	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurBeConfused
+	waitmovement 0
+	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurFinishSlidePuzzle
+	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_WhismurFinishSlidePuzzle
+	waitmovement 0
+	playse SE_PIN
+	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurCelebrate
 	waitmovement 0
 	applymovement LOCALID_3F_WHISMUR, VolcanionCave_3F_Movement_WhismurRunToVolcanion
 	applymovement LOCALID_CAMERA, VolcanionCave_3F_Movement_CameraMoveWithWhismurToVolcanion
@@ -1283,7 +1312,7 @@ VolcanionCave_3F_Movement_CameraMoveToWhismur::
 	walk_diag_northwest
 	step_end
 
-VolcanionCave_3F_Movement_WhismurDoSlidePuzzle::
+VolcanionCave_3F_Movement_WhismurStartSlidePuzzle::
 	walk_fast_right
 	walk_fast_up
 	walk_fast_up
@@ -1331,6 +1360,9 @@ VolcanionCave_3F_Movement_WhismurDoSlidePuzzle::
 	walk_fast_right
 	delay_16
 	unlock_anim
+	step_end
+
+VolcanionCave_3F_Movement_WhismurBeConfused::
 	emote_question_mark
 	delay_16
 	face_up
@@ -1340,9 +1372,9 @@ VolcanionCave_3F_Movement_WhismurDoSlidePuzzle::
 	face_right
 	delay_16
 	delay_16
-	face_up
-	emote_exclamation_mark
-	delay_16
+	step_end
+
+VolcanionCave_3F_Movement_WhismurFinishSlidePuzzle::
 	face_left
 	lock_anim
 	walk_fast_left
@@ -1384,7 +1416,9 @@ VolcanionCave_3F_Movement_WhismurDoSlidePuzzle::
 	walk_fast_up
 	unlock_anim
 	delay_16
-	delay_16
+	step_end
+
+VolcanionCave_3F_Movement_WhismurCelebrate::
 	emote_exclamation_mark
 	jump_in_place_down
 	jump_in_place_down
@@ -2547,7 +2581,7 @@ VolcanionCave_3F_EventScript_DiglettMagma::
 	call VolcanionCave_3F_EventScript_DiglettCry
 	message VolcanionCave_3F_Text_ThanksDiggsMagma
 	waitmessage
-	call VolcanionCave_1F_EventScript_VolcanionUseSteamEruption
+	call VolcanionCave_3F_EventScript_VolcanionUseSteamEruption
 	call VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption
 	message VolcanionCave_3F_Text_RipDiggsMagma
 	waitmessage
@@ -2569,7 +2603,7 @@ VolcanionCave_3F_EventScript_DiglettAqua::
 	call VolcanionCave_3F_EventScript_AgentDiggsCry
 	message VolcanionCave_3F_Text_ThanksDiggsAqua
 	waitmessage
-	call VolcanionCave_1F_EventScript_VolcanionUseSteamEruption
+	call VolcanionCave_3F_EventScript_VolcanionUseSteamEruption
 	call VolcanionCave_3F_EventScript_CameraMoveToPlayerAfterSteamEruption
 	message VolcanionCave_3F_Text_RipDiggsAqua
 	waitmessage
@@ -2640,7 +2674,7 @@ VolcanionCave_3F_EventScript_DiglettUseDig::
 	applymovement LOCALID_3F_DIGLETT, Common_Movement_WalkInPlaceUp
 	return
 
-VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
+VolcanionCave_3F_EventScript_VolcanionUseSteamEruption::
 	playbgm MUS_VS_VOLCANION, FALSE
 	call VolcanionCave_3F_EventScript_VolcanionCry
 	closemessage
@@ -3584,6 +3618,20 @@ VolcanionCave_3F_EventScript_Credits::
 	setflag FLAG_DO_CREDITS_TITLE
 	creditsmessage Credits_TagTeamTrials, Credits_Credits
 	clearflag FLAG_DO_CREDITS_TITLE
+	setflag FLAG_DOING_CREDITS
+	clearflag FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR
+	clearflag FLAG_HIDE_VOLCANION_CAVE_2F_CORSOLA
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAMORANT
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_GORGING
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_TEAM_ROCKET
+	clearflag FLAG_SPAWN_VOLCANION_CAVE_3F_TEAM_ROCKET
+	setvar VAR_CURRENT_HP_BAR_COLOR, 0
+	setflag FLAG_HIDE_VOLCANION_CAVE_3F_SHELLY
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_DIGLETT
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_ZINNIA
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_WHISMUR
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_VOLCANION
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_PIKACHU
 	warpcontinuescript MAP_VOLCANION_CAVE_1F, 19, 19, VolcanionCave_3F_EventScript_Credits2
 	end
 
@@ -3609,7 +3657,7 @@ VolcanionCave_3F_EventScript_Credits4::
 	creditsmessage Credits_MapDesigners, Credits_Viperio, Credits_Keeper
 	creditsmessage Credits_PuzzleDesigners, Credits_Viperio, Credits_Keeper
 	fadescreen FADE_TO_BLACK
-	warpcontinuescript MAP_VOLCANION_CAVE_2F, 19, 66, VolcanionCave_3F_EventScript_Credits5
+	warpcontinuescript MAP_VOLCANION_CAVE_2F, 20, 66, VolcanionCave_3F_EventScript_Credits5
 
 VolcanionCave_3F_EventScript_Credits5::
 	hideplayer
@@ -3633,7 +3681,7 @@ VolcanionCave_3F_EventScript_Credits7::
 	creditsmessage Credits_Playtesters, Credits_RyanGreenBlue, Credits_FlippyPlays, Credits_CoolOwen
 	creditsmessage Credits_Trailer, Credits_RyanGreenBlue
 	fadescreen FADE_TO_BLACK
-	warpcontinuescript MAP_VOLCANION_CAVE_3F, 25, 33, VolcanionCave_3F_EventScript_Credits8
+	warpcontinuescript MAP_VOLCANION_CAVE_3F, 7, 34, VolcanionCave_3F_EventScript_Credits8
 
 VolcanionCave_3F_EventScript_Credits8::
 	hideplayer
@@ -3649,7 +3697,7 @@ VolcanionCave_3F_EventScript_Credits9::
 	creditsmessage Credits_TeamRocketOverworldSprites, Credits_Kalari
 	creditsmessage Credits_TitleScreenBackground, Credits_Journeys
 	fadescreen FADE_TO_BLACK
-	warpcontinuescript MAP_VOLCANION_CAVE_3F, 16, 23, VolcanionCave_3F_EventScript_Credits10
+	warpcontinuescript MAP_VOLCANION_CAVE_3F, 16, 21, VolcanionCave_3F_EventScript_Credits10
 
 VolcanionCave_3F_EventScript_Credits10::
 	hideplayer
@@ -3665,7 +3713,7 @@ VolcanionCave_3F_EventScript_Credits11::
 	creditsmessage Credits_Awesome, Credits_Shelly
 	creditsmessage Credits_Loser, Credits_Viperio
 	fadescreen FADE_TO_BLACK
-	warpcontinuescript MAP_PETALBURG_CITY, 20, 9, VolcanionCave_3F_EventScript_Credits12
+	warpcontinuescript MAP_PETALBURG_CITY, 20, 8, VolcanionCave_3F_EventScript_Credits12
 
 VolcanionCave_3F_EventScript_Credits12::
 	hideplayer
@@ -3678,13 +3726,35 @@ VolcanionCave_3F_EventScript_Credits13::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
 	delay 50
-	message Credits_ThanksForPlaying
-	waitmessage
-	message Credits_Stardust0
-	waitmessage
-	message Credits_Outro
-	waitmessage
-	closemessage
+	callnative BufferStardustCount
+	goto_if_ge VAR_0x800A, 50, VolcanionCave_3F_EventScript_ThanksForPlayingStardust50
+	goto_if_ge VAR_0x800A, 40, VolcanionCave_3F_EventScript_ThanksForPlayingStardust40
+	goto_if_ge VAR_0x800A, 25, VolcanionCave_3F_EventScript_ThanksForPlayingStardust25
+	goto_if_ge VAR_0x800A, 10, VolcanionCave_3F_EventScript_ThanksForPlayingStardust10
+	goto VolcanionCave_3F_EventScript_ThanksForPlayingStardust0
+
+VolcanionCave_3F_EventScript_ThanksForPlayingStardust0::
+	msgbox Credits_ThanksForPlayingStardust0
+	release
+	end
+
+VolcanionCave_3F_EventScript_ThanksForPlayingStardust10::
+	msgbox Credits_ThanksForPlayingStardust10
+	release
+	end
+
+VolcanionCave_3F_EventScript_ThanksForPlayingStardust25::
+	msgbox Credits_ThanksForPlayingStardust25
+	release
+	end
+
+VolcanionCave_3F_EventScript_ThanksForPlayingStardust40::
+	msgbox Credits_ThanksForPlayingStardust40
+	release
+	end
+
+VolcanionCave_3F_EventScript_ThanksForPlayingStardust50::
+	msgbox Credits_ThanksForPlayingStardust50
 	release
 	end
 
@@ -3799,41 +3869,16 @@ Credits_LegendOfDragoon::
 Credits_Sony::
 	.string "Sony Computer Entertainment$"
 
-Credits_ThanksForPlaying::
+Credits_ThanksForPlayingStardust0::
 	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Thanks for playing!\p"
 	.string "Fun fact!\p"
 	.string "There are 50 pieces of STARDUST\n"
 	.string "hidden throughout the game.\p"
-	.string "You've found… 50 of them!\p$"
-
-Credits_Stardust0::
-	.string "{SPEAKER NAME_WORD COLOR_JESSIE}That's no good!\p"
+	.string "You've found… {STR_VAR_1} of them!\p"
+	.string "That's no good!\p"
 	.string "Better replay the entire game and find\n"
 	.string "them all so you can brag to us about\l"
-	.string "how cool and amazing you are!\p$"
-
-Credits_Stardust10::
-	.string "{SPEAKER NAME_WORD COLOR_JESSIE}That's less than half of them!\p"
-	.string "Try pressing the A button once per\n"
-	.string "frame to have a higher chance of\l"
-	.string "finding all of the STARDUST!\p$"
-
-Credits_Stardust25::
-	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Hey, not too shabby!\n"
-	.string "That's more than half of them!\p$"
-	.string "Viperio told me you find more STARDUST\n"
-	.string "when you're subscribed to his YouTube\l"
-	.string "channel, have you tried that?$"
-
-Credits_Stardust40::
-	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Almost there!\p"
-	.string "Have you tried spamming Word's DMs to\n"
-	.string "ask where the ones you're missing are?\p$"
-
-Credits_Stardust50::
-	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Wow! Congrats, NERD!!!\p$"
-
-Credits_Outro::
+	.string "how cool and amazing you are!\p"
 	.string "That's all for POKéMON TAG TEAM TRIALS!\p"
 	.string "Make sure to check out the other\n"
 	.string "super cool TARC 3 entries!\p"
@@ -3841,4 +3886,77 @@ Credits_Outro::
 	.string "the day before the due date)\p"
 	.string "Enjoy the VOLCANION room!\p"
 	.string "And of course, stay alive.\n"
-	.string "{PAUSE 100} - Viperio (2004-2027)\p$"
+	.string "{PAUSE 80} - Viperio (2004-2027)$"
+
+Credits_ThanksForPlayingStardust10::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Thanks for playing!\p"
+	.string "Fun fact!\p"
+	.string "There are 50 pieces of STARDUST\n"
+	.string "hidden throughout the game.\p"
+	.string "You've found… {STR_VAR_1} of them!\p"
+	.string "That's less than half of them!\p"
+	.string "Try pressing the A button once per\n"
+	.string "frame to have a higher chance of\l"
+	.string "finding all of the STARDUST!\p"
+	.string "That's all for POKéMON TAG TEAM TRIALS!\p"
+	.string "Make sure to check out the other\n"
+	.string "super cool TARC 3 entries!\p"
+	.string "(unless they suck im writing this\n"
+	.string "the day before the due date)\p"
+	.string "Enjoy the VOLCANION room!\p"
+	.string "And of course, stay alive.\n"
+	.string "{PAUSE 80} - Viperio (2004-2027)$"
+
+Credits_ThanksForPlayingStardust25::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Thanks for playing!\p"
+	.string "Fun fact!\p"
+	.string "There are 50 pieces of STARDUST\n"
+	.string "hidden throughout the game.\p"
+	.string "You've found… {STR_VAR_1} of them!\p"
+	.string "Hey, not too shabby!\n"
+	.string "That's more than half of them!\p$"
+	.string "Viperio told me you find more STARDUST\n"
+	.string "when you're subscribed to his YouTube\l"
+	.string "channel, have you tried that?\p"
+	.string "That's all for POKéMON TAG TEAM TRIALS!\p"
+	.string "Make sure to check out the other\n"
+	.string "super cool TARC 3 entries!\p"
+	.string "(unless they suck im writing this\n"
+	.string "the day before the due date)\p"
+	.string "Enjoy the VOLCANION room!\p"
+	.string "And of course, stay alive.\n"
+	.string "{PAUSE 80} - Viperio (2004-2027)$"
+
+Credits_ThanksForPlayingStardust40::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Thanks for playing!\p"
+	.string "Fun fact!\p"
+	.string "There are 50 pieces of STARDUST\n"
+	.string "hidden throughout the game.\p"
+	.string "You've found… {STR_VAR_1} of them!\p"
+	.string "Almost there!\p"
+	.string "Have you tried spamming Word's DMs to\n"
+	.string "ask where the ones you're missing are?\p"
+	.string "That's all for POKéMON TAG TEAM TRIALS!\p"
+	.string "Make sure to check out the other\n"
+	.string "super cool TARC 3 entries!\p"
+	.string "(unless they suck im writing this\n"
+	.string "the day before the due date)\p"
+	.string "Enjoy the VOLCANION room!\p"
+	.string "And of course, stay alive.\n"
+	.string "{PAUSE 80} - Viperio (2004-2027)$"
+
+Credits_ThanksForPlayingStardust50::
+	.string "{SPEAKER NAME_WORD COLOR_JESSIE}Thanks for playing!\p"
+	.string "Fun fact!\p"
+	.string "There are 50 pieces of STARDUST\n"
+	.string "hidden throughout the game.\p"
+	.string "You've found… {STR_VAR_1} of them!\p"
+	.string "Wow! Congrats, NERD!!!\p"
+	.string "That's all for POKéMON TAG TEAM TRIALS!\p"
+	.string "Make sure to check out the other\n"
+	.string "super cool TARC 3 entries!\p"
+	.string "(unless they suck im writing this\n"
+	.string "the day before the due date)\p"
+	.string "Enjoy the VOLCANION room!\p"
+	.string "And of course, stay alive.\n"
+	.string "{PAUSE 80} - Viperio (2004-2027)$"

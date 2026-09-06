@@ -114,8 +114,8 @@
 #define FLAG_HIDE_VOLCANION_CAVE_3F_VOLCANION      0x281
 #define FLAG_DO_CREDITS_TITLE                      0x282
 #define FLAG_AGENT_DIGGS_DIED                      0x283
+#define FLAG_DOING_CREDITS                         0x284
 
-#define FLAG_UNUSED_0x284  0x284 // Unused Flag
 #define FLAG_UNUSED_0x285  0x285 // Unused Flag
 #define FLAG_UNUSED_0x286  0x286 // Unused Flag
 #define FLAG_UNUSED_0x287  0x287 // Unused Flag
@@ -1280,7 +1280,7 @@
 #define FLAG_HIDDEN_ITEM_STARDUST_51                                0x4C5
 #define FLAG_HIDDEN_ITEM_STARDUST_52                                0x4C6
 
-#define LAST_STARDUST_FLAG FLAG_HIDDEN_ITEM_STARDUST_27
+#define LAST_STARDUST_FLAG FLAG_HIDDEN_ITEM_STARDUST_50
 #define STARDUST_COUNT LAST_STARDUST_FLAG
 
 #define FLAG_UNUSED_0x4C7                                           0x4C7 // Unused Flag

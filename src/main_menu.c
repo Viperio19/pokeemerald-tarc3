@@ -3104,8 +3104,26 @@ static void MainMenu_FormatSavegameBadges(void)
     }
     StringExpandPlaceholders(gStringVar4, gText_ContinueMenuBadges);
     AddTextPrinterParameterized3(2, FONT_NORMAL, 0x6C, 33, sTextColor_MenuInfo, TEXT_SKIP_DRAW, gStringVar4);
-    ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_LEADING_ZEROS, 1);
+    ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_RIGHT_ALIGN, 2);
     AddTextPrinterParameterized3(2, FONT_NORMAL, GetStringRightAlignXOffset(FONT_NORMAL, str, 0xD0), 33, sTextColor_MenuInfo, TEXT_SKIP_DRAW, str);
+}
+
+void BufferStardustCount(void)
+{
+    u8 str[0x20];
+    u8 badgeCount = 0;
+    u32 i;
+
+    for (i = FLAG_HIDDEN_ITEM_STARDUST_1; i <= LAST_STARDUST_FLAG; i++)
+    {
+        if (FlagGet(i))
+            badgeCount++;
+    }
+
+    gSpecialVar_0x800A = badgeCount;
+
+    ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_RIGHT_ALIGN, 2);
+    StringCopy(gStringVar1, str);
 }
 
 static void LoadMainMenuWindowFrameTiles(u8 bgId, u16 tileOffset)
