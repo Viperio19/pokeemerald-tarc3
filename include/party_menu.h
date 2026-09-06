@@ -12,6 +12,8 @@ enum PartyMenuLayout
     PARTY_LAYOUT_MULTI_SHOWCASE,                // The layout during the screen that appears just before a multi battle
     PARTY_LAYOUT_MULTI_FULL,
     PARTY_LAYOUT_MULTI_FULL_PARTNER,
+    PARTY_LAYOUT_MULTI_FULL_PLAYER_2,
+    PARTY_LAYOUT_MULTI_FULL_PLAYER_2_PARTNER,
     PARTY_LAYOUT_MULTI_FULL_SHOWCASE,           // The layout used to present player team in full-teams multi battle
     PARTY_LAYOUT_MULTI_FULL_SHOWCASE_PARTNER,   // The layout used to present partner team in full-teams multi battle
     PARTY_LAYOUT_COUNT,
@@ -118,7 +120,7 @@ void ClearSelectedPartyOrder(void);
 void ChooseMonForTradingBoard(enum PartyMenuType menuType, MainCallback callback);
 void ChooseMonForMoveTutor(void);
 void ChooseMonForWirelessMinigame(void);
-void OpenPartyMenuInBattle(u8 partyAction);
+void OpenPartyMenuInBattle(u8 partyAction, enum BattlerId battler);
 void ChooseMonForInBattleItem(void);
 void BufferBattlePartyCurrentOrder(void);
 void BufferBattlePartyCurrentOrderBySide(enum BattlerId battler, u8 flankId);

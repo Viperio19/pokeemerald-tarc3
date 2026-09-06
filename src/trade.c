@@ -156,7 +156,7 @@ struct InGameTrade {
     u32 otId;
     u8 conditions[CONTEST_CATEGORIES_COUNT];
     u32 personality;
-    u16 heldItem;
+    enum Item heldItem;
     u8 mailNum;
     u8 otName[TRAINER_NAME_LENGTH + 1];
     u8 otGender;
@@ -253,6 +253,7 @@ static EWRAM_DATA struct {
     u8 textColors[3];
     u8 filler_F9;
     bool8 isCableTrade;
+    bool8 isSinglePlayerTrade;
     u8 wirelessWinLeft;
     u8 wirelessWinTop;
     u8 wirelessWinRight;
@@ -289,7 +290,7 @@ static void ComputePartyTradeableFlags(u8);
 static void ComputePartyHPBarLevels(u8);
 static void SetTradePartyHPBarSprites(void);
 static void SaveTradeGiftRibbons(void);
-static u32 CanTradeSelectedMon(struct Pokemon *, int, int);
+static enum CanTradeMon CanTradeSelectedMon(struct Pokemon *, int, int);
 static void SpriteCB_LinkMonGlow(struct Sprite *);
 static void SpriteCB_LinkMonShadow(struct Sprite *);
 static void SpriteCB_CableEndSending(struct Sprite *);
@@ -314,6 +315,7 @@ static void CB2_WaitTradeComplete(void);
 static void CB2_SaveAndEndTrade(void);
 static void CB2_FreeTradeAnim(void);
 static void Task_InGameTrade(u8);
+static void Task_SinglePlayerTrade(u8);
 static void CheckPartnersMonForRibbons(void);
 static void Task_AnimateWirelessSignal(u8);
 static void Task_OpenCenterWhiteColumn(u8);
@@ -2381,7 +2383,7 @@ static void SaveTradeGiftRibbons(void)
     }
 }
 
-static u32 CanTradeSelectedMon(struct Pokemon *playerParty, int partyCount, int monIdx)
+static enum CanTradeMon CanTradeSelectedMon(struct Pokemon *playerParty, int partyCount, int monIdx)
 {
     int i, numMonsLeft;
     struct LinkPlayer *partner;
@@ -2569,7 +2571,7 @@ int CanRegisterMonForTradingBoard(struct RfuGameCompatibilityData player, enum S
 
 // Spin Trade wasnt fully implemented, but this checks if a mon would be valid to Spin Trade
 // Unlike later generations, this version of Spin Trade isnt only for Eggs
-int CanSpinTradeMon(struct Pokemon *mon, u16 monIdx)
+enum CanTradeMon CanSpinTradeMon(struct Pokemon *mon, u16 monIdx)
 {
     int i, version, versions, canTradeAnyMon, numMonsLeft;
     enum Species speciesArray[PARTY_SIZE];
@@ -3053,6 +3055,90 @@ static void CB2_InitInGameTrade(void)
     UpdatePaletteFade();
 }
 
+static void CB2_InitSinglePlayerTrade(void)
+{
+    struct Pokemon *playerMon = &gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A];
+    gParties[B_TRAINER_OPPONENT_A][0] = gSaveBlock1Ptr->player2Party[gSpecialVar_0x800B];
+
+    switch (gMain.state)
+    {
+    case 0:
+        gSelectedTradeMonPositions[TRADE_PLAYER] = gSpecialVar_0x800A;
+        gSelectedTradeMonPositions[TRADE_PARTNER] = gSpecialVar_0x800B;
+        StringCopy(gLinkPlayers[0].name, gSaveBlock2Ptr->playerName);
+        StringCopy(gLinkPlayers[1].name, gSaveBlock2Ptr->player2Name);
+        gLinkPlayers[0].language = GAME_LANGUAGE;
+        gLinkPlayers[1].language = GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_LANGUAGE);
+        sTradeAnim = AllocZeroed(sizeof(*sTradeAnim));
+        AllocateMonSpritesGfx();
+        ResetTasks();
+        ResetSpriteData();
+        FreeAllSpritePalettes();
+        SetVBlankCallback(VBlankCB_TradeAnim);
+        TradeAnimInit_LoadGfx();
+        sTradeAnim->isSinglePlayerTrade = TRUE;
+        sTradeAnim->isLinkTrade = FALSE;
+        sTradeAnim->neverRead_8C = 0;
+        sTradeAnim->state = 0;
+        sTradeAnim->texX = 64;
+        sTradeAnim->texY = 64;
+        sTradeAnim->neverRead_D8 = 0;
+        sTradeAnim->neverRead_DA = 0;
+        sTradeAnim->scrX = DISPLAY_WIDTH / 2;
+        sTradeAnim->scrY = DISPLAY_HEIGHT / 2;
+        sTradeAnim->sXY = 256;
+        sTradeAnim->alpha = 0;
+        sTradeAnim->timer = 0;
+        gMain.state = 5;
+        break;
+    case 5:
+        LoadTradeMonPic(playerMon, 0);
+        gMain.state++;
+        break;
+    case 6:
+        LoadTradeMonPic(playerMon, 1);
+        gMain.state++;
+        break;
+    case 7:
+        LoadTradeMonPic(&gParties[B_TRAINER_OPPONENT_A][0], 2);
+        ShowBg(0);
+        gMain.state++;
+        break;
+    case 8:
+        LoadTradeMonPic(&gParties[B_TRAINER_OPPONENT_A][0], 3);
+        FillWindowPixelBuffer(0, PIXEL_FILL(15));
+        PutWindowTilemap(0);
+        CopyWindowToVram(0, COPYWIN_FULL);
+        gMain.state++;
+        break;
+    case 9:
+        LoadTradeSequenceSpriteSheetsAndPalettes();
+        LoadSpriteSheet(&sPokeBallSpriteSheet);
+        LoadSpritePalette(&sPokeBallSpritePalette);
+        gMain.state++;
+        break;
+    case 10:
+        ShowBg(0);
+        gMain.state++;
+        break;
+    case 11:
+        SetTradeSequenceBgGpuRegs(5);
+        SetTradeSequenceBgGpuRegs(0);
+        BufferTradeSceneStrings();
+        gMain.state++;
+        break;
+    case 12:
+        SetMainCallback2(CB2_InGameTrade);
+        break;
+    }
+
+    RunTasks();
+    RunTextPrinters();
+    AnimateSprites();
+    BuildOamBuffer();
+    UpdatePaletteFade();
+}
+
 static void UpdatePokedexForReceivedMon(u8 partyIdx)
 {
     struct Pokemon *mon;
@@ -3123,6 +3209,23 @@ static void TradeMons(u8 playerPartyIdx, u8 partnerPartyIdx)
         CopyMonToPC(playerMon);
     if (gReceivedRemoteLinkPlayers)
         TryEnableNationalDexFromLinkPartner();
+}
+
+static void TradeSinglePlayerMons(void)
+{
+    u8 friendship;
+    struct Pokemon *playerMon = &gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A];
+    struct Pokemon *partnerMon = &gSaveBlock1Ptr->player2Party[gSpecialVar_0x800B];
+
+    SWAP(*playerMon, *partnerMon, sTradeAnim->tempMon);
+
+    // By default, a Pokémon received from a trade will have 70 Friendship.
+    // Eggs use Friendship to track egg cycles, so don't set this on Eggs.
+    friendship = 70;
+    if (!GetMonData(playerMon, MON_DATA_IS_EGG))
+        SetMonData(playerMon, MON_DATA_FRIENDSHIP, &friendship);
+
+    UpdatePokedexForReceivedMon(gSpecialVar_0x800A);
 }
 
 static void HandleLinkDataSend(void)
@@ -3338,6 +3441,14 @@ static void BufferTradeSceneStrings(void)
         GetMonData(&gParties[B_TRAINER_PLAYER][gSelectedTradeMonPositions[TRADE_PLAYER]], MON_DATA_NICKNAME, name);
         StringCopy_Nickname(gStringVar2, name);
     }
+    else if (sTradeAnim->isSinglePlayerTrade)
+    {
+        StringCopy(gStringVar1, gSaveBlock2Ptr->player2Name);
+        GetMonData(&gSaveBlock1Ptr->player2Party[gSpecialVar_0x800B], MON_DATA_NICKNAME, name);
+        StringCopy_Nickname(gStringVar3, name);
+        GetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x800A], MON_DATA_NICKNAME, name);
+        StringCopy_Nickname(gStringVar2, name);
+    }
     else
     {
         ingameTrade = &sIngameTrades[gSpecialVar_0x8005];
@@ -3476,7 +3587,7 @@ static bool8 DoTradeAnim_Cable(void)
     case STATE_BYE_BYE:
         if (++sTradeAnim->timer == 80)
         {
-            sTradeAnim->releasePokeballSpriteId = CreateTradePokeballSprite(sTradeAnim->monSpriteIds[TRADE_PLAYER], gSprites[sTradeAnim->monSpriteIds[TRADE_PLAYER]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff);
+            sTradeAnim->releasePokeballSpriteId = CreateTradePokeballSprite(sTradeAnim->monSpriteIds[TRADE_PLAYER], gSprites[sTradeAnim->monSpriteIds[TRADE_PLAYER]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff, BALL_BLANK);
             sTradeAnim->state++;
             StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
@@ -3816,7 +3927,7 @@ static bool8 DoTradeAnim_Cable(void)
         gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].x2 = 0;
         gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].y2 = 0;
         StartSpriteAnim(&gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]], 0);
-        CreatePokeballSpriteToReleaseMon(sTradeAnim->monSpriteIds[TRADE_PARTNER], gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, PALETTES_BG | (0xF << 16), sTradeAnim->monSpecies[TRADE_PARTNER]);
+        CreatePokeballSpriteToReleaseMon(sTradeAnim->monSpriteIds[TRADE_PARTNER], gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, PALETTES_BG | (0xF << 16), sTradeAnim->monSpecies[TRADE_PARTNER], BALL_POKE);
         FreeSpriteOamMatrix(&gSprites[sTradeAnim->bouncingPokeballSpriteId]);
         DestroySprite(&gSprites[sTradeAnim->bouncingPokeballSpriteId]);
         sTradeAnim->state++;
@@ -3950,7 +4061,7 @@ static bool8 DoTradeAnim_Wireless(void)
     case STATE_BYE_BYE:
         if (++sTradeAnim->timer == 80)
         {
-            sTradeAnim->releasePokeballSpriteId = CreateTradePokeballSprite(sTradeAnim->monSpriteIds[TRADE_PLAYER], gSprites[sTradeAnim->monSpriteIds[TRADE_PLAYER]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff);
+            sTradeAnim->releasePokeballSpriteId = CreateTradePokeballSprite(sTradeAnim->monSpriteIds[TRADE_PLAYER], gSprites[sTradeAnim->monSpriteIds[TRADE_PLAYER]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff, BALL_BLANK);
             sTradeAnim->state++;
             StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
@@ -4316,7 +4427,7 @@ static bool8 DoTradeAnim_Wireless(void)
         gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].x2 = 0;
         gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].y2 = 0;
         StartSpriteAnim(&gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]], 0);
-        CreatePokeballSpriteToReleaseMon(sTradeAnim->monSpriteIds[TRADE_PARTNER], gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, PALETTES_BG | (0xF << 16), sTradeAnim->monSpecies[TRADE_PARTNER]);
+        CreatePokeballSpriteToReleaseMon(sTradeAnim->monSpriteIds[TRADE_PARTNER], gSprites[sTradeAnim->monSpriteIds[TRADE_PARTNER]].oam.paletteNum, 120, 84, 2, 1, 20, PALETTES_BG | (0xF << 16), sTradeAnim->monSpecies[TRADE_PARTNER], BALL_POKE);
         FreeSpriteOamMatrix(&gSprites[sTradeAnim->bouncingPokeballSpriteId]);
         DestroySprite(&gSprites[sTradeAnim->bouncingPokeballSpriteId]);
         sTradeAnim->state++;
@@ -4370,7 +4481,10 @@ static bool8 DoTradeAnim_Wireless(void)
             sTradeAnim->state++;
         break;
     case STATE_TRY_EVOLUTION: // Only if in-game trade, link trades use CB2_TryLinkTradeEvolution
-        TradeMons(gSpecialVar_0x8004, 0);
+        if (sTradeAnim->isSinglePlayerTrade)
+            TradeSinglePlayerMons();
+        else
+            TradeMons(gSpecialVar_0x8004, 0);
         gCB2_AfterEvolution = CB2_InGameTrade;
         struct Pokemon *canEvolveMon;
         if (gSpecialVar_0x8004 == PC_MON_CHOSEN)
@@ -4866,11 +4980,28 @@ void DoInGameTradeScene(void)
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
 }
 
+void DoSinglePlayerTradeScene(void)
+{
+    LockPlayerFieldControls();
+    CreateTask(Task_SinglePlayerTrade, 10);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+}
+
 static void Task_InGameTrade(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
         SetMainCallback2(CB2_InitInGameTrade);
+        gFieldCallback = FieldCB_ContinueScriptHandleMusic;
+        DestroyTask(taskId);
+    }
+}
+
+static void Task_SinglePlayerTrade(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        SetMainCallback2(CB2_InitSinglePlayerTrade);
         gFieldCallback = FieldCB_ContinueScriptHandleMusic;
         DestroyTask(taskId);
     }

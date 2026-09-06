@@ -6,6 +6,7 @@
 #define TEMP_FLAGS_SIZE     (NUM_TEMP_FLAGS / 8)
 #define DAILY_FLAGS_SIZE    (NUM_DAILY_FLAGS / 8)
 #define TEMP_VARS_SIZE      (NUM_TEMP_VARS * 2)      // 1/2 var per byte
+#define TEMP_ISH_VARS_SIZE  (NUM_TEMP_ISH_VARS * 2)      // 1/2 var per byte
 
 EWRAM_DATA u16 gSpecialVar_0x8000 = 0;
 EWRAM_DATA u16 gSpecialVar_0x8001 = 0;
@@ -24,7 +25,7 @@ EWRAM_DATA u16 gSpecialVar_LastTalked = 0;
 EWRAM_DATA u16 gSpecialVar_Facing = 0;
 EWRAM_DATA u16 gSpecialVar_MonBoxId = 0;
 EWRAM_DATA u16 gSpecialVar_MonBoxPos = 0;
-EWRAM_DATA u16 gSpecialVar_Unused_0x8014 = 0;
+EWRAM_DATA u16 gSpecialVar_FontType = 0;
 EWRAM_DATA static u8 sSpecialFlags[SPECIAL_FLAGS_SIZE] = {0};
 
 #if TESTING
@@ -57,8 +58,12 @@ void InitEventData(void)
 
 void ClearTempFieldEventData(void)
 {
-    memset(&gSaveBlock1Ptr->flags[TEMP_FLAGS_START / 8], 0, TEMP_FLAGS_SIZE);
-    memset(&gSaveBlock1Ptr->vars[TEMP_VARS_START - VARS_START], 0, TEMP_VARS_SIZE);
+    if (!FlagGet(FLAG_DOING_PLAYER_SWITCH))
+    {
+        memset(&gSaveBlock1Ptr->flags[TEMP_FLAGS_START / 8], 0, TEMP_FLAGS_SIZE);
+        memset(&gSaveBlock1Ptr->vars[TEMP_ISH_VARS_START - VARS_START], 0, TEMP_ISH_VARS_SIZE);
+    }
+    memset(&gSaveBlock1Ptr->vars[TEMP_VARS_START - VARS_START], 0, TEMP_VARS_SIZE - TEMP_ISH_VARS_SIZE);
     FlagClear(FLAG_SYS_ENC_UP_ITEM);
     FlagClear(FLAG_SYS_ENC_DOWN_ITEM);
     FlagClear(FLAG_SYS_USE_STRENGTH);
@@ -98,29 +103,9 @@ bool32 IsNationalPokedexEnabled(void)
         return FALSE;
 }
 
-void DisableMysteryEvent(void)
-{
-    FlagClear(FLAG_SYS_MYSTERY_EVENT_ENABLE);
-}
-
-void EnableMysteryEvent(void)
-{
-    FlagSet(FLAG_SYS_MYSTERY_EVENT_ENABLE);
-}
-
 bool32 IsMysteryEventEnabled(void)
 {
     return FlagGet(FLAG_SYS_MYSTERY_EVENT_ENABLE);
-}
-
-void DisableMysteryGift(void)
-{
-    FlagClear(FLAG_SYS_MYSTERY_GIFT_ENABLE);
-}
-
-void EnableMysteryGift(void)
-{
-    FlagSet(FLAG_SYS_MYSTERY_GIFT_ENABLE);
 }
 
 bool32 IsMysteryGiftEnabled(void)
@@ -151,13 +136,6 @@ void ClearMysteryGiftFlags(void)
 void ClearMysteryGiftVars(void)
 {
     VarSet(VAR_GIFT_PICHU_SLOT, 0);
-    VarSet(VAR_GIFT_UNUSED_1, 0);
-    VarSet(VAR_GIFT_UNUSED_2, 0);
-    VarSet(VAR_GIFT_UNUSED_3, 0);
-    VarSet(VAR_GIFT_UNUSED_4, 0);
-    VarSet(VAR_GIFT_UNUSED_5, 0);
-    VarSet(VAR_GIFT_UNUSED_6, 0);
-    VarSet(VAR_GIFT_UNUSED_7, 0);
 }
 
 void DisableResetRTC(void)

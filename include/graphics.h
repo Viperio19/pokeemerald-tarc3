@@ -63,6 +63,7 @@ extern const u32 gBallGfx_Beast[];
 extern const u16 gBallPal_Beast[];
 extern const u32 gBallGfx_Cherish[];
 extern const u16 gBallPal_Cherish[];
+extern const u32 gBallGfx_Blank[];
 extern const u32 gOpenPokeballGfx[];
 
 // Pokémon gfx
@@ -280,6 +281,11 @@ extern const u16 gBattleEnvironmentPalette_StadiumPhoebe[];
 extern const u16 gBattleEnvironmentPalette_StadiumGlacia[];
 extern const u16 gBattleEnvironmentPalette_StadiumDrake[];
 extern const u16 gBattleEnvironmentPalette_StadiumWallace[];
+extern const u32 gBattleEnvironmentTiles_Lava[];
+extern const u32 gBattleEnvironmentTilemap_Lava[];
+extern const u32 gBattleEnvironmentAnimTiles_Lava[];
+extern const u32 gBattleEnvironmentAnimTilemap_Lava[];
+extern const u16 gBattleEnvironmentPalette_Lava[];
 
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];
@@ -535,6 +541,7 @@ extern const u16 gItemIconPalette_BlackFlute[];
 extern const u16 gItemIconPalette_WhiteFlute[];
 // Encounter Modifiers
 extern const u32 gItemIcon_Repel[];
+extern const u32 gItemIcon_SignedRepel[];
 extern const u16 gItemIconPalette_Repel[];
 extern const u16 gItemIconPalette_SuperRepel[];
 extern const u16 gItemIconPalette_MaxRepel[];
@@ -3388,6 +3395,10 @@ extern const u16 gObjectEventPal_Brendan[];
 extern const u16 gObjectEventPal_May[];
 extern const u16 gObjectEventPal_RubySapphireBrendan[];
 extern const u16 gObjectEventPal_RubySapphireMay[];
+extern const u16 gObjectEventPal_PlayerM[];
+extern const u16 gObjectEventPal_PlayerF[];
+extern const u16 gObjectEventPal_Player2M[];
+extern const u16 gObjectEventPal_Player2F[];
 
 // Mail
 extern const u16 gMailPalette_Orange[];

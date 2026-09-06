@@ -481,7 +481,7 @@ struct PokemonStorageSystemData
     const u16 *displayMonPalette;
     u32 displayMonPersonality;
     enum Species displayMonSpecies;
-    u16 displayMonItemId;
+    enum Item displayMonItemId;
     u16 displayUnusedVar;
     bool8 setMosaic;
     u8 displayMonMarkings;
@@ -526,7 +526,7 @@ struct PokemonStorageSystemData
     u8 inBoxMovingMode;
     u16 multiMoveWindowId;
     struct ItemIcon itemIcons[MAX_ITEM_ICONS];
-    u16 movingItemId;
+    enum Item movingItemId;
     u16 itemInfoWindowOffset;
     u16 displayMonPalOffset;
     u16 *displayMonTilePtr;
@@ -547,7 +547,7 @@ EWRAM_DATA static u8 sCurrentBoxOption = 0;
 EWRAM_DATA static u8 sDepositBoxId = 0;
 EWRAM_DATA static u8 sWhichToReshow = 0;
 EWRAM_DATA static u8 sLastUsedBox = 0;
-EWRAM_DATA static u16 sMovingItemId = 0;
+EWRAM_DATA static enum Item sMovingItemId = ITEM_NONE;
 EWRAM_DATA static struct Pokemon sSavedMovingMon = {0};
 EWRAM_DATA static s8 sCursorArea = 0;
 EWRAM_DATA static s8 sCursorPosition = 0;
@@ -715,7 +715,7 @@ static void MoveHeldItemWithPartyMenu(void);
 static bool8 IsItemIconAnimActive(void);
 static bool8 IsMovingItem(void);
 static const u8 *GetMovingItemName(void);
-static u16 GetMovingItemId(void);
+static enum Item GetMovingItemId(void);
 static void PrintItemDescription(void);
 static void InitItemInfoWindow(void);
 static bool8 UpdateItemInfoWindowSlideIn(void);
@@ -762,7 +762,7 @@ static bool8 IsCursorOnBoxTitle(void);
 static bool8 IsCursorInBox(void);
 
 // Scroll arrows
-static void CreateBoxScrollArrows(void);
+// static void CreateBoxScrollArrows(void);
 static void StartBoxScrollArrowsSlide(s8);
 static void StopBoxScrollArrowsSlide(void);
 static void AnimateBoxScrollArrows(bool8);
@@ -1709,8 +1709,8 @@ void ResetPokemonStorageSystem(void)
     }
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
     {
-        u8 *dest = StringCopy(GetBoxNamePtr(boxId), gText_Box);
-        ConvertIntToDecimalStringN(dest, boxId + 1, STR_CONV_MODE_LEFT_ALIGN, 2);
+        StringCopy(GetBoxNamePtr(boxId), gText_Box);
+        // ConvertIntToDecimalStringN(dest, boxId + 1, STR_CONV_MODE_LEFT_ALIGN, 2);
     }
 
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
@@ -2632,7 +2632,6 @@ static void Task_OnSelectedMon(u8 taskId)
             else
             {
                 PlaySE(SE_SELECT);
-                ClearBottomWindow();
                 SetPokeStorageTask(Task_DepositMenu);
             }
             break;
@@ -2849,38 +2848,21 @@ static void Task_DepositMenu(u8 taskId)
     switch (sStorage->state)
     {
     case 0:
-        PrintMessage(MSG_DEPOSIT_IN_WHICH_BOX);
-        LoadChooseBoxMenuGfx(&sStorage->chooseBoxMenu, GFXTAG_CHOOSE_BOX_MENU, PALTAG_MISC_1, 3, FALSE);
-        CreateChooseBoxMenuSprites(sDepositBoxId);
         sStorage->state++;
         break;
     case 1:
-        boxId = HandleChooseBoxMenuInput();
-        switch (boxId)
+        boxId = gPokemonStoragePtr->currentBox;
+
+        if (TryStorePartyMonInBox(boxId))
         {
-        case BOXID_NONE_CHOSEN:
-            break;
-        case BOXID_CANCELED:
             ClearBottomWindow();
-            DestroyChooseBoxMenuSprites();
-            FreeChooseBoxMenu();
-            SetPokeStorageTask(Task_PokeStorageMain);
-            break;
-        default:
-            if (TryStorePartyMonInBox(boxId))
-            {
-                sDepositBoxId = boxId;
-                ClearBottomWindow();
-                DestroyChooseBoxMenuSprites();
-                FreeChooseBoxMenu();
-                sStorage->state = 2;
-            }
-            else
-            {
-                PrintMessage(MSG_BOX_IS_FULL);
-                sStorage->state = 4;
-            }
-            break;
+            sDepositBoxId = boxId;
+            sStorage->state = 2;
+        }
+        else
+        {
+            PrintMessage(MSG_BOX_IS_FULL);
+            sStorage->state = 4;
         }
         break;
     case 2:
@@ -2900,8 +2882,8 @@ static void Task_DepositMenu(u8 taskId)
     case 4:
         if (JOY_NEW(A_BUTTON | B_BUTTON | DPAD_ANY))
         {
-            PrintMessage(MSG_DEPOSIT_IN_WHICH_BOX);
-            sStorage->state = 1;
+            ClearBottomWindow();
+            SetPokeStorageTask(Task_PokeStorageMain);
         }
         break;
     }
@@ -5271,7 +5253,6 @@ static void Task_InitBox(u8 taskId)
             return;
 
         InitBoxTitle(task->tBoxId);
-        CreateBoxScrollArrows();
         InitBoxMonSprites(task->tBoxId);
         SetGpuReg(REG_OFFSET_BG2CNT, BGCNT_PRIORITY(2) | BGCNT_CHARBASE(2) | BGCNT_SCREENBASE(27) | BGCNT_TXT512x256);
         break;
@@ -5678,25 +5659,25 @@ static s16 GetBoxTitleBaseX(const u8 *string)
 #define sTimer data[1]
 #define sSpeed data[3]
 
-static void CreateBoxScrollArrows(void)
-{
-    u16 i;
+// static void CreateBoxScrollArrows(void)
+// {
+//     u16 i;
 
-    LoadSpriteSheet(&sSpriteSheet_Arrow);
-    for (i = 0; i < 2; i++)
-    {
-        u8 spriteId = CreateSprite(&sSpriteTemplate_Arrow, 92 + i * 136, 28, 22);
-        if (spriteId != MAX_SPRITES)
-        {
-            struct Sprite *sprite = &gSprites[spriteId];
-            StartSpriteAnim(sprite, i);
-            sprite->sSpeed = (i == 0) ? -1 : 1;
-            sStorage->arrowSprites[i] = sprite;
-        }
-    }
-    if (IsCursorOnBoxTitle())
-        AnimateBoxScrollArrows(TRUE);
-}
+//     LoadSpriteSheet(&sSpriteSheet_Arrow);
+//     for (i = 0; i < 2; i++)
+//     {
+//         u8 spriteId = CreateSprite(&sSpriteTemplate_Arrow, 92 + i * 136, 28, 22);
+//         if (spriteId != MAX_SPRITES)
+//         {
+//             struct Sprite *sprite = &gSprites[spriteId];
+//             StartSpriteAnim(sprite, i);
+//             sprite->sSpeed = (i == 0) ? -1 : 1;
+//             sStorage->arrowSprites[i] = sprite;
+//         }
+//     }
+//     if (IsCursorOnBoxTitle())
+//         AnimateBoxScrollArrows(TRUE);
+// }
 
 // Slide box scroll arrows horizontally for box change
 static void StartBoxScrollArrowsSlide(s8 direction)
@@ -7563,18 +7544,18 @@ static u8 HandleInput_OnBox(void)
             break;
         }
 
-        if (JOY_HELD(DPAD_LEFT))
-            return INPUT_SCROLL_LEFT;
-        if (JOY_HELD(DPAD_RIGHT))
-            return INPUT_SCROLL_RIGHT;
+        // if (JOY_HELD(DPAD_LEFT))
+        //     return INPUT_SCROLL_LEFT;
+        // if (JOY_HELD(DPAD_RIGHT))
+        //     return INPUT_SCROLL_RIGHT;
 
-        if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
-        {
-            if (JOY_HELD(L_BUTTON))
-                return INPUT_SCROLL_LEFT;
-            if (JOY_HELD(R_BUTTON))
-                return INPUT_SCROLL_RIGHT;
-        }
+        // if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
+        // {
+        //     if (JOY_HELD(L_BUTTON))
+        //         return INPUT_SCROLL_LEFT;
+        //     if (JOY_HELD(R_BUTTON))
+        //         return INPUT_SCROLL_RIGHT;
+        // }
 
         if (JOY_NEW(A_BUTTON))
         {
@@ -7708,8 +7689,8 @@ static u8 HandleInput(void)
 static void AddBoxOptionsMenu(void)
 {
     InitMenu();
-    SetMenuText(MENU_JUMP);
-    SetMenuText(MENU_WALLPAPER);
+    // SetMenuText(MENU_JUMP);
+    // SetMenuText(MENU_WALLPAPER);
     SetMenuText(MENU_NAME);
     SetMenuText(MENU_CANCEL);
 }
@@ -7994,11 +7975,6 @@ static void GetCursorBoxColumnAndRow(u8 *column, u8 *row)
 static void StartCursorAnim(u8 animNum)
 {
     StartSpriteAnim(sStorage->cursorSprite, animNum);
-}
-
-static u8 UNUSED GetMovingMonOriginalBoxId(void)
-{
-    return sMovingMonOrigBoxId;
 }
 
 static void SetCursorPriorityTo1(void)
@@ -8864,7 +8840,7 @@ static void CreateItemIconSprites(void)
 
 static void TryLoadItemIconAtPos(u8 cursorArea, u8 cursorPos)
 {
-    u16 heldItem;
+    enum Item heldItem;
 
     if (sStorage->boxOption != OPTION_MOVE_ITEMS)
         return;
@@ -9109,7 +9085,7 @@ static const u8 *GetMovingItemName(void)
     return GetItemName(sStorage->movingItemId);
 }
 
-static u16 GetMovingItemId(void)
+static enum Item GetMovingItemId(void)
 {
     return sStorage->movingItemId;
 }
@@ -9496,19 +9472,6 @@ static void SpriteCB_ItemIcon_HideParty(struct Sprite *sprite)
 //  SECTION: General utility
 //------------------------------------------------------------------------------
 
-
-// Leftover from FRLG
-static void UNUSED BackupPokemonStorage(void/*struct PokemonStorage * dest*/)
-{
-    //*dest = *gPokemonStoragePtr;
-}
-
-// Leftover from FRLG
-static void UNUSED RestorePokemonStorage(void/*struct PokemonStorage * src*/)
-{
-    //*gPokemonStoragePtr = *src;
-}
-
 // Functions here are general utility functions.
 u8 StorageGetCurrentBox(void)
 {
@@ -9567,12 +9530,6 @@ void SetBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon *src)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
         gPokemonStoragePtr->boxes[boxId][boxPosition] = *src;
-}
-
-void CopyBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon *dst)
-{
-    if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT)
-        *dst = gPokemonStoragePtr->boxes[boxId][boxPosition];
 }
 
 void ZeroBoxMonAt(u8 boxId, u8 boxPosition)
@@ -9686,24 +9643,6 @@ u32 CountStorageNonEggMons(void)
         {
             if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
                 && !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
-                count++;
-        }
-    }
-
-    return count;
-}
-
-u32 CountAllStorageMons(void)
-{
-    s32 i, j;
-    u32 count = 0;
-
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
-    {
-        for (j = 0; j < IN_BOX_COUNT; j++)
-        {
-            if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_HAS_SPECIES)
-                || GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SANITY_IS_EGG))
                 count++;
         }
     }

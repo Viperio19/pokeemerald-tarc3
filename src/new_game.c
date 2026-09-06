@@ -2,6 +2,7 @@
 #include "clock.h"
 #include "new_game.h"
 #include "random.h"
+#include "clock.h"
 #include "pokemon.h"
 #include "roamer.h"
 #include "pokemon_size_record.h"
@@ -51,15 +52,19 @@
 #include "constants/items.h"
 #include "difficulty.h"
 #include "follower_npc.h"
+#include "field_control_avatar.h"
+#include "script_pokemon_util.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 extern const u8 EventScript_ResetAllMapFlagsFrlg[];
+extern const u8 EventScript_ResetAllMapFlagsTARC[];
 
 static void ClearFrontierRecord(void);
-static void WarpToTruck(void);
+static void WarpToFirstMap(void);
 static void ResetMiniGamesRecords(void);
 static void ResetItemFlags(void);
 static void ResetDexNav(void);
+static void InitTARCData(void);
 
 EWRAM_DATA bool8 gDifferentSaveFile = FALSE;
 EWRAM_DATA bool8 gEnableContestDebugging = FALSE;
@@ -90,18 +95,20 @@ void CopyTrainerId(u8 *dst, u8 *src)
         dst[i] = src[i];
 }
 
-static void InitPlayerTrainerId(void)
+static void InitPlayerTrainerIds()
 {
     u32 trainerId = (Random() << 16) | GetGeneratedTrainerIdLower();
+    u32 trainerIdFRLG = (GetGeneratedTrainerIdLower() << 16) | Random();
     SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
+    SetTrainerId(trainerIdFRLG, gSaveBlock2Ptr->player2TrainerId);
 }
 
 // L=A isnt set here for some reason.
 static void SetDefaultOptions(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
+    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
-    gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
+    gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_STEREO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
@@ -109,9 +116,10 @@ static void SetDefaultOptions(void)
 
 static void ClearPokedexFlags(void)
 {
-    gUnusedPokedexU8 = 0;
     memset(&gSaveBlock1Ptr->dexCaught, 0, sizeof(gSaveBlock1Ptr->dexCaught));
     memset(&gSaveBlock1Ptr->dexSeen, 0, sizeof(gSaveBlock1Ptr->dexSeen));
+    memset(&gSaveBlock1Ptr->dexCaught2, 0, sizeof(gSaveBlock1Ptr->dexCaught2));
+    memset(&gSaveBlock1Ptr->dexSeen2, 0, sizeof(gSaveBlock1Ptr->dexSeen2));
 }
 
 void ClearAllContestWinnerPics(void)
@@ -133,12 +141,10 @@ static void ClearFrontierRecord(void)
     gSaveBlock2Ptr->frontier.opponentNames[1][0] = EOS;
 }
 
-static void WarpToTruck(void)
+static void WarpToFirstMap(void)
 {
-    if (IS_FRLG)
-        SetWarpDestination(MAP_GROUP(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(MAP_PALLET_TOWN_PLAYERS_HOUSE_2F), WARP_ID_NONE, 6, 6);
-    else
-        SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), 19, 22, DIR_NORTH, 3);
+    SetWarpDestination(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F), WARP_ID_NONE, 19, 22);
     WarpIntoMap();
 }
 
@@ -180,7 +186,7 @@ void NewGameInitData(void)
     ClearAllMail();
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
     gSaveBlock2Ptr->gcnLinkFlags = 0;
-    InitPlayerTrainerId();
+    InitPlayerTrainerIds();
     PlayTimeCounter_Reset();
     ClearPokedexFlags();
     InitEventData();
@@ -189,6 +195,7 @@ void NewGameInitData(void)
     ClearSecretBases();
     ClearBerryTrees();
     SetMoney(&gSaveBlock1Ptr->money, 3000);
+    gSaveBlock1Ptr->money2 = 5000;
     SetCoins(0);
     ResetLinkContestBoolean();
     ResetGameStats();
@@ -211,11 +218,9 @@ void NewGameInitData(void)
     ResetFanClub();
     ResetLotteryCorner();
     UpdateDailySeed();
-    WarpToTruck();
-    if (IS_FRLG)
-        RunScriptImmediately(EventScript_ResetAllMapFlagsFrlg);
-    else
-        RunScriptImmediately(EventScript_ResetAllMapFlags);
+    InitTARCData();
+    WarpToFirstMap();
+    RunScriptImmediately(EventScript_ResetAllMapFlagsTARC);
 #if IS_FRLG
         StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
 #endif
@@ -257,4 +262,51 @@ static void ResetDexNav(void)
     memset(gSaveBlock3Ptr->dexNavSearchLevels, 0, sizeof(gSaveBlock3Ptr->dexNavSearchLevels));
 #endif
     gSaveBlock3Ptr->dexNavChain = 0;
+}
+
+static void InitTARCData(void)
+{
+    FlagSet(FLAG_SYS_POKEDEX_GET);
+    FlagSet(FLAG_SYS_POKEMON_GET);
+    FlagSet(FLAG_SYS_B_DASH);
+
+    FlagSet(FLAG_BADGE02_GET);
+    FlagSet(FLAG_BADGE03_GET);
+    FlagSet(FLAG_P2_BADGE05_GET);
+    FlagSet(FLAG_P2_BADGE08_GET);
+
+    FlagSet(FLAG_OVERWRITE_MET_LOCATION_NEW_GAME);
+
+    HandleSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_POOCHYENA), FLAG_SET_CAUGHT_BOTH, 0);
+
+    AddBagItem(ITEM_POKE_BALL, 10);
+    ScriptGiveMon(SPECIES_NUMEL, 20, ITEM_NONE);
+    SwitchParties();
+    SwitchTrainerData();
+    SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
+
+    gSaveBlock2Ptr->player ^= 1;
+
+    AddBagItem(ITEM_GREAT_BALL, 10);
+    ScriptGiveMon(SPECIES_CARVANHA, 20, ITEM_NONE);
+    SwitchParties();
+    SwitchTrainerData();
+    SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
+
+    gSaveBlock2Ptr->player ^= 1;
+
+    FlagClear(FLAG_OVERWRITE_MET_LOCATION_NEW_GAME);
+
+    struct BoulderPos *pos;
+    
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 32; j++)
+        {
+            pos = &gSaveBlock1Ptr->boulderPos[i][j];
+            
+            pos->x = 0;
+            pos->y = 0;
+        }
+    }
 }

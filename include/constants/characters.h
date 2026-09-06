@@ -220,7 +220,7 @@
 #define EXT_CTRL_CODE_WAIT_SE                0x0A
 #define EXT_CTRL_CODE_PLAY_BGM               0x0B
 #define EXT_CTRL_CODE_ESCAPE                 0x0C
-#define EXT_CTRL_CODE_SHIFT_RIGHT            0x0D
+#define EXT_CTRL_CODE_AUTO_SCROLL            0x0D
 #define EXT_CTRL_CODE_SHIFT_DOWN             0x0E
 #define EXT_CTRL_CODE_FILL_WINDOW            0x0F
 #define EXT_CTRL_CODE_PLAY_SE                0x10
@@ -236,6 +236,7 @@
 #define EXT_CTRL_CODE_ACCENT                 0x1A
 #define EXT_CTRL_CODE_BACKGROUND             0x1B
 #define EXT_CTRL_CODE_TEXT_COLORS            0x1C
+#define EXT_CTRL_CODE_FONT_TYPE            0x1D
 
 #define TEXT_COLOR_TRANSPARENT  0x0
 #define TEXT_COLOR_WHITE        0x1
@@ -262,13 +263,14 @@
 #define PLACEHOLDER_ID_KUN           0x5
 #define PLACEHOLDER_ID_RIVAL         0x6
 #define PLACEHOLDER_ID_VERSION       0x7
-#define PLACEHOLDER_ID_AQUA          0x8
-#define PLACEHOLDER_ID_MAGMA         0x9
-#define PLACEHOLDER_ID_ARCHIE        0xA
-#define PLACEHOLDER_ID_MAXIE         0xB
-#define PLACEHOLDER_ID_KYOGRE        0xC
-#define PLACEHOLDER_ID_GROUDON       0xD
-#define PLACEHOLDER_ID_REGION        0xE
+#define PLACEHOLDER_ID_HESHE_1       0x8
+#define PLACEHOLDER_ID_HIMHER_1      0x9
+#define PLACEHOLDER_ID_HISHERS_1     0xA
+#define PLACEHOLDER_ID_HESHE_2       0xB
+#define PLACEHOLDER_ID_HIMHER_2      0xC
+#define PLACEHOLDER_ID_HISHERS_2     0xD
+#define PLACEHOLDER_ID_PLAYER_MAGMA  0xE
+#define PLACEHOLDER_ID_PLAYER_AQUA   0xF
 
 // battle placeholders are located in battle_message.h
 

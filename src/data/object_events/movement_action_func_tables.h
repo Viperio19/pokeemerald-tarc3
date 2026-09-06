@@ -125,6 +125,7 @@ u8 MovementAction_JumpSpecialLeft_Step1(struct ObjectEvent *, struct Sprite *);
 u8 MovementAction_JumpSpecialRight_Step0(struct ObjectEvent *, struct Sprite *);
 u8 MovementAction_JumpSpecialRight_Step1(struct ObjectEvent *, struct Sprite *);
 u8 MovementAction_FacePlayer_Step0(struct ObjectEvent *, struct Sprite *);
+u8 MovementAction_FacePlayer2_Step0(struct ObjectEvent *, struct Sprite *);
 u8 MovementAction_FaceAwayPlayer_Step0(struct ObjectEvent *, struct Sprite *);
 u8 MovementAction_LockFacingDirection_Step0(struct ObjectEvent *, struct Sprite *);
 u8 MovementAction_UnlockFacingDirection_Step0(struct ObjectEvent *, struct Sprite *);
@@ -368,6 +369,7 @@ u8 (*const gMovementActionFuncs_JumpSpecialUp[])(struct ObjectEvent *, struct Sp
 u8 (*const gMovementActionFuncs_JumpSpecialLeft[])(struct ObjectEvent *, struct Sprite *);
 u8 (*const gMovementActionFuncs_JumpSpecialRight[])(struct ObjectEvent *, struct Sprite *);
 u8 (*const gMovementActionFuncs_FacePlayer[])(struct ObjectEvent *, struct Sprite *);
+u8 (*const gMovementActionFuncs_FacePlayer2[])(struct ObjectEvent *, struct Sprite *);
 u8 (*const gMovementActionFuncs_FaceAwayPlayer[])(struct ObjectEvent *, struct Sprite *);
 u8 (*const gMovementActionFuncs_LockFacingDirection[])(struct ObjectEvent *, struct Sprite *);
 u8 (*const gMovementActionFuncs_UnlockFacingDirection[])(struct ObjectEvent *, struct Sprite *);
@@ -552,6 +554,7 @@ u8 (*const *const gMovementActionFuncs[])(struct ObjectEvent *, struct Sprite *)
     [MOVEMENT_ACTION_JUMP_SPECIAL_LEFT] = gMovementActionFuncs_JumpSpecialLeft,
     [MOVEMENT_ACTION_JUMP_SPECIAL_RIGHT] = gMovementActionFuncs_JumpSpecialRight,
     [MOVEMENT_ACTION_FACE_PLAYER] = gMovementActionFuncs_FacePlayer,
+    [MOVEMENT_ACTION_FACE_PLAYER_2] = gMovementActionFuncs_FacePlayer2,
     [MOVEMENT_ACTION_FACE_AWAY_PLAYER] = gMovementActionFuncs_FaceAwayPlayer,
     [MOVEMENT_ACTION_LOCK_FACING_DIRECTION] = gMovementActionFuncs_LockFacingDirection,
     [MOVEMENT_ACTION_UNLOCK_FACING_DIRECTION] = gMovementActionFuncs_UnlockFacingDirection,
@@ -1123,6 +1126,11 @@ u8 (*const gMovementActionFuncs_JumpSpecialRight[])(struct ObjectEvent *, struct
 
 u8 (*const gMovementActionFuncs_FacePlayer[])(struct ObjectEvent *, struct Sprite *) = {
     MovementAction_FacePlayer_Step0,
+    MovementAction_PauseSpriteAnim,
+};
+
+u8 (*const gMovementActionFuncs_FacePlayer2[])(struct ObjectEvent *, struct Sprite *) = {
+    MovementAction_FacePlayer2_Step0,
     MovementAction_PauseSpriteAnim,
 };
 

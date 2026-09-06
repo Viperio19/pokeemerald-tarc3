@@ -146,7 +146,7 @@ static const u32 sAreaGlow_Gfx[] = INCGFX_U32("graphics/pokedex/area_glow.png", 
 static const u32 sPokedexPlusHGSS_ScreenSelectBarSubmenu_Tilemap[] = INCGFX_U32("graphics/pokedex/hgss/SelectBar.bin", ".smolTM");
 static void LoadHGSSScreenSelectBarSubmenu(void);
 
-static const u16 sSpeciesHiddenFromAreaScreen[] = { SPECIES_WYNAUT };
+static const enum Species sSpeciesHiddenFromAreaScreen[] = { SPECIES_WYNAUT };
 
 static const mapsec_u16_t sMovingRegionMapSections[3] =
 {
@@ -298,6 +298,9 @@ static void FindMapsWithMon(enum Species species)
 
     sPokedexAreaScreen->numOverworldAreas = 0;
     sPokedexAreaScreen->numSpecialAreas = 0;
+
+    if (species != SPECIES_CARVANHA && species != SPECIES_NUMEL && species != SPECIES_POOCHYENA)
+        SetAreaHasMon(MAP_GROUP(MAP_VOLCANION_CAVE_1F), MAP_NUM(MAP_VOLCANION_CAVE_1F));
 
     // Check if this species should be hidden from the area map.
     // This only applies to Wynaut, to hide the encounters on Mirage Island.

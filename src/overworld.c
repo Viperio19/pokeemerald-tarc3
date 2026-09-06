@@ -76,6 +76,7 @@
 #include "constants/abilities.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
+#include "constants/field_effects.h"
 #include "constants/layouts.h"
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
@@ -133,7 +134,7 @@ static u8 GetSpriteForLinkedPlayer(u8);
 static u16 KeyInterCB_SendNothing(u32);
 static void ResetMirageTowerAndSaveBlockPtrs(void);
 static void ResetScreenForMapLoad(void);
-static void OffsetCameraFocusByLinkPlayerId(void);
+// static void OffsetCameraFocusByLinkPlayerId(void);
 static void SpawnLinkPlayers(void);
 static void SetCameraToTrackGuestPlayer(void);
 static void ResumeMap(bool32);
@@ -155,7 +156,7 @@ static u8 GetLinkPlayerElevation(u8);
 static u8 GetLinkPlayerIdAt(s16, s16);
 static void SetPlayerFacingDirection(u8, u8);
 static void ZeroObjectEvent(struct ObjectEvent *);
-static void SpawnLinkPlayerObjectEvent(u8, s16, s16, u8);
+static void SpawnLinkPlayerObjectEvent(u8);
 static void InitLinkPlayerObjectEventPos(struct ObjectEvent *, s16, s16);
 static u8 GetSpriteForLinkedPlayer(u8);
 static void RunTerminateLinkScript(void);
@@ -194,7 +195,6 @@ static void CameraCB_CreditsPan(struct CameraObject *camera);
 static void Task_OvwldCredits_FadeOut(u8 taskId);
 static void Task_OvwldCredits_WaitFade(u8 taskId);
 
-static void *sUnusedOverworldCallback;
 static u8 sPlayerLinkStates[MAX_LINK_PLAYERS];
 // This callback is called with a player's key code. It then returns an
 // adjusted key code, effectively intercepting the input before anything
@@ -453,6 +453,7 @@ void Overworld_ResetBattleFlagsAndVars(void)
     FlagClear(B_FLAG_DYNAMAX_BATTLE);
     FlagClear(B_FLAG_SKY_BATTLE);
     FlagClear(B_FLAG_NO_WHITEOUT);
+    FlagClear(WE_FLAG_WILD_BOSS);
 }
 #endif
 
@@ -813,11 +814,6 @@ static void SetWarpDestinationToContinueGameWarp(void)
     sWarpDestination = gSaveBlock1Ptr->continueGameWarp;
 }
 
-void SetContinueGameWarp(s8 mapGroup, s8 mapNum, s8 warpId, s8 x, s8 y)
-{
-    SetWarpData(&gSaveBlock1Ptr->continueGameWarp, mapGroup, mapNum, warpId, x, y);
-}
-
 void SetContinueGameWarpToHealLocation(u8 healLocationId)
 {
     const struct HealLocation *healLocation = GetHealLocation(healLocationId);
@@ -1033,7 +1029,8 @@ static u8 GetAdjustedInitialTransitionFlags(struct InitialPlayerAvatarState *pla
         return PLAYER_AVATAR_FLAG_UNDERWATER;
     else if (MetatileBehavior_IsSurfableInSeafoamIslands(metatileBehavior) == TRUE)
         return PLAYER_AVATAR_FLAG_ON_FOOT;
-    else if (MetatileBehavior_IsSurfableWaterOrUnderwater(metatileBehavior) == TRUE)
+    else if (MetatileBehavior_IsSurfableWaterOrUnderwater(metatileBehavior) == TRUE
+          || (MetatileBehavior_IsBridgeOverWater(metatileBehavior) == TRUE && FlagGet(FLAG_DOING_PLAYER_SWITCH) && gSaveBlock1Ptr->player2Elevation == ELEVATION_SURF))
         return PLAYER_AVATAR_FLAG_SURFING;
     else if (Overworld_IsBikingAllowed() != TRUE)
         return PLAYER_AVATAR_FLAG_ON_FOOT;
@@ -1062,7 +1059,9 @@ bool8 MetatileBehavior_IsSurfableInSeafoamIslands(u16 metatileBehavior)
 
 static enum Direction GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStruct, u8 transitionFlags, u16 metatileBehavior, enum MapType mapType)
 {
-    if (FlagGet(FLAG_SYS_CRUISE_MODE) && mapType == MAP_TYPE_OCEAN_ROUTE)
+    if (FlagGet(FLAG_DOING_PLAYER_SWITCH))
+        return gSaveBlock2Ptr->player2FacingDirection;
+    else if (FlagGet(FLAG_SYS_CRUISE_MODE) && mapType == MAP_TYPE_OCEAN_ROUTE)
         return DIR_EAST;
     else if (MetatileBehavior_IsDeepSouthWarp(metatileBehavior) == TRUE)
         return DIR_NORTH;
@@ -1139,12 +1138,6 @@ void SetObjectEventLoadFlag(u8 flag)
     sObjectEventLoadFlag = flag;
 }
 
-// sObjectEventLoadFlag is read directly
-static u8 UNUSED GetObjectEventLoadFlag(void)
-{
-    return sObjectEventLoadFlag;
-}
-
 static bool16 ShouldLegendaryMusicPlayAtLocation(struct WarpData *warp)
 {
     if (!FlagGet(FLAG_SYS_WEATHER_CTRL))
@@ -1217,8 +1210,24 @@ static bool16 IsInfiltratedSpaceCenter(struct WarpData *warp)
     return FALSE;
 }
 
+static const u16 sNightMusicTable[END_MUS - START_MUS] =
+{
+    // example usage: [MUS_SOOTOPOLIS - START_MUS] = MUS_LITTLEROOT,
+};
+
+static u16 GetNightMusicFromTrack(u16 track)
+{
+    if (GetTimeOfDay() != TIME_NIGHT)
+        return track;
+    if (sNightMusicTable[track - START_MUS] >= START_MUS && sNightMusicTable[track - START_MUS] <= END_MUS)
+        return sNightMusicTable[track - START_MUS];
+    return track;
+}
+
 u16 GetLocationMusic(struct WarpData *warp)
 {
+    if (warp->mapGroup == MAP_GROUP(MAP_VOLCANION_CAVE_3F) && warp->mapNum == MAP_NUM(MAP_VOLCANION_CAVE_3F) && VarGet(VAR_VOLCANION_CAVE_3F_STATE) == 0)
+        return MUS_VOLCANION_CAVE_2F;
     if (NoMusicInSootopolisWithLegendaries(warp) == TRUE)
         return MUS_NONE;
     else if (ShouldLegendaryMusicPlayAtLocation(warp) == TRUE)
@@ -1227,8 +1236,12 @@ u16 GetLocationMusic(struct WarpData *warp)
         return MUS_ENCOUNTER_MAGMA;
     else if (IsInfiltratedWeatherInstitute(warp) == TRUE)
         return MUS_MT_CHIMNEY;
-    else
-        return Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum)->music;
+
+    const struct MapHeader *mapHeader = Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum);
+    if (mapHeader->nightMusic != MUS_NONE && GetTimeOfDay() == TIME_NIGHT)
+        return mapHeader->nightMusic;
+    
+    return mapHeader->music;
 }
 
 u16 GetCurrLocationDefaultMusic(void)
@@ -1295,9 +1308,11 @@ void Overworld_PlaySpecialMapMusic(void)
             music = gSaveBlock1Ptr->savedMusic;
         else if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
             music = MUS_UNDERWATER;
-        else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-            music = (IS_FRLG ? MUS_RG_SURF : MUS_SURF);
+        // else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+        //     music = (IS_FRLG ? MUS_RG_SURF : MUS_SURF);
     }
+
+    music = GetNightMusicFromTrack(music);
 
     if (music != GetCurrentMapMusic())
         PlayNewMapMusic(music);
@@ -1331,9 +1346,10 @@ static void TransitionMapMusic(void)
         {
             if (currentMusic == MUS_UNDERWATER || currentMusic == (IS_FRLG ? MUS_RG_SURF : MUS_SURF))
                 return;
-            if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
-                newMusic = (IS_FRLG ? MUS_RG_SURF : MUS_SURF);
+            // if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+            //     newMusic = (IS_FRLG ? MUS_RG_SURF : MUS_SURF);
         }
+        newMusic = GetNightMusicFromTrack(newMusic);
         if (newMusic != currentMusic)
         {
             if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
@@ -1370,7 +1386,7 @@ u8 GetMapMusicFadeoutSpeed(void)
 void TryFadeOutOldMapMusic(void)
 {
     u16 currentMusic = GetCurrentMapMusic();
-    u16 warpMusic = GetWarpDestinationMusic();
+    u16 warpMusic = GetNightMusicFromTrack(GetWarpDestinationMusic());
     if (FlagGet(FLAG_DONT_TRANSITION_MUSIC) != TRUE && warpMusic != GetCurrentMapMusic())
     {
         if (currentMusic == MUS_SURF
@@ -1872,12 +1888,6 @@ void SetMainCallback1(MainCallback cb)
     gMain.callback1 = cb;
 }
 
-// This function is never called.
-void SetUnusedCallback(void *func)
-{
-    sUnusedOverworldCallback = func;
-}
-
 static bool8 RunFieldCallback(void)
 {
     if (gFieldCallback2)
@@ -1915,10 +1925,7 @@ void CB2_NewGame(void)
     PlayTimeCounter_Start();
     ScriptContext_Init();
     UnlockPlayerFieldControls();
-    if (IS_FRLG)
-        gFieldCallback = FieldCB_WarpExitFadeFromBlack;
-    else
-        gFieldCallback = ExecuteTruckSequence;
+    gFieldCallback = FieldCB_WarpExitFadeFromBlack;
     gFieldCallback2 = NULL;
     DoMapLoadLoop(&gMain.state);
     SetFieldVBlankCallback();
@@ -2183,7 +2190,7 @@ static void InitCurrentFlashLevelScanlineEffect(void)
 {
     u8 flashLevel;
 
-    if (InBattlePyramid_())
+    if (InBattlePyramid())
     {
         WriteBattlePyramidViewScanlineEffectBuffer();
         ScanlineEffect_SetParams(sFlashEffectParams);
@@ -2217,7 +2224,7 @@ static bool32 LoadMapInStepsLink(u8 *state)
         (*state)++;
         break;
     case 3:
-        OffsetCameraFocusByLinkPlayerId();
+        // OffsetCameraFocusByLinkPlayerId();
         InitObjectEventsLink();
         SpawnLinkPlayers();
         SetCameraToTrackGuestPlayer();
@@ -2352,6 +2359,43 @@ static bool32 LoadMapInStepsLocal(u8 *state, bool32 a2)
     return FALSE;
 }
 
+static u8 GetAnyObjectEventIdByLocalId(u8 localId)
+{
+    u8 i;
+    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+    {
+        if (gObjectEvents[i].localId == localId)
+            return i;
+    }
+
+    return OBJECT_EVENTS_COUNT;
+}
+
+void SetOldRodBob(void)
+{
+    if (FlagGet(FLAG_DISABLE_OLD_ROD_BOB))
+        return;
+    u8 objId = GetAnyObjectEventIdByLocalId(gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F) ? LOCALID_2F_OLD_ROD : LOCALID_1F_OLD_ROD);
+    if (objId == OBJECT_EVENTS_COUNT)
+        return;
+    gFieldEffectArguments[0] = VarGet(VAR_OLD_ROD_X);
+    gFieldEffectArguments[1] = VarGet(VAR_OLD_ROD_Y);
+    gFieldEffectArguments[2] = objId;
+    u8 spriteId = FieldEffectStart(FLDEFF_SURF_BLOB);
+    gObjectEvents[objId].fieldEffectSpriteId = spriteId;
+    SetSurfBlob_BobState(spriteId, BOB_JUST_PLAYER);
+}
+
+void StopOldRodBob(void)
+{
+    FlagSet(FLAG_DISABLE_OLD_ROD_BOB);
+    u8 objId = GetAnyObjectEventIdByLocalId(gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F) ? LOCALID_2F_OLD_ROD : LOCALID_1F_OLD_ROD);
+    if (objId == OBJECT_EVENTS_COUNT)
+        return;
+    SetSurfBlob_BobState(gObjectEvents[objId].fieldEffectSpriteId, BOB_NONE);
+    DestroySprite(&gSprites[gObjectEvents[objId].fieldEffectSpriteId]);
+}
+
 static bool32 ReturnToFieldLocal(u8 *state)
 {
     switch (*state)
@@ -2366,6 +2410,22 @@ static bool32 ReturnToFieldLocal(u8 *state)
         else
             UpdateFollowingPokemon();
         SetCameraToTrackPlayer();
+        if (gSaveBlock1Ptr->location.mapNum == gSaveBlock2Ptr->player2Pos.mapNum
+         && gSaveBlock1Ptr->location.mapGroup == gSaveBlock2Ptr->player2Pos.mapGroup
+         && MetatileBehavior_IsSurfableWater(MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET)))
+        {
+            u8 objId = GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2);
+            gFieldEffectArguments[0] = gObjectEvents[objId].currentCoords.x;
+            gFieldEffectArguments[1] = gObjectEvents[objId].currentCoords.y;
+            gFieldEffectArguments[2] = objId;
+            u8 spriteId = FieldEffectStart(FLDEFF_SURF_BLOB);
+            gObjectEvents[objId].fieldEffectSpriteId = spriteId;
+            SetSurfBlob_BobState(spriteId, BOB_PLAYER_AND_MON);
+        }
+        if (FlagGet(FLAG_DROPPED_VOLCANION_CAVE_1F_OLD_ROD) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_1F))
+            SetOldRodBob();
+        if (FlagGet(FLAG_DROPPED_VOLCANION_CAVE_2F_OLD_ROD) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_VOLCANION_CAVE_2F))
+            SetOldRodBob();
         (*state)++;
         break;
     case 1:
@@ -2632,15 +2692,15 @@ static void SetCameraToTrackGuestPlayer_2(void)
     InitCameraUpdateCallback(GetSpriteForLinkedPlayer(gLocalLinkPlayerId));
 }
 
-static void OffsetCameraFocusByLinkPlayerId(void)
-{
-    u16 x, y;
-    GetCameraFocusCoords(&x, &y);
+// static void OffsetCameraFocusByLinkPlayerId(void)
+// {
+//     u16 x, y;
+//     GetCameraFocusCoords(&x, &y);
 
-    // This is a hack of some kind; it's undone in SpawnLinkPlayers, which is called
-    // soon after this function.
-    SetCameraFocusCoords(x + gLocalLinkPlayerId, y);
-}
+//     // This is a hack of some kind; it's undone in SpawnLinkPlayers, which is called
+//     // soon after this function.
+//     SetCameraFocusCoords(x + gLocalLinkPlayerId, y);
+// }
 
 static void SpawnLinkPlayers(void)
 {
@@ -2652,7 +2712,7 @@ static void SpawnLinkPlayers(void)
 
     for (i = 0; i < gFieldLinkPlayerCount; i++)
     {
-        SpawnLinkPlayerObjectEvent(i, i + x, y, gLinkPlayers[i].gender);
+        SpawnLinkPlayerObjectEvent(i);
         CreateLinkPlayerSprite(i, gLinkPlayers[i].version);
     }
 
@@ -3189,14 +3249,12 @@ static const u8 *TryInteractWithPlayer(struct CableClubPlayer *player)
 
     if (linkPlayerId != MAX_LINK_PLAYERS)
     {
-        if (!player->isLocalPlayer)
-            return CableClub_EventScript_TooBusyToNotice;
-        else if (sPlayerLinkStates[linkPlayerId] != PLAYER_LINK_STATE_IDLE)
-            return CableClub_EventScript_TooBusyToNotice;
-        else if (!GetLinkTrainerCardColor(linkPlayerId))
-            return CableClub_EventScript_ReadTrainerCard;
-        else
-            return CableClub_EventScript_ReadTrainerCardColored;
+        // if (!player->isLocalPlayer)
+        //     return CableClub_EventScript_TooBusyToNotice;
+        // else if (sPlayerLinkStates[linkPlayerId] != PLAYER_LINK_STATE_IDLE)
+        //     return CableClub_EventScript_TooBusyToNotice;
+        // else
+            return EventScript_Player2_Multiplayer;
     }
 
     return GetInteractedLinkPlayerScript(&otherPlayerPos, player->metatileBehavior, player->facing);
@@ -3364,7 +3422,7 @@ static void ZeroObjectEvent(struct ObjectEvent *objEvent)
 // not even one can reference *byte* aligned bitfield members...
 #define linkDirection(obj) ((u8 *)obj)[offsetof(typeof(*obj), range)] // -> rangeX
 
-static void SpawnLinkPlayerObjectEvent(u8 linkPlayerId, s16 x, s16 y, u8 gender)
+static void SpawnLinkPlayerObjectEvent(u8 linkPlayerId)
 {
     u8 objEventId = GetFirstInactiveObjectEventId();
     struct LinkPlayerObjectEvent *linkPlayerObjEvent = &gLinkPlayerObjectEvents[linkPlayerId];
@@ -3379,11 +3437,11 @@ static void SpawnLinkPlayerObjectEvent(u8 linkPlayerId, s16 x, s16 y, u8 gender)
     linkPlayerObjEvent->movementMode = MOVEMENT_MODE_FREE;
 
     objEvent->active = TRUE;
-    linkGender(objEvent) = gender;
-    linkDirection(objEvent) = DIR_NORTH;
+    linkGender(objEvent) = gLinkPlayers[linkPlayerId].gender;
+    linkDirection(objEvent) = gLinkPlayers[linkPlayerId].facingDirection;
     objEvent->spriteId = MAX_SPRITES;
 
-    InitLinkPlayerObjectEventPos(objEvent, x, y);
+    InitLinkPlayerObjectEventPos(objEvent, gLinkPlayers[linkPlayerId].x + MAP_OFFSET, gLinkPlayers[linkPlayerId].y + MAP_OFFSET);
 }
 
 static void InitLinkPlayerObjectEventPos(struct ObjectEvent *objEvent, s16 x, s16 y)
@@ -3611,23 +3669,32 @@ static void CreateLinkPlayerSprite(u8 linkPlayerId, enum GameVersion gameVersion
     struct Sprite *sprite;
 
     if (linkPlayerObjEvent->active)
-    {
-        switch (gameVersion)
-        {
-        case VERSION_FIRE_RED:
-        case VERSION_LEAF_GREEN:
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetFRLGAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        case VERSION_RUBY:
-        case VERSION_SAPPHIRE:
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetRSAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        case VERSION_EMERALD:
-            objEvent->spriteId = CreateObjectGraphicsSprite(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
-            break;
-        default:
-            break;
-        }
+    {   
+        u16 graphicsId;
+
+        if (linkPlayerId == 0)
+            graphicsId = linkGender(objEvent) == MALE ? OBJ_EVENT_GFX_PLAYER_M_NORMAL : OBJ_EVENT_GFX_PLAYER_F_NORMAL;
+        else
+            graphicsId = linkGender(objEvent) == MALE ? OBJ_EVENT_GFX_PLAYER_2_M_NORMAL : OBJ_EVENT_GFX_PLAYER_2_F_NORMAL;
+
+        objEvent->spriteId = CreateObjectGraphicsSprite(graphicsId, SpriteCB_LinkPlayer, 0, 0, 0);
+
+        // switch (gameVersion)
+        // {
+        // case VERSION_FIRE_RED:
+        // case VERSION_LEAF_GREEN:
+        //     objEvent->spriteId = CreateObjectGraphicsSprite(GetFRLGAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+        //     break;
+        // case VERSION_RUBY:
+        // case VERSION_SAPPHIRE:
+        //     objEvent->spriteId = CreateObjectGraphicsSprite(GetRSAvatarGraphicsIdByGender(linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+        //     break;
+        // case VERSION_EMERALD:
+        //     objEvent->spriteId = CreateObjectGraphicsSprite(GetRivalAvatarGraphicsIdByStateIdAndGender(PLAYER_AVATAR_STATE_NORMAL, linkGender(objEvent)), SpriteCB_LinkPlayer, 0, 0, 0);
+        //     break;
+        // default:
+        //     break;
+        // }
 
         sprite = &gSprites[objEvent->spriteId];
         sprite->coordOffsetEnabled = TRUE;
@@ -3753,7 +3820,7 @@ void ScriptShowItemDescription(struct ScriptContext *ctx)
     u8 *dst;
     bool8 handleFlash = FALSE;
 
-    if (GetFlashLevel() > 0 || InBattlePyramid_())
+    if (GetFlashLevel() > 0 || InBattlePyramid())
         handleFlash = TRUE;
 
     if (headerType == 1) // berry
@@ -3857,7 +3924,7 @@ static void DestroyItemIconSprite(void)
     FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId]);
     DestroySprite(&gSprites[sItemIconSpriteId]);
 
-    if ((GetFlashLevel() > 0 || InBattlePyramid_()) && sItemIconSpriteId2 != MAX_SPRITES)
+    if ((GetFlashLevel() > 0 || InBattlePyramid()) && sItemIconSpriteId2 != MAX_SPRITES)
     {
         FreeSpriteOamMatrix(&gSprites[sItemIconSpriteId2]);
         DestroySprite(&gSprites[sItemIconSpriteId2]);
@@ -3871,12 +3938,6 @@ u16 SetTimeOfDay(u16 hours)
     sHoursOverride = hours;
     gTimeUpdateCounter = 0;
     return oldHours;
-}
-
-bool8 ScrFunc_settimeofday(struct ScriptContext *ctx)
-{
-    SetTimeOfDay(ScriptReadByte(ctx));
-    return FALSE;
 }
 
 // Credits

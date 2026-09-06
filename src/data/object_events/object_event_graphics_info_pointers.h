@@ -116,6 +116,7 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Scientist2;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DevonEmployee;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AquaMemberM;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_AquaMemberF;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Zinnia;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MagmaMemberM;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MagmaMemberF;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sidney;
@@ -387,6 +388,19 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DeoxysD;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DeoxysA;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_DeoxysN;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SSAnne;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Exeggutor;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarGreen;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarGreenPara;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarGreenParaStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarGreenStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarYellow;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarYellowPara;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarYellowParaStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarYellowStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarRed;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarRedPara;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarRedParaStats;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HPBarRedStats;
 // Begin Pokémon event objects
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PokeBall;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Follower;
@@ -400,6 +414,30 @@ extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Giddy;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnusedMauvilleOldMan1;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnusedMauvilleOldMan2;
 extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_ApricornTree;
+
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMNormal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMSurfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerMFishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFNormal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFSurfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_PlayerFFishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MNormal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MSurfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2MFishing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FNormal;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FSurfing;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FFieldMove;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Player2FFishing;
+
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Jessie;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_James;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TeamRocketMeowth;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RockSlideRock;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CramorantIcon;
+extern const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CramorantGorging;
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
     [OBJ_EVENT_GFX_BRENDAN_NORMAL] =           &gObjectEventGraphicsInfo_BrendanNormal,
@@ -645,7 +683,6 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_OW_MON] =                   &gObjectEventGraphicsInfo_Follower,
     [OBJ_EVENT_GFX_LIGHT_SPRITE] =             &gObjectEventGraphicsInfo_BallLight,
     [OBJ_EVENT_GFX_APRICORN_TREE] =            &gObjectEventGraphicsInfo_ApricornTree,
-#if IS_FRLG
     [OBJ_EVENT_GFX_RED_NORMAL] =               &gObjectEventGraphicsInfo_RedNormal,
     [OBJ_EVENT_GFX_RED_BIKE] =                 &gObjectEventGraphicsInfo_RedBike,
     [OBJ_EVENT_GFX_RED_SURF] =                 &gObjectEventGraphicsInfo_RedSurf,
@@ -790,7 +827,42 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_DEOXYS_A]                 = &gObjectEventGraphicsInfo_DeoxysA,
     [OBJ_EVENT_GFX_DEOXYS_N]                 = &gObjectEventGraphicsInfo_DeoxysN,
     [OBJ_EVENT_GFX_SS_ANNE]                  = &gObjectEventGraphicsInfo_SSAnne,
-#endif // IS_FRLG
+    [OBJ_EVENT_GFX_PLAYER_M_NORMAL]          = &gObjectEventGraphicsInfo_PlayerMNormal,
+    [OBJ_EVENT_GFX_PLAYER_M_SURFING]         = &gObjectEventGraphicsInfo_PlayerMSurfing,
+    [OBJ_EVENT_GFX_PLAYER_M_FIELD_MOVE]      = &gObjectEventGraphicsInfo_PlayerMFieldMove,
+    [OBJ_EVENT_GFX_PLAYER_M_FISHING]         = &gObjectEventGraphicsInfo_PlayerMFishing,
+    [OBJ_EVENT_GFX_PLAYER_F_NORMAL]          = &gObjectEventGraphicsInfo_PlayerFNormal,
+    [OBJ_EVENT_GFX_PLAYER_F_SURFING]         = &gObjectEventGraphicsInfo_PlayerFSurfing,
+    [OBJ_EVENT_GFX_PLAYER_F_FIELD_MOVE]      = &gObjectEventGraphicsInfo_PlayerFFieldMove,
+    [OBJ_EVENT_GFX_PLAYER_F_FISHING]         = &gObjectEventGraphicsInfo_PlayerFFishing,
+    [OBJ_EVENT_GFX_PLAYER_2_M_NORMAL]        = &gObjectEventGraphicsInfo_Player2MNormal,
+    [OBJ_EVENT_GFX_PLAYER_2_M_SURFING]       = &gObjectEventGraphicsInfo_Player2MSurfing,
+    [OBJ_EVENT_GFX_PLAYER_2_M_FIELD_MOVE]    = &gObjectEventGraphicsInfo_Player2MFieldMove,
+    [OBJ_EVENT_GFX_PLAYER_2_M_FISHING]       = &gObjectEventGraphicsInfo_Player2MFishing,
+    [OBJ_EVENT_GFX_PLAYER_2_F_NORMAL]        = &gObjectEventGraphicsInfo_Player2FNormal,
+    [OBJ_EVENT_GFX_PLAYER_2_F_SURFING]       = &gObjectEventGraphicsInfo_Player2FSurfing,
+    [OBJ_EVENT_GFX_PLAYER_2_F_FIELD_MOVE]    = &gObjectEventGraphicsInfo_Player2FFieldMove,
+    [OBJ_EVENT_GFX_PLAYER_2_F_FISHING]       = &gObjectEventGraphicsInfo_Player2FFishing,
+    [OBJ_EVENT_GFX_EXEGGUTOR]                = &gObjectEventGraphicsInfo_Exeggutor,
+    [OBJ_EVENT_GFX_HP_BAR_GREEN]             = &gObjectEventGraphicsInfo_HPBarGreen,
+    [OBJ_EVENT_GFX_HP_BAR_GREEN_PARA]        = &gObjectEventGraphicsInfo_HPBarGreenPara,
+    [OBJ_EVENT_GFX_HP_BAR_GREEN_PARA_STATS]  = &gObjectEventGraphicsInfo_HPBarGreenParaStats,
+    [OBJ_EVENT_GFX_HP_BAR_GREEN_STATS]       = &gObjectEventGraphicsInfo_HPBarGreenStats,
+    [OBJ_EVENT_GFX_HP_BAR_YELLOW]            = &gObjectEventGraphicsInfo_HPBarYellow,
+    [OBJ_EVENT_GFX_HP_BAR_YELLOW_PARA]       = &gObjectEventGraphicsInfo_HPBarYellowPara,
+    [OBJ_EVENT_GFX_HP_BAR_YELLOW_PARA_STATS] = &gObjectEventGraphicsInfo_HPBarYellowParaStats,
+    [OBJ_EVENT_GFX_HP_BAR_YELLOW_STATS]      = &gObjectEventGraphicsInfo_HPBarYellowStats,
+    [OBJ_EVENT_GFX_HP_BAR_RED]               = &gObjectEventGraphicsInfo_HPBarRed,
+    [OBJ_EVENT_GFX_HP_BAR_RED_PARA]          = &gObjectEventGraphicsInfo_HPBarRedPara,
+    [OBJ_EVENT_GFX_HP_BAR_RED_PARA_STATS]    = &gObjectEventGraphicsInfo_HPBarRedParaStats,
+    [OBJ_EVENT_GFX_HP_BAR_RED_STATS]         = &gObjectEventGraphicsInfo_HPBarRedStats,
+    [OBJ_EVENT_GFX_ZINNIA]                   = &gObjectEventGraphicsInfo_Zinnia,
+    [OBJ_EVENT_GFX_JESSIE]                   = &gObjectEventGraphicsInfo_Jessie,
+    [OBJ_EVENT_GFX_JAMES]                    = &gObjectEventGraphicsInfo_James,
+    [OBJ_EVENT_GFX_TEAM_ROCKET_MEOWTH]       = &gObjectEventGraphicsInfo_TeamRocketMeowth,
+    [OBJ_EVENT_GFX_ROCK_SLIDE_ROCK]          = &gObjectEventGraphicsInfo_RockSlideRock,
+    [OBJ_EVENT_GFX_CRAMORANT]                = &gObjectEventGraphicsInfo_CramorantIcon,
+    [OBJ_EVENT_GFX_CRAMORANT_GORGING]        = &gObjectEventGraphicsInfo_CramorantGorging,
 };
 
 const struct ObjectEventGraphicsInfo *const gMauvilleOldManGraphicsInfoPointers[] = {

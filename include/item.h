@@ -105,6 +105,7 @@ struct TmHmIndexKey
 extern const u8 gQuestionMarksItemName[];
 extern const struct ItemInfo gItemsInfo[];
 extern struct BagPocket gBagPockets[];
+extern struct BagPocket gBagPockets2[];
 extern const struct TmHmIndexKey gTMHMItemMoveIds[];
 
 #define UNPACK_ITEM_TO_TM_INDEX(_tm) case CAT(ITEM_TM_, _tm): return CAT(ENUM_TM_HM_, _tm) + 1;
@@ -276,10 +277,9 @@ enum EffectItem GetItemBattleUsage(enum Item itemId);
 u32 GetItemSecondaryId(enum Item itemId);
 u32 GetItemFlingPower(enum Item itemId);
 u32 GetItemStatus1Mask(enum Item itemId);
-bool32 ItemHasVolatileFlag(enum Item itemId, enum Volatile volatile);
 u32 GetItemSellPrice(enum Item itemId);
 bool32 IsHoldEffectChoice(enum HoldEffect holdEffect);
-ShopCriteriaFunc GetItemShopCriteriaFunc(u32 itemId);
-bool32 IsItemShopCriteriaFulfilled(u32 itemId);
+ShopCriteriaFunc GetItemShopCriteriaFunc(enum Item itemId);
+bool32 IsItemShopCriteriaFulfilled(enum Item itemId);
 
 #endif // GUARD_ITEM_H

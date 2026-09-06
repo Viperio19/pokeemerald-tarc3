@@ -203,8 +203,6 @@ BattleScript_TryNicknameCaughtMon::
 	setbyte gBattleCommunication, 0
 	trygivecaughtmonnick
 	givecaughtmon BattleScript_SuccessBallThrowEnd
-	printfromtable gCaughtMonStringIds
-	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_SuccessBallThrowEnd
 BattleScript_GiveCaughtMonEnd::
 	givecaughtmon BattleScript_SuccessBallThrowEnd
@@ -223,6 +221,7 @@ BattleScript_ShakeBallThrow::
 	printfromtable gBallEscapeStringIds
 	waitanimation
 	waitmessage B_WAIT_TIME_LONG
+	handlefailedvictorycatch
 	jumpifword CMP_NO_COMMON_BITS, gBattleTypeFlags, BATTLE_TYPE_SAFARI, BattleScript_ShakeBallThrowEnd
 	jumpifbyte CMP_NOT_EQUAL, gNumSafariBalls, 0, BattleScript_ShakeBallThrowEnd
 	printstring STRINGID_OUTOFSAFARIBALLS

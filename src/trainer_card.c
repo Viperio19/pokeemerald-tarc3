@@ -24,6 +24,7 @@
 #include "pokemon_icon.h"
 #include "graphics.h"
 #include "pokemon_icon.h"
+#include "trainer.h"
 #include "trainer_pokemon_sprites.h"
 #include "contest_util.h"
 #include "decompress.h"
@@ -444,13 +445,13 @@ static void Task_TrainerCard(u8 taskId)
             DrawTrainerCardWindow(WIN_CARD_TEXT);
             sData->timeColonNeedDraw = FALSE;
         }
-        if (JOY_NEW(A_BUTTON))
-        {
-            FlipTrainerCard();
-            PlaySE(SE_RG_CARD_FLIP);
-            sData->mainState = STATE_WAIT_FLIP_TO_BACK;
-        }
-        else if (JOY_NEW(B_BUTTON))
+        // if (JOY_NEW(A_BUTTON))
+        // {
+        //     FlipTrainerCard();
+        //     PlaySE(SE_RG_CARD_FLIP);
+        //     sData->mainState = STATE_WAIT_FLIP_TO_BACK;
+        // }
+        if (JOY_NEW(B_BUTTON))
         {
             if (gReceivedRemoteLinkPlayers && sData->isLink && InUnionRoom() == TRUE)
             {
@@ -1842,33 +1843,7 @@ static void InitTrainerCardData(void)
 
 static u8 GetSetCardType(void)
 {
-    if (sData == NULL)
-    {
-        if (gGameVersion == VERSION_FIRE_RED || gGameVersion == VERSION_LEAF_GREEN)
-            return CARD_TYPE_FRLG;
-        else if (gGameVersion == VERSION_EMERALD)
-            return CARD_TYPE_EMERALD;
-        else
-            return CARD_TYPE_RS;
-    }
-    else
-    {
-        if (sData->trainerCard.version == VERSION_FIRE_RED || sData->trainerCard.version == VERSION_LEAF_GREEN)
-        {
-            sData->isHoenn = FALSE;
-            return CARD_TYPE_FRLG;
-        }
-        else if (sData->trainerCard.version == VERSION_EMERALD)
-        {
-            sData->isHoenn = TRUE;
-            return CARD_TYPE_EMERALD;
-        }
-        else
-        {
-            sData->isHoenn = TRUE;
-            return CARD_TYPE_RS;
-        }
-    }
+    return IS_FRLG ? CARD_TYPE_FRLG : CARD_TYPE_EMERALD;
 }
 
 static u8 VersionToCardType(enum GameVersion version)
@@ -1885,7 +1860,7 @@ static void CreateTrainerCardTrainerPic(void)
 {
     if (InUnionRoom() == TRUE && gReceivedRemoteLinkPlayers)
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sData->trainerCard.unionRoomClass),
+        CreateTrainerCardTrainerPicSprite(GetPlayerTrainerPic(sData->trainerCard.gender, VERSION_EMERALD),
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],
@@ -1894,7 +1869,7 @@ static void CreateTrainerCardTrainerPic(void)
     }
     else
     {
-        CreateTrainerCardTrainerPicSprite(FacilityClassToPicIndex(sTrainerPicFacilityClass[sData->cardType][sData->trainerCard.gender]),
+        CreateTrainerCardTrainerPicSprite(GetPlayerTrainerPic(sData->trainerCard.gender, VERSION_EMERALD),
                     TRUE,
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][0],
                     sTrainerPicOffset[sData->isHoenn][sData->trainerCard.gender][1],

@@ -30,6 +30,11 @@ EventScript_SprayWoreOff::
 	goto EventScript_HandleMultipleSprays
 	return
 
+EventScript_NotStinkyAnymore::
+	msgbox Text_NotStinkyAnymore, MSGBOX_SIGN
+	releaseall
+	end
+
 EventScript_HandleMultipleSprays::
 .if I_REPEL_LURE_MENU == TRUE
 	goto EventScript_ChooseWhichSpray
@@ -135,6 +140,9 @@ EventScript_UseSpray::
 	msgbox Text_SprayWoreOffUseX, MSGBOX_SIGN
 	return
 
+
+Text_NotStinkyAnymore::
+	.string "(You no longer smell like REPEL.)$"
 
 Text_SprayWoreOff::
 	.string "{STR_VAR_1}'s effect wore off…$"

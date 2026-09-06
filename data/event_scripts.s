@@ -12,7 +12,6 @@
 #include "constants/battle_palace.h"
 #include "constants/battle_pike.h"
 #include "constants/battle_pyramid.h"
-#include "constants/battle_setup.h"
 #include "constants/battle_special.h"
 #include "constants/battle_tent.h"
 #include "constants/battle_tower.h"
@@ -35,6 +34,7 @@
 #include "constants/field_weather.h"
 #include "constants/flags.h"
 #include "constants/follower_npc.h"
+#include "constants/font_types.h"
 #include "constants/frontier_util.h"
 #include "constants/game_stat.h"
 #include "constants/item.h"
@@ -44,6 +44,7 @@
 #include "constants/lilycove_lady.h"
 #include "constants/map_scripts.h"
 #include "constants/maps.h"
+#include "constants/mass_outbreak.h"
 #include "constants/mauville_old_man.h"
 #include "constants/metatile_labels.h"
 #include "constants/move_relearner.h"
@@ -105,7 +106,7 @@ gSpecialVars::
 	.4byte gSpecialVar_ContestCategory
 	.4byte gSpecialVar_MonBoxId
 	.4byte gSpecialVar_MonBoxPos
-	.4byte gSpecialVar_Unused_0x8014
+	.4byte gSpecialVar_FontType
 	.4byte gTrainerBattleParameter + 2 // gTrainerBattleParameter.params.opponentA
 
 	.purgem def_special
@@ -598,6 +599,10 @@ gStdScripts_End::
 	.include "data/maps/Route119_WeatherInstitute_2F/scripts.inc"
 	.include "data/maps/Route119_House/scripts.inc"
 	.include "data/maps/Route124_DivingTreasureHuntersHouse/scripts.inc"
+	.include "data/maps/VolcanionCave_1F/scripts.inc"
+	.include "data/maps/VolcanionCave_2F/scripts.inc"
+	.include "data/maps/VolcanionCave_3F/scripts.inc"
+	.include "data/maps/VolcanionCave_Outside/scripts.inc"
 
 .if IS_FRLG
 
@@ -1737,3 +1742,4 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/scripts/battle_frontier.inc"
 	.include "data/scripts/apricorn_tree.inc"
 	.include "data/scripts/wild_encounter.inc"
+	.include "data/scripts/player2.inc"

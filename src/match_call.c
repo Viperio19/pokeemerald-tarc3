@@ -1327,7 +1327,7 @@ static bool32 MatchCall_PrintIntro(u8 taskId)
             SelectMatchCallMessage(sMatchCallState.trainerId, gStringVar4);
 
         if (IsSpeakerBuffered(gStringVar4))
-            TrySpawnAndShowNamebox(gSpeakerName, NAME_BOX_BASE_TILE_NUM);
+            TrySpawnAndShowNamebox(gSpeakerName, 0, NAME_BOX_BASE_TILE_NUM);
 
         InitMatchCallTextPrinter(tWindowId, gStringVar4);
         return TRUE;
@@ -2043,15 +2043,6 @@ void LoadMatchCallWindowGfx(u32 windowId, u32 destOffset, u32 paletteId)
 void DrawMatchCallTextBoxBorder(u32 windowId, u32 tileOffset, u32 paletteId)
 {
     DrawMatchCallTextBoxBorder_Internal(windowId, tileOffset, paletteId);
-}
-
-u32 GetTrainerRematchStepCounter(void)
-{
-#if FREE_MATCH_CALL == FALSE
-    return gSaveBlock1Ptr->trainerRematchStepCounter;
-#else
-    return 0;
-#endif
 }
 
 void SetTrainerRematchStepCounter(u32 value)

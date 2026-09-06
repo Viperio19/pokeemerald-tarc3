@@ -19,6 +19,10 @@ Common_Movement_FacePlayer:
 	face_player
 	step_end
 
+Common_Movement_FacePlayer2:
+	face_player_2
+	step_end
+
 Common_Movement_FaceAwayPlayer:
 	face_away_player
 	step_end
@@ -69,6 +73,10 @@ Common_Movement_WalkInPlaceLeft:
 
 Common_Movement_WalkInPlaceRight:
 	walk_in_place_right
+	step_end
+
+Common_Movement_WalkInPlaceUp:
+	walk_in_place_up
 	step_end
 
 @ End of follower-safe movements

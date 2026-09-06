@@ -74,7 +74,7 @@
 #include "constants/union_room.h"
 #include "constants/weather.h"
 
-extern u16 gSpecialVar_ItemId;
+extern enum Item gSpecialVar_ItemId;
 
 #define FRIENDSHIP_EVO_THRESHOLD ((P_FRIENDSHIP_EVO_THRESHOLD >= GEN_8) ? 160 : 220)
 
@@ -112,9 +112,9 @@ u8 (*const gEnemyPartyCountPtr) = &gPartiesCount[B_TRAINER_OPPONENT_A];
 // Unreferenced here and in FRLG.
 struct CombinedMove
 {
-    u16 move1;
-    u16 move2;
-    u16 newMove;
+    enum Move move1;
+    enum Move move2;
+    enum Move newMove;
 };
 
 static const struct CombinedMove sCombinedMoves[2] =
@@ -901,14 +901,11 @@ bool32 ComputePlayerShinyOdds(u32 personality, u32 value)
 
 void SetBoxMonIVs(struct BoxPokemon *mon, u8 fixedIV)
 {
-    u32 i, value;
+    u32 i, value = MAX_PER_STAT_IVS;
 
-    if (fixedIV < USE_RANDOM_IVS)
-    {
-        for (i = 0; i < NUM_STATS; i++)
-            SetBoxMonData(mon, MON_DATA_HP_IV + i, &fixedIV);
-        return;
-    }
+    for (i = 0; i < NUM_STATS; i++)
+        SetBoxMonData(mon, MON_DATA_HP_IV + i, &value);
+    return;
 
     u32 iv;
     u32 ivRandom = Random32();
@@ -970,25 +967,30 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
     u16 checksum;
     bool32 isShiny;
 
+    u8 neutralNature = NATURE_HARDY + (Random() % 5) * 6;
+
+    u32 neutralPersonality = GetMonPersonality(species, Random() % 2, neutralNature, RANDOM_UNOWN_LETTER);
+
     ZeroBoxMonData(boxMon);
     // Determine original trainer ID
     if (trainerId.method == OT_ID_RANDOM_NO_SHINY)
     {
+        neutralPersonality = personality;
         value = Random32();
         isShiny = FALSE;
     }
     else if (trainerId.method == OT_ID_PRESET)
     {
         value = trainerId.value;
-        isShiny = GET_SHINY_VALUE(value, personality) < SHINY_ODDS;
+        isShiny = GET_SHINY_VALUE(value, neutralPersonality) < SHINY_ODDS;
     }
     else // Player is the OT
     {
         value = READ_OTID_FROM_SAVE;
-        isShiny = ComputePlayerShinyOdds(personality, value);
+        isShiny = ComputePlayerShinyOdds(neutralPersonality, value);
     }
 
-    SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
+    SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &neutralPersonality);
     SetBoxMonData(boxMon, MON_DATA_OT_ID, &value);
 
     checksum = CalculateBoxMonChecksum(boxMon);
@@ -1003,6 +1005,8 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
     SetBoxMonData(boxMon, MON_DATA_EXP, &gExperienceTables[gSpeciesInfo[species].growthRate][level]);
     SetBoxMonData(boxMon, MON_DATA_FRIENDSHIP, &gSpeciesInfo[species].friendship);
     value = GetCurrentRegionMapSectionId();
+    if (FlagGet(FLAG_OVERWRITE_MET_LOCATION_NEW_GAME))
+        value = IS_PLAYER_ONE ? MAPSEC_AQUA_HIDEOUT : MAPSEC_MAGMA_HIDEOUT;
     SetBoxMonData(boxMon, MON_DATA_MET_LOCATION, &value);
     SetBoxMonData(boxMon, MON_DATA_MET_LEVEL, &level);
     SetBoxMonData(boxMon, MON_DATA_MET_GAME, &gGameVersion);
@@ -1011,7 +1015,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, enum Species species, u8 level, u32
     SetBoxMonData(boxMon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
 
     value = boxMon->personality & 0x1;
-    u32 teraType = value == 0 ? GetSpeciesType(species, 0) : GetSpeciesType(species, 1);
+    enum Type teraType = value == 0 ? GetSpeciesType(species, 0) : GetSpeciesType(species, 1);
     SetBoxMonData(boxMon, MON_DATA_TERA_TYPE, &teraType);
     //using gen 3-4 ability formula, it was changed in later gens
     if (GetSpeciesAbility(species, 1))
@@ -1241,7 +1245,7 @@ void CreateApprenticeMon(struct Pokemon *mon, const struct Apprentice *src, u8 m
 void ConvertPokemonToBattleTowerPokemon(struct Pokemon *mon, struct BattleTowerPokemon *dest)
 {
     s32 i;
-    u16 heldItem;
+    enum Item heldItem;
 
     dest->species = GetMonData(mon, MON_DATA_SPECIES);
     heldItem = GetMonData(mon, MON_DATA_HELD_ITEM);
@@ -1370,6 +1374,11 @@ static u16 CalculateBoxMonChecksumReencrypt(struct BoxPokemon *boxMon)
 }
 
 void CalculateMonStats(struct Pokemon *mon)
+{
+    CalculateMonStatsCont(mon, TRUE);
+}
+
+void CalculateMonStatsCont(struct Pokemon *mon, bool32 updateSpeedStat)
 {
     s32 oldMaxHP = GetMonData(mon, MON_DATA_MAX_HP);
     s32 currentHP = GetMonData(mon, MON_DATA_HP);
@@ -1734,33 +1743,6 @@ void DeleteFirstMoveAndGiveMoveToMon(struct Pokemon *mon, enum Move move)
     SetMonData(mon, MON_DATA_PP_BONUSES, &ppBonuses);
 }
 
-void DeleteFirstMoveAndGiveMoveToBoxMon(struct BoxPokemon *boxMon, enum Move move)
-{
-    s32 i;
-    enum Move moves[MAX_MON_MOVES];
-    u8 pp[MAX_MON_MOVES];
-    u8 ppBonuses;
-
-    for (i = 0; i < MAX_MON_MOVES - 1; i++)
-    {
-        moves[i] = GetBoxMonData(boxMon, MON_DATA_MOVE2 + i);
-        pp[i] = GetBoxMonData(boxMon, MON_DATA_PP2 + i);
-    }
-
-    ppBonuses = GetBoxMonData(boxMon, MON_DATA_PP_BONUSES);
-    ppBonuses >>= 2;
-    moves[MAX_MON_MOVES - 1] = move;
-    pp[MAX_MON_MOVES - 1] = GetMovePP(move);
-
-    for (i = 0; i < MAX_MON_MOVES; i++)
-    {
-        SetBoxMonData(boxMon, MON_DATA_MOVE1 + i, &moves[i]);
-        SetBoxMonData(boxMon, MON_DATA_PP1 + i, &pp[i]);
-    }
-
-    SetBoxMonData(boxMon, MON_DATA_PP_BONUSES, &ppBonuses);
-}
-
 u8 CountAliveMonsInBattle(u8 caseId, enum BattlerId battler)
 {
     enum BattlerId i;
@@ -1865,7 +1847,7 @@ bool32 IsPersonalityFemale(enum Species species, u32 personality)
     return GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE;
 }
 
-u32 GetUnownSpeciesId(u32 personality)
+enum Species GetUnownSpeciesId(u32 personality)
 {
     u16 unownLetter = GetUnownLetterByPersonality(personality);
 
@@ -3240,7 +3222,9 @@ const u8 *GetSpeciesPokedexDescription(enum Species species)
     species = SanitizeSpeciesId(species);
     if (gSpeciesInfo[species].description == NULL)
         return gSpeciesInfo[SPECIES_NONE].description;
-    return gSpeciesInfo[species].description;
+    if (IS_PLAYER_ONE || gSpeciesInfo[species].descriptionMagma == NULL)
+        return gSpeciesInfo[species].description;
+    return gSpeciesInfo[species].descriptionMagma;
 }
 
 u32 GetSpeciesHeight(enum Species species)
@@ -3347,6 +3331,18 @@ const u16 *GetSpeciesEggMoves(enum Species species)
     return learnset;
 }
 
+//only used in test assumptions at the moment
+bool32 SpeciesHasEggMove(enum Species species, enum Move move)
+{
+    const u16 *learnset = GetSpeciesEggMoves(species);
+    for (u32 i = 0; learnset[i] != MOVE_UNAVAILABLE; i++)
+    {
+        if (learnset[i] == move)
+            return TRUE;
+    }
+    return FALSE;
+}
+
 const struct Evolution *GetSpeciesEvolutions(enum Species species)
 {
     const struct Evolution *evolutions = gSpeciesInfo[SanitizeSpeciesId(species)].evolutions;
@@ -3442,15 +3438,6 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
         dst->statStages[i] = DEFAULT_STAT_STAGE;
 
     memset(&dst->volatiles, 0, sizeof(struct Volatiles));
-}
-
-void CopyPartyMonToBattleData(enum BattlerId battler, u32 partyIndex)
-{
-    struct Pokemon *party = GetBattlerParty(battler);
-    PokemonToBattleMon(&party[partyIndex], &gBattleMons[battler]);
-    gBattleStruct->battlerState[battler].hpOnSwitchout = gBattleMons[battler].hp;
-    UpdateSentPokesToOpponentValue(battler);
-    ClearTemporarySpeciesSpriteData(battler, FALSE, FALSE);
 }
 
 bool8 ExecuteTableBasedItemEffect(struct Pokemon *mon, enum Item item, u8 partyIndex, u8 moveIndex)
@@ -4107,81 +4094,6 @@ u8 GetItemEffectParamOffset(enum BattlerId battler, enum Item itemId, u8 effectB
     return offset;
 }
 
-static void BufferStatRoseMessage(enum Stat statIdx)
-{
-    gBattlerTarget = gBattlerInMenuId;
-    StringCopy(gBattleTextBuff1, gStatNamesTable[sStatsToRaise[statIdx]]);
-    if (B_X_ITEMS_BUFF >= GEN_7)
-    {
-        StringCopy(gBattleTextBuff2, gText_StatSharply);
-        StringAppend(gBattleTextBuff2, gText_StatRose);
-    }
-    else
-    {
-        StringCopy(gBattleTextBuff2, gText_StatRose);
-    }
-    BattleStringExpandPlaceholdersToDisplayedString(gText_DefendersStatRose);
-}
-
-u8 *UseStatIncreaseItem(enum Item itemId)
-{
-    const u8 *itemEffect;
-
-    if (itemId == ITEM_ENIGMA_BERRY_E_READER)
-    {
-        if (gMain.inBattle)
-            itemEffect = gEnigmaBerries[gBattlerInMenuId].itemEffect;
-        else
-        #if FREE_ENIGMA_BERRY == FALSE
-            itemEffect = gSaveBlock1Ptr->enigmaBerry.itemEffect;
-        #else
-            itemEffect = 0;
-        #endif //FREE_ENIGMA_BERRY
-    }
-    else
-    {
-        itemEffect = GetItemEffect(itemId);
-    }
-
-    gPotentialItemEffectBattler = gBattlerInMenuId;
-
-    if (itemEffect[0] & ITEM0_DIRE_HIT)
-    {
-        gBattlerAttacker = gBattlerInMenuId;
-        BattleStringExpandPlaceholdersToDisplayedString(gText_PkmnGettingPumped);
-    }
-
-    switch (itemEffect[1])
-    {
-    case ITEM1_X_ATTACK:
-        BufferStatRoseMessage(STAT_ATK);
-        break;
-    case ITEM1_X_DEFENSE:
-        BufferStatRoseMessage(STAT_DEF);
-        break;
-    case ITEM1_X_SPEED:
-        BufferStatRoseMessage(STAT_SPEED);
-        break;
-    case ITEM1_X_SPATK:
-        BufferStatRoseMessage(STAT_SPATK);
-        break;
-    case ITEM1_X_SPDEF:
-        BufferStatRoseMessage(STAT_SPDEF);
-        break;
-    case ITEM1_X_ACCURACY:
-        BufferStatRoseMessage(STAT_ACC);
-        break;
-    }
-
-    if (itemEffect[3] & ITEM3_GUARD_SPEC)
-    {
-        gBattlerAttacker = gBattlerInMenuId;
-        BattleStringExpandPlaceholdersToDisplayedString(gText_PkmnShroudedInMist);
-    }
-
-    return gDisplayedStringBattle;
-}
-
 u8 GetNature(struct Pokemon *mon)
 {
     return GetMonData(mon, MON_DATA_PERSONALITY, 0) % NUM_NATURES;
@@ -4533,7 +4445,7 @@ bool32 DoesMonMeetAdditionalConditions(struct Pokemon *mon, const struct Evoluti
     return TRUE;
 }
 
-enum Species GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, u16 evolutionItem, struct Pokemon *tradePartner, bool32 *canStopEvo, enum EvoState evoState)
+enum Species GetEvolutionTargetSpecies(struct Pokemon *mon, enum EvolutionMode mode, enum Item evolutionItem, struct Pokemon *tradePartner, bool32 *canStopEvo, enum EvoState evoState)
 {
     int i;
     enum Species targetSpecies = SPECIES_NONE;
@@ -5051,7 +4963,7 @@ void MonGainEVs(struct Pokemon *mon, enum Species defeatedSpecies)
     u8 evs[NUM_STATS];
     u16 evIncrease = 0;
     u16 totalEVs = 0;
-    u16 heldItem;
+    enum Item heldItem;
     enum HoldEffect holdEffect;
     enum Stat i;
     int multiplier;
@@ -5188,7 +5100,7 @@ bool8 TryIncrementMonLevel(struct Pokemon *mon)
     }
 }
 
-u8 CanLearnTeachableMove(enum Species species, enum Move move)
+bool32 CanLearnTeachableMove(enum Species species, enum Move move)
 {
     const u16 *teachableLearnset = GetSpeciesTeachableLearnset(species);
     if (species == SPECIES_EGG)
@@ -5199,18 +5111,6 @@ u8 CanLearnTeachableMove(enum Species species, enum Move move)
             return TRUE;
     }
     return FALSE;
-}
-
-u8 GetLevelUpMovesBySpecies(enum Species species, u16 *moves)
-{
-    u8 numMoves = 0;
-    int i;
-    const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(species);
-
-    for (i = 0; i < MAX_LEVEL_UP_MOVES && learnset[i].move != LEVEL_UP_MOVE_END; i++)
-         moves[numMoves++] = learnset[i].move;
-
-     return numMoves;
 }
 
 u16 SpeciesToPokedexNum(enum Species species)
@@ -5269,6 +5169,8 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIELEKI:
         case SPECIES_REGIDRAGO:
             return MUS_VS_REGI;
+        case SPECIES_VOLCANION:
+            return MUS_VS_VOLCANION;
         default:
             return MUS_RG_VS_LEGEND;
         }
@@ -5323,6 +5225,8 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_PIKE_QUEEN:
         case TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
+        case TRAINER_CLASS_TEAM_ROCKET_DUO:
+            return MUS_RG_VS_TRAINER;
         default:
             if (GetCurrentRegion() == REGION_KANTO)
                 return MUS_RG_VS_TRAINER;
@@ -5564,60 +5468,57 @@ static inline bool32 CanFirstMonBoostHeldItemRarity(void)
 
 void SetWildMonHeldItem(void)
 {
-    if (!(gBattleTypeFlags & (BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_TRAINER | BATTLE_TYPE_PYRAMID | BATTLE_TYPE_PIKE)))
+    u16 rnd;
+    enum Species species;
+    u16 count = (WILD_DOUBLE_BATTLE) ? 2 : 1;
+    u16 i;
+    bool32 itemHeldBoost = CanFirstMonBoostHeldItemRarity();
+    u16 chanceNoItem = itemHeldBoost ? 20 : 45;
+    u16 chanceNotRare = itemHeldBoost ? 80 : 95;
+
+    for (i = 0; i < count; i++)
     {
-        u16 rnd;
-        enum Species species;
-        u16 count = (WILD_DOUBLE_BATTLE) ? 2 : 1;
-        u16 i;
-        bool32 itemHeldBoost = CanFirstMonBoostHeldItemRarity();
-        u16 chanceNoItem = itemHeldBoost ? 20 : 45;
-        u16 chanceNotRare = itemHeldBoost ? 80 : 95;
+        if (GetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM) != ITEM_NONE)
+            continue; // prevent overwriting previously set item
 
-        for (i = 0; i < count; i++)
+        rnd = Random() % 100;
+        species = GetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_SPECIES, 0);
+        if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
         {
-            if (GetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM) != ITEM_NONE)
-                continue; // prevent overwriting previously set item
-
-            rnd = Random() % 100;
-            species = GetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_SPECIES, 0);
-            if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
+            s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
+            if (alteringCaveId != 0)
             {
-                s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
-                if (alteringCaveId != 0)
-                {
-                    // In active Altering Cave, use special item list
-                    if (rnd < chanceNotRare)
-                        continue;
-                    SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &sAlteringCaveWildMonHeldItems[alteringCaveId].item);
-                }
-                else
-                {
-                    // In inactive Altering Cave, use normal items
-                    if (rnd < chanceNoItem)
-                        continue;
-                    if (rnd < chanceNotRare)
-                        SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-                    else
-                        SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
-                }
+                // In active Altering Cave, use special item list
+                if (rnd < chanceNotRare)
+                    continue;
+                SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &sAlteringCaveWildMonHeldItems[alteringCaveId].item);
             }
             else
             {
-                if (gSpeciesInfo[species].itemCommon == gSpeciesInfo[species].itemRare && gSpeciesInfo[species].itemCommon != ITEM_NONE)
-                {
-                    // Both held items are the same, 100% chance to hold item
+                // In inactive Altering Cave, use normal items
+                if (rnd < chanceNoItem)
+                    continue;
+                if (rnd < chanceNotRare)
                     SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-                }
                 else
-                {
-                    if (rnd < chanceNoItem)
-                        continue;
-                    if (rnd < chanceNotRare)
-                        SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-                    else
-                        SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
-                }
+                    SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
+            }
+        }
+        else
+        {
+            if (gSpeciesInfo[species].itemCommon == gSpeciesInfo[species].itemRare && gSpeciesInfo[species].itemCommon != ITEM_NONE)
+            {
+                // Both held items are the same, 100% chance to hold item
+                SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
+            }
+            else
+            {
+                if (rnd < chanceNoItem)
+                    continue;
+                if (rnd < chanceNotRare)
+                    SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
+                else
+                    SetMonData(&gParties[B_TRAINER_OPPONENT_A][i], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
             }
         }
     }
@@ -5630,7 +5531,11 @@ bool8 IsMonShiny(struct Pokemon *mon)
 
 const u8 *GetTrainerPartnerName(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER)
+    {
+        return gSaveBlock2Ptr->player2Name;
+    }
+    else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
     {
         GetFrontierTrainerName(gStringVar1, gPartnerTrainerId);
         return gStringVar1;
@@ -5827,16 +5732,16 @@ enum TrainerPicID FacilityClassToPicIndex(u16 facilityClass)
 
 enum TrainerPicID PlayerGenderToFrontTrainerPicId(enum Gender playerGender)
 {
-    if (playerGender != MALE)
-        return FacilityClassToPicIndex(IS_FRLG ? FACILITY_CLASS_LEAF : FACILITY_CLASS_MAY);
-    else
-        return FacilityClassToPicIndex(IS_FRLG ? FACILITY_CLASS_RED : FACILITY_CLASS_BRENDAN);
+    if (IS_PLAYER_ONE)
+        return playerGender == MALE ? TRAINER_PIC_PLAYER_M : TRAINER_PIC_PLAYER_F;
+
+    return playerGender == MALE ? TRAINER_PIC_PLAYER_2_M : TRAINER_PIC_PLAYER_2_F;
 }
 
 void HandleSetPokedexFlag(enum NationalDexOrder nationalNum, u8 caseId, u32 personality)
 {
-    u8 getFlagCaseId = (caseId == FLAG_SET_SEEN) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;
-    if (!GetSetPokedexFlag(nationalNum, getFlagCaseId)) // don't set if it's already set
+    u8 getFlagCaseId = (caseId == FLAG_SET_SEEN || caseId == FLAG_SET_SEEN_BOTH) ? FLAG_GET_SEEN : FLAG_GET_CAUGHT;
+    if (!GetSetPokedexFlag(nationalNum, getFlagCaseId) || caseId == FLAG_SET_SEEN_BOTH || caseId == FLAG_SET_CAUGHT_BOTH) // don't set if it's already set
     {
         GetSetPokedexFlag(nationalNum, caseId);
         if (NationalPokedexNumToSpecies(nationalNum) == SPECIES_UNOWN)
@@ -6053,7 +5958,7 @@ u8 *MonSpritesGfxManager_GetSpritePtr(u8 managerId, u8 spriteNum)
     }
 }
 
-u16 GetFormSpeciesId(enum Species speciesId, u8 formId)
+enum Species GetFormSpeciesId(enum Species speciesId, u8 formId)
 {
     if (GetSpeciesFormTable(speciesId) != NULL)
         return GetSpeciesFormTable(speciesId)[formId];
@@ -6061,7 +5966,7 @@ u16 GetFormSpeciesId(enum Species speciesId, u8 formId)
         return speciesId;
 }
 
-u8 GetFormIdFromFormSpeciesId(u16 formSpeciesId)
+u8 GetFormIdFromFormSpeciesId(enum Species formSpeciesId)
 {
     u8 targetFormId = 0;
 
@@ -6190,6 +6095,7 @@ enum Species GetFormChangeTargetSpecies_Internal(struct FormChangeContext ctx)
         case FORM_CHANGE_FAINT:
         case FORM_CHANGE_DAYS_PASSED:
         case FORM_CHANGE_BEGIN_WILD_ENCOUNTER:
+        case FORM_CHANGE_GET_EATEN:
             targetSpecies = formChanges[i].targetSpecies;
             break;
         case FORM_CHANGE_STATUS:
@@ -6549,8 +6455,9 @@ void TryToSetBattleFormChangeMoves(struct Pokemon *mon, enum FormChanges method)
     const struct FormChange *formChanges = GetSpeciesFormChanges(species);
 
     if (formChanges == NULL
-        || (method != FORM_CHANGE_BEGIN_BATTLE && method != FORM_CHANGE_END_BATTLE))
+        || (method != FORM_CHANGE_BEGIN_BATTLE && method != FORM_CHANGE_END_BATTLE && method != FORM_CHANGE_GET_EATEN))
         return;
+
 
     for (i = 0; formChanges[i].method != FORM_CHANGE_TERMINATOR; i++)
     {
@@ -6755,7 +6662,7 @@ bool32 IsSpeciesRegionalForm(enum Species species)
         || gSpeciesInfo[species].isPaldeanForm;
 }
 
-bool32 IsSpeciesRegionalFormFromRegion(enum Species species, u32 region)
+bool32 IsSpeciesRegionalFormFromRegion(enum Species species, enum Region region)
 {
     switch (region)
     {
@@ -6779,7 +6686,7 @@ bool32 SpeciesHasRegionalForm(enum Species species)
     return FALSE;
 }
 
-u32 GetRegionalFormByRegion(enum Species species, u32 region)
+enum Species GetRegionalFormByRegion(enum Species species, enum Region region)
 {
     u32 formId = 0;
     enum Species firstFoundSpecies = 0;
@@ -6801,10 +6708,9 @@ u32 GetRegionalFormByRegion(enum Species species, u32 region)
     return species;
 }
 
-bool32 IsSpeciesForeignRegionalForm(enum Species species, u32 currentRegion)
+bool32 IsSpeciesForeignRegionalForm(enum Species species, enum Region currentRegion)
 {
-    u32 i;
-    for (i = 0; i < REGIONS_COUNT; i++)
+    for (enum Region i = 0; i < REGIONS_COUNT; i++)
     {
         if (currentRegion != i && IsSpeciesRegionalFormFromRegion(species, i))
             return TRUE;

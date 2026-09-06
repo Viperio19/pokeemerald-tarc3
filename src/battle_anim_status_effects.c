@@ -567,8 +567,15 @@ void AnimTask_StatsChange(u8 taskId)
     case STAT_ANIM_MULTIPLE_MINUS2: goesDown = TRUE;   animStatId = STAT_ANIM_PAL_MULTIPLE;  sharply = TRUE;   break;
 
     default:
-        DestroyAnimVisualTask(taskId);
-        return;
+        if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY && gBattleStruct->eventState.beforeFirstTurn != 0)
+        {
+            goesDown = TRUE;   animStatId = STAT_ANIM_PAL_MULTIPLE;  sharply = FALSE;
+        }
+        else
+        {
+            DestroyAnimVisualTask(taskId);
+            return;
+        }
     }
 
     gBattleAnimArgs[0] = goesDown;

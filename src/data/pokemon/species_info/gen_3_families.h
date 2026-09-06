@@ -962,10 +962,15 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .height = 5,
         .weight = 136,
         .description = COMPOUND_STRING(
-            "It savagely threatens foes with bared\n"
-            "fangs. It chases after fleeing targets\n"
-            "tenaciously. It turns tail and runs,\n"
-            "however, if the foe strikes back."),
+			"Hard workin' and in it for the long haul!\n"
+            "Pupper's got a mind for fightin' and\n"
+            "foragin'. Great at finishin' off weakened\n"
+            "foes! Not that you lot would know..."),
+        .descriptionMagma = COMPOUND_STRING(
+            "Despite their large fangs, POOCHYENA are\n"
+            "omnivorous, and rarely hunt alone. When\n"
+            "under the leadership of MIGHTYENA, they\n"
+            "become ruthless and confident hunters."),
         .pokemonScale = 481,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -6412,10 +6417,15 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .height = 8,
         .weight = 208,
         .description = COMPOUND_STRING(
-            "Carvanha attack ships in swarms, making\n"
-            "them sink. Although it is said to be a very\n"
-            "vicious Pokémon, it timidly flees as soon\n"
-            "as it finds itself alone."),
+			"Engage! Chomp! Tear! Scurry! Let the\n"
+            "hunting patterns of CARVANHA inspire us\n"
+            "as the well-oiled crew we are! Even drops\n"
+			"of water can become a roaring ocean!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+            "Brutish, unrefined, yet timid. Much\n"
+            "like a certain group that utilizes them.\n"
+            "Their strongly developed jaws carry\n"
+            "enough power to tear through boat hulls."),
         .pokemonScale = 362,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -6762,9 +6772,9 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
     {
         .baseHP        = 60,
         .baseAttack    = 60,
-        .baseDefense   = 40,
+        .baseDefense   = 60,
         .baseSpeed     = 35,
-        .baseSpAttack  = 65,
+        .baseSpAttack  = 90,
         .baseSpDefense = 45,
         .types = MON_TYPES(TYPE_FIRE, TYPE_GROUND),
         .catchRate = 255,
@@ -6788,10 +6798,15 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .height = 7,
         .weight = 240,
         .description = COMPOUND_STRING(
-            "A Numel stores boiling magma in the hump\n"
-            "on its back. It is a hardy Pokémon that can\n"
-            "transport a 220-pound load. It has served\n"
-            "humans at work since long ago."),
+			"Dim-witted and numb to sensations\n"
+            "around them, their uncaring attitude\n"
+            "does remind me of a certain somebody...\n"
+			"Oh also, there be lava or, whatever.\n"),
+        .descriptionMagma = COMPOUND_STRING(
+			"An interesting combination of eternal\n"
+            "flame and robust earth, NUMEL are land\n"
+            "incarnate. Their ability to erupt in a\n"
+			"fiery inferno should not be underestimated.\n"),
         .pokemonScale = 342,
         .pokemonOffset = 17,
         .trainerScale = 256,

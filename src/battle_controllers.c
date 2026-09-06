@@ -195,6 +195,7 @@ static void InitBtlControllersInternal(void)
     bool32 isRecordedLink = (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK);
     bool32 isMulti = (gBattleTypeFlags & BATTLE_TYPE_MULTI);
     bool32 isInGamePartner = (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER);
+    bool32 isPlayer2Partner = (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER);
     bool32 isAIvsAI = IsAiVsAiBattle();
 
     if (!isLink || isMaster)
@@ -335,7 +336,7 @@ static void InitBtlControllersInternal(void)
         if (!isLink)
             bufferPartyOrders = (isInGamePartner || (isRecorded && isMulti));
         else
-            bufferPartyOrders = (isDouble && isMulti);
+            bufferPartyOrders = (isDouble && (isMulti || isPlayer2Partner));
 
         if (bufferPartyOrders)
         {
@@ -1103,7 +1104,7 @@ void BtlController_EmitChooseItem(enum BattlerId battler, u32 bufferId, u8 *batt
     PrepareBufferDataTransfer(battler, bufferId, gBattleResources->transferBuffer, 4);
 }
 
-void BtlController_EmitChoosePokemon(enum BattlerId battler, u32 bufferId, u8 caseId, u8 slotId, u16 abilityId, enum BattlerId battlerPreventingSwitchout, u8 *data)
+void BtlController_EmitChoosePokemon(enum BattlerId battler, u32 bufferId, u8 caseId, u8 slotId, enum Ability abilityId, enum BattlerId battlerPreventingSwitchout, u8 *data)
 {
     s32 i;
 
@@ -1987,7 +1988,7 @@ static bool8 ShouldDoSlideInAnim(enum BattlerId battler)
     if (gBattleTypeFlags & (
         BATTLE_TYPE_LINK | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_FIRST_BATTLE |
         BATTLE_TYPE_SAFARI | BATTLE_TYPE_CATCH_TUTORIAL | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TWO_OPPONENTS |
-        BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_RECORDED | BATTLE_TYPE_TRAINER_HILL)
+        BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER | BATTLE_TYPE_RECORDED | BATTLE_TYPE_TRAINER_HILL)
     )
         return FALSE;
 
@@ -2833,7 +2834,7 @@ void BtlController_HandleSpriteInvisibility(enum BattlerId battler)
 
 bool32 TwoPlayerIntroMons(enum BattlerId battler) // Double battle with both player Pokémon active.
 {
-    return (IsDoubleBattle() && IsValidForBattle(GetBattlerMon(battler ^ BIT_FLANK)));
+    return IsDoubleBattle() && IsValidForBattle(GetBattlerMon(battler ^ BIT_FLANK));
 }
 
 bool32 TwoOpponentIntroMons(enum BattlerId battler) // Double battle with both opponent Pokémon active.
@@ -2900,7 +2901,7 @@ static bool32 TwoMonsAtSendOut(enum BattlerId battler)
 {
     if (IsOnPlayerSide(battler))
     {
-        if (TwoPlayerIntroMons(battler) && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
+        if (TwoPlayerIntroMons(battler) && !(gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER))
             return TRUE;
         else
             return FALSE;
@@ -3264,7 +3265,7 @@ void UpdateFriendshipFromXItem(enum BattlerId battler)
     gBattleResources->bufferA[battler][1] = REQUEST_FRIENDSHIP_BATTLE;
     GetBattlerMonData(battler, party, gBattlerPartyIndexes[battler], &friendship);
 
-    u16 heldItem;
+    enum Item heldItem;
     gBattleResources->bufferA[battler][1] = REQUEST_HELDITEM_BATTLE;
     GetBattlerMonData(battler, party, gBattlerPartyIndexes[battler], (u8*)&heldItem);
 
@@ -3332,7 +3333,7 @@ enum BattleTrainer GetTrainerFromBattlePosition(enum BattlerPosition position)
 bool32 BattleSideHasTwoTrainers(enum BattleSide side)
 {
     if (side == B_SIDE_PLAYER)
-        return gBattleTypeFlags & BATTLE_TYPE_MULTI;
+        return gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER;
     else
         return ((gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS && TRAINER_BATTLE_PARAM.opponentB != 0xFFFF) || (gBattleTypeFlags & BATTLE_TYPE_LINK && gBattleTypeFlags & BATTLE_TYPE_MULTI));
 }

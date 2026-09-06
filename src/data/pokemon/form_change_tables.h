@@ -398,6 +398,14 @@ static const struct FormChange sHeracrossFormChangeTable[] =
 };
 #endif //P_FAMILY_HERACROSS
 
+#if P_FAMILY_CORSOLA
+static const struct FormChange sCorsolaFormChangeTable[] =
+{
+    {FORM_CHANGE_GET_EATEN,                     SPECIES_CORSOLA_GALAR, ITEM_NONE, MOVE_REFRESH, MOVE_TAUNT},
+    {FORM_CHANGE_TERMINATOR},
+};
+#endif //P_FAMILY_CORSOLA
+
 #if P_FAMILY_SKARMORY
 static const struct FormChange sSkarmoryFormChangeTable[] =
 {

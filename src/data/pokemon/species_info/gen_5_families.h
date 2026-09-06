@@ -6241,7 +6241,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_WATER_1, EGG_GROUP_WATER_3),
-        .abilities = { ABILITY_SOLID_ROCK, ABILITY_STURDY, ABILITY_SWIFT_SWIM },
+        .abilities = { ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_NONE },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Tirtouga"),
         .cryId = CRY_TIRTOUGA,
@@ -6250,10 +6250,15 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .height = 7,
         .weight = 165,
         .description = COMPOUND_STRING(
-            "Reputed to be the ancestor of most\n"
-            "turtle Pokémon, it lived in warm seas\n"
-            "about a hundred million years ago.\n"
-            "It was restored from a fossil."),
+			"Weird lookin' SQUIRTLE thing. Eggheads\n"
+            "in the lab have told me it's some sort\n"
+            "of 'long-extinct species'. But I mean,\n"
+            "you have one! So what do they know?"),
+        .descriptionMagma = COMPOUND_STRING(
+			"A long-extinct species brought back to\n"
+            "life in what could only be described as\n"
+            "an affront to natural order. TIRTOUGA now\n"
+            "reside in shallow oceans, as they once did."),
         .pokemonScale = 365,
         .pokemonOffset = 12,
         .trainerScale = 256,

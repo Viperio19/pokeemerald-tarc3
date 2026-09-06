@@ -172,17 +172,6 @@ s32 StringCompareN(const u8 *str1, const u8 *str2, u32 n)
     return *str1 - *str2;
 }
 
-bool8 IsStringLengthAtLeast(const u8 *str, s32 n)
-{
-    u32 i;
-
-    for (i = 0; i < n; i++)
-        if (str[i] && str[i] != EOS)
-            return TRUE;
-
-    return FALSE;
-}
-
 u8 *ConvertIntToDecimalStringN(u8 *dest, s32 value, enum StringConvertMode mode, u8 n)
 {
     enum { WAITING_FOR_NONZERO_DIGIT, WRITING_DIGITS, WRITING_SPACES } state;
@@ -479,6 +468,9 @@ static const u8 *ExpandPlaceholder_KunChan(void)
 
 static const u8 *ExpandPlaceholder_RivalName(void)
 {
+    if (gSaveBlock2Ptr->player2Name[0] != EOS)
+        return gSaveBlock2Ptr->player2Name;
+
 #if IS_FRLG
     if (gSaveBlock1Ptr->rivalName[0] != EOS)
         return gSaveBlock1Ptr->rivalName;
@@ -495,42 +487,50 @@ static const u8 *ExpandPlaceholder_Version(void)
     return gText_ExpandedPlaceholder_Emerald;
 }
 
-static const u8 *ExpandPlaceholder_Aqua(void)
+static const u8 *ExpandPlaceholder_HeShePlayer(void)
 {
-    return gText_ExpandedPlaceholder_Aqua;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->playerGender : gSaveBlock2Ptr->player2Gender) == MALE ? gText_ExpandedPlaceholder_He : gText_ExpandedPlaceholder_She;
 }
 
-static const u8 *ExpandPlaceholder_Magma(void)
+static const u8 *ExpandPlaceholder_HimHerPlayer(void)
 {
-    return gText_ExpandedPlaceholder_Magma;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->playerGender : gSaveBlock2Ptr->player2Gender) == MALE ? gText_ExpandedPlaceholder_Him : gText_ExpandedPlaceholder_Her;
 }
 
-static const u8 *ExpandPlaceholder_Archie(void)
+static const u8 *ExpandPlaceholder_HisHersPlayer(void)
 {
-    return gText_ExpandedPlaceholder_Archie;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->playerGender : gSaveBlock2Ptr->player2Gender) == MALE ? gText_ExpandedPlaceholder_His : gText_ExpandedPlaceholder_Hers;
 }
 
-static const u8 *ExpandPlaceholder_Maxie(void)
+static const u8 *ExpandPlaceholder_HeSheRival(void)
 {
-    return gText_ExpandedPlaceholder_Maxie;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->player2Gender : gSaveBlock2Ptr->playerGender) == MALE ? gText_ExpandedPlaceholder_He : gText_ExpandedPlaceholder_She;
 }
 
-static const u8 *ExpandPlaceholder_Kyogre(void)
+static const u8 *ExpandPlaceholder_HimHerRival(void)
 {
-    return gText_ExpandedPlaceholder_Kyogre;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->player2Gender : gSaveBlock2Ptr->playerGender) == MALE ? gText_ExpandedPlaceholder_Him : gText_ExpandedPlaceholder_Her;
 }
 
-static const u8 *ExpandPlaceholder_Groudon(void)
+static const u8 *ExpandPlaceholder_HisHersRival(void)
 {
-    return gText_ExpandedPlaceholder_Groudon;
+    return (IS_PLAYER_ONE ? gSaveBlock2Ptr->player2Gender : gSaveBlock2Ptr->playerGender) == MALE ? gText_ExpandedPlaceholder_His : gText_ExpandedPlaceholder_Hers;
 }
 
-static const u8 *ExpandPlaceholder_Region(void)
+static const u8 *ExpandPlaceholder_PlayerMagma(void)
 {
-    if (IS_FRLG)
-        return gText_Kanto;
+    if (IS_PLAYER_ONE)
+        return gSaveBlock2Ptr->player2Name;
     else
-        return gText_Hoenn;
+        return gSaveBlock2Ptr->playerName;
+}
+
+static const u8 *ExpandPlaceholder_PlayerAqua(void)
+{
+    if (IS_PLAYER_ONE)
+        return gSaveBlock2Ptr->playerName;
+    else
+        return gSaveBlock2Ptr->player2Name;
 }
 
 const u8 *GetExpandedPlaceholder(u32 id)
@@ -547,13 +547,14 @@ const u8 *GetExpandedPlaceholder(u32 id)
         [PLACEHOLDER_ID_KUN]          = ExpandPlaceholder_KunChan,
         [PLACEHOLDER_ID_RIVAL]        = ExpandPlaceholder_RivalName,
         [PLACEHOLDER_ID_VERSION]      = ExpandPlaceholder_Version,
-        [PLACEHOLDER_ID_AQUA]         = ExpandPlaceholder_Aqua,
-        [PLACEHOLDER_ID_MAGMA]        = ExpandPlaceholder_Magma,
-        [PLACEHOLDER_ID_ARCHIE]       = ExpandPlaceholder_Archie,
-        [PLACEHOLDER_ID_MAXIE]        = ExpandPlaceholder_Maxie,
-        [PLACEHOLDER_ID_KYOGRE]       = ExpandPlaceholder_Kyogre,
-        [PLACEHOLDER_ID_GROUDON]      = ExpandPlaceholder_Groudon,
-        [PLACEHOLDER_ID_REGION]       = ExpandPlaceholder_Region,
+        [PLACEHOLDER_ID_HESHE_1]      = ExpandPlaceholder_HeShePlayer,
+        [PLACEHOLDER_ID_HIMHER_1]     = ExpandPlaceholder_HimHerPlayer,
+        [PLACEHOLDER_ID_HISHERS_1]    = ExpandPlaceholder_HisHersPlayer,
+        [PLACEHOLDER_ID_HESHE_2]      = ExpandPlaceholder_HeSheRival,
+        [PLACEHOLDER_ID_HIMHER_2]     = ExpandPlaceholder_HimHerRival,
+        [PLACEHOLDER_ID_HISHERS_2]    = ExpandPlaceholder_HisHersRival,
+        [PLACEHOLDER_ID_PLAYER_MAGMA] = ExpandPlaceholder_PlayerMagma,
+        [PLACEHOLDER_ID_PLAYER_AQUA]  = ExpandPlaceholder_PlayerAqua,
     };
 
     if (id >= ARRAY_COUNT(funcs))
@@ -685,21 +686,6 @@ bool32 IsStringJapanese(u8 *str)
     return FALSE;
 }
 
-bool32 IsStringNJapanese(u8 *str, s32 n)
-{
-    s32 i;
-
-    for (i = 0; *str != EOS && i < n; i++)
-    {
-        if (*str <= JAPANESE_CHAR_END)
-            if (*str != CHAR_SPACE)
-                return TRUE;
-        str++;
-    }
-
-    return FALSE;
-}
-
 u8 GetExtCtrlCodeLength(u8 code)
 {
     static const u8 lengths[] =
@@ -717,7 +703,7 @@ u8 GetExtCtrlCodeLength(u8 code)
         [EXT_CTRL_CODE_WAIT_SE]                = 1,
         [EXT_CTRL_CODE_PLAY_BGM]               = 3,
         [EXT_CTRL_CODE_ESCAPE]                 = 2,
-        [EXT_CTRL_CODE_SHIFT_RIGHT]            = 2,
+        [EXT_CTRL_CODE_AUTO_SCROLL]            = 2,
         [EXT_CTRL_CODE_SHIFT_DOWN]             = 2,
         [EXT_CTRL_CODE_FILL_WINDOW]            = 1,
         [EXT_CTRL_CODE_PLAY_SE]                = 3,
@@ -733,6 +719,7 @@ u8 GetExtCtrlCodeLength(u8 code)
         [EXT_CTRL_CODE_ACCENT]                 = 2,
         [EXT_CTRL_CODE_BACKGROUND]             = 2,
         [EXT_CTRL_CODE_TEXT_COLORS]            = 4,
+        [EXT_CTRL_CODE_FONT_TYPE]            = 2,
     };
 
     u8 length = 0;

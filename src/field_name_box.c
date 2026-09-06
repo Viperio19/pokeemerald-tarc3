@@ -14,14 +14,32 @@
 #include "event_data.h"
 #include "match_call.h"
 #include "malloc.h"
+#include "palette.h"
+#include "constants/rgb.h"
 #include "constants/speaker_names.h"
 #include "data/speaker_names.h"
 
 static EWRAM_INIT u8 sNameboxWindowId = WINDOW_NONE;
+static EWRAM_INIT u16 sNameboxColorId = 0;
+EWRAM_DATA u16 gNameboxTileNum = 0;
 EWRAM_DATA const u8 *gSpeakerName = NULL;
 
 static const u32 sNameBoxDefaultGfx[] = INCGFX_U32("graphics/text_window/name_box.png", ".4bpp");
+static const u32 sNameBoxMagmaGfx[] = INCGFX_U32("graphics/text_window/name_box_magma.png", ".4bpp");
+static const u32 sNameBoxAquaGfx[] = INCGFX_U32("graphics/text_window/name_box_aqua.png", ".4bpp");
+static const u32 sNameBoxZinniaGfx[] = INCGFX_U32("graphics/text_window/name_box_zinnia.png", ".4bpp");
+static const u32 sNameBoxJessieGfx[] = INCGFX_U32("graphics/text_window/name_box_jessie.png", ".4bpp");
+static const u32 sNameBoxJamesGfx[] = INCGFX_U32("graphics/text_window/name_box_james.png", ".4bpp");
 static const u32 sNameBoxPokenavGfx[] = INCGFX_U32("graphics/pokenav/name_box.png", ".4bpp");
+
+static const u16 sNameBoxColors[SP_COLOR_COUNT] = {
+    [SP_COLOR_NORMAL] = RGB2GBA(128, 128, 128),
+    [SP_COLOR_MAGMA]  = RGB2GBA(176, 37,  30 ),
+    [SP_COLOR_AQUA]   = RGB2GBA(72,  112, 160),
+    [SP_COLOR_ZINNIA] = RGB2GBA(32,  152, 8  ),
+    [SP_COLOR_JESSIE] = RGB2GBA(168, 48,  112),
+    [SP_COLOR_JAMES]  = RGB2GBA(104, 104, 176),
+};
 
 static void DestroyNameboxFrame(void);
 static void WindowFunc_DrawNamebox(u32, u32, u32, u32, u32, u32, u32);
@@ -123,10 +141,20 @@ u32 GetNameboxWidth(void)
 
 static const u32 *GetNameboxGraphics(void)
 {
-    if (IsMatchCallTaskActive())
-        return sNameBoxPokenavGfx;
-    else
-        return sNameBoxDefaultGfx;
+    switch (sNameboxColorId)
+    {
+        case SP_COLOR_MAGMA:
+            return sNameBoxMagmaGfx;
+        case SP_COLOR_AQUA:
+            return sNameBoxAquaGfx;
+        case SP_COLOR_NORMAL:
+        default:
+            u16 color = sNameBoxColors[sNameboxColorId];
+            LoadPalette(&color, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM) + 10, sizeof(color));
+            return sNameBoxDefaultGfx;
+    }
+
+    return sNameBoxDefaultGfx;
 }
 
 void FillNamebox(void)
@@ -194,9 +222,10 @@ void SetSpeaker(struct ScriptContext *ctx)
 }
 
 // useful for other context e.g. match call
-void TrySpawnAndShowNamebox(const u8 *speaker, u32 tileNum)
+void TrySpawnAndShowNamebox(const u8 *speaker, u16 colorId, u32 tileNum)
 {
     gSpeakerName = speaker;
+    sNameboxColorId = colorId;
     if (sNameboxWindowId != WINDOW_NONE && gSpeakerName == NULL)
     {
         ClearNamebox(sNameboxWindowId, TRUE);
@@ -204,9 +233,9 @@ void TrySpawnAndShowNamebox(const u8 *speaker, u32 tileNum)
         RedrawDialogueFrame();
         return;
     }
-
-    PrepareNamebox(tileNum);
-    DrawNamebox(sNameboxWindowId, tileNum - NAME_BOX_BASE_TILES_TOTAL, TRUE);
+    u32 tileNumClean = tileNum == 0 ? NAME_BOX_BASE_TILE_NUM : tileNum;
+    PrepareNamebox(tileNumClean);
+    DrawNamebox(sNameboxWindowId, tileNumClean - NAME_BOX_BASE_TILES_TOTAL, TRUE);
 }
 
 bool32 IsSpeakerBuffered(const u8 *str)

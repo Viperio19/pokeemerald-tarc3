@@ -63,6 +63,7 @@
 #include "list_menu.h"
 #include "malloc.h"
 #include "battle.h"
+#include "international_string_util.h"
 #include "constants/event_objects.h"
 #include "constants/map_types.h"
 #include "constants/party_menu.h"
@@ -70,6 +71,7 @@
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
 
+EWRAM_DATA const u8 *gAfterWarpScript = {0};
 EWRAM_DATA const u8 *gRamScriptRetAddr = NULL;
 static EWRAM_DATA u32 sAddressOffset = 0; // For relative addressing in vgoto etc., used by saved scripts (e.g. Mystery Event)
 static EWRAM_DATA u16 sPauseCounter = 0;
@@ -80,6 +82,7 @@ static EWRAM_DATA u16 sFieldEffectScriptId = 0;
 
 static u8 sBrailleWindowId;
 static bool8 sIsScriptedWildDouble;
+static bool8 sIsScriptedWildBoss;
 
 extern const SpecialFunc gSpecials[];
 extern const u8 *gStdScripts[];
@@ -803,13 +806,6 @@ static bool8 IsPaletteNotActive(void)
         return FALSE;
 }
 
-// pauses script until palette fade inactive
-bool8 ScrFunc_WaitPaletteNotActive(struct ScriptContext *ctx)
-{
-    SetupNativeScript(ctx, IsPaletteNotActive);
-    return TRUE;
-}
-
 bool8 ScrCmd_fadescreen(struct ScriptContext *ctx)
 {
     u32 mode = ScriptReadByte(ctx);
@@ -977,6 +973,34 @@ bool8 ScrCmd_warp(struct ScriptContext *ctx)
     SetWarpDestination(mapGroup, mapNum, warpId, x, y);
     DoWarp();
     ResetInitialPlayerAvatarState();
+    return TRUE;
+}
+
+static void FieldCallback_SetupWarpScript(void)
+{
+    if (gAfterWarpScript == NULL)
+    {
+        gFieldCallback = NULL;
+        return;
+    }
+
+    LockPlayerFieldControls();
+    CpuFastFill(0, gPlttBufferFaded, PLTT_SIZE);
+    ScriptContext_SetupScript(gAfterWarpScript);
+}
+
+bool8 ScrCmd_warpcontinuescript(struct ScriptContext *ctx)
+{
+    u8 mapNum = ScriptReadByte(ctx);
+    u8 mapGroup = ScriptReadByte(ctx);
+    u16 x = VarGet(ScriptReadHalfword(ctx));
+    u16 y = VarGet(ScriptReadHalfword(ctx));
+    gAfterWarpScript = (const u8 *) ScriptReadWord(ctx);
+
+    gFieldCallback = FieldCallback_SetupWarpScript;
+    SetWarpDestination(mapGroup, mapNum, WARP_ID_NONE, x, y);
+    WarpIntoMap();
+    SetMainCallback2(CB2_LoadMap);
     return TRUE;
 }
 
@@ -1730,18 +1754,68 @@ bool8 ScrCmd_messageautoscroll(struct ScriptContext *ctx)
     return FALSE;
 }
 
+static const struct WindowTemplate sWindowTemplates[] =
+{
+    {
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 6,
+        .width = DISPLAY_TILE_WIDTH,
+        .height = 12,
+        .paletteNum = 12,
+        .baseBlock = 1
+    },
+    DUMMY_WIN_TEMPLATE,
+};
+static const u16 sCredits_Pal[] = INCGFX_U16("graphics/credits/credits.pal", ".gbapal");
+
 // Prints all at once. Skips waiting for player input. Only used by link contests
 bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
 {
-    const u8 *msg = (const u8 *)ScriptReadWord(ctx);
+    const u8 *msg1 = (const u8 *)ScriptReadWord(ctx);
+    const u8 *msg2 = (const u8 *)ScriptReadWord(ctx);
+    const u8 *msg3 = (const u8 *)ScriptReadWord(ctx);
+    const u8 *msg4 = (const u8 *)ScriptReadWord(ctx);
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
 
-    if (msg == NULL)
-        msg = (const u8 *)ctx->data[0];
-    LoadMessageBoxAndBorderGfx();
-    DrawDialogueFrame(0, TRUE);
-    AddTextPrinterParameterized(0, FONT_NORMAL, msg, 0, 1, 0, NULL);
+    u8 x, y = 0;
+    u8 color[3];
+
+    color[0] = TEXT_COLOR_TRANSPARENT;
+    color[1] = TEXT_COLOR_LIGHT_GRAY;
+    color[2] = TEXT_COLOR_RED;
+    InitWindows(sWindowTemplates);
+    PutWindowTilemap(0);
+    CopyWindowToVram(0, COPYWIN_FULL);
+    LoadPalette(sCredits_Pal, BG_PLTT_ID(12), 2 * PLTT_SIZE_4BPP);
+
+    if (msg3 == NULL)
+        y += 16;
+
+    x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg1, DISPLAY_WIDTH, 1);
+    AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 0, 1, 0, color, TEXT_SKIP_DRAW, msg1);
+
+    if (!FlagGet(FLAG_DO_CREDITS_TITLE))
+    {
+        color[1] = TEXT_COLOR_WHITE;
+        color[2] = TEXT_COLOR_DARK_GRAY;
+    }
+
+    x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg2, DISPLAY_WIDTH, 1);
+    AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 16, 1, 0, color, TEXT_SKIP_DRAW, msg2);
+    if (msg3 != NULL)
+    {
+        x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg3, DISPLAY_WIDTH, 1);
+        AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 32, 1, 0, color, TEXT_SKIP_DRAW, msg3);
+    }
+    if (msg4 != NULL)
+    {
+        x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg4, DISPLAY_WIDTH, 1);
+        AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 48, 1, 0, color, TEXT_SKIP_DRAW, msg4);
+    }
+    
+    CopyWindowToVram(0, COPYWIN_GFX);
     return FALSE;
 }
 
@@ -1782,10 +1856,11 @@ bool8 ScrCmd_yesnobox(struct ScriptContext *ctx)
 {
     u8 left = ScriptReadByte(ctx);
     u8 top = ScriptReadByte(ctx);
+    u8 defaultChoice = ScriptReadByte(ctx);
 
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
 
-    if (ScriptMenu_YesNo(left, top) == TRUE)
+    if (ScriptMenu_YesNoDefault(left, top, defaultChoice) == TRUE)
     {
         ScriptContext_Stop();
         return TRUE;
@@ -2451,9 +2526,8 @@ bool8 ScrCmd_updatecoinsbox(struct ScriptContext *ctx)
 bool8 ScrCmd_trainerbattle(struct ScriptContext *ctx)
 {
     Script_RequestEffects(SCREFF_V1 | SCREFF_TRAINERBATTLE);
-
-    TrainerBattleLoadArgs(ctx->scriptPtr);
-    ctx->scriptPtr = BattleSetup_ConfigureTrainerBattle(ctx->scriptPtr);
+    
+    ConfigureTrainerBattle(ctx);
     return FALSE;
 }
 
@@ -2515,6 +2589,7 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 {
     enum Species species = ScriptReadHalfword(ctx);
     u8 level = ScriptReadByte(ctx);
+    sIsScriptedWildBoss = ScriptReadByte(ctx);
     enum Item item = ScriptReadHalfword(ctx);
     enum Species species2 = ScriptReadHalfword(ctx);
     u8 level2 = ScriptReadByte(ctx);
@@ -2541,9 +2616,9 @@ bool8 ScrCmd_dowildbattle(struct ScriptContext *ctx)
     Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
 
     if (sIsScriptedWildDouble == FALSE)
-        BattleSetup_StartScriptedWildBattle();
+        BattleSetup_StartScriptedWildBattle(sIsScriptedWildBoss);
     else
-        BattleSetup_StartScriptedDoubleWildBattle();
+        BattleSetup_StartScriptedDoubleWildBattle(sIsScriptedWildBoss);
 
     ScriptContext_Stop();
 
@@ -3308,7 +3383,7 @@ bool8 ScrCmd_fwdweekday(struct ScriptContext *ctx)
 static bool32 EventEvolution(u32 partyIndex)
 {
     bool32 canStopEvo = gSpecialVar_0x8000;
-    u32 targetSpecies = GetEvolutionTargetSpecies(&gParties[B_TRAINER_PLAYER][partyIndex], EVO_MODE_SCRIPT_TRIGGER, gSpecialVar_0x8005, NULL, &canStopEvo, CHECK_EVO);
+    enum Species targetSpecies = GetEvolutionTargetSpecies(&gParties[B_TRAINER_PLAYER][partyIndex], EVO_MODE_SCRIPT_TRIGGER, gSpecialVar_0x8005, NULL, &canStopEvo, CHECK_EVO);
     if (targetSpecies == SPECIES_NONE)
     {
         gSpecialVar_Result = EVO_EVENT_IMPOSSIBLE;
@@ -3420,5 +3495,13 @@ bool8 ScrCmd_getbraillestringwidth(struct ScriptContext * ctx)
         msg = (u8 *)ctx->data[0];
 
     gSpecialVar_0x8004 = GetStringWidth(FONT_BRAILLE, msg, -1);
+    return FALSE;
+}
+
+bool8 ScrCmd_setfonttype(struct ScriptContext * ctx)
+{
+    gSpecialVar_FontType = ScriptReadByte(ctx);
+
+    Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
     return FALSE;
 }

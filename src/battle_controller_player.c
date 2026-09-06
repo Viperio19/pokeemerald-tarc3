@@ -216,7 +216,7 @@ static enum Item GetPrevBall(enum Item ballId)
 static enum Item GetNextBall(enum Item ballId)
 {
     s32 i;
-    s32 index = ItemIdToBallId(ballId);
+    enum PokeBall index = ItemIdToBallId(ballId);
     enum Item newBall = ITEM_NONE;
 
     for (i = 0; i < POKEBALL_COUNT; i++)
@@ -1590,7 +1590,7 @@ static void OpenPartyMenuToChooseMon(enum BattlerId battler)
         caseId = gTasks[gBattleControllerData[battler]].data[0];
         DestroyTask(gBattleControllerData[battler]);
         CloseMainBattleScreen();
-        OpenPartyMenuInBattle(caseId);
+        OpenPartyMenuInBattle(caseId, battler);
     }
 }
 
@@ -1618,6 +1618,10 @@ static void OpenBagAndChooseItem(enum BattlerId battler)
         ReshowBattleScreenDummy();
         CloseMainBattleScreen();
         CB2_BagMenuFromBattle();
+        if (gBattleStruct->victoryCatchState == VICTORY_CATCH_OPEN_BAG)
+            CB2_ChooseBall();
+        else
+            CB2_BagMenuFromBattle();
     }
 }
 
@@ -1889,11 +1893,13 @@ enum TrainerPicID LinkPlayerGetTrainerPicId(u32 multiplayerId)
     return GetPlayerTrainerPic(gender, version);
 }
 
-static enum TrainerPicID PlayerGetTrainerBackPicId(void)
+static enum TrainerPicID PlayerGetTrainerBackPicId(enum BattlerId battler)
 {
     enum TrainerPicID trainerPicId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT))
+        trainerPicId = GetPlayer2TrainerPic(gSaveBlock2Ptr->player2Gender, GAME_VERSION);
+    else if (gBattleTypeFlags & BATTLE_TYPE_LINK)
         trainerPicId = LinkPlayerGetTrainerPicId(GetMultiplayerId());
     else
         trainerPicId = GetPlayerTrainerPic(gSaveBlock2Ptr->playerGender, GAME_VERSION);
@@ -1913,7 +1919,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     if (TESTING)
     {
         trainerPicId = TRAINER_PIC_BRENDAN;
-        if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+        if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER)
             xPos = 32;
         else
             xPos = 80;
@@ -1921,16 +1927,16 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     }
     else
     {
-        trainerPicId = PlayerGetTrainerBackPicId();
+        trainerPicId = PlayerGetTrainerBackPicId(battler);
 
-        if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
+        if (gBattleTypeFlags & BATTLE_TYPE_MULTI_OR_PLAYER_2_PARTNER)
         {
             if ((GetBattlerPosition(battler) & BIT_FLANK) != B_FLANK_LEFT) // Second mon, on the right.
                 xPos = 90;
             else // First mon, on the left.
                 xPos = 32;
 
-            if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
+            if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
             {
                 xPos = 90;
                 yPos = 80;
@@ -1948,7 +1954,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
     }
 
     // Use front pic table for any tag battles unless your partner is Steven or a custom partner.
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
+    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_OR_PLAYER_2_PARTNER && gPartnerTrainerId < TRAINER_PARTNER(PARTNER_NONE))
     {
         trainerPicId = PlayerGenderToFrontTrainerPicId(gSaveBlock2Ptr->playerGender);
         isFrontPic = TRUE;
@@ -1963,7 +1969,7 @@ static void PlayerHandleDrawTrainerPic(enum BattlerId battler)
 
 static void PlayerHandleTrainerSlide(enum BattlerId battler)
 {
-    enum TrainerPicID trainerPicId = PlayerGetTrainerBackPicId();
+    enum TrainerPicID trainerPicId = PlayerGetTrainerBackPicId(battler);
     BtlController_HandleTrainerSlide(battler, trainerPicId);
 }
 
@@ -2297,9 +2303,17 @@ static void PlayerHandleOneReturnValue_Duplicate(enum BattlerId battler)
 
 static void PlayerHandleIntroTrainerBallThrow(enum BattlerId battler)
 {
-    enum TrainerPicID trainerPicID = PlayerGetTrainerBackPicId();
-    const u16 *trainerPal = GetTrainerBackPicPalette(trainerPicID);
-    BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F8, trainerPal, 31, Intro_TryShinyAnimShowHealthbox);
+    if (gBattleTypeFlags & BATTLE_TYPE_PLAYER_2_PARTNER && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT))
+    {
+        const u16 *trainerPal = GetTrainerBackPicPalette(GetPlayer2TrainerPic(gSaveBlock2Ptr->player2Gender, GAME_VERSION));
+        BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F9, trainerPal, 24, Intro_WaitForShinyAnimAndHealthbox);
+    }
+    else
+    {
+        enum TrainerPicID trainerPicID = PlayerGetTrainerBackPicId(battler);
+        const u16 *trainerPal = GetTrainerBackPicPalette(trainerPicID);
+        BtlController_HandleIntroTrainerBallThrow(battler, 0xD6F8, trainerPal, 31, Intro_TryShinyAnimShowHealthbox);
+    }
 }
 
 static void PlayerHandleDrawPartyStatusSummary(enum BattlerId battler)
@@ -2382,9 +2396,11 @@ enum
 {
     EFFECTIVENESS_CANNOT_VIEW,
     EFFECTIVENESS_NO_EFFECT,
+    EFFECTIVENESS_MOSTLY_INEFFECTIVE,
     EFFECTIVENESS_NOT_VERY_EFFECTIVE,
     EFFECTIVENESS_NORMAL,
     EFFECTIVENESS_SUPER_EFFECTIVE,
+    EFFECTIVENESS_EXTREMELY_EFFECTIVE,
 };
 
 static bool32 ShouldShowTypeEffectiveness(u32 targetId)
@@ -2422,6 +2438,8 @@ static u32 CheckTypeEffectiveness(enum BattlerId battlerAtk, enum BattlerId batt
 
     if (modifier == UQ_4_12(0.0))
         return EFFECTIVENESS_NO_EFFECT; // No effect
+    else if (modifier <= UQ_4_12(0.25))
+        return EFFECTIVENESS_MOSTLY_INEFFECTIVE; // Mostly ineffective
     else if (modifier <= UQ_4_12(0.5))
         return EFFECTIVENESS_NOT_VERY_EFFECTIVE; // Not very effective
     else if (modifier >= UQ_4_12(2.0))
@@ -2464,9 +2482,11 @@ static void MoveSelectionDisplayMoveEffectiveness(u32 foeEffectiveness, enum Bat
         switch (foeEffectiveness)
         {
         case EFFECTIVENESS_SUPER_EFFECTIVE:
+        case EFFECTIVENESS_EXTREMELY_EFFECTIVE:
             StringCopy(txtPtr, superEffectiveIcon);
             break;
         case EFFECTIVENESS_NOT_VERY_EFFECTIVE:
+        case EFFECTIVENESS_MOSTLY_INEFFECTIVE:
             StringCopy(txtPtr, notVeryEffectiveIcon);
             break;
         case EFFECTIVENESS_NO_EFFECT:

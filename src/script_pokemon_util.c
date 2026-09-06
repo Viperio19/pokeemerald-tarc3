@@ -39,12 +39,15 @@ void HealPlayerParty(void)
 {
     u32 i;
     for (i = 0; i < gPartiesCount[B_TRAINER_PLAYER]; i++)
+    {
         HealPokemon(&gParties[B_TRAINER_PLAYER][i]);
+        HealPokemon(&gParties[B_TRAINER_PARTNER][i]);
+    }
     if (OW_PC_HEAL >= GEN_8)
         HealPlayerBoxes();
 
     // Recharge Tera Orb, if possible.
-    if (B_FLAG_TERA_ORB_CHARGED != 0 && CheckBagHasItem(ITEM_TERA_ORB, 1))
+    if (!IsTeraOrbCharged() && CheckBagHasItem(ITEM_TERA_ORB, 1))
         FlagSet(B_FLAG_TERA_ORB_CHARGED);
 }
 
@@ -74,6 +77,12 @@ u8 ScriptGiveEgg(enum Species species)
     SetMonData(&mon, MON_DATA_IS_EGG, &isEgg);
 
     return GiveCapturedMonToPlayer(&mon);
+}
+
+// TODO verify that this is really always the same output as the script special variant
+u8 HasEnoughMonsForDoubleBattle2(void)
+{
+    return GetMonsStateToDoubles() == PLAYER_HAS_TWO_USABLE_MONS; 
 }
 
 void HasEnoughMonsForDoubleBattle(void)
@@ -130,6 +139,31 @@ void CreateScriptedWildMon(enum Species species, u8 level, enum Item item)
         heldItem[0] = item;
         heldItem[1] = item >> 8;
         SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_HELD_ITEM, heldItem);
+    }
+    if (species == SPECIES_VOLCANION)
+    {
+        u16 hp = GetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_HP);
+        switch (VarGet(VAR_CURRENT_HP_BAR_COLOR))
+        {
+            case 2:
+                hp /= 2;
+                break;
+            case 3:
+                hp /= 4;
+                break;
+            case 0:
+            case 1:
+            default:
+                break;
+        }
+
+        SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_HP, &hp);
+
+        if (VarGet(VAR_VOLCANION_CAVE_3F_PIKACHU_STATE) == 100)
+        {
+            u32 status = STATUS1_PARALYSIS;
+            SetMonData(&gParties[B_TRAINER_OPPONENT_A][0], MON_DATA_STATUS, &status);
+        }
     }
 }
 void CreateScriptedDoubleWildMon(enum Species species1, u8 level1, enum Item item1, enum Species species2, u8 level2, enum Item item2)
@@ -359,7 +393,7 @@ void SetTeraType(struct ScriptContext *ctx)
  * if side/slot are assigned, it will create the mon at the assigned party location
  * if slot == PARTY_SIZE, it will give the mon to first available party or storage slot
  */
-static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8 level, enum Item item, enum PokeBall ball, u8 nature, u8 abilityNum, u8 gender, u16 *evs, u16 *ivs, enum Move *moves, enum ShinyMode shinyMode, bool8 gmaxFactor, enum Type teraType, u8 dmaxLevel)
+static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8 level, enum Item item, enum PokeBall ball, u8 nature, u8 abilityNum, u8 gender, u16 *evs, u16 *ivs, enum Move *moves, enum ShinyMode shinyMode, bool8 gmaxFactor, enum Type teraType, u8 dmaxLevel, bool8 isEgg)
 {
     struct Pokemon mon;
     u32 i;
@@ -367,7 +401,9 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8
 
     ResolveRandomMonGeneration(species, &ball, moves);
 
-    u32 personality = GetMonPersonality(species, gender, nature, RANDOM_UNOWN_LETTER);
+    u8 neutralNature = NATURE_HARDY + (Random() % 5) * 6;
+
+    u32 personality = GetMonPersonality(species, gender, neutralNature, RANDOM_UNOWN_LETTER);
     CreateMon(&mon, species, level, personality, OTID_STRUCT_PLAYER_ID);
 
     // shininess
@@ -380,6 +416,8 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8
 
     SetMonData(&mon, MON_DATA_IS_SHINY, &isShiny);
 
+    SetMonData(&mon, MON_DATA_IS_EGG, &isEgg);
+
     // gigantamax factor
     SetMonData(&mon, MON_DATA_GIGANTAMAX_FACTOR, &gmaxFactor);
 
@@ -391,6 +429,7 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8
         teraType = GetTeraTypeFromPersonality(&mon);
     SetMonData(&mon, MON_DATA_TERA_TYPE, &teraType);
 
+    u8 maxIvs = MAX_PER_STAT_IVS;
     // EV and IV
     for (i = 0; i < NUM_STATS; i++)
     {
@@ -399,8 +438,7 @@ static u32 ScriptGiveMonParameterized(u8 side, u8 slot, enum Species species, u8
             SetMonData(&mon, MON_DATA_HP_EV + i, &evs[i]);
 
         // IV
-        if (ivs[i] <= MAX_PER_STAT_IVS)
-            SetMonData(&mon, MON_DATA_HP_IV + i, &ivs[i]);
+        SetMonData(&mon, MON_DATA_HP_IV + i, &maxIvs);
     }
     CalculateMonStats(&mon);
 
@@ -537,8 +575,7 @@ void ScrCmd_createmon(struct ScriptContext *ctx)
         if (ivs[i] == USE_RANDOM_IVS)
         {
             availableIVs[nonFixedIvCount] = i;
-            ivs[i] = Random() % (MAX_PER_STAT_IVS + 1);
-            nonFixedIvCount++;
+            ivs[i] = MAX_PER_STAT_IVS;
         }
     }
 
@@ -566,6 +603,7 @@ void ScrCmd_createmon(struct ScriptContext *ctx)
     bool8 gmaxFactor         = PARSE_FLAG(22, FALSE);
     enum Type teraType       = PARSE_FLAG(23, NUMBER_OF_MON_TYPES);
     u8 dmaxLevel             = PARSE_FLAG(24, 0);
+    bool8 isEgg              = PARSE_FLAG(25, FALSE);
 
     enum GeneratedMonOrigin origin;
     if (side == 0)
@@ -581,10 +619,9 @@ void ScrCmd_createmon(struct ScriptContext *ctx)
 
     if (gender == MON_GENDER_MAY_CUTE_CHARM)
         gender = GetSynchronizedGender(origin, species);
-    if (nature == NATURE_MAY_SYNCHRONIZE)
-        nature = GetSynchronizedNature(origin, species);
+    nature = NATURE_HARDY + (Random() % 5) * 6;
 
-    gSpecialVar_Result = ScriptGiveMonParameterized(side, slot, species, level, item, ball, nature, abilityNum, gender, evs, ivs, moves, shinyMode, gmaxFactor, teraType, dmaxLevel);
+    gSpecialVar_Result = ScriptGiveMonParameterized(side, slot, species, level, item, ball, nature, abilityNum, gender, evs, ivs, moves, shinyMode, gmaxFactor, teraType, dmaxLevel, isEgg);
 }
 
 #undef PARSE_FLAG

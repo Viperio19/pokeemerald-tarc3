@@ -163,6 +163,7 @@ enum FormChanges
     FORM_CHANGE_DEPOSIT,
     // Form change for Minior, which appears unchanged when encountered in the wild
     FORM_CHANGE_BEGIN_WILD_ENCOUNTER,
+    FORM_CHANGE_GET_EATEN,
 };
 
 #endif // GUARD_CONSTANTS_FORM_CHANGE_TYPES_H

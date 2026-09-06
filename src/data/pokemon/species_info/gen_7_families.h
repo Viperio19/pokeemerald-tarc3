@@ -2638,7 +2638,7 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .friendship = STANDARD_FRIENDSHIP,
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_WATER_1),
-        .abilities = { ABILITY_MERCILESS, ABILITY_LIMBER, ABILITY_REGENERATOR },
+        .abilities = { ABILITY_LIMBER, ABILITY_NONE, ABILITY_REGENERATOR },
         .bodyColor = BODY_COLOR_BLUE,
         .speciesName = _("Toxapex"),
         .cryId = CRY_TOXAPEX,
@@ -2647,10 +2647,15 @@ const struct SpeciesInfo gSpeciesInfoGen7[] =
         .height = 7,
         .weight = 145,
         .description = COMPOUND_STRING(
-            "Those attacked by Toxapex's poison will\n"
-            "suffer intense pain for three days and\n"
-            "three nights. Post-recovery, there will be\n"
-            "some aftereffects."),
+			"These large marine predators are the\n"
+            "PERFECT partner for a well-seasoned\n"
+            "crewmate. The ferocity of the ocean\n"
+			"should not be feared, but respected!\n"),
+        .descriptionMagma = COMPOUND_STRING(
+			"It produces a toxin so potent that even\n"
+            "WAILORD could be brought down by it.\n"
+            "Trials are underway to find medical\n"
+			"applications for this unique poison.\n"),
         .pokemonScale = 365,
         .pokemonOffset = 12,
         .trainerScale = 256,

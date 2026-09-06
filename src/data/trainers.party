@@ -16877,3 +16877,46 @@ Double Battle: No
 Kyogre
 Level: 5
 IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+
+=== TRAINER_GRUNT_VC_2F_TOXAPEX ===
+Name: GRUNT
+Class: Team Aqua
+Pic: Aqua Grunt M
+Gender: Male
+Music: Aqua
+Double Battle: No
+AI: Basic Trainer
+
+Toxapex (F)
+Level: 30
+IVs: 20 HP / 0 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+Quirky Nature
+- Baneful Bunker
+- Toxic
+- Recover
+- Eat
+
+=== TRAINER_TEAM_ROCKET_DUO_VC_3F ===
+Name: DUO
+Class: Team Rocket Duo
+Pic: Team Rocket Duo
+Gender: Male
+Double Battle: Yes
+AI: Basic Trainer
+
+Chimecho (F)
+Level: 20
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Quirky Nature
+- Wrap
+- Heal Bell
+- Astonish
+- Double-Edge
+
+Wobbuffet (M)
+Level: 20
+IVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+Quirky Nature
+- Counter
+- Bide
+- Mirror Coat

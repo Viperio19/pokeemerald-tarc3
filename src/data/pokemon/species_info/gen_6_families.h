@@ -7455,7 +7455,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
 #if P_FAMILY_VOLCANION
     [SPECIES_VOLCANION] =
     {
-        .baseHP        = 80,
+        .baseHP        = 82,
         .baseAttack    = 110,
         .baseDefense   = 120,
         .baseSpeed     = 70,

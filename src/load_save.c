@@ -24,12 +24,6 @@ static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey);
 
 #define SAVEBLOCK_MOVE_RANGE    128
 
-struct LoadedSaveData
-{
- /*0x0000*/ struct Bag bag;
- /*0x02E8*/ struct Mail mail[MAIL_COUNT];
-};
-
 // EWRAM DATA
 EWRAM_DATA struct SaveBlock3 gSaveblock3 = {};
 EWRAM_DATA struct SaveBlock2ASLR gSaveblock2 = {0};

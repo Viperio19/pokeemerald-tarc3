@@ -18,6 +18,9 @@
 #define VAR_TEMP_7                 (TEMP_VARS_START + 0x7)
 #define VAR_TEMP_8                 (TEMP_VARS_START + 0x8)
 #define VAR_TEMP_9                 (TEMP_VARS_START + 0x9)
+
+#define TEMP_ISH_VARS_START        (TEMP_VARS_START + 0xA)
+
 #define VAR_TEMP_A                 (TEMP_VARS_START + 0xA)
 #define VAR_TEMP_B                 (TEMP_VARS_START + 0xB)
 #define VAR_TEMP_C                 (TEMP_VARS_START + 0xC)
@@ -26,6 +29,7 @@
 #define VAR_TEMP_F                 (TEMP_VARS_START + 0xF)
 #define TEMP_VARS_END              VAR_TEMP_F
 #define NUM_TEMP_VARS              (TEMP_VARS_END - TEMP_VARS_START + 1)
+#define NUM_TEMP_ISH_VARS          (TEMP_VARS_END - TEMP_ISH_VARS_START + 1)
 
 // object gfx id vars
 // These 0x10 vars are used to dynamically control a map object's sprite.
@@ -53,8 +57,8 @@
 #define VAR_REPEL_STEP_COUNT                             0x4021
 #define VAR_ICE_STEP_COUNT                               0x4022
 #define VAR_STARTER_MON                                  0x4023 // 0=Treecko, 1=Torchic, 2=Mudkip
-#define VAR_MIRAGE_RND_H                                 0x4024
-#define VAR_MIRAGE_RND_L                                 0x4025
+#define VAR_MIRAGE_RND_H                                 0x4024 // Unused if OW_USE_DAILY_SEED_FOR_VANILLA_VARIABLES is TRUE
+#define VAR_MIRAGE_RND_L                                 0x4025 // Unused if OW_USE_DAILY_SEED_FOR_VANILLA_VARIABLES is TRUE
 #define VAR_SECRET_BASE_MAP                              0x4026
 #define VAR_CYCLING_ROAD_RECORD_COLLISIONS               0x4027
 #define VAR_CYCLING_ROAD_RECORD_TIME_L                   0x4028
@@ -94,10 +98,10 @@
 #define VAR_ASH_GATHER_COUNT                             0x4048
 #define VAR_BIRCH_STATE                                  0x4049
 #define VAR_CRUISE_STEP_COUNT                            0x404A
-#define VAR_POKELOT_RND1                                 0x404B
-#define VAR_POKELOT_RND2                                 0x404C
+#define VAR_POKELOT_RND1                                 0x404B // Unused if OW_USE_DAILY_SEED_FOR_VANILLA_VARIABLES is TRUE
+#define VAR_POKELOT_RND2                                 0x404C // Unused if OW_USE_DAILY_SEED_FOR_VANILLA_VARIABLES is TRUE
 #define VAR_POKELOT_PRIZE_PLACE                          0x404D
-#define VAR_UNUSED_0x404E                                0x404E // Unused Var
+#define VAR_STINKY_STEP_COUNT                            0x404E
 #define VAR_LOTAD_SIZE_RECORD                            0x404F
 #define VAR_LITTLEROOT_TOWN_STATE                        0x4050
 #define VAR_OLDALE_TOWN_STATE                            0x4051
@@ -136,19 +140,19 @@
 #define VAR_ROUTE119_STATE                               0x4072
 #define VAR_ROUTE120_STATE                               0x4073 // Unused Var
 #define VAR_ROUTE121_STATE                               0x4074
-#define VAR_ROUTE122_STATE                               0x4075 // Unused Var
-#define VAR_ROUTE123_STATE                               0x4076 // Unused Var
-#define VAR_ROUTE124_STATE                               0x4077 // Unused Var
-#define VAR_ROUTE125_STATE                               0x4078 // Unused Var
-#define VAR_ROUTE126_STATE                               0x4079 // Unused Var
-#define VAR_ROUTE127_STATE                               0x407A // Unused Var
+#define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_1          0x4075
+#define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2          0x4076
+#define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3          0x4077
+#define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_4          0x4078
+#define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_5          0x4079
+#define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_6          0x407A
 #define VAR_ROUTE128_STATE                               0x407B
-#define VAR_ROUTE129_STATE                               0x407C // Unused Var
+#define VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7          0x407C
 #define VAR_ROUTE130_STATE                               0x407D // Unused Var
-#define VAR_ROUTE131_STATE                               0x407E // Unused Var
-#define VAR_ROUTE132_STATE                               0x407F // Unused Var
-#define VAR_ROUTE133_STATE                               0x4080 // Unused Var
-#define VAR_ROUTE134_STATE                               0x4081 // Unused Var
+#define VAR_VOLCANION_CAVE_3F_TEAM_ROCKET_STATE          0x407E
+#define VAR_VOLCANION_CAVE_2F_CORSOLA_X                  0x407F
+#define VAR_VOLCANION_CAVE_2F_CORSOLA_Y                  0x4080
+#define VAR_VOLCANION_CAVE_2F_CORSOLA_STATE              0x4081
 #define VAR_LITTLEROOT_HOUSES_STATE_MAY                  0x4082
 #define VAR_UNUSED_0x4083                                0x4083 // Unused Var
 #define VAR_BIRCH_LAB_STATE                              0x4084
@@ -238,17 +242,17 @@
 #define VAR_SOOTOPOLIS_WALLACE_STATE                     0x40D8
 #define VAR_HAS_TALKED_TO_SEAFLOOR_CAVERN_ENTRANCE_GRUNT 0x40D9
 #define VAR_REGISTER_BIRCH_STATE                         0x40DA
-#define VAR_UNUSED_0x40DB                                0x40DB // Unused Var
-#define VAR_UNUSED_0x40DC                                0x40DC // Unused Var
+#define VAR_UNUSED_0x40DB                                0x40DB
+#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4          0x40DC
 #define VAR_GIFT_PICHU_SLOT                              0x40DD
-#define VAR_GIFT_UNUSED_1                                0x40DE // Var is written to, but never read
-#define VAR_GIFT_UNUSED_2                                0x40DF // Var is written to, but never read
-#define VAR_GIFT_UNUSED_3                                0x40E0 // Var is written to, but never read
-#define VAR_GIFT_UNUSED_4                                0x40E1 // Var is written to, but never read
-#define VAR_GIFT_UNUSED_5                                0x40E2 // Var is written to, but never read
-#define VAR_GIFT_UNUSED_6                                0x40E3 // Var is written to, but never read
-#define VAR_GIFT_UNUSED_7                                0x40E4 // var is written to, but never read
-#define VAR_UNUSED_0x40E5                                0x40E5 // Unused Var
+#define VAR_LOCALID_CURRENT_HP_BAR                       0x40DE
+#define VAR_CURRENT_HP_BAR_COLOR                         0x40DF
+#define VAR_ZINNIA_STATE                                 0x40E0
+#define VAR_GOLEM_ROCK_SLIDE_STATE                       0x40E1
+#define VAR_GOLEM_ROCK_SLIDE_TIMER                       0x40E2
+#define VAR_VOLCANION_CAVE_3F_PIKACHU_STATE              0x40E3
+#define VAR_GIFT_UNUSED_7                                0x40E4 // Unused Var
+#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3          0x40E5
 #define VAR_DAILY_SLOTS                                  0x40E6
 #define VAR_DAILY_WILDS                                  0x40E7
 #define VAR_DAILY_BLENDER                                0x40E8
@@ -266,14 +270,15 @@
 #define VAR_ROXANNE_CALL_STEP_COUNTER                    0x40F4
 #define VAR_SCOTT_BF_CALL_STEP_COUNTER                   0x40F5
 #define VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER             0x40F6
-#define VAR_UNUSED_0x40F7                                0x40F7 // Unused Var
-#define VAR_UNUSED_0x40F8                                0x40F8 // Unused Var
-#define VAR_UNUSED_0x40F9                                0x40F9 // Unused Var
-#define VAR_UNUSED_0x40FA                                0x40FA // Unused Var
-#define VAR_UNUSED_0x40FB                                0x40FB // Unused Var
-#define VAR_UNUSED_0x40FC                                0x40FC // Unused Var
-#define VAR_UNUSED_0x40FD                                0x40FD // Unused Var
-#define VAR_UNUSED_0x40FE                                0x40FE // Unused Var
+#define VAR_VOLCANION_CAVE_1F_STATE                      0x40F7
+#define VAR_VOLCANION_CAVE_2F_STATE                      0x40F8
+#define VAR_VOLCANION_CAVE_3F_STATE                      0x40F9
+#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_1          0x40FA
+#define VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2          0x40FB
+#define VAR_OLD_ROD_X                                    0x40FC
+#define VAR_OLD_ROD_Y                                    0x40FD
+#define VAR_OLD_ROD_STATE                                0x40FE
+
 #define VAR_UNUSED_0x40FF                                0x40FF // Unused Var
 
 #define VARS_END                                         0x40FF
@@ -302,7 +307,7 @@
 #define VAR_CONTEST_CATEGORY          0x8011
 #define VAR_MON_BOX_ID                0x8012
 #define VAR_MON_BOX_POS               0x8013
-#define VAR_UNUSED_0x8014             0x8014
+#define VAR_FONT_TYPE                 0x8014
 #define VAR_TRAINER_BATTLE_OPPONENT_A 0x8015 // Alias of TRAINER_BATTLE_PARAM.opponentA
 
 #define SPECIAL_VARS_END              0x8015

@@ -25,6 +25,9 @@ struct FieldInput
 void GetPlayerPosition(struct MapPosition *);
 void FieldClearPlayerInput(struct FieldInput *pStruct);
 void FieldGetPlayerInput(struct FieldInput *pStruct, u16 keys, u16 heldKeys);
+void SwitchParties(void);
+void SwitchTrainerData(void);
+void SetPlayer2Pos(s8 mapGroup, s8 mapNum, s8 x, s8 y, u8 facingDirection, u8 elevation);
 int ProcessPlayerFieldInput(struct FieldInput *pStruct);
 void RestartWildEncounterImmunitySteps(void);
 const u8 *GetObjectEventScriptPointerPlayerFacing(void);
@@ -36,7 +39,7 @@ const u8 *GetCoordEventScriptAtMapPosition(struct MapPosition *position);
 void ClearPoisonStepCounter(void);
 void CancelSignPostMessageBox(struct FieldInput *input);
 void HandleBoulderFallThroughHole(struct ObjectEvent *object);
-void HandleBoulderActivateVictoryRoadSwitch(u16 x, u16 y);
+void HandleBoulderActivateVictoryRoadSwitch(struct ObjectEvent *boulder, u16 x, u16 y);
 bool8 TryStartStepBasedScript(struct MapPosition *, u16, enum Direction);
 
 #define NOT_SIGNPOST 0

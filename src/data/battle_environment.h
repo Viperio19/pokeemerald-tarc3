@@ -149,6 +149,20 @@ const struct BattleEnvironment gBattleEnvironmentInfo[BATTLE_ENVIRONMENT_COUNT] 
         .battleIntroSlide = BattleIntroSlide2,
     },
 
+    [BATTLE_ENVIRONMENT_LAVA] =
+    {
+        .name = _("Lava"),
+        .naturePower = MOVE_LAVA_PLUME,
+        .secretPowerAnimation = gBattleAnimMove_FlameBurst,
+        .secretPowerEffect = MOVE_EFFECT_BURN,
+        .camouflageType = TYPE_FIRE,
+        .camouflageBlend = RGB(31, 11, 2),
+        .entry = ENVIRONMENT_ENTRY(Lava),
+        .background = ENVIRONMENT_BACKGROUND(Lava),
+        .palette = gBattleEnvironmentPalette_Lava,
+        .battleIntroSlide = BattleIntroSlide2,
+    },
+
     [BATTLE_ENVIRONMENT_POND] =
     {
         .name = _("Pond"),

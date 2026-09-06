@@ -1,6 +1,11 @@
 #ifndef GUARD_EVENT_SCRIPTS_H
 #define GUARD_EVENT_SCRIPTS_H
 
+extern const u8 EventScript_Player2_Singleplayer[];
+extern const u8 EventScript_Player2_Multiplayer[];
+
+extern const u8 EventScript_Player2_ReadyToBattle[];
+
 extern const u8 EventScript_Follower[];
 extern const u8 EventScript_FollowerEnd[];
 extern const u8 EventScript_FollowerGeneric[];
@@ -37,6 +42,25 @@ extern const u8 EventScript_TryDoNormalTrainerBattle[];
 extern const u8 EventScript_TryDoDoubleRematchBattle[];
 extern const u8 EventScript_TryDoRematchBattle[];
 extern const u8 EventScript_ObjectApproachPlayer[];
+extern const u8 EventScript_ShowTrainerIntroMsg[];
+extern const u8 EventScript_NotEnoughMonsForDoubleBattle[];
+
+extern const u8 EventSnippet_Lock[];
+extern const u8 EventSnippet_FacePlayer[];
+extern const u8 EventSnippet_StartTrainerApproach[];
+extern const u8 EventSnippet_TryDoNormalTrainerBattle[];
+extern const u8 EventSnippet_RevealTrainer[];
+extern const u8 EventSnippet_GetTrainerFlag[];
+extern const u8 EventSnippet_PlayTrainerEncounterMusic[];
+extern const u8 EventSnippet_SetTrainerFacingDirection[];
+extern const u8 EventSnippet_TrainerApproach[];
+extern const u8 EventSnippet_PrepareSecondTrainerApproach[];
+extern const u8 EventSnippet_ShowTrainerIntroMsg[];
+extern const u8 EventSnippet_GotoPostBattleScript[];
+extern const u8 EventSnippet_DoTrainerBattle[];
+extern const u8 EventSnippet_DoRematchTrainerBattle[];
+extern const u8 EventSnippet_EndTrainerBattle[];
+extern const u8 EventSnippet_NotEnoughMonsForDoubleBattle[];
 
 extern const u8 BerryTreeScript[];
 

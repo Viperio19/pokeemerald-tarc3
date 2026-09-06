@@ -1,4 +1,5 @@
 #include "global.h"
+#include "malloc.h"
 #include "battle_setup.h"
 #include "bike.h"
 #include "coord_event_weather.h"
@@ -12,6 +13,7 @@
 #include "event_scripts.h"
 #include "fieldmap.h"
 #include "field_control_avatar.h"
+#include "field_effect_helpers.h"
 #include "field_message_box.h"
 #include "field_move.h"
 #include "field_effect.h"
@@ -23,8 +25,10 @@
 #include "follower_npc.h"
 #include "item_menu.h"
 #include "link.h"
+#include "load_save.h"
 #include "match_call.h"
 #include "metatile_behavior.h"
+#include "money.h"
 #include "overworld.h"
 #include "pokemon.h"
 #include "safari_zone.h"
@@ -37,8 +41,10 @@
 #include "vs_seeker.h"
 #include "wild_encounter.h"
 #include "wild_encounter_ow.h"
+#include "constants/characters.h"
 #include "constants/event_bg.h"
 #include "constants/event_objects.h"
+#include "constants/field_effects.h"
 #include "constants/field_poison.h"
 #include "constants/layouts.h"
 #include "constants/metatile_behaviors.h"
@@ -158,6 +164,213 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
     }
 }
 
+void SwitchParties(void)
+{
+    u32 temp, i;
+    struct Pokemon *tempMon = Alloc(sizeof(struct Pokemon));
+
+    // switch party
+    for (i = 0; i < PARTY_SIZE; i++)
+        SWAP(gParties[B_TRAINER_PLAYER][i], gSaveBlock1Ptr->player2Party[i], *tempMon);
+
+    SWAP(gPartiesCount[B_TRAINER_PLAYER], gSaveBlock1Ptr->player2PartyCount, temp);
+}
+
+static void SwitchPokemonAndItems(void)
+{
+    // switch party
+    SwitchParties();
+
+    // switch bag
+    SWAP(gSaveBlock1Ptr->bag, gSaveBlock1Ptr->bag2, gLoadedSaveData.bag);
+
+    struct BagPocket *tempBagPocket = Alloc(sizeof(struct BagPocket));
+
+    for (enum Pocket pocketId = 0; pocketId < POCKETS_COUNT; pocketId++)
+        SWAP(gBagPockets[pocketId], gBagPockets2[pocketId], *tempBagPocket);
+
+    Free(tempBagPocket);
+
+    // switch pc pokemon
+    gPokemonStoragePtr->currentBox = gSaveBlock2Ptr->player;
+
+    // switch pc items
+    struct ItemSlot *tempItemSlot = Alloc(sizeof(struct ItemSlot));
+
+    for (u8 i = 0; i < PC_ITEMS_COUNT; i++)
+        SWAP(gSaveBlock1Ptr->pcItems[i], gSaveBlock1Ptr->pcItems2[i], *tempItemSlot);
+
+    Free(tempItemSlot);
+}
+
+void SwitchTrainerData(void)
+{
+    u32 temp, i;
+
+    // switch badges
+    for (i = 0; i < NUM_BADGES; i++)
+    {
+        temp = FlagGet(FLAG_BADGE01_GET + i);
+        FlagGet(FLAG_P2_BADGE01_GET + i) ? FlagSet(FLAG_BADGE01_GET + i) : FlagClear(FLAG_BADGE01_GET + i);
+        temp ? FlagSet(FLAG_P2_BADGE01_GET + i) : FlagClear(FLAG_P2_BADGE01_GET + i);
+    }
+
+    // switch gender
+    SWAP(gSaveBlock2Ptr->playerGender, gSaveBlock2Ptr->player2Gender, temp);
+
+    // switch names
+    for (i = 0; i < PLAYER_NAME_LENGTH; i++)
+        SWAP(gSaveBlock2Ptr->playerName[i], gSaveBlock2Ptr->player2Name[i], temp);
+    gSaveBlock2Ptr->playerName[i] = EOS;
+    gSaveBlock2Ptr->player2Name[i] = EOS;
+
+    // switch trainer ID
+    for (i = 0; i < TRAINER_ID_LENGTH; i++)
+        SWAP(gSaveBlock2Ptr->playerTrainerId[i], gSaveBlock2Ptr->player2TrainerId[i], temp);
+
+    // switch money
+    temp = GetMoney(&gSaveBlock1Ptr->money);
+    SetMoney(&gSaveBlock1Ptr->money, gSaveBlock1Ptr->money2);
+    gSaveBlock1Ptr->money2 = temp;
+}
+
+void SetPlayer2Pos(s8 mapGroup, s8 mapNum, s8 x, s8 y, u8 facingDirection, u8 elevation)
+{
+    gSaveBlock2Ptr->player2Pos.mapGroup = mapGroup;
+    gSaveBlock2Ptr->player2Pos.mapNum = mapNum;
+    gSaveBlock2Ptr->player2Pos.x = x;
+    gSaveBlock2Ptr->player2Pos.y = y;
+    gSaveBlock2Ptr->player2Pos.facingDirection = facingDirection;
+    gSaveBlock2Ptr->player2Pos.elevation = elevation;
+}
+
+void UpdatePlayer2Pos(void)
+{
+    struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER_2)];
+
+    SetPlayer2Pos(objEvent->mapGroup,
+                  objEvent->mapNum,
+                  objEvent->currentCoords.x - MAP_OFFSET,
+                  objEvent->currentCoords.y - MAP_OFFSET,
+                  objEvent->facingDirection,
+                  objEvent->currentElevation);
+}
+
+void TrySpawnPlayer2(void)
+{
+    if (gSaveBlock1Ptr->location.mapNum != gSaveBlock2Ptr->player2Pos.mapNum || gSaveBlock1Ptr->location.mapGroup != gSaveBlock2Ptr->player2Pos.mapGroup)
+        return;
+
+    u8 state = PLAYER_AVATAR_STATE_NORMAL;
+
+    u16 metatileBehavior = MapGridGetMetatileBehaviorAt(gSaveBlock2Ptr->player2Pos.x + MAP_OFFSET, gSaveBlock2Ptr->player2Pos.y + MAP_OFFSET);
+
+    if (MetatileBehavior_IsSurfableWater(metatileBehavior) == TRUE
+     || (MetatileBehavior_IsBridgeOverWater(metatileBehavior) == TRUE && gSaveBlock2Ptr->player2Pos.elevation == ELEVATION_SURF))
+        state = PLAYER_AVATAR_STATE_SURFING;
+
+    struct ObjectEventTemplate template =
+    {
+        .localId = OBJ_EVENT_ID_PLAYER_2,
+        .graphicsId = GetPlayer2AvatarGraphicsIdByStateIdAndGender(state, gSaveBlock2Ptr->player2Gender),
+        .flagId = 0,
+        .x = gSaveBlock2Ptr->player2Pos.x,
+        .y = gSaveBlock2Ptr->player2Pos.y,
+        .elevation = gSaveBlock2Ptr->player2Pos.elevation,
+        .movementType = MOVEMENT_TYPE_NONE,
+    };
+
+    u8 objId = SpawnSpecialObjectEvent(&template);
+    ObjectEventTurn(&gObjectEvents[objId], gSaveBlock2Ptr->player2Pos.facingDirection);
+
+    if (state == PLAYER_AVATAR_STATE_SURFING)
+    {
+        gFieldEffectArguments[0] = gObjectEvents[objId].currentCoords.x;
+        gFieldEffectArguments[1] = gObjectEvents[objId].currentCoords.y;
+        gFieldEffectArguments[2] = objId;
+        u8 spriteId = FieldEffectStart(FLDEFF_SURF_BLOB);
+        gObjectEvents[objId].fieldEffectSpriteId = spriteId;
+        SetSurfBlob_BobState(spriteId, BOB_PLAYER_AND_MON);
+    }
+}
+
+void SpawnPlayer2For2FIntro(void)
+{
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_2F),
+                  MAP_NUM(MAP_VOLCANION_CAVE_2F),
+                  22,
+                  77,
+                  DIR_NORTH,
+                  3);
+    TrySpawnPlayer2();
+}
+
+void SpawnPlayer2For3FIntro(void)
+{
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_3F),
+                  MAP_NUM(MAP_VOLCANION_CAVE_3F),
+                  16,
+                  36,
+                  DIR_NORTH,
+                  3);
+    TrySpawnPlayer2();
+    SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_3F),
+                  MAP_NUM(MAP_VOLCANION_CAVE_3F),
+                  IS_PLAYER_ONE ? 17 : 15,
+                  24,
+                  IS_PLAYER_ONE ? DIR_WEST : DIR_EAST,
+                  3);
+}
+
+void SwitchCharacters(void)
+{
+    gSaveBlock2Ptr->player ^= 1;
+    
+    SwitchPokemonAndItems();
+    SwitchTrainerData();
+    
+    gSaveBlock2Ptr->player2FacingDirection = gSaveBlock2Ptr->player2Pos.facingDirection;
+    gSaveBlock1Ptr->player2Elevation = gSaveBlock2Ptr->player2Pos.elevation;
+    FlagSet(FLAG_DOING_PLAYER_SWITCH);
+    StoreInitialPlayerAvatarState();
+
+    if (IS_PLAYER_ONE && (abs(gSaveBlock1Ptr->pos.x - gSaveBlock2Ptr->player2Pos.x) > 10 || abs(gSaveBlock1Ptr->pos.y - gSaveBlock2Ptr->player2Pos.y) > 7))
+        FlagSet(FLAG_HIDE_SURF_BLOBS);
+
+    struct ObjectEvent *objEvent = &gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)];
+
+    u8 offset = (gSaveBlock2Ptr->player2Pos.mapGroup == objEvent->mapGroup && gSaveBlock2Ptr->player2Pos.mapNum == objEvent->mapNum) ? 0 : 1;
+
+    SetWarpDestination(gSaveBlock2Ptr->player2Pos.mapGroup, gSaveBlock2Ptr->player2Pos.mapNum, WARP_ID_NONE, gSaveBlock2Ptr->player2Pos.x - offset, gSaveBlock2Ptr->player2Pos.y - offset);
+
+    if (FlagGet(FLAG_SET_PLAYER_2_FOR_VOLCANION_BATTLE))
+    {
+        FlagClear(FLAG_SET_PLAYER_2_FOR_VOLCANION_BATTLE);
+        SetPlayer2Pos(MAP_GROUP(MAP_VOLCANION_CAVE_3F),
+                      MAP_NUM(MAP_VOLCANION_CAVE_3F),
+                      IS_PLAYER_ONE ? 17 : 15,
+                      22,
+                      DIR_NORTH,
+                      3);
+    }
+    else
+    {
+        SetPlayer2Pos(objEvent->mapGroup,
+                      objEvent->mapNum,
+                      objEvent->currentCoords.x - MAP_OFFSET,
+                      objEvent->currentCoords.y - MAP_OFFSET,
+                      objEvent->facingDirection,
+                      objEvent->currentElevation);
+    }
+
+    DoWarp();
+}
+
+void IsPlayerOne(void)
+{
+    gSpecialVar_Result = IS_PLAYER_ONE;
+}
+
 int ProcessPlayerFieldInput(struct FieldInput *input)
 {
     struct MapPosition position;
@@ -213,7 +426,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->heldDirection && (input->dpadDirection == playerDirection) && (TrySetUpWalkIntoSignpostScript(&position, metatileBehavior, playerDirection) == TRUE))
         return TRUE;
 
-    if (input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection) == TRUE)
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection) == TRUE)
         return TRUE;
 
     if (input->heldDirection2 && input->dpadDirection == playerDirection)
@@ -223,7 +436,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     }
     if (input->pressedAButton && TrySetupDiveDownScript() == TRUE)
         return TRUE;
-    if (input->pressedStartButton)
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedStartButton)
     {
         FlagSet(FLAG_OPENED_START_MENU);
         PlaySE(SE_WIN_OPEN);
@@ -234,11 +447,23 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->tookStep && TryFindHiddenPokemon())
         return TRUE;
 
-    if (input->pressedSelectButton && UseRegisteredKeyItemOnField() == TRUE)
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedSelectButton && UseRegisteredKeyItemOnField() == TRUE)
         return TRUE;
 
-    if (input->pressedRButton && TryStartDexNavSearch())
-        return TRUE;
+    // TARC - Switch characters when pressing R
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedRButton && !(IS_MULTIPLAYER))
+    {
+        if (FlagGet(FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER))
+        {
+            ScriptContext_SetupScript(EventScript_Player2_ReadyToBattle);
+            return TRUE;
+        }
+        else
+        {
+            SwitchCharacters();
+            return TRUE;
+        }
+    }
 
     if (input->input_field_1_2 && DEBUG_OVERWORLD_MENU && !DEBUG_OVERWORLD_IN_MENU)
     {
@@ -409,6 +634,8 @@ static const u8 *GetInteractedObjectEventScript(struct MapPosition *position, u8
         script = GetOverworlWildEncounterScript(objectEventId);
     else if (gObjectEvents[objectEventId].localId == OBJ_EVENT_ID_FOLLOWER)
         script = EventScript_Follower;
+    else if (gObjectEvents[objectEventId].localId == OBJ_EVENT_ID_PLAYER_2)
+        script = EventScript_Player2_Singleplayer;
     else if (InTrainerHill() == TRUE)
         script = GetTrainerHillTrainerScript();
     else
@@ -641,7 +868,7 @@ static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, u8 metati
 {
     if (MetatileBehavior_IsFastWater(metatileBehavior) == TRUE && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
         return EventScript_CurrentTooFast;
-    if (IsFieldMoveUnlocked(FIELD_MOVE_SURF) && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE
+    if (IsFieldMoveUnlocked(FIELD_MOVE_SURF) && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableWater() == TRUE
      && CheckFollowerNPCFlag(FOLLOWER_NPC_FLAG_CAN_SURF)
      )
         return EventScript_UseSurf;
@@ -752,6 +979,7 @@ static bool8 TryStartStepCountScript(u16 metatileBehavior)
     }
 
     IncrementRematchStepCounter();
+    IncrementDaycareSteps();
     UpdateFriendshipStepCounter();
     UpdateFarawayIslandStepCounter();
     UpdateFollowerStepCounter();
@@ -1410,13 +1638,14 @@ void HandleBoulderFallThroughHole(struct ObjectEvent * object)
     }
 }
 
-void HandleBoulderActivateVictoryRoadSwitch(u16 x, u16 y)
+void HandleBoulderActivateVictoryRoadSwitch(struct ObjectEvent *boulder, u16 x, u16 y)
 {
     int i;
     const struct CoordEvent * events = gMapHeader.events->coordEvents;
     int n = gMapHeader.events->coordEventCount;
 
-    if (MapGridGetMetatileBehaviorAt(x, y) == MB_STRENGTH_BUTTON)
+    if (MapGridGetMetatileBehaviorAt(x, y) == MB_STRENGTH_BUTTON
+     || (MapGridGetMetatileBehaviorAt(x, y) == MB_PIKACHU_BUTTON && boulder->graphicsId == OBJ_EVENT_GFX_SPECIES(PIKACHU)))
     {
         for (i = 0; i < n; i++)
         {
@@ -1427,4 +1656,9 @@ void HandleBoulderActivateVictoryRoadSwitch(u16 x, u16 y)
             }
         }
     }
+}
+
+void UpdateVarFacing(void)
+{
+    gSpecialVar_Facing = gObjectEvents[GetObjectEventIdByLocalId(OBJ_EVENT_ID_PLAYER)].facingDirection;
 }

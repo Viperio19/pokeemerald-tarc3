@@ -50,7 +50,7 @@ struct PyramidWildMon
     enum Species species;
     u8 lvl;
     u8 abilityNum;
-    u16 moves[MAX_MON_MOVES];
+    enum Move moves[MAX_MON_MOVES];
 };
 
 struct PyramidFloorTemplate
@@ -418,7 +418,7 @@ static const u8 sPickupItemSlots[][2] =
 
 static const u8 sPickupItemOffsets[FRONTIER_STAGES_PER_CHALLENGE] = {0, 9, 18, 27, 36, 45, 54};
 
-static const struct PyramidTrainerEncounterMusic sTrainerClassEncounterMusic[54] =
+static const struct PyramidTrainerEncounterMusic sTrainerClassEncounterMusic[55] =
 {
     {TRAINER_CLASS_TEAM_AQUA, TRAINER_ENCOUNTER_MUSIC_AQUA},
     {TRAINER_CLASS_AQUA_ADMIN, TRAINER_ENCOUNTER_MUSIC_AQUA},
@@ -474,6 +474,7 @@ static const struct PyramidTrainerEncounterMusic sTrainerClassEncounterMusic[54]
     {TRAINER_CLASS_HIKER, TRAINER_ENCOUNTER_MUSIC_HIKER},
     {TRAINER_CLASS_LEADER, TRAINER_ENCOUNTER_MUSIC_FEMALE},
     {TRAINER_CLASS_SCHOOL_KID, TRAINER_ENCOUNTER_MUSIC_MALE},
+    {TRAINER_CLASS_TEAM_ROCKET_DUO, TRAINER_ENCOUNTER_MUSIC_MALE},
 };
 
 static const u8 sTrainerTextGroups[50][2] =
@@ -1658,7 +1659,7 @@ u8 CurrentBattlePyramidLocation(void)
         return PYRAMID_LOCATION_NONE;
 }
 
-bool8 InBattlePyramid_(void)
+bool8 InBattlePyramid(void)
 {
     return gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR
         || gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_TOP;
@@ -1684,16 +1685,6 @@ void SoftResetInBattlePyramid(void)
 void CopyPyramidTrainerSpeechBefore(u16 trainerId)
 {
     FrontierSpeechToString(gFacilityTrainers[trainerId].speechBefore);
-}
-
-void CopyPyramidTrainerWinSpeech(u16 trainerId)
-{
-    FrontierSpeechToString(gFacilityTrainers[trainerId].speechWin);
-}
-
-void CopyPyramidTrainerLoseSpeech(u16 trainerId)
-{
-    FrontierSpeechToString(gFacilityTrainers[trainerId].speechLose);
 }
 
 u8 GetTrainerEncounterMusicIdInBattlePyramid(u16 trainerId)
@@ -2210,4 +2201,8 @@ u16 GetBattlePyramidPickupItemId(void)
         return sPickupItemsLvlOpen[round][i];
     else
         return sPickupItemsLvl50[round][i];
+}
+
+const u8 *GetBattlePyramidTrainerScript() {
+    return BattlePyramid_TrainerBattle;
 }

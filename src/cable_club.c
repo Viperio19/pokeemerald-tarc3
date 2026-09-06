@@ -427,7 +427,7 @@ static void Task_LinkupCheckStatusAfterConfirm(u8 taskId)
     }
 }
 
-bool32 AreBattleTowerLinkSpeciesSame(u16 *speciesList1, u16 *speciesList2)
+bool32 AreBattleTowerLinkSpeciesSame(enum Species *speciesList1, enum Species *speciesList2)
 {
     int i;
     int j;
@@ -1053,7 +1053,7 @@ static void Task_EnterCableClubSeat(u8 taskId)
         if (IsFieldMessageBoxHidden())
         {
             SetInCableClubSeat();
-            SetLocalLinkPlayerId(gSpecialVar_0x8005);
+            SetLocalLinkPlayerId(GetMultiplayerId());
             task->tState = 2;
         }
         break;
