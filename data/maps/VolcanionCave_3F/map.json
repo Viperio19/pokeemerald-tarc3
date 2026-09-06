@@ -1138,6 +1138,175 @@
       "script": "VolcanionCave_3F_EventScript_BlueButton"
     }
   ],
-  "bg_events": [],
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 13,
+      "y": 35,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_28"
+    },
+    {
+      "type": "hidden_item",
+      "x": 7,
+      "y": 33,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_29"
+    },
+    {
+      "type": "hidden_item",
+      "x": 8,
+      "y": 28,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_30"
+    },
+    {
+      "type": "hidden_item",
+      "x": 14,
+      "y": 27,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_31"
+    },
+    {
+      "type": "hidden_item",
+      "x": 17,
+      "y": 20,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_32"
+    },
+    {
+      "type": "hidden_item",
+      "x": 1,
+      "y": 11,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_33"
+    },
+    {
+      "type": "hidden_item",
+      "x": 12,
+      "y": 4,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_34"
+    },
+    {
+      "type": "hidden_item",
+      "x": 12,
+      "y": 13,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_35"
+    },
+    {
+      "type": "hidden_item",
+      "x": 6,
+      "y": 12,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_36"
+    },
+    {
+      "type": "hidden_item",
+      "x": 10,
+      "y": 20,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_37"
+    },
+    {
+      "type": "hidden_item",
+      "x": 21,
+      "y": 32,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_38"
+    },
+    {
+      "type": "hidden_item",
+      "x": 25,
+      "y": 32,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_39"
+    },
+    {
+      "type": "hidden_item",
+      "x": 27,
+      "y": 38,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_40"
+    },
+    {
+      "type": "hidden_item",
+      "x": 31,
+      "y": 29,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_41"
+    },
+    {
+      "type": "hidden_item",
+      "x": 28,
+      "y": 11,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_42"
+    },
+    {
+      "type": "hidden_item",
+      "x": 26,
+      "y": 10,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_43"
+    },
+    {
+      "type": "hidden_item",
+      "x": 24,
+      "y": 18,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_44"
+    },
+    {
+      "type": "hidden_item",
+      "x": 25,
+      "y": 19,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_45"
+    },
+    {
+      "type": "hidden_item",
+      "x": 19,
+      "y": 7,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_46"
+    },
+    {
+      "type": "hidden_item",
+      "x": 24,
+      "y": 1,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_47"
+    },
+    {
+      "type": "hidden_item",
+      "x": 22,
+      "y": 25,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_48"
+    }
+  ],
   "region": "REGION_HOENN"
 }

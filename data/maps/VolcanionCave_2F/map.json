@@ -680,6 +680,22 @@
       "elevation": 0,
       "item": "ITEM_STARDUST",
       "flag": "FLAG_HIDDEN_ITEM_STARDUST_27"
+    },
+    {
+      "type": "hidden_item",
+      "x": 30,
+      "y": 22,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_49"
+    },
+    {
+      "type": "hidden_item",
+      "x": 25,
+      "y": 18,
+      "elevation": 0,
+      "item": "ITEM_STARDUST",
+      "flag": "FLAG_HIDDEN_ITEM_STARDUST_50"
     }
   ],
   "region": "REGION_HOENN"
