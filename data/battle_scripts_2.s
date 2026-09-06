@@ -203,8 +203,6 @@ BattleScript_TryNicknameCaughtMon::
 	setbyte gBattleCommunication, 0
 	trygivecaughtmonnick
 	givecaughtmon BattleScript_SuccessBallThrowEnd
-	printfromtable gCaughtMonStringIds
-	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_SuccessBallThrowEnd
 BattleScript_GiveCaughtMonEnd::
 	givecaughtmon BattleScript_SuccessBallThrowEnd

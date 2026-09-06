@@ -43,6 +43,7 @@ VolcanionCave_2F_EventScript_RemoveRockBarrier4::
 VolcanionCave_2F_OnTransition:
 	callnative UpdateStrengthBoulderPositions
 	call_if_set FLAG_SHOWED_GOLDEEN_TO_GOLDEEN_GRUNT, VolcanionCave_2F_EventScript_MoveGoldeenGrunt
+	call_if_ne VAR_VOLCANION_CAVE_2F_CORSOLA_X, 0, VolcanionCave_2F_EventScript_UpdateCorsolaPos
 	end
 
 VolcanionCave_2F_EventScript_MoveGoldeenGrunt::
@@ -502,10 +503,16 @@ VolcanionCave_2F_EventScript_AquaGruntGiveOldRod::
 	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_ne VAR_RESULT, B_OUTCOME_WON, VolcanionCave_2F_EventScript_AquaGruntVictory
 	setflag FLAG_DEFEATED_VOLCANION_CAVE_2F_TOXAPEX
-	msgbox VolcanionCave_2F_Text_AquaGruntPostBattle, MSGBOX_DEFAULT
+	message VolcanionCave_2F_Text_AquaGruntPostBattle1
+	waitmessage
 	closemessage
 	delay 10
 	giveitem ITEM_OLD_ROD
+	closemessage
+	delay 10
+	message VolcanionCave_2F_Text_AquaGruntPostBattle2
+	waitmessage
+	closemessage
 	release
 	end
 
@@ -547,13 +554,15 @@ VolcanionCave_2F_Text_AquaGruntDefeat:
 	.string "Woo-wee! You know a good deal when\n"
 	.string "you see it, chum!$"
 
-VolcanionCave_2F_Text_AquaGruntPostBattle:
+VolcanionCave_2F_Text_AquaGruntPostBattle1:
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Here you go, one super-awesome-\n"
 	.string "coolest-thing-ever-mega-\l"
 	.string "extraordinary-limited-edition-\l"
 	.string "MEOWSTIX-branded OLD ROD!!\p"
 	.string "There is no warranty or return policy.\p"
-	.string "Enjoy!!!\p"
+	.string "Enjoy!!!\p$"
+
+VolcanionCave_2F_Text_AquaGruntPostBattle2:
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Yeah, that's cool and all but how do\n"
 	.string "I use the thing??\p"
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}You don't know how??\p"
@@ -566,6 +575,10 @@ VolcanionCave_2F_Text_AquaGruntPostBattle:
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Thanks, big chum!!\p"
 	.string "I now understand everything there\n"
 	.string "is to know about fishing!$"
+
+VolcanionCave_2F_Text_AquaGruntPostBattle:
+	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Just throw it in the water,\n"
+	.string "you'll get the hang of it no problem!\p"
 
 VolcanionCave_2F_Text_AquaGruntVictory:
 	.string "{SPEAKER NAME_AQUA COLOR_AQUA}Nice try chum, but you aren't\n"
@@ -1093,6 +1106,10 @@ VolcanionCave_2F_Movement_BoulderSlideDown::
 	jump_down
 	step_end
 
+VolcanionCave_2F_EventScript_UpdateCorsolaPos::
+	setobjectxyperm LOCALID_2F_CORSOLA, VAR_VOLCANION_CAVE_2F_CORSOLA_X, VAR_VOLCANION_CAVE_2F_CORSOLA_Y
+	return
+
 VolcanionCave_2F_EventScript_CorsolaFacePlayer::
 	lock
 	playse SE_ICE_CRACK
@@ -1209,6 +1226,8 @@ VolcanionCave_2F_EventScript_CorsolaFleeEnd::
 	waitmovement 0
 	getobjectcurrentxy LOCALID_2F_CORSOLA, CURRENT_POSITION, VAR_0x8008, VAR_0x8009
 	setobjectxyperm LOCALID_2F_CORSOLA, VAR_0x8008, VAR_0x8009
+	copyvar VAR_VOLCANION_CAVE_2F_CORSOLA_X, VAR_0x8008
+	copyvar VAR_VOLCANION_CAVE_2F_CORSOLA_Y, VAR_0x8009
 	release
 	end
 
