@@ -107,9 +107,9 @@ Player2_Singleplayer_Talk::
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_2, 0, Player2_Message_MagmaWall
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_4, 0, Player2_Message_Holes
 	goto_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, Player2_Message_PreRoom3
-	goto_if_eq VAR_CURRENT_HP_BAR_COLOR, 3, Player2_Message_Room3Main
-	goto_if_eq VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100, Player2_Message_Room3Main
-	goto_if_eq VAR_ZINNIA_STATE, 1, Player2_Message_Room3Main
+	goto_if_ne VAR_CURRENT_HP_BAR_COLOR, 3, Player2_Message_Room3Main
+	goto_if_ne VAR_VOLCANION_CAVE_3F_PIKACHU_STATE, 100, Player2_Message_Room3Main
+	goto_if_ne VAR_ZINNIA_STATE, 1, Player2_Message_Room3Main
 	msgbox Player2_Text_PreVolcanion, MSGBOX_NPC
 	release
 	end
