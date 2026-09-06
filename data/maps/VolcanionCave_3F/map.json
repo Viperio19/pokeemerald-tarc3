@@ -1136,6 +1136,42 @@
       "var": "VAR_TEMP_F",
       "var_value": "0",
       "script": "VolcanionCave_3F_EventScript_BlueButton"
+    },
+    {
+      "type": "trigger",
+      "x": 26,
+      "y": 6,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_TEAM_ROCKET_STATE",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_TeamRocketMotto"
+    },
+    {
+      "type": "trigger",
+      "x": 27,
+      "y": 6,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_TEAM_ROCKET_STATE",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_TeamRocketMotto"
+    },
+    {
+      "type": "trigger",
+      "x": 28,
+      "y": 6,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_TEAM_ROCKET_STATE",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_TeamRocketMotto"
+    },
+    {
+      "type": "trigger",
+      "x": 29,
+      "y": 6,
+      "elevation": 3,
+      "var": "VAR_VOLCANION_CAVE_3F_TEAM_ROCKET_STATE",
+      "var_value": "0",
+      "script": "VolcanionCave_3F_EventScript_TeamRocketMotto"
     }
   ],
   "bg_events": [

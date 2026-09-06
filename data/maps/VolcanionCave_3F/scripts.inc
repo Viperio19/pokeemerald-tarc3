@@ -3179,7 +3179,6 @@ VolcanionCave_3F_Text_ButItFailed::
 VolcanionCave_3F_EventScript_Pikachu::
 	lock
 	goto_if_set FLAG_TEAM_ROCKET_KNOCKED_OUT_PIKACHU, VolcanionCave_3F_EventScript_PikachuStrengthBoulder
-	goto_if_unset FLAG_SPAWN_VOLCANION_CAVE_3F_TEAM_ROCKET, VolcanionCave_3F_EventScript_TeamRocketMotto
 	faceplayer
 	playmoncry SPECIES_PIKACHU, CRY_MODE_NORMAL
 	message VolcanionCave_3F_Text_PikachuCry
@@ -3215,8 +3214,8 @@ VolcanionCave_3F_EventScript_AskResetPikachu::
 
 VolcanionCave_3F_EventScript_ResetPikachu::
 	fadescreen FADE_TO_BLACK
-	setobjectxyperm LOCALID_3F_PIKACHU, 29, 7
-	setobjectxy LOCALID_3F_PIKACHU, 29, 7
+	setobjectxyperm LOCALID_3F_PIKACHU, 27, 5
+	setobjectxy LOCALID_3F_PIKACHU, 27, 5
 	turnobject LOCALID_3F_PIKACHU, DIR_SOUTH
 	callnative ResetPikachuStrenghBoulderPosition
 	closemessage
@@ -3288,23 +3287,31 @@ VolcanionCave_3F_EventScript_Meowth::
 	goto VolcanionCave_3F_EventScript_BattleTeamRocket
 
 VolcanionCave_3F_EventScript_TeamRocketMotto::
+	lock
+	setvar VAR_VOLCANION_CAVE_3F_TEAM_ROCKET_STATE, 1
 	setflag FLAG_SPAWN_VOLCANION_CAVE_3F_TEAM_ROCKET
 	playbgm MUS_ENCOUNTER_SUSPICIOUS, FALSE
 	message VolcanionCave_3F_Text_RocketMottoStart
+	delay 30
+	playse SE_M_DIZZY_PUNCH
+	applymovement LOCALID_PLAYER, Common_Movement_QuestionMark
 	waitmessage
 	playse SE_FALL
 	addobject LOCALID_3F_JESSIE
-	setobjectxyperm LOCALID_3F_JESSIE, 28, 6
-	setobjectxy LOCALID_3F_JESSIE, 28, 2
+	setobjectxyperm LOCALID_3F_JESSIE, 26, 4
+	setobjectxy LOCALID_3F_JESSIE, 26, 0
 	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketFallDown
+	delay 30
+	playse SE_PIN
+	applymovement LOCALID_PLAYER, Common_Movement_ExclamationMark
 	waitmovement 0
 	playse SE_M_STRENGTH
 	message VolcanionCave_3F_Text_RocketMottoJessieEnter
 	waitmessage
 	playse SE_FALL
 	addobject LOCALID_3F_JAMES
-	setobjectxyperm LOCALID_3F_JAMES, 29, 6
-	setobjectxy LOCALID_3F_JAMES, 29, 2
+	setobjectxyperm LOCALID_3F_JAMES, 27, 4
+	setobjectxy LOCALID_3F_JAMES, 27, 0
 	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketFallDown
 	waitmovement 0
 	playse SE_M_STRENGTH
@@ -3312,8 +3319,8 @@ VolcanionCave_3F_EventScript_TeamRocketMotto::
 	waitmessage
 	playse SE_FALL
 	addobject LOCALID_3F_MEOWTH
-	setobjectxyperm LOCALID_3F_MEOWTH, 30, 6
-	setobjectxy LOCALID_3F_MEOWTH, 30, 2
+	setobjectxyperm LOCALID_3F_MEOWTH, 28, 4
+	setobjectxy LOCALID_3F_MEOWTH, 28, 0
 	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketFallDown
 	waitmovement 0
 	playse SE_M_STRENGTH
@@ -3338,9 +3345,12 @@ VolcanionCave_3F_EventScript_DefeatedTeamRocket::
 	setvar VAR_0x8007, 3  @ Shake delay
 	special ShakeScreen
 	message VolcanionCave_3F_Text_BlastingOffAgain
-	getplayerxy VAR_0x8008, VAR_0x8009
-	call_if_eq VAR_0x8008, 31, VolcanionCave_3F_EventScript_TeamRocketBlastOffLeft
-	call_if_ne VAR_0x8008, 31, VolcanionCave_3F_EventScript_TeamRocketBlastOffRight
+	getobjectfacingdirection LOCALID_3F_JESSIE, VAR_0x8008
+	switch VAR_0x8008
+	case_call DIR_NORTH, VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceNorth
+	case_call DIR_EAST, VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceEast
+	case_call DIR_SOUTH, VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceSouth
+	case_call DIR_WEST, VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceWest
 	delay 60
 	closemessage
 	playse SE_SUPER_EFFECTIVE
@@ -3357,16 +3367,28 @@ VolcanionCave_3F_EventScript_DefeatedTeamRocket::
 	release
 	end
 
-VolcanionCave_3F_EventScript_TeamRocketBlastOffRight::
-	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketBlastOffRight
-	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketBlastOffRight
-	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketBlastOffRight
+VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceNorth::
+	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceNorth
+	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceNorth
+	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceNorth
 	return
 
-VolcanionCave_3F_EventScript_TeamRocketBlastOffLeft::
-	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketBlastOffLeft
-	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketBlastOffLeft
-	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketBlastOffLeft
+VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceEast::
+	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceEast
+	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceEast
+	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceEast
+	return
+
+VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceSouth::
+	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceSouth
+	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceSouth
+	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceSouth
+	return
+
+VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceWest::
+	applymovement LOCALID_3F_JESSIE, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceWest
+	applymovement LOCALID_3F_JAMES, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceWest
+	applymovement LOCALID_3F_MEOWTH, VolcanionCave_3F_Movement_TeamRocketBlastOffFaceWest
 	return
 
 VolcanionCave_3F_EventScript_SpawnTeamRocket::
@@ -3382,19 +3404,7 @@ VolcanionCave_3F_Movement_TeamRocketFallDown::
 	walk_faster_down
 	step_end
 
-VolcanionCave_3F_Movement_TeamRocketBlastOffRight::
-	lock_facing_direction
-	walk_diag_northeast
-	unlock_facing_direction
-	face_up
-	lock_facing_direction
-	walk_diag_northeast
-	unlock_facing_direction
-	face_left
-	lock_facing_direction
-	walk_diag_northeast
-	unlock_facing_direction
-	face_down
+VolcanionCave_3F_Movement_TeamRocketBlastOffFaceNorth::
 	lock_facing_direction
 	walk_diag_northeast
 	unlock_facing_direction
@@ -3402,36 +3412,99 @@ VolcanionCave_3F_Movement_TeamRocketBlastOffRight::
 	lock_facing_direction
 	walk_diag_northeast
 	unlock_facing_direction
+	face_down
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_left
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
 	face_up
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_right
 	lock_facing_direction
 	walk_diag_northeast
 	unlock_facing_direction
 	step_end
 
-VolcanionCave_3F_Movement_TeamRocketBlastOffLeft::
+VolcanionCave_3F_Movement_TeamRocketBlastOffFaceEast::
 	lock_facing_direction
-	walk_diag_northwest
-	unlock_facing_direction
-	face_up
-	lock_facing_direction
-	walk_diag_northwest
-	unlock_facing_direction
-	face_right
-	lock_facing_direction
-	walk_diag_northwest
+	walk_diag_northeast
 	unlock_facing_direction
 	face_down
 	lock_facing_direction
-	walk_diag_northwest
+	walk_diag_northeast
 	unlock_facing_direction
 	face_left
 	lock_facing_direction
-	walk_diag_northwest
+	walk_diag_northeast
 	unlock_facing_direction
 	face_up
 	lock_facing_direction
-	walk_diag_northwest
+	walk_diag_northeast
 	unlock_facing_direction
+	face_right
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_down
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_TeamRocketBlastOffFaceSouth::
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_left
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_up
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_right
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_down
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_left
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	step_end
+
+VolcanionCave_3F_Movement_TeamRocketBlastOffFaceWest::
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_up
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_right
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_down
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_left
+	lock_facing_direction
+	walk_diag_northeast
+	unlock_facing_direction
+	face_up
+	lock_facing_direction
+	walk_diag_northeast
 	unlock_facing_direction
 	step_end
 
