@@ -109,11 +109,11 @@
 #define FLAG_HIDE_VOLCANION_CAVE_3F_CRAMORANT      0x27C
 #define FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_GORGING   0x27D
 #define FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_ICON      0x27E
+#define FLAG_HIDE_VOLCANION_CAVE_3F_JAIL_CELL      0x27F
+#define FLAG_HIDE_VOLCANION_CAVE_3F_SHELLY         0x280
+#define FLAG_HIDE_VOLCANION_CAVE_3F_VOLCANION      0x281
+#define FLAG_DO_CREDITS_TITLE                      0x282
 
-#define FLAG_UNUSED_0x27F  0x27F // Unused Flag
-#define FLAG_UNUSED_0x280  0x280 // Unused Flag
-#define FLAG_UNUSED_0x281  0x281 // Unused Flag
-#define FLAG_UNUSED_0x282  0x282 // Unused Flag
 #define FLAG_UNUSED_0x283  0x283 // Unused Flag
 #define FLAG_UNUSED_0x284  0x284 // Unused Flag
 #define FLAG_UNUSED_0x285  0x285 // Unused Flag
