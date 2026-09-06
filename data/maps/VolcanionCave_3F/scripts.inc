@@ -526,7 +526,7 @@ VolcanionCave_3F_EventScript_RemoveRockBarrier6::
 	return
 
 VolcanionCave_3F_EventScript_RemoveRockBarrier7::
-	setmetatile 5, 22, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 5, 22, METATILE_Cave_FloorSmooth, FALSE
 	setmetatile 8, 21, METATILE_Cave_Floor, FALSE
 	setmetatile 9, 21, METATILE_Cave_Floor, FALSE
 	return
@@ -577,17 +577,17 @@ VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed::
 	setmetatile 24, 37, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 28, 29, METATILE_Cave_CoolButton_Red, FALSE
 	setmetatile 24, 31, METATILE_Cave_CoolButton_Red, FALSE
-	setmetatile 27, 28, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 24, 30, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 23, 33, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 25, 33, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 29, 34, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 26, 36, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 25, 28, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
-	setmetatile 29, 31, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
-	setmetatile 27, 34, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
-	setmetatile 24, 36, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
-	setmetatile 27, 37, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 27, 28, METATILE_Cave_CoolGem_Blue_Floor_Empty, FALSE
+	setmetatile 24, 30, METATILE_Cave_CoolGem_Blue_WaterEdge_Empty, FALSE
+	setmetatile 23, 33, METATILE_Cave_CoolGem_Blue_Mud_Empty, FALSE
+	setmetatile 25, 33, METATILE_Cave_CoolGem_Blue_Floor_Empty, FALSE
+	setmetatile 29, 34, METATILE_Cave_CoolGem_Blue_Floor_Empty, FALSE
+	setmetatile 26, 36, METATILE_Cave_CoolGem_Blue_Floor_Empty, FALSE
+	setmetatile 25, 28, METATILE_Cave_CoolGem_Red_Floor_Full, TRUE
+	setmetatile 29, 31, METATILE_Cave_CoolGem_Red_Floor_Full, TRUE
+	setmetatile 27, 34, METATILE_Cave_CoolGem_Red_WaterEdge_Full, TRUE
+	setmetatile 24, 36, METATILE_Cave_CoolGem_Red_Floor_Full, TRUE
+	setmetatile 27, 37, METATILE_Cave_CoolGem_Red_Floor_Full, TRUE
 	@ Agent diggs puzzle
 	setmetatile 1, 10, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 10, 1, METATILE_Cave_CoolButton_Pressed, FALSE
@@ -595,11 +595,11 @@ VolcanionCave_3F_EventScript_SetMetatilesBlueButtonPressed::
 	setmetatile 1, 9, METATILE_Cave_CoolButton_Red, FALSE
 	setmetatile 4, 18, METATILE_Cave_CoolButton_Red, FALSE
 	setmetatile 6, 19, METATILE_Cave_CoolButton_Red, FALSE
-	setmetatile 7, 1, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 1, 8, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 5, 8, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 9, 1, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
-	setmetatile 9, 10, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 7, 1, METATILE_Cave_CoolGem_Blue_FloorSmooth_Empty, FALSE
+	setmetatile 1, 8, METATILE_Cave_CoolGem_Blue_FloorSmooth_Empty, FALSE
+	setmetatile 5, 8, METATILE_Cave_CoolGem_Blue_FloorSmooth_Empty, FALSE
+	setmetatile 9, 1, METATILE_Cave_CoolGem_Red_FloorSmooth_Full, TRUE
+	setmetatile 9, 10, METATILE_Cave_CoolGem_Red_Floor_Full, TRUE
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed::
@@ -609,17 +609,17 @@ VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed::
 	setmetatile 24, 37, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 28, 29, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 24, 31, METATILE_Cave_CoolButton_Pressed, FALSE
-	setmetatile 27, 28, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 24, 30, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 23, 33, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 25, 33, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 29, 34, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 26, 36, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 25, 28, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
-	setmetatile 29, 31, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
-	setmetatile 27, 34, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
-	setmetatile 24, 36, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
-	setmetatile 27, 37, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 27, 28, METATILE_Cave_CoolGem_Blue_Floor_Full, TRUE
+	setmetatile 24, 30, METATILE_Cave_CoolGem_Blue_WaterEdge_Full, TRUE
+	setmetatile 23, 33, METATILE_Cave_CoolGem_Blue_Mud_Full, TRUE
+	setmetatile 25, 33, METATILE_Cave_CoolGem_Blue_Floor_Full, TRUE
+	setmetatile 29, 34, METATILE_Cave_CoolGem_Blue_Floor_Full, TRUE
+	setmetatile 26, 36, METATILE_Cave_CoolGem_Blue_Floor_Full, TRUE
+	setmetatile 25, 28, METATILE_Cave_CoolGem_Red_Floor_Empty, FALSE
+	setmetatile 29, 31, METATILE_Cave_CoolGem_Red_Floor_Empty, FALSE
+	setmetatile 27, 34, METATILE_Cave_CoolGem_Red_WaterEdge_Empty, FALSE
+	setmetatile 24, 36, METATILE_Cave_CoolGem_Red_Floor_Empty, FALSE
+	setmetatile 27, 37, METATILE_Cave_CoolGem_Red_Floor_Empty, FALSE
 	@ Agent diggs puzzle
 	setmetatile 1, 10, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 10, 1, METATILE_Cave_CoolButton_Blue, FALSE
@@ -627,22 +627,22 @@ VolcanionCave_3F_EventScript_SetMetatilesRedButtonPressed::
 	setmetatile 1, 9, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 4, 18, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 6, 19, METATILE_Cave_CoolButton_Pressed, FALSE
-	setmetatile 7, 1, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 1, 8, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 5, 8, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 9, 1, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
-	setmetatile 9, 10, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 7, 1, METATILE_Cave_CoolGem_Blue_FloorSmooth_Full, TRUE
+	setmetatile 1, 8, METATILE_Cave_CoolGem_Blue_FloorSmooth_Full, TRUE
+	setmetatile 5, 8, METATILE_Cave_CoolGem_Blue_FloorSmooth_Full, TRUE
+	setmetatile 9, 1, METATILE_Cave_CoolGem_Red_FloorSmooth_Empty, FALSE
+	setmetatile 9, 10, METATILE_Cave_CoolGem_Red_Floor_Empty, FALSE
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesRocksBroken::
-	setmetatile 10, 24, METATILE_Cave_Floor_Smooth_Top, FALSE
-	setmetatile 10, 25, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 9, 25, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 9, 26, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 22, 24, METATILE_Cave_Floor_Smooth_Top, FALSE
-	setmetatile 22, 25, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 23, 25, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 23, 26, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 10, 24, METATILE_Cave_FloorSmooth_Top, FALSE
+	setmetatile 10, 25, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 9, 25, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 9, 26, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 22, 24, METATILE_Cave_FloorSmooth_Top, FALSE
+	setmetatile 22, 25, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 23, 25, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 23, 26, METATILE_Cave_FloorSmooth, FALSE
 	return
 
 VolcanionCave_3F_EventScript_SetHPBar::
@@ -1758,12 +1758,12 @@ VolcanionCave_3F_EventScript_SetMetatilesRockSlideBlockade::
 	return
 
 VolcanionCave_3F_EventScript_SetMetatilesNoRockSlideBlockade::
-	setmetatile 5, 25, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 6, 26, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 26, 24, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 27, 25, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 28, 26, METATILE_Cave_Floor_Smooth, FALSE
-	setmetatile 16, 33, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 5, 25, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 6, 26, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 26, 24, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 27, 25, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 28, 26, METATILE_Cave_FloorSmooth, FALSE
+	setmetatile 16, 33, METATILE_Cave_FloorSmooth, FALSE
 	return
 
 VolcanionCave_3F_Movement_Rock1FallDown::
@@ -2679,7 +2679,7 @@ VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
 	setmetatile 16, 25, METATILE_General_SteamEruption_EndTopHalf, FALSE
 	special DrawWholeMapView
 	delay 2
-	setmetatile 16, 22, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 16, 22, METATILE_Cave_FloorSmooth, FALSE
 	setmetatile 16, 23, METATILE_General_SteamEruption_Main, FALSE
 	setmetatile 16, 24, METATILE_General_SteamEruption_Main, FALSE
 	setmetatile 16, 25, METATILE_General_SteamEruption_TopHalf, FALSE
@@ -2699,11 +2699,11 @@ VolcanionCave_1F_EventScript_VolcanionUseSteamEruption::
 	setmetatile 16, 25, METATILE_General_SteamEruption_TopHalf, FALSE
 	special DrawWholeMapView
 	delay 2
-	setmetatile 16, 24, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 16, 24, METATILE_Cave_FloorSmooth, FALSE
 	setmetatile 16, 25, METATILE_General_SteamEruption_TopHalf, FALSE
 	special DrawWholeMapView
 	delay 2
-	setmetatile 16, 25, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 16, 25, METATILE_Cave_FloorSmooth, FALSE
 	special DrawWholeMapView
 	closemessage
 	playse SE_SUPER_EFFECTIVE
@@ -2936,7 +2936,7 @@ VolcanionCave_3F_EventScript_FloorSwitch6::
 VolcanionCave_3F_EventScript_FloorSwitch7::
 	lock
 	goto_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_7, 100, VolcanionCave_3F_EventScript_FloorSwitchAlreadyPressed
-	setmetatile 5, 22, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 5, 22, METATILE_Cave_FloorSmooth, FALSE
 	setmetatile 8, 21, METATILE_Cave_Floor, FALSE
 	setmetatile 9, 21, METATILE_Cave_Floor, FALSE
 	playse SE_ICE_BREAK
@@ -3053,6 +3053,7 @@ VolcanionCave_3F_EventScript_CramorantEatPikachu::
 	removeobject LOCALID_3F_CRAMORANT_ICON
 	setflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAM_ICON
 	addobject LOCALID_3F_CRAMORANT
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAMORANT
 	applymovement LOCALID_3F_CRAMORANT, Common_Movement_FaceLeft
 	call VolcanionCave_3F_EventScript_CramorantCry
 

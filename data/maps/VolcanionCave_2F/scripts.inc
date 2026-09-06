@@ -30,8 +30,8 @@ VolcanionCave_2F_EventScript_RemoveRockBarrier2::
 	return
 
 VolcanionCave_2F_EventScript_RemoveRockBarrier3::
-	setmetatile 20, 8, METATILE_Cave_Floor_Smooth_Top, FALSE
-	setmetatile 20, 9, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 20, 8, METATILE_Cave_FloorSmooth_Top, FALSE
+	setmetatile 20, 9, METATILE_Cave_FloorSmooth, FALSE
 	return
 
 VolcanionCave_2F_EventScript_RemoveRockBarrier4::
@@ -603,8 +603,8 @@ VolcanionCave_2F_EventScript_FloorSwitch2::
 VolcanionCave_2F_EventScript_FloorSwitch3::
 	lock
 	goto_if_eq VAR_VOLCANION_CAVE_2F_STRENGTH_BUTTON_3, 100, VolcanionCave_2F_EventScript_FloorSwitchAlreadyPressed
-	setmetatile 20, 8, METATILE_Cave_Floor_Smooth_Top, FALSE
-	setmetatile 20, 9, METATILE_Cave_Floor_Smooth, FALSE
+	setmetatile 20, 8, METATILE_Cave_FloorSmooth_Top, FALSE
+	setmetatile 20, 9, METATILE_Cave_FloorSmooth, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse
@@ -843,26 +843,26 @@ VolcanionCave_2F_EventScript_SetMetatilesBlueButtonPressed::
 	setmetatile 7, 48, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 17, 11, METATILE_Cave_CoolButton_Pressed, FALSE
 	setmetatile 11, 46, METATILE_Cave_CoolButton_Red, FALSE
-	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
+	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_FloorSmooth_Empty, FALSE
 	setmetatile 33, 58, METATILE_Cave_CoolGem_Blue_Mud_Empty, FALSE
 	setmetatile 35, 50, METATILE_Cave_CoolGem_Blue_Mud_Empty, FALSE
-	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_Ground_Empty, FALSE
-	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
-	setmetatile 11, 47, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
-	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_Ground_Full, TRUE
+	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_FloorSmooth_Empty, FALSE
+	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_FloorSmooth_Full, TRUE
+	setmetatile 11, 47, METATILE_Cave_CoolGem_Red_FloorSmooth_Full, TRUE
+	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_FloorSmooth_Full, TRUE
 	return
 
 VolcanionCave_2F_EventScript_SetMetatilesRedButtonPressed::
 	setmetatile 7, 48, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 17, 11, METATILE_Cave_CoolButton_Blue, FALSE
 	setmetatile 11, 46, METATILE_Cave_CoolButton_Pressed, FALSE
-	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
+	setmetatile 10, 46, METATILE_Cave_CoolGem_Blue_FloorSmooth_Full, TRUE
 	setmetatile 33, 58, METATILE_Cave_CoolGem_Blue_Mud_Full, TRUE
 	setmetatile 35, 50, METATILE_Cave_CoolGem_Blue_Mud_Full, TRUE
-	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_Ground_Full, TRUE
-	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
-	setmetatile 11, 47, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
-	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_Ground_Empty, FALSE
+	setmetatile 21, 11, METATILE_Cave_CoolGem_Blue_FloorSmooth_Full, TRUE
+	setmetatile 8, 50, METATILE_Cave_CoolGem_Red_FloorSmooth_Empty, FALSE
+	setmetatile 11, 47, METATILE_Cave_CoolGem_Red_FloorSmooth_Empty, FALSE
+	setmetatile 17, 9, METATILE_Cave_CoolGem_Red_FloorSmooth_Empty, FALSE
 	return
 
 VolcanionCave_2F_EventScript_Hole1A::
