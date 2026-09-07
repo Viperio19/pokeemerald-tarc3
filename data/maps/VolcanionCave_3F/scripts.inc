@@ -757,6 +757,7 @@ VolcanionCave_3F_EventScript_SetHPBarRedParaStats::
 	return
 
 VolcanionCave_3F_EventScript_Volcanion::
+	lock
 	call VolcanionCave_3F_EventScript_VolcanionCry
 	closemessage
 	goto_if_unset FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, VolcanionCave_3F_EventScript_AskVolcanionMultiBattle
@@ -3635,6 +3636,7 @@ VolcanionCave_3F_EventScript_Credits::
 	creditsmessage Credits_TagTeamTrials, Credits_Credits
 	clearflag FLAG_DO_CREDITS_TITLE
 	setflag FLAG_DOING_CREDITS
+	setflag FLAG_HIDE_SURF_BLOBS
 	clearflag FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR
 	clearflag FLAG_HIDE_VOLCANION_CAVE_2F_CORSOLA
 	setflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAMORANT
