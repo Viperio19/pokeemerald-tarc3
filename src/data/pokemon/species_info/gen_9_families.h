@@ -7066,7 +7066,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .height = 4,
         .weight = 49,
         .description = COMPOUND_STRING(
-            "Moving at a steeady pace of 5 knots\n"
+            "Moving at a steady pace of 5 knots\n"
             "even in the worst of upswells, GOLDEEN\n"
             "are famous for their dress-like fins and\n"
             "powerful horns! A regal fish to be sure!"),

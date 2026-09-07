@@ -70,6 +70,7 @@ VolcanionCave_3F_EventScript_Intro::
 	message VolcanionCave_3F_Text_IntroCoolRoom
 	waitmessage
 	closemessage
+	playse SE_PIN
 	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_ExclamationMark
 	delay 50
 	message VolcanionCave_3F_Text_IHearSomething
@@ -203,11 +204,20 @@ VolcanionCave_3F_EventScript_VolcanionCry::
 	setvar VAR_0x8006, 10  @ Num shakes
 	setvar VAR_0x8007, 4  @ Shake delay
 	applymovement LOCALID_3F_VOLCANION, Common_Movement_WalkInPlaceDown
-	message VolcanionCave_3F_Text_IntroVolcanionCry
+	call_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_IntroUnknownCry
+	call_if_ne VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_IntroVolcanionCry
 	playmoncry SPECIES_VOLCANION, CRY_MODE_NORMAL
 	special ShakeScreen
 	delay 30
 	waitmoncry
+	return
+
+VolcanionCave_3F_EventScript_IntroUnknownCry::
+	message VolcanionCave_3F_Text_IntroUnknownCry
+	return
+
+VolcanionCave_3F_EventScript_IntroVolcanionCry::
+	message VolcanionCave_3F_Text_IntroVolcanionCry
 	return
 
 VolcanionCave_3F_EventScript_CameraFollowAquaTryToLeave::
@@ -470,6 +480,9 @@ VolcanionCave_3F_Text_IntroCatchIt::
 	.string "Whoever knocks it out gets to catch it.\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Fine by me! Let's go!!!\p$"
 
+VolcanionCave_3F_Text_IntroUnknownCry::
+	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_NORMAL}FWAHHRSHHHH!!!$"
+
 VolcanionCave_3F_Text_IntroVolcanionCry::
 	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}FWAHHRSHHHH!!!$"
 
@@ -479,7 +492,7 @@ VolcanionCave_3F_Text_IntroAwNuts::
 
 VolcanionCave_3F_Text_IntroVolcanionUsedEarthPower::
 	.string "{AUTO_SCROLL 1}{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What the-{PAUSE 20}\p"
-	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}VOLCANION used EARTH POWER!$"
+	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}??? used EARTH POWER!$"
 
 VolcanionCave_3F_Text_IntroBattleAgainOrLookAround::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oof, that was a close one!\n"
@@ -1707,7 +1720,7 @@ VolcanionCave_3F_EventScript_GolemUsedRockSlide::
 VolcanionCave_3F_EventScript_RockSlide::
 	delay 1
 	addvar VAR_GOLEM_ROCK_SLIDE_TIMER, 1
-	goto_if_le VAR_GOLEM_ROCK_SLIDE_TIMER, 30, VolcanionCave_3F_EventScript_RockSlide
+	goto_if_le VAR_GOLEM_ROCK_SLIDE_TIMER, 20, VolcanionCave_3F_EventScript_RockSlide
 
 	setvar VAR_GOLEM_ROCK_SLIDE_TIMER, 200
 
@@ -3390,6 +3403,9 @@ VolcanionCave_3F_EventScript_DefeatedTeamRocket::
 	playse SE_SUPER_EFFECTIVE
 	applymovement LOCALID_3F_PIKACHU, VolcanionCave_3F_Movement_PikachuFlicker
 	waitmovement 0
+	waitmovement LOCALID_3F_JESSIE
+	waitmovement LOCALID_3F_JAMES
+	waitmovement LOCALID_3F_MEOWTH
 	removeobject LOCALID_3F_JESSIE
 	removeobject LOCALID_3F_JAMES
 	removeobject LOCALID_3F_MEOWTH

@@ -7475,7 +7475,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .speciesName = _("Volcanion"),
         .cryId = CRY_VOLCANION,
         .natDexNum = NATIONAL_DEX_VOLCANION,
-        .categoryName = _("Steam"),
+        .categoryName = _("???"),
         .height = 17,
         .weight = 1950,
         .description = COMPOUND_STRING(
@@ -7486,7 +7486,7 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .descriptionMagma = COMPOUND_STRING(
             "Maxie would never approve of grunts logging\n"
             "their own entries for a discovered species.\n"
-            "Uploading read genetic data to remote server.\n"
+            "Uploading genetic data to remote server.\n"
             "Connecting to USER_MAXAMILLION..."),
         .pokemonScale = 259,
         .pokemonOffset = 0,
