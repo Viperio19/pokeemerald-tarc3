@@ -7066,12 +7066,15 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .height = 4,
         .weight = 49,
         .description = COMPOUND_STRING(
-			"ERROR: Genetic Data Mismatch.\n"
-            "POKEDEX_ENTRY_ARCHIBALD not found.\n"),
+            "Moving at a steeady pace of 5 knots\n"
+            "even in the worst of upswells, GOLDEEN\n"
+            "are famous for their dress-like fins and\n"
+            "powerful horns! A regal fish to be sure!"),
         .descriptionMagma = COMPOUND_STRING(
-			"Unknown Specimen Discovered.\n"
+			"ERROR: Genetic Data Unrecognized\n"
+            "Ensure Correct Species Entry\n"
             "Uploading genetic data to\n"
-            "USER_MAXAMILLION...\n"),
+            "USER_MAXAMILLION..."),
         .pokemonScale = 356,
         .pokemonOffset = 17,
         .trainerScale = 256,

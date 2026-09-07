@@ -7479,10 +7479,15 @@ const struct SpeciesInfo gSpeciesInfoGen6[] =
         .height = 17,
         .weight = 1950,
         .description = COMPOUND_STRING(
-            "It lets out billows of steam from the arms\n"
-            "on its back and disappears into the dense\n"
-            "fog. It's said to live in mountains where\n"
-            "humans do not tread."),
+            "Hey Archie Sir, logging a dex entry\n"
+            "for this, uhhh, VOLCANION. You think that's\n"
+            "a good name, right Sir? You'd like 'im, Sir!\n"
+            "Spits Water n' also Fire sometimes."),
+        .descriptionMagma = COMPOUND_STRING(
+            "Maxie would never approve of grunts logging\n"
+            "their own entries for a discovered species.\n"
+            "Uploading read genetic data to remote server.\n"
+            "Connecting to USER_MAXAMILLION..."),
         .pokemonScale = 259,
         .pokemonOffset = 0,
         .trainerScale = 290,
