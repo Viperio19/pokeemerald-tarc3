@@ -424,7 +424,7 @@ bool8 MetatileBehavior_IsSouthwardCurrent(u8 metatileBehavior)
 
 bool8 MetatileBehavior_IsWestwardCurrent(u8 metatileBehavior)
 {
-    if (metatileBehavior == MB_WESTWARD_CURRENT)
+    if (metatileBehavior == MB_WESTWARD_CURRENT || metatileBehavior == MB_FAST_WATER)
         return TRUE;
     else
         return FALSE;
@@ -432,7 +432,7 @@ bool8 MetatileBehavior_IsWestwardCurrent(u8 metatileBehavior)
 
 bool8 MetatileBehavior_IsEastwardCurrent(u8 metatileBehavior)
 {
-    if (metatileBehavior == MB_EASTWARD_CURRENT)
+    if (metatileBehavior == MB_EASTWARD_CURRENT || metatileBehavior == MB_UNUSED_DB)
         return TRUE;
     else
         return FALSE;
@@ -1140,6 +1140,7 @@ bool8 MetatileBehavior_IsFishableWater(u8 metatileBehavior)
      || metatileBehavior == MB_DEEP_WATER
      || metatileBehavior == MB_SOOTOPOLIS_DEEP_WATER
      || metatileBehavior == MB_FAST_WATER
+     || metatileBehavior == MB_UNUSED_DB
      || metatileBehavior == MB_LAVA)
         return TRUE;
     else
@@ -1149,7 +1150,7 @@ bool8 MetatileBehavior_IsFishableWater(u8 metatileBehavior)
 // Water that's too fast to surf on
 bool8 MetatileBehavior_IsFastWater(u8 metatileBehavior)
 {
-    if (metatileBehavior == MB_FAST_WATER)
+    if (metatileBehavior == MB_FAST_WATER || metatileBehavior == MB_UNUSED_DB)
         return TRUE;
     else
         return FALSE;

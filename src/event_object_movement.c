@@ -9908,7 +9908,7 @@ static u8 GetReflectionTypeByMetatileBehavior(u32 behavior)
     if (MetatileBehavior_IsIce(behavior))
         return REFL_TYPE_NONE;
     else if (MetatileBehavior_IsReflective(behavior))
-        return REFL_TYPE_WATER;
+        return REFL_TYPE_NONE;
     else
         return REFL_TYPE_NONE;
 }

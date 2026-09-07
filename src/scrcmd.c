@@ -67,6 +67,7 @@
 #include "constants/event_objects.h"
 #include "constants/map_types.h"
 #include "constants/party_menu.h"
+#include "constants/rgb.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(struct ScriptContext *ctx);
@@ -79,6 +80,7 @@ static EWRAM_DATA u16 sMovingNpcId = 0;
 static EWRAM_DATA u16 sMovingNpcMapGroup = 0;
 static EWRAM_DATA u16 sMovingNpcMapNum = 0;
 static EWRAM_DATA u16 sFieldEffectScriptId = 0;
+static EWRAM_DATA u16 sCreditsBlendLevel = 0;
 
 static u8 sBrailleWindowId;
 static bool8 sIsScriptedWildDouble;
@@ -1769,7 +1771,6 @@ static const struct WindowTemplate sWindowTemplates[] =
 };
 static const u16 sCredits_Pal[] = INCGFX_U16("graphics/credits/credits.pal", ".gbapal");
 
-// Prints all at once. Skips waiting for player input. Only used by link contests
 bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
 {
     const u8 *msg1 = (const u8 *)ScriptReadWord(ctx);
@@ -1785,10 +1786,15 @@ bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
     color[0] = TEXT_COLOR_TRANSPARENT;
     color[1] = TEXT_COLOR_LIGHT_GRAY;
     color[2] = TEXT_COLOR_RED;
+
     InitWindows(sWindowTemplates);
     PutWindowTilemap(0);
     CopyWindowToVram(0, COPYWIN_FULL);
     LoadPalette(sCredits_Pal, BG_PLTT_ID(12), 2 * PLTT_SIZE_4BPP);
+
+    SetGpuRegBits(REG_OFFSET_WININ, WININ_WIN0_CLR);
+    SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0 | BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND);
+    SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
 
     if (msg3 == NULL)
         y += 16;
@@ -1814,10 +1820,55 @@ bool8 ScrCmd_messageinstant(struct ScriptContext *ctx)
         x = GetStringCenterAlignXOffsetWithLetterSpacing(FONT_NORMAL, msg4, DISPLAY_WIDTH, 1);
         AddTextPrinterParameterized4(0, FONT_NORMAL, x, y + 48, 1, 0, color, TEXT_SKIP_DRAW, msg4);
     }
-    
+
     CopyWindowToVram(0, COPYWIN_GFX);
     return FALSE;
 }
+
+static bool8 FadeCreditsIn(void)
+{
+    if (sCreditsBlendLevel < 16)
+    {
+        sCreditsBlendLevel++;
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(sCreditsBlendLevel, 16 - sCreditsBlendLevel));
+        return FALSE;
+    }
+    return TRUE;
+}
+
+static bool8 FadeCreditsOut(void)
+{
+    if (sCreditsBlendLevel < 16)
+    {
+        sCreditsBlendLevel++;
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(16 - sCreditsBlendLevel, sCreditsBlendLevel));
+        return FALSE;
+    }
+    return TRUE;
+}
+
+bool8 ScrCmd_fadecredits(struct ScriptContext *ctx)
+{
+    u8 mode = ScriptReadByte(ctx);
+    Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
+
+    SetGpuRegBits(REG_OFFSET_WININ, WININ_WIN0_CLR);
+    SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0 | BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND);
+    sCreditsBlendLevel = 0;
+
+    if (mode)
+    {
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(16, 0));
+        SetupNativeScript(ctx, FadeCreditsOut);
+    }
+    else
+    {
+        SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
+        SetupNativeScript(ctx, FadeCreditsIn);
+    }
+    return TRUE;
+}
+
 
 bool8 ScrCmd_waitmessage(struct ScriptContext *ctx)
 {

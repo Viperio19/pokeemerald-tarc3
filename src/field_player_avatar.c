@@ -1091,7 +1091,7 @@ static bool8 TryPushBoulder(s16 x, s16 y, enum Direction direction)
 
         if (!isPlayerOnIce && objectEventId != OBJECT_EVENTS_COUNT && (gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER
                                                                     || gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_PUSHABLE_BOULDER_FRLG
-                                                                    || gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_SPECIES(PIKACHU)))
+                                                                    || (gObjectEvents[objectEventId].graphicsId == OBJ_EVENT_GFX_SPECIES(PIKACHU) && FlagGet(FLAG_TEAM_ROCKET_KNOCKED_OUT_PIKACHU))))
         {
             x = gObjectEvents[objectEventId].currentCoords.x;
             y = gObjectEvents[objectEventId].currentCoords.y;
@@ -1658,7 +1658,7 @@ u16 GetRSAvatarGraphicsIdByGender(enum Gender gender)
 
 u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)
 {
-    return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gPlayerAvatar.gender);
+    return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gSaveBlock2Ptr->playerGender);
 }
 
 enum Gender GetPlayerAvatarGenderByGraphicsId(u16 gfxId)
@@ -1811,21 +1811,23 @@ u16 GetPlayerAvatarGraphicsIdByCurrentState(void)
     {
         if (IS_PLAYER_ONE)
         {
-            if (sPlayerAvatarGfxToStateFlag[gPlayerAvatar.gender][i].playerFlag & flags)
-                return sPlayerAvatarGfxToStateFlag[gPlayerAvatar.gender][i].graphicsId;
+            if (sPlayerAvatarGfxToStateFlag[gSaveBlock2Ptr->playerGender][i].playerFlag & flags)
+                return sPlayerAvatarGfxToStateFlag[gSaveBlock2Ptr->playerGender][i].graphicsId;
         }
         else
         {
-            if (sPlayer2AvatarGfxToStateFlag[gPlayerAvatar.gender][i].playerFlag & flags)
-                return sPlayer2AvatarGfxToStateFlag[gPlayerAvatar.gender][i].graphicsId;
+            if (sPlayer2AvatarGfxToStateFlag[gSaveBlock2Ptr->playerGender][i].playerFlag & flags)
+                return sPlayer2AvatarGfxToStateFlag[gSaveBlock2Ptr->playerGender][i].graphicsId;
         }
     }
-    return 0;
+    if (IS_PLAYER_ONE)
+        return sPlayerAvatarGfxToStateFlag[gSaveBlock2Ptr->playerGender][0].graphicsId;
+    return sPlayer2AvatarGfxToStateFlag[gSaveBlock2Ptr->playerGender][0].graphicsId;
 }
 
 void SetPlayerAvatarExtraStateTransition(u16 graphicsId, u8 transitionFlag)
 {
-    u8 stateFlag = GetPlayerAvatarStateTransitionByGraphicsId(graphicsId, gPlayerAvatar.gender);
+    u8 stateFlag = GetPlayerAvatarStateTransitionByGraphicsId(graphicsId, gSaveBlock2Ptr->playerGender);
 
     gPlayerAvatar.transitionFlags |= stateFlag | transitionFlag;
     DoPlayerAvatarTransition();
