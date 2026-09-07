@@ -3742,8 +3742,9 @@ VolcanionCave_3F_EventScript_Credits11::
 VolcanionCave_3F_EventScript_Credits12::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage Credits_LegendOfDragoon, Credits_Sony
+	creditsmessage Credits_SpecialThanks, Credits_Pret, Credits_Expansion, Credits_AquaHideout
 	fadescreen FADE_TO_BLACK
+	creditsmessage Credits_LegendOfDragoon, Credits_Sony
 	warpcontinuescript MAP_VOLCANION_CAVE_3F, 57, 27, VolcanionCave_3F_EventScript_Credits13
 
 VolcanionCave_3F_EventScript_Credits13::
@@ -3886,6 +3887,18 @@ Credits_Shelly::
 
 Credits_Loser::
 	.string "Told me to add Courtney$"
+
+Credits_SpecialThanks::
+	.string "Special Thanks$"
+
+Credits_Pret::
+	.string "pret$"
+
+Credits_Expansion::
+	.string "pokeemerald-expansion$"
+
+Credits_AquaHideout::
+	.string "Team Aqua's Hideout$"
 
 Credits_LegendOfDragoon::
 	.string "The Legend of Dragoon$"
