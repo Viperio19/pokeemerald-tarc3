@@ -519,7 +519,7 @@ VolcanionCave_3F_Text_IntroBattleAgainOrLookAround::
 
 VolcanionCave_3F_OnLoad::
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier1
-	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier2
+	call_if_ne VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2, 100, VolcanionCave_3F_EventScript_SetRockBarrier2
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier3
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_4, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier4
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_5, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier5
@@ -540,6 +540,10 @@ VolcanionCave_3F_EventScript_RemoveRockBarrier1::
 
 VolcanionCave_3F_EventScript_RemoveRockBarrier2::
 	setmetatile 22, 9, METATILE_Cave_Floor, FALSE
+	return
+
+VolcanionCave_3F_EventScript_SetRockBarrier2::
+	setmetatile 22, 9, METATILE_Cave_RockBarrier_Single, TRUE
 	return
 
 VolcanionCave_3F_EventScript_RemoveRockBarrier3::
@@ -1509,7 +1513,7 @@ VolcanionCave_3F_Movement_CameraMoveBackToZinnia::
 	step_end
 
 VolcanionCave_3F_Text_WhismurCry::
-	.string "{SPEAKER NAME_WHISMUR COLOR_NORMAL}Walawala!\p$"
+	.string "{SPEAKER NAME_WHISMUR COLOR_ZINNIA}Walawala!\p$"
 
 VolcanionCave_3F_Text_ZinniaDialogueAqua::
 	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Come on, ASTER!\p"
@@ -3951,7 +3955,7 @@ Credits_ThanksForPlayingStardust25::
 	.string "hidden throughout the game.\p"
 	.string "You've found… {STR_VAR_1} of them!\p"
 	.string "Hey, not too shabby!\n"
-	.string "That's more than half of them!\p$"
+	.string "That's more than half of them!\p"
 	.string "Viperio told me you find more STARDUST\n"
 	.string "when you're subscribed to his YouTube\l"
 	.string "channel, have you tried that?\p"

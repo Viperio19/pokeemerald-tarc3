@@ -651,7 +651,7 @@
     },
     {
       "type": "hidden_item",
-      "x": 21,
+      "x": 19,
       "y": 22,
       "elevation": 0,
       "item": "ITEM_STARDUST",
