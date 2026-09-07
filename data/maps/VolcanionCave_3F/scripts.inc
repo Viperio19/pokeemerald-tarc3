@@ -3366,6 +3366,7 @@ VolcanionCave_3F_EventScript_TeamRocketMotto::
 	message VolcanionCave_3F_Text_RocketMottoJamesEnter
 	waitmessage
 	playse SE_FALL
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_TEAM_ROCKET
 	addobject LOCALID_3F_MEOWTH
 	setobjectxyperm LOCALID_3F_MEOWTH, 28, 4
 	setobjectxy LOCALID_3F_MEOWTH, 28, 0
@@ -3376,11 +3377,13 @@ VolcanionCave_3F_EventScript_TeamRocketMotto::
 	waitmessage
 	message VolcanionCave_3F_Text_RocketMottoRest
 	waitmessage
+	closemessage
 VolcanionCave_3F_EventScript_BattleTeamRocket::
 	trainerbattle_no_intro TRAINER_TEAM_ROCKET_DUO_VC_3F, VolcanionCave_3F_Text_RocketDefeat
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedTeamRocket
 	message VolcanionCave_3F_Text_ThatsRight
 	waitmessage
+	closemessage
 	release
 	end
 
@@ -3443,9 +3446,12 @@ VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceWest::
 	return
 
 VolcanionCave_3F_EventScript_SpawnTeamRocket::
-	setobjectxyperm LOCALID_3F_JESSIE, 28, 6
-	setobjectxyperm LOCALID_3F_JAMES, 29, 6
-	setobjectxyperm LOCALID_3F_MEOWTH, 30, 6
+	addobject LOCALID_3F_JESSIE
+	setobjectxyperm LOCALID_3F_JESSIE, 26, 4
+	addobject LOCALID_3F_JAMES
+	setobjectxyperm LOCALID_3F_JAMES, 27, 4
+	addobject LOCALID_3F_MEOWTH
+	setobjectxyperm LOCALID_3F_MEOWTH, 28, 4
 	return
 
 VolcanionCave_3F_Movement_TeamRocketFallDown::
