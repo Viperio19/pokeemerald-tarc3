@@ -456,7 +456,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         return TRUE;
 
     // TARC - Switch characters when pressing R
-    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedRButton && !(IS_MULTIPLAYER))
+    if (VarGet(VAR_GOLEM_ROCK_SLIDE_STATE) != 1 && input->pressedRButton && !(IS_MULTIPLAYER) && !FlagGet(FLAG_DOING_CREDITS))
     {
         if (FlagGet(FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER))
         {
@@ -470,13 +470,13 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         }
     }
 
-    if (input->input_field_1_2 && DEBUG_OVERWORLD_MENU && !DEBUG_OVERWORLD_IN_MENU)
-    {
-        PlaySE(SE_WIN_OPEN);
-        FreezeObjectEvents();
-        Debug_ShowMainMenu();
-        return TRUE;
-    }
+    // if (input->input_field_1_2 && DEBUG_OVERWORLD_MENU && !DEBUG_OVERWORLD_IN_MENU)
+    // {
+    //     PlaySE(SE_WIN_OPEN);
+    //     FreezeObjectEvents();
+    //     Debug_ShowMainMenu();
+    //     return TRUE;
+    // }
 
     if (CanTriggerSpinEvolution())
     {

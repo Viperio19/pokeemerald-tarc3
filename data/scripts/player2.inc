@@ -350,7 +350,7 @@ Player2Aqua_Text_TakeGoodCareOfPokemon::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Thanks! I'll take care of {STR_VAR_2}!$"
 
 Player2Magma_Text_TakeGoodCareOfPokemon::
-	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I'll take good care of {STR_VAR_2}!$"
+	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}I'll take good care of {STR_VAR_2}.$"
 
 Player2Aqua_Text_Cancel::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Okie dokie!$"

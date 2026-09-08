@@ -1811,11 +1811,9 @@
 	.byte SCR_OP_NORMALMSG
 	.endm
 
-	@ Used only in FireRed/LeafGreen, does nothing in Emerald.
-	.macro comparehiddenvar a:req, value:req
-	.byte SCR_OP_COMPAREHIDDENVAR
-	.byte \a
-	.4byte \value
+	.macro fadecredits mode:req
+	.byte SCR_OP_FADECREDITS
+	.byte \mode
 	.endm
 
 	@ Sets the modernFatefulEncounter bit for the Pokemon in the specified slot of the player's party.
@@ -1922,8 +1920,9 @@
 	.macro creditsmessage text1:req, text2:req, text3=NULL, text4=NULL
 	delay 40
 	messageinstant \text1, \text2, \text3, \text4
-	waitmessage
+	fadecredits 0
 	delay 160
+	fadecredits 1
 	closemessage
 	delay 40
 	.endm

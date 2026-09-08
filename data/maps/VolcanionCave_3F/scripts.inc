@@ -70,6 +70,7 @@ VolcanionCave_3F_EventScript_Intro::
 	message VolcanionCave_3F_Text_IntroCoolRoom
 	waitmessage
 	closemessage
+	playse SE_PIN
 	applymovement LOCALID_PLAYER_MAGMA, Common_Movement_ExclamationMark
 	delay 50
 	message VolcanionCave_3F_Text_IHearSomething
@@ -203,11 +204,20 @@ VolcanionCave_3F_EventScript_VolcanionCry::
 	setvar VAR_0x8006, 10  @ Num shakes
 	setvar VAR_0x8007, 4  @ Shake delay
 	applymovement LOCALID_3F_VOLCANION, Common_Movement_WalkInPlaceDown
-	message VolcanionCave_3F_Text_IntroVolcanionCry
+	call_if_eq VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_IntroUnknownCry
+	call_if_ne VAR_VOLCANION_CAVE_3F_STATE, 0, VolcanionCave_3F_EventScript_IntroVolcanionCry
 	playmoncry SPECIES_VOLCANION, CRY_MODE_NORMAL
 	special ShakeScreen
 	delay 30
 	waitmoncry
+	return
+
+VolcanionCave_3F_EventScript_IntroUnknownCry::
+	message VolcanionCave_3F_Text_IntroUnknownCry
+	return
+
+VolcanionCave_3F_EventScript_IntroVolcanionCry::
+	message VolcanionCave_3F_Text_IntroVolcanionCry
 	return
 
 VolcanionCave_3F_EventScript_CameraFollowAquaTryToLeave::
@@ -470,6 +480,9 @@ VolcanionCave_3F_Text_IntroCatchIt::
 	.string "Whoever knocks it out gets to catch it.\p"
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Fine by me! Let's go!!!\p$"
 
+VolcanionCave_3F_Text_IntroUnknownCry::
+	.string "{SPEAKER NAME_QUESTION_MARKS COLOR_NORMAL}FWAHHRSHHHH!!!$"
+
 VolcanionCave_3F_Text_IntroVolcanionCry::
 	.string "{SPEAKER NAME_VOLCANION COLOR_NORMAL}FWAHHRSHHHH!!!$"
 
@@ -479,7 +492,7 @@ VolcanionCave_3F_Text_IntroAwNuts::
 
 VolcanionCave_3F_Text_IntroVolcanionUsedEarthPower::
 	.string "{AUTO_SCROLL 1}{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}What the-{PAUSE 20}\p"
-	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}VOLCANION used EARTH POWER!$"
+	.string "{AUTO_SCROLL 0}{SPEAKER NAME_NONE COLOR_NORMAL}??? used EARTH POWER!$"
 
 VolcanionCave_3F_Text_IntroBattleAgainOrLookAround::
 	.string "{SPEAKER NAME_PLAYER_AQUA COLOR_AQUA}Oof, that was a close one!\n"
@@ -506,7 +519,7 @@ VolcanionCave_3F_Text_IntroBattleAgainOrLookAround::
 
 VolcanionCave_3F_OnLoad::
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_1, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier1
-	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier2
+	call_if_ne VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_2, 100, VolcanionCave_3F_EventScript_SetRockBarrier2
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_3, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier3
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_4, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier4
 	call_if_eq VAR_VOLCANION_CAVE_3F_STRENGTH_BUTTON_5, 100, VolcanionCave_3F_EventScript_RemoveRockBarrier5
@@ -527,6 +540,10 @@ VolcanionCave_3F_EventScript_RemoveRockBarrier1::
 
 VolcanionCave_3F_EventScript_RemoveRockBarrier2::
 	setmetatile 22, 9, METATILE_Cave_Floor, FALSE
+	return
+
+VolcanionCave_3F_EventScript_SetRockBarrier2::
+	setmetatile 22, 9, METATILE_Cave_RockBarrier_Single, TRUE
 	return
 
 VolcanionCave_3F_EventScript_RemoveRockBarrier3::
@@ -744,6 +761,7 @@ VolcanionCave_3F_EventScript_SetHPBarRedParaStats::
 	return
 
 VolcanionCave_3F_EventScript_Volcanion::
+	lock
 	call VolcanionCave_3F_EventScript_VolcanionCry
 	closemessage
 	goto_if_unset FLAG_PLAYER_2_READY_TO_BATTLE_TOGETHER, VolcanionCave_3F_EventScript_AskVolcanionMultiBattle
@@ -1495,7 +1513,7 @@ VolcanionCave_3F_Movement_CameraMoveBackToZinnia::
 	step_end
 
 VolcanionCave_3F_Text_WhismurCry::
-	.string "{SPEAKER NAME_WHISMUR COLOR_NORMAL}Walawala!\p$"
+	.string "{SPEAKER NAME_WHISMUR COLOR_ZINNIA}Walawala!\p$"
 
 VolcanionCave_3F_Text_ZinniaDialogueAqua::
 	.string "{SPEAKER NAME_AQUA_QUESTION COLOR_ZINNIA}Come on, ASTER!\p"
@@ -1707,7 +1725,7 @@ VolcanionCave_3F_EventScript_GolemUsedRockSlide::
 VolcanionCave_3F_EventScript_RockSlide::
 	delay 1
 	addvar VAR_GOLEM_ROCK_SLIDE_TIMER, 1
-	goto_if_le VAR_GOLEM_ROCK_SLIDE_TIMER, 30, VolcanionCave_3F_EventScript_RockSlide
+	goto_if_le VAR_GOLEM_ROCK_SLIDE_TIMER, 20, VolcanionCave_3F_EventScript_RockSlide
 
 	setvar VAR_GOLEM_ROCK_SLIDE_TIMER, 200
 
@@ -3352,6 +3370,7 @@ VolcanionCave_3F_EventScript_TeamRocketMotto::
 	message VolcanionCave_3F_Text_RocketMottoJamesEnter
 	waitmessage
 	playse SE_FALL
+	clearflag FLAG_HIDE_VOLCANION_CAVE_3F_TEAM_ROCKET
 	addobject LOCALID_3F_MEOWTH
 	setobjectxyperm LOCALID_3F_MEOWTH, 28, 4
 	setobjectxy LOCALID_3F_MEOWTH, 28, 0
@@ -3362,11 +3381,13 @@ VolcanionCave_3F_EventScript_TeamRocketMotto::
 	waitmessage
 	message VolcanionCave_3F_Text_RocketMottoRest
 	waitmessage
+	closemessage
 VolcanionCave_3F_EventScript_BattleTeamRocket::
 	trainerbattle_no_intro TRAINER_TEAM_ROCKET_DUO_VC_3F, VolcanionCave_3F_Text_RocketDefeat
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, VolcanionCave_3F_EventScript_DefeatedTeamRocket
 	message VolcanionCave_3F_Text_ThatsRight
 	waitmessage
+	closemessage
 	release
 	end
 
@@ -3390,6 +3411,9 @@ VolcanionCave_3F_EventScript_DefeatedTeamRocket::
 	playse SE_SUPER_EFFECTIVE
 	applymovement LOCALID_3F_PIKACHU, VolcanionCave_3F_Movement_PikachuFlicker
 	waitmovement 0
+	waitmovement LOCALID_3F_JESSIE
+	waitmovement LOCALID_3F_JAMES
+	waitmovement LOCALID_3F_MEOWTH
 	removeobject LOCALID_3F_JESSIE
 	removeobject LOCALID_3F_JAMES
 	removeobject LOCALID_3F_MEOWTH
@@ -3426,9 +3450,12 @@ VolcanionCave_3F_EventScript_TeamRocketBlastOffFaceWest::
 	return
 
 VolcanionCave_3F_EventScript_SpawnTeamRocket::
-	setobjectxyperm LOCALID_3F_JESSIE, 28, 6
-	setobjectxyperm LOCALID_3F_JAMES, 29, 6
-	setobjectxyperm LOCALID_3F_MEOWTH, 30, 6
+	addobject LOCALID_3F_JESSIE
+	setobjectxyperm LOCALID_3F_JESSIE, 26, 4
+	addobject LOCALID_3F_JAMES
+	setobjectxyperm LOCALID_3F_JAMES, 27, 4
+	addobject LOCALID_3F_MEOWTH
+	setobjectxyperm LOCALID_3F_MEOWTH, 28, 4
 	return
 
 VolcanionCave_3F_Movement_TeamRocketFallDown::
@@ -3619,6 +3646,7 @@ VolcanionCave_3F_EventScript_Credits::
 	creditsmessage Credits_TagTeamTrials, Credits_Credits
 	clearflag FLAG_DO_CREDITS_TITLE
 	setflag FLAG_DOING_CREDITS
+	setflag FLAG_HIDE_SURF_BLOBS
 	clearflag FLAG_DEFEATED_VOLCANION_CAVE_2F_EXEGGUTOR
 	clearflag FLAG_HIDE_VOLCANION_CAVE_2F_CORSOLA
 	setflag FLAG_HIDE_VOLCANION_CAVE_3F_CRAMORANT
@@ -3718,8 +3746,9 @@ VolcanionCave_3F_EventScript_Credits11::
 VolcanionCave_3F_EventScript_Credits12::
 	hideplayer
 	fadescreen FADE_FROM_BLACK
-	creditsmessage Credits_LegendOfDragoon, Credits_Sony
+	creditsmessage Credits_SpecialThanks, Credits_Pret, Credits_Expansion, Credits_AquaHideout
 	fadescreen FADE_TO_BLACK
+	creditsmessage Credits_LegendOfDragoon, Credits_Sony
 	warpcontinuescript MAP_VOLCANION_CAVE_3F, 57, 27, VolcanionCave_3F_EventScript_Credits13
 
 VolcanionCave_3F_EventScript_Credits13::
@@ -3863,6 +3892,18 @@ Credits_Shelly::
 Credits_Loser::
 	.string "Told me to add Courtney$"
 
+Credits_SpecialThanks::
+	.string "Special Thanks$"
+
+Credits_Pret::
+	.string "pret$"
+
+Credits_Expansion::
+	.string "pokeemerald-expansion$"
+
+Credits_AquaHideout::
+	.string "Team Aqua's Hideout$"
+
 Credits_LegendOfDragoon::
 	.string "The Legend of Dragoon$"
 
@@ -3914,7 +3955,7 @@ Credits_ThanksForPlayingStardust25::
 	.string "hidden throughout the game.\p"
 	.string "You've found… {STR_VAR_1} of them!\p"
 	.string "Hey, not too shabby!\n"
-	.string "That's more than half of them!\p$"
+	.string "That's more than half of them!\p"
 	.string "Viperio told me you find more STARDUST\n"
 	.string "when you're subscribed to his YouTube\l"
 	.string "channel, have you tried that?\p"

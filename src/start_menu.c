@@ -795,11 +795,11 @@ static bool8 StartMenuDebugCallback(void)
     RemoveExtraStartMenuWindows();
     HideStartMenuDebug(); // Hide start menu without enabling movement
 
-    if (DEBUG_OVERWORLD_MENU)
-    {
-        FreezeObjectEvents();
-        Debug_ShowMainMenu();
-    }
+    // if (DEBUG_OVERWORLD_MENU)
+    // {
+    //     FreezeObjectEvents();
+    //     Debug_ShowMainMenu();
+    // }
 
 return TRUE;
 }

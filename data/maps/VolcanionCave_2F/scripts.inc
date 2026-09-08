@@ -18,9 +18,7 @@ VolcanionCave_2F_EventScript_RemoveRockBarrier1::
 	setmetatile 26, 64, METATILE_Cave_Floor, FALSE
 	setmetatile 27, 64, METATILE_Cave_Floor, FALSE
 	setmetatile 28, 64, METATILE_Cave_Floor, FALSE
-	setmetatile 7, 52, METATILE_Cave_Floor, FALSE
 	setmetatile 8, 52, METATILE_Cave_Floor, FALSE
-	setmetatile 9, 52, METATILE_Cave_Floor, FALSE
 	return
 
 VolcanionCave_2F_EventScript_RemoveRockBarrier2::
@@ -590,9 +588,7 @@ VolcanionCave_2F_EventScript_FloorSwitch1::
 	setmetatile 26, 64, METATILE_Cave_Floor, FALSE
 	setmetatile 27, 64, METATILE_Cave_Floor, FALSE
 	setmetatile 28, 64, METATILE_Cave_Floor, FALSE
-	setmetatile 7, 52, METATILE_Cave_Floor, FALSE
 	setmetatile 8, 52, METATILE_Cave_Floor, FALSE
-	setmetatile 9, 52, METATILE_Cave_Floor, FALSE
 	playse SE_ICE_BREAK
 	special DrawWholeMapView
 	waitse

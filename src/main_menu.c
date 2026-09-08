@@ -3158,7 +3158,11 @@ void BufferStardustCount(void)
 
     gSpecialVar_0x800A = badgeCount;
 
-    ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_RIGHT_ALIGN, 2);
+    if (badgeCount < 10)
+        ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_RIGHT_ALIGN, 1);
+    else
+        ConvertIntToDecimalStringN(str, badgeCount, STR_CONV_MODE_RIGHT_ALIGN, 2);
+
     StringCopy(gStringVar1, str);
 }
 
