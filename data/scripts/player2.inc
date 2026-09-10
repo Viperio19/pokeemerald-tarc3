@@ -358,7 +358,7 @@ Player2Aqua_Text_Cancel::
 Player2Magma_Text_Cancel::
 	.string "{SPEAKER NAME_PLAYER_MAGMA COLOR_MAGMA}Alright, let's go.$"
 
-Player2_Connect::
+EventScript_Player2_Connect::
 	message gText_PleaseWaitForLink
 	waitmessage
 	special TryTradeLinkup
